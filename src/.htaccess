@@ -1,4 +1,5 @@
-RewriteEngine on
+RewriteEngine On
 RewriteBase /csmgroupit-inventory/src
-RewriteCond $1 !^(index\.php|images|table-images|robots\.txt|styles|js|uploads)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php/$1 [L]
