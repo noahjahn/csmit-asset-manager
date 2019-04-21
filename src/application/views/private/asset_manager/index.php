@@ -17,9 +17,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <table class="table table-hover" style="table-layout: auto;">
                     <thead>
                         <tr class="table-primary">
-                            <th scope="col">Name</th>
-                            <th scope="col">Manufacturer</th>
+                            <!-- <th scope="col">Name</th> -->
                             <th scope="col">Model</th>
+                            <th scope="col">Manufacturer</th>
                             <th scope="col">Owner</th>
                             <th scope="col">Serial Number</th>
                             <th scope="col">Type</th>
@@ -43,9 +43,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 echo '<tr class="table-secondary">';
                             }
 
-                            echo '<td>'.$asset['name'].'</td>';
-                            echo '<td>'.$asset['manufacturer'].'</td>';
+                            // echo '<td>'.$asset['name'].'</td>';
                             echo '<td>'.$asset['model'].'</td>';
+                            echo '<td>'.$asset['manufacturer'].'</td>';
                             echo '<td>'.$asset['owner'].'</td>';
                             echo '<td>'.$asset['serial_number'].'</td>';
                             echo '<td>'.$asset['type'].'</td>';
