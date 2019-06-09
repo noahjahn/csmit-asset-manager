@@ -10,7 +10,6 @@ services:
             - phpfpm-apache
 
     phpfpm-apache:
-        # build: $PWD/php
         image: csm_phpfpm-apache_1
         ports:
             - '80:80'
@@ -19,6 +18,13 @@ services:
             - $PWD/php/php.ini:/usr/local/etc/php/php.ini
             # - $PWD/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
             # - $PWD/httpd/httpd.conf:/etc/apache2/sites-available/httpd.conf
+        depends_on:
+            - db
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        ports:
+            - '8080:80'
         depends_on:
             - db
 
@@ -31,20 +37,3 @@ services:
         environment:
             - MYSQL_ROOT_PASSWORD=Codingisfun!
             - MYSQL_DATABASE=csm_inventory
-
-    # composer:
-    #     image : composer:latest
-    #     ports:
-    #         - '9001:9001'
-    #     volumes:
-    #         - $PWD/src/application:/app composer install
-
-    # phpfpm:
-    #     image: php:7.2-fpm
-    #     ports:
-    #         - '9000:9000'
-    #     volumes:
-    #         - $PWD/src:/usr/src/myapp
-    #         - $PWD/php/php.ini:/user/local/etc/php/conf.d/php.ini
-    #     depends_on:
-    #         - db
