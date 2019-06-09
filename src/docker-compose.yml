@@ -16,8 +16,8 @@ services:
             - '80:80'
         volumes:
             - $PWD:/var/www/html
-            # - $PWD/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
             - $PWD/php/php.ini:/usr/local/etc/php/php.ini
+            # - $PWD/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
             # - $PWD/httpd/httpd.conf:/etc/apache2/sites-available/httpd.conf
         depends_on:
             - db
