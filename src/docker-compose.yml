@@ -1,0 +1,51 @@
+version: "3.7"
+services:
+
+    composer:
+        restart: 'no'
+        image: composer
+        command: install
+        volumes:
+            - $PWD/application:/app
+        depends_on:
+            - phpfpm-apache
+
+    phpfpm-apache:
+        # build: $PWD/php
+        image: csm_phpfpm-apache_1
+        ports:
+            - '80:80'
+        volumes:
+            - $PWD:/var/www/html
+            # - $PWD/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+            - $PWD/php/php.ini:/usr/local/etc/php/php.ini
+            # - $PWD/httpd/httpd.conf:/etc/apache2/sites-available/httpd.conf
+        depends_on:
+            - db
+
+    db:
+        image: mysql:5.7
+        ports:
+            - '3306:3306'
+        volumes:
+            - $PWD/database:/docker-entrypoint-initdb.d
+        environment:
+            - MYSQL_ROOT_PASSWORD=Codingisfun!
+            - MYSQL_DATABASE=csm_inventory
+
+    # composer:
+    #     image : composer:latest
+    #     ports:
+    #         - '9001:9001'
+    #     volumes:
+    #         - $PWD/src/application:/app composer install
+
+    # phpfpm:
+    #     image: php:7.2-fpm
+    #     ports:
+    #         - '9000:9000'
+    #     volumes:
+    #         - $PWD/src:/usr/src/myapp
+    #         - $PWD/php/php.ini:/user/local/etc/php/conf.d/php.ini
+    #     depends_on:
+    #         - db
