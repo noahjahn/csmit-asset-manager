@@ -51,8 +51,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'Auth/index';
 
-$route['login'] = 'Auth/login';
-
 $route['assetmanager'] = 'AssetManager/index';
 $route['assetmanager/edit/:num'] = 'AssetManager/edit_asset';
 $route['assetmanager/add'] = 'AssetManager/add_asset';
