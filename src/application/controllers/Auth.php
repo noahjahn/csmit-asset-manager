@@ -5,29 +5,79 @@ class Auth extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
-
+		$this->load->model('Auth_model');
 	}
 
-	public function index() {
-		// default page.
-
-		// if ($this->session->userdata('username')) { Check if the user is logged in
-
-		// } else { // send them to the login form
+	public function index() { // start here
+		if ($this->session->userdata('email')) { // Check if the user is logged in
+			$this->load->view('private/asset_manager/index');
+		} else { // send them to the login form
+			$this->login_request();
 			$this->login();
-
+		}
 	}
 
 	public function login()	{
 		// pick a random photo to send to the view
-		$data['login_photo'] = (LOGIN_PHOTOS . $this->getLoginPhoto());
-
+		if ($this->session->flashdata('login_photo_path')) {
+			$data['login_photo'] = (LOGIN_PHOTOS . $this->session->flashdata('login_photo_path'));
+		} else {
+			$data['login_photo'] = (LOGIN_PHOTOS . $this->get_login_photo());
+		}
 		$this->load->view('public/login/index', $data);
 	}
 
-	public function getLoginPhoto() {
-		$this->load->model('Auth_model');
+	public function login_request() {
+		if ($this->input->post('login-submit')) {
+			$form_rules = array (
+				array (
+					'field' => 'login_email',
+					'label' => 'Email',
+					'rules' => 'required|valid_email|trim'
+				),
+				array (
+					'field' => 'login_password',
+					'label' => 'Password',
+					'rules' => 'required|trim'
+				)
+			);
+			$this->form_validation->set_rules($form_rules);
+			if ($this->form_validation->run() == TRUE) {
+				// if ($this->input->post('remember')) {
+				// 	// email and password in cookie
+				// }
+				$email = $this->input->post('email');
+				$password = $this->input->post('password');
 
+				echo '<script> console.log("' . $email . '") </script>';
+
+
+				if ($this->can_login($password, $email)) {
+					$this->session->set_flashdata(get_user_attributes($email));
+					$this->load->view('private/asset_manager/index');
+				} else {
+					$this->session->set_flashdata('error', 'Invalid username or password');
+					$this->session->flashdata('error');
+					redirect($this->input->server('HTTP_REFERER'));
+				}
+			}
+		}
+	}
+
+	public function can_login($password, $email) {
+		//sleep(5);
+		$this->Auth_model->set_user_password($email, $password);
+		// if (!password_verify($password, get_user_password($email))) {
+		// 	sleep (5); // wait to slow ddos attacks
+		// 	$ret = FALSE;
+		// } else {
+		// 	$ret = TRUE;
+		// }
+		//return $ret;
+		return FALSE;
+	}
+
+	public function get_login_photo() {
 		// get number of photos currently stored in the database
 		$login_photo_count = $this->Auth_model->count_login_photos();
 
@@ -40,6 +90,8 @@ class Auth extends CI_Controller {
 			// always have a default image for when someone deletes all the images in the database
 			$login_photo_path = "default.jpg";
 		}
+
+		$this->session->set_flashdata('login_photo_path', $login_photo_path);
 
 		return $login_photo_path;
 	}
