@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 28, 2019 at 01:34 PM
--- Server version: 10.1.36-MariaDB
--- PHP Version: 7.2.11
+-- Host: db
+-- Generation Time: Jun 10, 2019 at 12:21 PM
+-- Server version: 5.7.26
+-- PHP Version: 7.2.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `csmgroupit`
+-- Database: `csm_inventory`
 --
 
 -- --------------------------------------------------------
@@ -27,6 +27,7 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `assets`
 --
+
 
 CREATE TABLE `assets` (
   `id` int(11) NOT NULL,
@@ -77,6 +78,29 @@ CREATE TABLE `asset_types` (
 INSERT INTO `asset_types` (`id`, `name`, `rate`) VALUES
 (1, 'Computers', '100.00'),
 (2, 'Monitors', '10.00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `login_photos`
+--
+
+CREATE TABLE `login_photos` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `path` varchar(255) NOT NULL,
+  `uploaded_by` varchar(255) NOT NULL,
+  `date_uploaded` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `login_photos`
+--
+
+INSERT INTO `login_photos` (`id`, `name`, `path`, `uploaded_by`, `date_uploaded`) VALUES
+(1, 'images.jpg', 'images.jpg', 'administrator@csmgroup.com', '2019-06-10 12:11:59'),
+(2, 'information-technology.jpg', 'information-technology.jpg', 'administrator@csmgroup.com', '2019-06-10 12:11:59'),
+(3, 'pexels-photo-546819.jpeg', 'pexels-photo-546819.jpeg', 'administrator@csmgroup.com', '2019-06-10 12:12:23');
 
 -- --------------------------------------------------------
 
@@ -147,11 +171,22 @@ INSERT INTO `teams` (`id`, `name`) VALUES
 --
 
 CREATE TABLE `users` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `email` varchar(64) NOT NULL,
-  `first_name` varchar(32) NOT NULL,
-  `last_name` varchar(32) NOT NULL
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `first_name` varchar(255) NOT NULL,
+    `last_name` varchar(255) NOT NULL,
+    `email` varchar(255) NOT NULL,
+    `password` varchar(255) NOT NULL,
+    `last_login` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `users`
+--
+
+-- INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `last_login`, `last_modified_by`, `updated_date`, `created_date`) VALUES
+-- (1, 'Super', 'User', 'administrator@csmgroup.com', '', '', '', '2019-06-10 12:20:18', '2019-06-10 12:20:18');
 
 --
 -- Indexes for dumped tables
@@ -172,6 +207,13 @@ ALTER TABLE `assets`
 -- Indexes for table `asset_types`
 --
 ALTER TABLE `asset_types`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`);
+
+--
+-- Indexes for table `login_photos`
+--
+ALTER TABLE `login_photos`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`);
 
@@ -218,6 +260,12 @@ ALTER TABLE `asset_types`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `login_photos`
+--
+ALTER TABLE `login_photos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `manufacturers`
 --
 ALTER TABLE `manufacturers`
@@ -239,7 +287,7 @@ ALTER TABLE `teams`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
