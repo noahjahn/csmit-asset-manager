@@ -35,7 +35,7 @@ $config['base_url'] = 'http://localhost/';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = 'index.php';
+$config['index_page'] = '';
 
 /*
 |--------------------------------------------------------------------------
@@ -521,3 +521,22 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+
+/*
+|--------------------------------------------------------------------------
+| Debugging
+|--------------------------------------------------------------------------
+|
+| THIS SHOULD BE FALSE ON A PRODUCTION ENVIRONMENT
+| Used to to enable debugging throughout the system. This enables the autoloading
+| of the custom debug function stored at helpers/debug_helper.php.
+|
+*/
+
+// if (strcmp(getenv('DEBUG'), "TRUE")) {
+//     $config['debug'] = TRUE;
+// } else {
+//     $config['debug'] = FALSE;
+// }
+
+$config['debug'] = TRUE;
