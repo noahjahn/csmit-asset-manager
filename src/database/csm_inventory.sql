@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Jun 10, 2019 at 12:21 PM
+-- Generation Time: Jun 11, 2019 at 02:04 AM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.19
 
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `assets`
 --
 
-
+DROP TABLE IF EXISTS `assets`;
 CREATE TABLE `assets` (
   `id` int(11) NOT NULL,
   `name` varchar(128) NOT NULL,
@@ -65,6 +65,7 @@ INSERT INTO `assets` (`id`, `name`, `manufacturer`, `model`, `owner`, `serial_nu
 -- Table structure for table `asset_types`
 --
 
+DROP TABLE IF EXISTS `asset_types`;
 CREATE TABLE `asset_types` (
   `id` int(11) NOT NULL,
   `name` varchar(128) NOT NULL,
@@ -85,13 +86,14 @@ INSERT INTO `asset_types` (`id`, `name`, `rate`) VALUES
 -- Table structure for table `login_photos`
 --
 
+DROP TABLE IF EXISTS `login_photos`;
 CREATE TABLE `login_photos` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `path` varchar(255) NOT NULL,
   `uploaded_by` varchar(255) NOT NULL,
   `date_uploaded` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `login_photos`
@@ -108,6 +110,7 @@ INSERT INTO `login_photos` (`id`, `name`, `path`, `uploaded_by`, `date_uploaded`
 -- Table structure for table `manufacturers`
 --
 
+DROP TABLE IF EXISTS `manufacturers`;
 CREATE TABLE `manufacturers` (
   `id` int(11) NOT NULL,
   `name` varchar(128) NOT NULL
@@ -128,6 +131,7 @@ INSERT INTO `manufacturers` (`id`, `name`) VALUES
 -- Table structure for table `models`
 --
 
+DROP TABLE IF EXISTS `models`;
 CREATE TABLE `models` (
   `id` int(11) NOT NULL,
   `name` varchar(128) NOT NULL,
@@ -151,6 +155,7 @@ INSERT INTO `models` (`id`, `name`, `manufacturer`) VALUES
 -- Table structure for table `teams`
 --
 
+DROP TABLE IF EXISTS `teams`;
 CREATE TABLE `teams` (
   `id` int(11) NOT NULL,
   `name` varchar(128) NOT NULL
@@ -170,23 +175,24 @@ INSERT INTO `teams` (`id`, `name`) VALUES
 -- Table structure for table `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `first_name` varchar(255) NOT NULL,
-    `last_name` varchar(255) NOT NULL,
-    `email` varchar(255) NOT NULL,
-    `password` varchar(255) NOT NULL,
-    `last_login` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` int(11) NOT NULL,
+  `first_name` varchar(255) COLLATE utf8_bin NOT NULL,
+  `last_name` varchar(255) COLLATE utf8_bin NOT NULL,
+  `email` varchar(255) COLLATE utf8_bin NOT NULL,
+  `password` varchar(255) COLLATE utf8_bin NOT NULL,
+  `last_login` datetime DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `users`
 --
 
--- INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `last_login`, `last_modified_by`, `updated_date`, `created_date`) VALUES
--- (1, 'Super', 'User', 'administrator@csmgroup.com', '', '', '', '2019-06-10 12:20:18', '2019-06-10 12:20:18');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `last_login`, `created_date`, `updated_date`) VALUES
+(1, 'Super', 'User', 'administrator@csmgroup.com', '', NULL, '2019-06-10 22:05:10', NULL);
 
 --
 -- Indexes for dumped tables
@@ -240,8 +246,7 @@ ALTER TABLE `teams`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id` (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -287,7 +292,7 @@ ALTER TABLE `teams`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
