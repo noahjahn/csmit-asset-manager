@@ -8,9 +8,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     ?>
     <body>
         <div class="row">
-            <div class="col-lg-8 vh-100">
-                <img src="<?php echo $login_photo; ?>" alt="Login Photo" style="width: 100%; height: 100%; object-fit: cover;">
-            </div>
             <div class="col-lg-4 align-self-center">
                 <div class="row">
                     <div class="col-sm-2"></div>
@@ -44,6 +41,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="col-sm-2"></div>
                 </div>
+            </div>
+            <div class="col-lg-8 vh-100">
+                <img src="<?php echo $login_photo; ?>" alt="Login Photo" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
         </div>
     </body>
