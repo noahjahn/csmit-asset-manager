@@ -46,35 +46,34 @@ class Auth extends CI_Controller {
 				// if ($this->input->post('remember')) {
 				// 	// email and password in cookie
 				// }
-				$email = $this->input->post('email');
-				$password = $this->input->post('password');
-
-				echo '<script> console.log("' . $email . '") </script>';
-
+				$email = $this->input->post('login_email');
+				$password = $this->input->post('login_password');
 
 				if ($this->can_login($password, $email)) {
-					$this->session->set_flashdata(get_user_attributes($email));
-					$this->load->view('private/asset_manager/index');
+					//$this->session->set_flashdata($this->Auth_model->get_user_attributes($email));
+					redirect('assetmanager');
 				} else {
 					$this->session->set_flashdata('error', 'Invalid username or password');
 					$this->session->flashdata('error');
-					redirect($this->input->server('HTTP_REFERER'));
+					//redirect($this->input->server('HTTP_REFERER'));
 				}
 			}
 		}
 	}
 
 	public function can_login($password, $email) {
-		//sleep(5);
-		$this->Auth_model->set_user_password($email, $password);
-		// if (!password_verify($password, get_user_password($email))) {
-		// 	sleep (5); // wait to slow ddos attacks
-		// 	$ret = FALSE;
-		// } else {
-		// 	$ret = TRUE;
-		// }
-		//return $ret;
-		return FALSE;
+		if ($this->Auth_model->is_valid_email($email)) {
+			if (password_verify($password, $this->Auth_model->get_user_password($email))) {
+				$ret = TRUE;
+			} else {
+				sleep (5); // wait to slow ddos attacks
+				$ret = FALSE;
+			}
+		} else {
+			$ret = FALSE;
+		}
+
+		return $ret;
 	}
 
 	public function get_login_photo() {
