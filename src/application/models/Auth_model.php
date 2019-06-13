@@ -33,34 +33,37 @@ class Auth_model extends CI_Model {
         $this->db->where('email', $email);
         $this->db->limit(1);
 
-        return $this->db->get()->row();
+        return $this->db->get()->result_array()[0]['password'];
     }
 
     public function set_user_password($email, $password) {
         // validate the arguments first
 
+        $password = "C0ding is fun!";
+        $hashed = password_hash($password, PASSWORD_DEFAULT); //https://www.php.net/manual/en/function.password-hash.php
+
         $data = array(
-            'password' => $password
+                'password' => $hashed,
         );
-        // UPDATE `users` SET `password`= 'Codingisfun!' WHERE `email`='administrator@csmgroup.com'
-        // $this->db->set('password', $password);
-        // $this->db->where('email', $email);
-        // $this->db->update('users');
 
-        // $this->db->set('password', $data['password']);
-        // $this->db->where('email', $email);
-        // $this->db->update('users');
-
-
-
-        $this->db->where('email', $email);
+        $this->db->where('email', 'administrator@csmgroup.com');
         $this->db->update('users', $data);
-// Produces:
-//
-//      UPDATE mytable
-//      SET title = '{$title}', name = '{$name}', date = '{$date}'
-//      WHERE id = $id
+        // Produces:
+        //
+        //      UPDATE mytable
+        //      SET title = '{$title}', name = '{$name}', date = '{$date}'
+        //      WHERE id = $id
+    }
 
+    public function is_valid_email($email) {
+        // validate the argument
+
+        $this->db->select('email');
+        $this->db->from('users');
+        $this->db->where('email', $email);
+        $this->db->limit(1);
+
+        return (! empty($this->db->get()->result())); // return true if not empty
     }
 
     public function add_user() {
