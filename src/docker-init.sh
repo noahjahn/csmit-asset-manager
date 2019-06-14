@@ -1,7 +1,7 @@
 # Script to automatically setup the docker environment for this project.
 # You're assumed to have Docker Engine release 18.06.0+
-docker rm $(docker ps -aq) -f # remove all containers
 docker-compose down # stop any currently running containers
+docker rm $(docker ps -aq) -f # remove all containers
 docker-compose build # build if there are any changes
 cp .env.docker .env -f # setup local environment file
 rm application/vendor/* -rf # remove vendors folder so the dependencies are installed each time
