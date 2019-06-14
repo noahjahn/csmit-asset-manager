@@ -5,15 +5,15 @@ class Auth extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('Auth_model');
+		$this->load->model('Auth_model'); // used in many different functions, so load it in the constructor
 	}
 
 	public function index() { // start here
-		if ($this->session->userdata('email')) { // Check if the user is logged in
+		if ($this->session->has_userdata('email')) { // Check if the user is logged in
 			$this->load->view('private/asset_manager/index');
 		} else { // send them to the login form
-			$this->login_request();
-			$this->login();
+			$this->login_request(); // try a login request.. did the user submit the login form?
+			$this->login(); // finish by loading the login page, assuming the login failed or was never requested
 		}
 	}
 
@@ -29,48 +29,40 @@ class Auth extends CI_Controller {
 
 	public function login_request() {
 		if ($this->input->post('login-submit')) {
-			$form_rules = array (
-				array (
-					'field' => 'login_email',
-					'label' => 'Email',
-					'rules' => 'required|valid_email|trim'
-				),
-				array (
-					'field' => 'login_password',
-					'label' => 'Password',
-					'rules' => 'required|trim'
-				)
-			);
-			$this->form_validation->set_rules($form_rules);
-			if ($this->form_validation->run() == TRUE) {
-				// if ($this->input->post('remember')) {
-				// 	// email and password in cookie
-				// }
-				$email = $this->input->post('login_email');
-				$password = $this->input->post('login_password');
-
+			$this->form_validation->set_rules($this->Auth_model->get_login_rules());
+			if ($this->form_validation->run() == TRUE) { // if credentials pass our rules
+				$email = $this->input->post('login_email'); // get email from login form
+				$password = $this->input->post('login_password'); // get password from login form
 				if ($this->can_login($password, $email)) {
-					//$this->session->set_flashdata($this->Auth_model->get_user_attributes($email));
-					redirect('assetmanager');
+					$this->session->set_userdata('email', $email)
+					redirect('assetmanager'); // maybe implement user's default page??
 				} else {
 					$this->session->set_flashdata('error', 'Invalid username or password');
-					$this->session->flashdata('error');
-					//redirect($this->input->server('HTTP_REFERER'));
 				}
 			}
 		}
 	}
 
 	public function can_login($password, $email) {
+		// $this->Auth_model->set_user_password($email, $password);
 		if ($this->Auth_model->is_valid_email($email)) {
 			if (password_verify($password, $this->Auth_model->get_user_password($email))) {
 				$ret = TRUE;
 			} else {
-				sleep (5); // wait to slow ddos attacks
 				$ret = FALSE;
 			}
 		} else {
 			$ret = FALSE;
+		}
+
+		if (! $ret) { // if the user failed to login
+			if ($this->session->userdata('failed_login_attempts') > 5) { // check how many times the user failed
+				sleep (5); // wait to slow ddos attacks - (distributed denial-of-service attacks)
+			}
+			$failed_attempts = strval(intval($this->session->userdata('failed_login_attempts')) + 1);
+			$this->session->set_userdata('failed_login_attempts', $failed_attempts);
+		} else {
+			$this->session->unset_userdata('failed_login_attempts'); // if the user successfully logged in, unset this data
 		}
 
 		return $ret;
@@ -79,7 +71,6 @@ class Auth extends CI_Controller {
 	public function get_login_photo() {
 		// get number of photos currently stored in the database
 		$login_photo_count = $this->Auth_model->count_login_photos();
-
 		if ($login_photo_count > 0) {
 			// get a random number between 1 and the number of photos stored in the database
 			$photo_index = rand(1,$login_photo_count);
@@ -90,7 +81,7 @@ class Auth extends CI_Controller {
 			$login_photo_path = "default.jpg";
 		}
 
-		$this->session->set_flashdata('login_photo_path', $login_photo_path);
+		$this->session->set_flashdata('login_photo_path', $login_photo_path); // only reset this photo on a new request
 
 		return $login_photo_path;
 	}

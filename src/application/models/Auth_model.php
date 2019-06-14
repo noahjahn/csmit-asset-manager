@@ -24,6 +24,23 @@ class Auth_model extends CI_Model {
         }
     }
 
+    public function get_login_rules() {
+        $form_rules = array (
+            array (
+                'field' => 'login_email',
+                'label' => 'Email',
+                'rules' => 'required|valid_email|trim'
+            ),
+            array (
+                'field' => 'login_password',
+                'label' => 'Password',
+                'rules' => 'required|trim'
+            )
+        );
+
+        return $form_rules;
+    }
+
     public function get_user_password($email) {
         // validate the argument
 
