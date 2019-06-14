@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Jun 11, 2019 at 02:04 AM
+-- Generation Time: Jun 13, 2019 at 03:38 AM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.19
 
@@ -192,7 +192,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `last_login`, `created_date`, `updated_date`) VALUES
-(1, 'Super', 'User', 'administrator@csmgroup.com', '', NULL, '2019-06-10 22:05:10', NULL);
+(1, 'Super', 'User', 'administrator@csmgroup.com', '$2y$10$e9LFqB0jKJnQnkwxlKWWyuaCU6pA/R0rcyO7mnSPXdqWJV5SHiB0K', NULL, '2019-06-10 22:05:10', NULL);
 
 --
 -- Indexes for dumped tables
