@@ -12,7 +12,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="row">
                     <div class="col-sm-2"></div>
                     <div class="col-sm-8 text-left">
-                        <?php //add_style_to_error() ?>
                         <h4>CSM Group Information Technology</h4>
                         <?php echo form_open(current_url(), array( 'id' => 'login_form', 'name' => 'login_form')); ?>
                             <fieldset>
@@ -26,18 +25,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <input type="password" name="login_password" autocomplete="password" class="form-control" placeholder="********" value="<?php set_value('login_password'); ?>">
                                     <div class="text-danger"><?php echo form_error("login_password"); ?></div>
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" name="login_remember" id="login_remember" value="<?php //set_value('remember') ?>">
+                                        <input type="checkbox" class="custom-control-input" name="login_remember" id="login_remember" value="1">
                                         <label class="custom-control-label" for="login_remember">Remember me?</label>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="form-group">
                                     <input type="submit" name="login-submit" value="Login" class="form-control btn btn-primary">
                                 </div>
-                                <?php $this->session->flashdata('error'); ?>
+                                <div class="text-danger"><?php echo $this->session->flashdata('error'); ?></div>
                             </fieldset>
-                        <?php echo form_close(); ?>
+                        <?php echo form_close(); write_to_console(getenv('BASE_URL'));?>
                     </div>
                     <div class="col-sm-2"></div>
                 </div>
