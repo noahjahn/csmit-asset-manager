@@ -36,7 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                                 <div class="text-danger"><?php echo $this->session->flashdata('error'); ?></div>
                             </fieldset>
-                        <?php echo form_close(); write_to_console(getenv('BASE_URL'));?>
+                        <?php echo form_close(); ?>
                     </div>
                     <div class="col-sm-2"></div>
                 </div>

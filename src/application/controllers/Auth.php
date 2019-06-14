@@ -9,8 +9,9 @@ class Auth extends CI_Controller {
 	}
 
 	public function index() { // start here
+
 		if ($this->session->has_userdata('email')) { // Check if the user is logged in
-			$this->load->view('private/asset_manager/index');
+			redirect('assetmanager'); // maybe implement user's default page??
 		} else { // send them to the login form
 			$this->login_request(); // try a login request.. did the user submit the login form?
 			$this->login(); // finish by loading the login page, assuming the login failed or was never requested
@@ -34,7 +35,7 @@ class Auth extends CI_Controller {
 				$email = $this->input->post('login_email'); // get email from login form
 				$password = $this->input->post('login_password'); // get password from login form
 				if ($this->can_login($password, $email)) {
-					$this->session->set_userdata('email', $email)
+					$this->session->set_userdata('email', $email);
 					redirect('assetmanager'); // maybe implement user's default page??
 				} else {
 					$this->session->set_flashdata('error', 'Invalid username or password');
@@ -84,5 +85,11 @@ class Auth extends CI_Controller {
 		$this->session->set_flashdata('login_photo_path', $login_photo_path); // only reset this photo on a new request
 
 		return $login_photo_path;
+	}
+
+	public function logout() {
+		$this->session->sess_destroy();
+		redirect(base_url());
+		exit;
 	}
 }
