@@ -7,6 +7,7 @@
     <a href="#" class="list-group-item list-group-item-action bg-light">Inventories</a>
     <a href="#" class="list-group-item list-group-item-action bg-light">Reports</a>
     <a href="#" class="list-group-item list-group-item-action bg-light">Password Manager</a>
+    <a href="<?php echo base_url('settings'); ?>" class="list-group-item list-group-item-action bg-light">Settings</a>
     <a href="<?php echo base_url('logout'); ?>" class="list-group-item list-group-item-action bg-light">Logout</a>
   </div>
 </div>
