@@ -6,6 +6,7 @@ class Auth extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('Auth_model'); // used in many different functions, so load it in the constructor
+		$this->config->set_item('base_url', getenv('BASE_URL'));
 	}
 
 	public function index() { // start here
