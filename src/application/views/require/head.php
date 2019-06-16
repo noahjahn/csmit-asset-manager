@@ -12,6 +12,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/bootstrap.js"></script>
+    <script src="<?php echo base_url(); ?>assets/js/navbar.js"></script>
     <!-- <script src="https://bootswatch.com/_vendor/bootstrap/dist/js/bootstrap.min.js"></script> -->
 
     <title>CSM Group Inventory</title>
