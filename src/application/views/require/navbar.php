@@ -6,7 +6,7 @@
     <div id="usr-profile" class="text-center pt-4">
         <a href="" style="color: white;">
             <img class="usr-img" src="<?php echo base_url(); ?>assets/img/male-circle-512.png">
-            <h6><i>asdfasdfasdfasdfasdf asdfasdfasdf<?php //echo $first_name . ' ' . $last_name ?></i></h6>
+            <h6><i>Noah Jahn<?php //echo $first_name . ' ' . $last_name ?></i></h6>
         </a>
     </div>
     <ul class="nav navbar-light">
