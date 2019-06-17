@@ -11,6 +11,8 @@ class AssetManager extends CI_Controller {
 	public function index() {
 		$this->load->model('AssetManager_model');
 		$data['assets'] = $this->AssetManager_model->get_assets();
+		$data['active_page'] = 'assetmanager';
+		
         $this->load->view('private/asset_manager/index.php',$data);
 	}
 
