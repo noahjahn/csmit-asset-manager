@@ -2,9 +2,7 @@ body {
   overflow-x: hidden;
 }
 
-.nav-link {
-    /* color: #fff; */
-}
+/* *** NAVIGATION STYLES *** */
 
 .usr-img {
     background-color: grey;
@@ -48,3 +46,32 @@ body {
 .mw-15 {
   max-width: 15% !important;
 }
+
+/* *** END NAVIGATION STYLES *** */
+
+/* *** CONTAINER STYLES *** */
+
+.container-style {
+    /* min-height: 30rem; */
+    border-style: solid;
+    border-color: #444;
+    border-top: 0;
+    border-width: 1px;
+    /* border-radius: 3px; */
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    -webkit-box-shadow: 3px 3px 3px -3px #444, 3px 3px 3px -3px #444, -3px 3px 3px -3px #444;
+    -moz-box-shadow:    3px 3px 3px -3px #444, 3px 3px 3px -3px #444, -3px 3px 3px -3px #444;
+    box-shadow:         3px 3px 3px -3px #444, 3px 3px 3px -3px #444, -3px 3px 3px -3px #444;
+}
+
+.inner-quarter-container-style {
+    min-height: 13rem;
+    padding: 0;
+    border-style: solid;
+    border-color: #444;
+    border-width: 1px;
+    border-radius: 3px;
+}
+
+/* *** CONTAINER STYLES *** */
