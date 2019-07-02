@@ -1,4 +1,4 @@
-<div id="navigation" class="container-fluid bg-light ml-0 mw-15 min-vh-100 pl-0 pr-0">
+<div id="navigation" class="container-fluid bg-light ml-0 mw-15 min-vh-100 pl-0 pr-0 mr-0">
     <div id="nav-view-handler" class="nav-link pr-1" style="padding-left: 0; text-align: center;">
         <button id="nav-collapse" class="btn" style="background-repeat: no-repeat; background-size: 100% 100%; background-image: url(/assets/img/icons/back-svgrepo-com.svg); float: right; width: 32px; height: 32px;"></button>
         <button id="nav-expand" class="d-none btn vert-nav-item" style="background-repeat: no-repeat; background-size: 100% 100%; background-image: url(/assets/img/icons/expand-svgrepo-com.svg); transform: rotate(90deg); width: 32px; height: 32px;"></button>
