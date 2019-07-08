@@ -42,7 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
             <div class="col-lg-8 vh-100">
-                <img src="<?php echo $login_photo; ?>" alt="Login Photo" style="width: 100%; height: 100%; object-fit: cover;">
+                <img src="<?php echo $login_photo; ?>" alt="Login Photo" class="login-photo">
             </div>
         </div>
     </body>
