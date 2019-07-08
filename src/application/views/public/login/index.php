@@ -25,14 +25,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <input type="password" name="login_password" autocomplete="password" class="form-control" placeholder="********" value="<?php set_value('login_password'); ?>">
                                     <div class="text-danger"><?php echo form_error("login_password"); ?></div>
                                 </div>
-                                <!-- <div class="form-group">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" name="login_remember" id="login_remember" value="1">
-                                        <label class="custom-control-label" for="login_remember">Remember me?</label>
-                                    </div>
-                                </div> -->
                                 <div class="form-group">
-                                    <input type="submit" name="login-submit" value="Login" class="form-control btn btn-primary">
+                                    <input type="submit" name="login-submit" value="Login" class="form-control btn-primary">
                                 </div>
                                 <div class="text-danger"><?php echo $this->session->flashdata('error'); ?></div>
                             </fieldset>
@@ -42,7 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
             <div class="col-lg-8 vh-100">
-                <img src="<?php echo $login_photo; ?>" alt="Login Photo" style="width: 100%; height: 100%; object-fit: cover;">
+                <img src="<?php echo $login_photo; ?>" alt="Login Photo" class="login-photo">
             </div>
         </div>
     </body>
