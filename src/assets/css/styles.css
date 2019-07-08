@@ -2,49 +2,86 @@ body {
   overflow-x: hidden;
 }
 
+/* *** AUTHENTICATION STYLES *** */
+
 .login-photo {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-#sidebar-wrapper {
-  min-height: 100vh;
-  margin-left: -15rem;
-  -webkit-transition: margin .25s ease-out;
-  -moz-transition: margin .25s ease-out;
-  -o-transition: margin .25s ease-out;
-  transition: margin .25s ease-out;
+/* *** END AUTHENTICATION STYLES *** */
+
+/* *** NAVIGATION STYLES *** */
+
+.usr-img {
+    background-color: grey;
+    max-width: 128px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
 }
 
-#sidebar-wrapper .sidebar-heading {
-  padding: 0.875rem 1.25rem;
-  font-size: 1.2rem;
+.vert-nav-item {
+    padding-left: 1rem;
+    margin-left: 3px;
+    padding-right: 1rem;
 }
 
-#sidebar-wrapper .list-group {
-  width: 15rem;
+.vert-nav-item-active {
+    border-left-style: solid;
+    border-color: #3498DB;
+    border-width: 3px;
 }
 
-#page-content-wrapper {
-  min-width: 100vw;
+.vert-nav-item-hover {
+    border-left-style: solid;
+    border-color: #F39C12;
+    border-width: 3px;
 }
 
-#wrapper.toggled #sidebar-wrapper {
-  margin-left: 0;
-}
-
-@media (min-width: 768px) {
-  #sidebar-wrapper {
-    margin-left: 0;
-  }
-
-  #page-content-wrapper {
-    min-width: 0;
+.vert-nav-item-active-format {
+    padding-left: 1rem;
     width: 100%;
-  }
-
-  #wrapper.toggled #sidebar-wrapper {
-    margin-left: -15rem;
-  }
 }
+
+.nav-link .icon {
+    max-width: 32px;
+    min-width: 32px;
+}
+
+.nav-collapse.icon {
+    max-width: 32px;
+}
+
+.mw-15 {
+  max-width: 15% !important;
+}
+
+/* *** END NAVIGATION STYLES *** */
+
+/* *** CONTAINER STYLES *** */
+
+.container-style {
+    /* min-height: 30rem; */
+    border-style: solid;
+    border-color: #444;
+    border-top: 0;
+    border-width: 1px;
+    /* border-radius: 3px; */
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    -webkit-box-shadow: 3px 3px 3px -3px #444, 3px 3px 3px -3px #444, -3px 3px 3px -3px #444;
+    -moz-box-shadow:    3px 3px 3px -3px #444, 3px 3px 3px -3px #444, -3px 3px 3px -3px #444;
+    box-shadow:         3px 3px 3px -3px #444, 3px 3px 3px -3px #444, -3px 3px 3px -3px #444;
+}
+
+.inner-quarter-container-style {
+    min-height: 13rem;
+    padding: 0;
+    border-style: solid;
+    border-color: #444;
+    border-width: 1px;
+    border-radius: 3px;
+}
+
+/* *** CONTAINER STYLES *** */

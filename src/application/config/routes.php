@@ -57,5 +57,7 @@ $route['assetmanager'] = 'AssetManager/index';
 $route['assetmanager/edit/:num'] = 'AssetManager/edit_asset';
 $route['assetmanager/add'] = 'AssetManager/add_asset';
 
+$route['settings'] = 'Settings/index';
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
