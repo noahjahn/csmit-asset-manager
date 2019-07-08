@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <div class="text-danger"><?php echo form_error("login_password"); ?></div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="submit" name="login-submit" value="Login" class="form-control btn btn-primary">
+                                    <input type="submit" name="login-submit" value="Login" class="form-control btn-primary">
                                 </div>
                                 <div class="text-danger"><?php echo $this->session->flashdata('error'); ?></div>
                             </fieldset>
