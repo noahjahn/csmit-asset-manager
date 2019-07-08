@@ -25,12 +25,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <input type="password" name="login_password" autocomplete="password" class="form-control" placeholder="********" value="<?php set_value('login_password'); ?>">
                                     <div class="text-danger"><?php echo form_error("login_password"); ?></div>
                                 </div>
-                                <!-- <div class="form-group">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" name="login_remember" id="login_remember" value="1">
-                                        <label class="custom-control-label" for="login_remember">Remember me?</label>
-                                    </div>
-                                </div> -->
                                 <div class="form-group">
                                     <input type="submit" name="login-submit" value="Login" class="form-control btn btn-primary">
                                 </div>
