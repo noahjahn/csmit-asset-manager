@@ -13,7 +13,9 @@ class Settings extends CI_Controller {
 			$this->load->view('errors/custom/access_denied');
 		} else {
 			$data['active_page'] = 'settings';
-			$this->load->view('private/settings/index', $data);
+			$data['title'] = 'Settings';
+			$data['main_content'] = 'private/settings/index';
+			$this->load->view('private/reusable/page-template', $data);
 		}
 	}
 
