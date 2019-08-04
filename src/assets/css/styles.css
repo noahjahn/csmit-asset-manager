@@ -64,24 +64,52 @@ body {
 .container-style {
     /* min-height: 30rem; */
     border-style: solid;
-    border-color: #444;
+    border-color: black;
     border-top: 0;
     border-width: 1px;
     /* border-radius: 3px; */
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
-    -webkit-box-shadow: 3px 3px 3px -3px #444, 3px 3px 3px -3px #444, -3px 3px 3px -3px #444;
-    -moz-box-shadow:    3px 3px 3px -3px #444, 3px 3px 3px -3px #444, -3px 3px 3px -3px #444;
-    box-shadow:         3px 3px 3px -3px #444, 3px 3px 3px -3px #444, -3px 3px 3px -3px #444;
+    -webkit-box-shadow: 3px 3px 3px -3px black, 3px 3px 3px -3px black, -3px 3px 3px -3px black;
+    -moz-box-shadow:    3px 3px 3px -3px black, 3px 3px 3px -3px black, -3px 3px 3px -3px black;
+    box-shadow:         3px 3px 3px -3px black, 3px 3px 3px -3px black, -3px 3px 3px -3px black;
 }
 
-.inner-quarter-container-style {
-    min-height: 13rem;
+.inner-quarter-container {
+    height: 16rem;
     padding: 0;
     border-style: solid;
     border-color: #444;
     border-width: 1px;
     border-radius: 3px;
 }
+
+.quarter-table {
+    overflow-y: auto;
+    height: 12em;
+    border-bottom-style: solid;
+    border-color: #444;
+    border-width: 1px;
+    border-radius: 3px;
+}
+
+.quarter-table thead th {
+    position: sticky;
+    top: 0;
+}
+
+.mini-icon {
+    max-width: 20px;
+    min-width: 20px;
+}
+
+.table-icon img:hover {
+    color: green;
+}
+/* .inner-quarter-container thead, .inner-quarter-container tbody {
+    display: block;
+} */
+
+/* thead, tbody { display: block; width: 100%;} */
 
 /* *** CONTAINER STYLES *** */
