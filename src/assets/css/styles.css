@@ -61,36 +61,43 @@ body {
 
 /* *** CONTAINER STYLES *** */
 
+.background-light {
+    background-color: #3b3b3b;
+}
+
 .container-style {
     /* min-height: 30rem; */
-    border-style: solid;
-    border-color: black;
-    border-top: 0;
-    border-width: 1px;
+    /* border-style: solid; */
+    /* border-color: black; */
+    /* border-top: 0; */
+    /* border-width: 1px; */
     /* border-radius: 3px; */
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
-    -webkit-box-shadow: 3px 3px 3px -3px black, 3px 3px 3px -3px black, -3px 3px 3px -3px black;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    /* -webkit-box-shadow: 3px 3px 3px -3px black, 3px 3px 3px -3px black, -3px 3px 3px -3px black;
     -moz-box-shadow:    3px 3px 3px -3px black, 3px 3px 3px -3px black, -3px 3px 3px -3px black;
-    box-shadow:         3px 3px 3px -3px black, 3px 3px 3px -3px black, -3px 3px 3px -3px black;
+    box-shadow:         3px 3px 3px -3px black, 3px 3px 3px -3px black, -3px 3px 3px -3px black; */
+    box-shadow: 0px 2px 4px 2px rgba(0,0,0,0.5);
 }
 
 .inner-quarter-container {
     height: 16rem;
     padding: 0;
-    border-style: solid;
+    /* border-style: solid;
     border-color: #444;
-    border-width: 1px;
-    border-radius: 3px;
+    border-width: 1px; */
+    border-radius: 2px;
+    background: #3b3b3b;
+    box-shadow: 0px 2px 4px 2px rgba(0,0,0,0.5);
 }
 
 .quarter-table {
     overflow-y: auto;
     height: 12em;
-    border-bottom-style: solid;
+    /* border-bottom-style: solid;
     border-color: #444;
-    border-width: 1px;
-    border-radius: 3px;
+    border-width: 1px; */
+    border-radius: 2px;
 }
 
 .quarter-table thead th {
@@ -106,6 +113,11 @@ body {
 .table-icon img:hover {
     color: green;
 }
+
+.table-header {
+    border-radius: 2px;
+}
+
 /* .inner-quarter-container thead, .inner-quarter-container tbody {
     display: block;
 } */
