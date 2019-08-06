@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="container-fluid mt-4 ml-3 mr-3">
                 <?php $page['title'] = $title; $this->load->view('private/reusable/page-header', $page); ?>
                 <div class="container-fluid">
-                    <?php $this->load->view($main_content); ?>
+                    <?php $this->load->view($main_content, $data); ?>
                 </div>
             </div>
         </div>
