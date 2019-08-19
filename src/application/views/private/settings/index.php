@@ -1,3 +1,5 @@
+<?php $this->load->view('private/reusable/dataTables-include.php'); ?>
+
 <script src="<?php echo base_url(); ?>assets/js/settings.js"></script>
 <div class="row">
     <ul class="nav nav-tabs" style="width: 100%">
