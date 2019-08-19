@@ -12,7 +12,13 @@ class Settings extends CI_Controller {
 		if (! $this->session->userdata('email')) { // if the user is not logged in
 			$this->load->view('errors/custom/access_denied'); // show a 401 unathorized error
 		} else {
+			$this->load->model('Common_model');
+
 			$this->load->model('Settings_model');
+			$this->load->model('Asset_Types_model');
+			$this->load->model('Teams_model');
+			$this->load->model('Manufacturers_model');
+			$this->load->model('Models_model');
 
 			$data['active_page'] = 'settings';
 			$data['title'] = 'Settings';
@@ -37,10 +43,10 @@ class Settings extends CI_Controller {
 	}
 
 	public function asset_manager($data) {
-		$data['data']['data']['asset_types'] = $this->Settings_model->get_asset_types();
-		$data['data']['data']['teams'] = $this->Settings_model->get_teams();
-		$data['data']['data']['manufacturers'] = $this->Settings_model->get_manufacturers();
-		$data['data']['data']['models'] = $this->Settings_model->get_models();
+		$data['data']['data']['asset_types'] = $this->Asset_Types_model->get_active_asset_types();
+		$data['data']['data']['teams'] = $this->Teams_model->get_active_teams();
+		$data['data']['data']['manufacturers'] = $this->Manufacturers_model->get_active_manufacturers();
+		$data['data']['data']['models'] = $this->Models_model->get_active_models();
 		return $data;
 	}
 
