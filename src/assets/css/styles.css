@@ -105,6 +105,12 @@ body {
     min-width: 20px;
 }
 
+.table-icon {
+    background-color: transparent;
+    border-color: transparent;
+
+}
+
 .table-icon img:hover {
     color: green;
 }
