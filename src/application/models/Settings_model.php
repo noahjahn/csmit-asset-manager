@@ -3,16 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Settings_model extends CI_Model {
 
-        public function get_asset_types() {
-            $this->db->select('name, rate');
-            $this->db->from('asset_types');
-            return $this->db->get();
-        }
-
-        public function add_asset_type() {
-
-        }
-
         public function get_teams() {
             $this->db->select('name');
             $this->db->from('teams');
