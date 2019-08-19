@@ -20,8 +20,8 @@
                         echo '<tr class="table-row">';
                         echo '<td>'.$asset_type['name'].'</td>';
                         echo '<td>$'.$asset_type['rate'].'</td>';
-                        echo '<td><span class="table-icon"><img class="mini-icon" src="'.base_url().'assets/img/icons/edit-svgrepo-com-white.svg"><span></td>';
-                        echo '<td><img class="mini-icon" src="'.base_url().'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></td>';
+                        echo '<td><button class="table-icon" data-toggle="modal" data-target="#add_edit_asset_type_modal"><img class="mini-icon" src="'.base_url().'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
+                        echo '<td><button class="table-icon" data-toggle="modal" data-target="#confirmation_modal"><img class="mini-icon" src="'.base_url().'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
                         echo '</tr>';
                     }
                     ?>
@@ -46,7 +46,7 @@
                         echo '<tr class="table-row">';
                         echo '<td>'.$team['name'].'</td>';
                         echo '<td><span class="table-icon"><img class="mini-icon" src="'.base_url().'assets/img/icons/edit-svgrepo-com-white.svg"><span></td>';
-                        echo '<td><img class="mini-icon" src="'.base_url().'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></td>';
+                        echo '<td><button class="table-icon" data-toggle="modal" data-target="#confirmation_modal"><img class="mini-icon" src="'.base_url().'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
                         echo '</tr>';
                     }
                     ?>
@@ -73,7 +73,7 @@
                         echo '<tr class="table-row">';
                         echo '<td>'.$manufacturer['name'].'</td>';
                         echo '<td><span class="table-icon"><img class="mini-icon" src="'.base_url().'assets/img/icons/edit-svgrepo-com-white.svg"><span></td>';
-                        echo '<td><img class="mini-icon" src="'.base_url().'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></td>';
+                        echo '<td><button class="table-icon" data-toggle="modal" data-target="#confirmation_modal"><img class="mini-icon" src="'.base_url().'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
                         echo '</tr>';
                     }
                     ?>
@@ -101,7 +101,7 @@
                         echo '<td>'.$model['name'].'</td>';
                         echo '<td>'.$model['manufacturer'].'</td>';
                         echo '<td><span class="table-icon"><img class="mini-icon" src="'.base_url().'assets/img/icons/edit-svgrepo-com-white.svg"><span></td>';
-                        echo '<td><img class="mini-icon" src="'.base_url().'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></td>';
+                        echo '<td><button class="table-icon" data-toggle="modal" data-target="#confirmation_modal"><img class="mini-icon" src="'.base_url().'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
                         echo '</tr>';
                     }
                     ?>
