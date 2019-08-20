@@ -87,17 +87,32 @@ class Auth_model extends CI_Model {
 
     }
 
-    public function get_user_attributes($email) {
+    public function get_user_attributes_by_email($email) {
         // validate the argument
 
         // SELECT `first_name`, `last_name` FROM `users` WHERE `email` = $email LIMIT 1
-        $this->db->select('first_name, last_name');
+        $this->db->select('id, first_name, last_name, last_login, is_active,
+        last_modified_by, last_modified_time, created_by, created_time');
         $this->db->from('users');
         $this->db->where('email', $email);
         $this->db->limit(1);
 
-        return $this->db->get()->row();
+        return $this->db->get()->result_array()[0];
     }
+
+    public function set_user_token($email, $encrypted_token) {
+        $session_token = base64_decode($encrypted_token);
+        $this->db->set('session_token', password_hash($session_token, PASSWORD_DEFAULT));
+        $this->db->where('id', $this->get_user_attributes_by_email($email)['id']);
+        return $this->db->update('users');
+    }
+
+    public function set_last_login($email) {
+        $this->db->set('last_login', date('Y-m-d h:i:s'));
+        $this->db->where('email', $email);
+        return $this->db->update('users');
+    }
+
 }
 
 ?>
