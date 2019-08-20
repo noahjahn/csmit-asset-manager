@@ -37,7 +37,20 @@ class Auth extends CI_Controller {
 				$password = $this->input->post('login_password'); // get password from login form
 				if ($this->can_login($password, $email)) {
 					$this->session->set_userdata('email', $email);
-					redirect('assetmanager'); // maybe implement user's default page??
+					$token = bin2hex(random_bytes(64)); // generate token
+					$encrypted_token = base64_encode($token); // encrypt token
+					$this->session->set_userdata('token', $encrypted_token); // set encrypted token in user session variable
+					if ($this->Auth_model->set_user_token($email, $encrypted_token)) { // set the token in the database
+						if ($this->Auth_model->set_last_login($email)) { // set the last user login in the database
+							redirect('assetmanager'); // maybe implement user's default page??
+						} else {
+							$this->session->set_flashdata('error', 'Failed to set last login');
+							$this->session->sess_destroy();
+						}
+					} else {
+						$this->session->set_flashdata('error', 'Failed to set token');
+						$this->session->sess_destroy();
+					}
 				} else {
 					$this->session->set_flashdata('error', 'Invalid username or password');
 				}
