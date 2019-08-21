@@ -1,8 +1,17 @@
 /* *** Handle initial tab loading *** */
 $(document).ready(function() {
+//     $('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {
+//     // var target = $(e.target).attr("href"); // activated tab
+//     // alert (target);
+//     // $($.fn.dataTable.tables( true ) ).css('width', '100%');
+//     // $($.fn.dataTable.tables( true ) ).DataTable().columns.adjust().draw();
+// } );
+    $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
     makeAssetManagerActive();
 });
 /* *** ************************** *** */
+
+
 
 /* *** Handle tab switching *** */
 function makeAssetManagerActive() {

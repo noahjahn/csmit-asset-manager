@@ -44,3 +44,18 @@
     display: unset !important;
     margin-right: 3px;
 }
+
+.dataTables_scrollHeadInner {
+    width: 100% !important;
+}
+
+.dataTable {
+    width: 100% !important;
+}
+
+/* .scrollbar::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #FFFFFF;
+} */
