@@ -36,9 +36,9 @@
     background-color: #3B3B3B !important;
 }
 
-.dataTables_filter {
+/* .dataTables_filter {
     text-align: left !important;
-}
+} */
 
 .btn-group {
     display: unset !important;
