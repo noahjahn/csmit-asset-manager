@@ -35,14 +35,16 @@ class Auth extends CI_Controller {
 			if ($this->form_validation->run() == TRUE) { // if credentials pass our rules
 				$email = $this->input->post('login_email'); // get email from login form
 				$password = $this->input->post('login_password'); // get password from login form
+
 				if ($this->can_login($password, $email)) {
+					$this->session->set_userdata('id', $this->Auth_model->get_user_id($email));
 					$this->session->set_userdata('email', $email);
-					$token = bin2hex(random_bytes(64)); // generate token
-					$encrypted_token = base64_encode($token); // encrypt token
-					$this->session->set_userdata('token', $encrypted_token); // set encrypted token in user session variable
+					$this->session->set_userdata('token', $encrypted_token = $this->generate_session_token()); // set encrypted token in user session variable
+
 					if ($this->Auth_model->set_user_token($email, $encrypted_token)) { // set the token in the database
 						if ($this->Auth_model->set_last_login($email)) { // set the last user login in the database
 							redirect('assetmanager'); // maybe implement user's default page??
+
 						} else {
 							$this->session->set_flashdata('error', 'Failed to set last login');
 							$this->session->sess_destroy();
@@ -99,6 +101,11 @@ class Auth extends CI_Controller {
 		$this->session->set_flashdata('login_photo_path', $login_photo_path); // only reset this photo on a new request
 
 		return $login_photo_path;
+	}
+
+	public function generate_session_token() {
+		$token = bin2hex(random_bytes(64)); // generate token
+		return base64_encode($token); // encrypt token
 	}
 
 	public function logout() {
