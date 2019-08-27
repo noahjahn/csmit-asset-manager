@@ -59,5 +59,7 @@ $route['assetmanager/add'] = 'AssetManager/add_asset';
 
 $route['settings'] = 'Settings/index';
 
+$route['assettypes/delete/:num'] = 'AssetTypes/delete';
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

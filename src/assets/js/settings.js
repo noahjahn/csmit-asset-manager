@@ -200,3 +200,28 @@ $(document).ready( function () {
 
 
 /* *** ************************** *** */
+
+$(document).on("click", ".table-icon", function () {
+    var url = $(this).data('url');
+    var title = $(this).data('title');
+    $(".modal-title").text(title);
+    $(".modal-body").text(function(i, originalText){
+        return originalText + " " + title + "?";
+    });
+
+    $("#modal-confirm").click(function(e) {
+        $.ajax({
+            type: "DELETE",
+            url: baseUrl + url,
+            // data: {
+            // },
+            success: function(result) {
+            },
+            error: function(result) {
+            }
+        });
+
+    });
+});
+
+// $(document).on("click", )
