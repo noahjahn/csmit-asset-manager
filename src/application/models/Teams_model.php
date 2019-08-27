@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Teams_model extends CI_Model {
 
     public function get_active_teams() {
-        $this->db->select('name');
+        $this->db->select('id, name');
         $this->db->from('teams');
         $this->db->where('is_active', TRUE);
         return $this->db->get();
@@ -22,7 +22,7 @@ class Teams_model extends CI_Model {
     }
 
     public function update_team($id, $team) {
-        
+
     }
 
     public function delete_team($id) {

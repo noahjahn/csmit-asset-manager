@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Manufacturers_model extends CI_Model {
 
     public function get_active_manufacturers() {
-        $this->db->select('name');
+        $this->db->select('name, id');
         $this->db->from('manufacturers');
         $this->db->where('is_active', TRUE);
         return $this->db->get();

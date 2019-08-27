@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Models_model extends CI_Model {
 
         public function get_active_models() {
-            $this->db->select('models.name as name, models.manufacturer,' .
+            $this->db->select('models.id as id, models.name as name, models.manufacturer,' .
                 'manufacturers.id, manufacturers.name as manufacturer');
             $this->db->from('models');
             $this->db->where('models.is_active', TRUE);
