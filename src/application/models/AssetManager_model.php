@@ -1,4 +1,6 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 class AssetManager_model extends CI_Model {
 
         public function get_assets() {
@@ -6,7 +8,7 @@ class AssetManager_model extends CI_Model {
                 'manufacturers.name as manufacturer, models.name as model, owner, '.
                 'serial_number, asset_types.name as type, asset_tag, purchase_price, '.
                 'purchase_date, location, teams.name as team, job_number, '.
-                'asset_types.rate as rate, last_updated');
+                'asset_types.rate as rate, assets.last_modified_time as last_modified_time');
             $this->db->from('assets');
             $this->db->join('asset_types', 'assets.type = asset_types.id');
             $this->db->join('teams', 'assets.team = teams.id');

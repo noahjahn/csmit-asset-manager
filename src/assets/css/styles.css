@@ -57,31 +57,87 @@ body {
   max-width: 15% !important;
 }
 
+.bg-shadow {
+  box-shadow: 0px 2px 4px 2px rgba(0,0,0,0.5);
+}
+
 /* *** END NAVIGATION STYLES *** */
 
 /* *** CONTAINER STYLES *** */
 
-.container-style {
-    /* min-height: 30rem; */
-    border-style: solid;
-    border-color: #444;
-    border-top: 0;
-    border-width: 1px;
-    /* border-radius: 3px; */
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
-    -webkit-box-shadow: 3px 3px 3px -3px #444, 3px 3px 3px -3px #444, -3px 3px 3px -3px #444;
-    -moz-box-shadow:    3px 3px 3px -3px #444, 3px 3px 3px -3px #444, -3px 3px 3px -3px #444;
-    box-shadow:         3px 3px 3px -3px #444, 3px 3px 3px -3px #444, -3px 3px 3px -3px #444;
+.background-light {
+    background-color: #303030;
 }
 
-.inner-quarter-container-style {
-    min-height: 13rem;
-    padding: 0;
-    border-style: solid;
-    border-color: #444;
-    border-width: 1px;
-    border-radius: 3px;
+.container-style {
+    /* min-height: 30rem; */
+    /* border-style: solid; */
+    /* border-color: black; */
+    /* border-top: 0; */
+    /* border-width: 1px; */
+    /* border-radius: 3px; */
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    /* -webkit-box-shadow: 3px 3px 3px -3px black, 3px 3px 3px -3px black, -3px 3px 3px -3px black;
+    -moz-box-shadow:    3px 3px 3px -3px black, 3px 3px 3px -3px black, -3px 3px 3px -3px black;
+    box-shadow:         3px 3px 3px -3px black, 3px 3px 3px -3px black, -3px 3px 3px -3px black; */
+    box-shadow: 0px 2px 4px 2px rgba(0,0,0,0.5);
 }
+
+.inner-quarter-container {
+    height: 16rem;
+    padding: 5px;
+    /* border-style: solid;
+    border-color: #444;
+    border-width: 1px; */
+    border-radius: 2px;
+    /* background: #3b3b3b; */
+    /* box-shadow: 0px 2px 4px 2px rgba(0,0,0,0.5); */
+}
+
+.quarter-table thead th {
+    position: sticky;
+    top: 0;
+}
+
+.mini-icon {
+    max-width: 20px;
+    min-width: 20px;
+}
+
+.table-icon {
+    background-color: transparent;
+    border-color: transparent;
+
+}
+
+.table-icon img:hover {
+    color: green;
+}
+
+.table-header {
+    border-radius: 2px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+
+    background-color: #777;
+}
+
+::-webkit-scrollbar {
+    width: 4px;
+    background-color: #777;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #F5F5F5;
+}
+
+/* .inner-quarter-container thead, .inner-quarter-container tbody {
+    display: block;
+} */
+
+/* thead, tbody { display: block; width: 100%;} */
 
 /* *** CONTAINER STYLES *** */
