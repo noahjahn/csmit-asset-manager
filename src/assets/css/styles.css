@@ -70,6 +70,28 @@ body {
     max-width: 32px;
 }
 
+.collapse-icon {
+    border: none;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-image: url(/assets/img/icons/back-svgrepo-com.svg);
+    float: right;
+    width: 32px;
+    height: 32px;
+}
+
+.expand-icon {
+    border: none;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-image: url(/assets/img/icons/expand-svgrepo-com.svg);
+    float: right;
+    width: 32px;
+    height: 32px;
+}
+
 .mw-15 {
   max-width: 15% !important;
 }
