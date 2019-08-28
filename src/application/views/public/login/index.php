@@ -11,21 +11,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="col-lg-4 align-self-center">
                 <div class="row">
                     <div class="col-sm-2"></div>
-                    <div class="col-sm-8 text-left">
-                        <h4>CSM Group Information Technology</h4>
+                    <div class="col-sm-8 text-center">
+                        <h4 class="mb-4">CSM Group IT Inventory</h4>
                         <?php echo form_open(current_url(), array( 'id' => 'login_form', 'name' => 'login_form')); ?>
                             <fieldset>
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" name="login_email" autocomplete="email" class="form-control" placeholder="email@example.com" value="<?php set_value('login_email'); ?>">
+                                <div class="form-group mb-5">
+                                    <input type="email" name="login_email" autocomplete="email" class="form-control login-input" placeholder="Email" value="<?php set_value('login_email'); ?>">
                                     <div class="text-danger"><?php echo form_error("login_email"); ?></div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input type="password" name="login_password" autocomplete="password" class="form-control" placeholder="********" value="<?php set_value('login_password'); ?>">
+                                <div class="form-group mb-5">
+                                    <input type="password" name="login_password" autocomplete="password" class="form-control login-input" placeholder="Password" value="<?php set_value('login_password'); ?>">
                                     <div class="text-danger"><?php echo form_error("login_password"); ?></div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group mb-5">
                                     <input type="submit" name="login-submit" value="Login" class="form-control btn-primary">
                                 </div>
                                 <div class="text-danger"><?php echo $this->session->flashdata('error'); ?></div>

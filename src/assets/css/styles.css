@@ -10,6 +10,23 @@ body {
     object-fit: cover;
 }
 
+.login-input {
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0;
+    color: #ffffff;
+}
+
+.form-control:focus {
+  color: unset;
+  background-color: unset;
+  border-color: unset;
+  outline: none;
+  -webkit-appearance: none !important;
+  -webkit-box-shadow: none !important;
+}
+
 /* *** END AUTHENTICATION STYLES *** */
 
 /* *** NAVIGATION STYLES *** */
