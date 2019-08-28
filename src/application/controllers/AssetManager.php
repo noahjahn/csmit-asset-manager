@@ -14,7 +14,7 @@ class AssetManager extends CI_Controller {
 		} else {
 			$this->load->model('AssetManager_model');
 
-			$data['active_page'] = 'asset_manager';
+			$data['active_page'] = 'assetmanager';
 			$data['title'] = 'Asset Manager';
 			$data['main_content'] = 'private/asset_manager/index';
 
