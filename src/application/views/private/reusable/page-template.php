@@ -7,10 +7,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="d-flex" id="wrapper">
             <?php $this->load->view('require/navbar'); ?>
             <div class="container-fluid mt-4 ml-3 mr-3">
-                <?php $page['title'] = $title; $this->load->view('private/reusable/page-header', $page); ?>
-                <!-- <div class="container-fluid"> -->
-                    <?php $this->load->view($main_content, $data); ?>
-                <!-- </div> -->
+                <?php
+                $page['title'] = $title; $this->load->view('private/reusable/page-header', $page);
+                if (isset($data)) {
+                    $this->load->view($main_content, $data);
+                } else {
+                    $this->load->view($main_content);
+                    log_message('debug', 'View: page-template: No data passed '.
+                        'to the '.$page['title'].' page');
+                }
+                ?>
             </div>
         </div>
 
