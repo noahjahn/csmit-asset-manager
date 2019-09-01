@@ -36,6 +36,11 @@
  * @filesource
  */
 
+require __DIR__ . '/application/vendor/autoload.php';
+$dotenv = new Dotenv\Dotenv('./');
+$dotenv->load();
+
+
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
