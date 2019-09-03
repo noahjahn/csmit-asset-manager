@@ -6,7 +6,6 @@ class AssetTypes extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		// check for user authorization
-
         $this->load->model('AssetTypes_model');
 		$this->load->helper("database");
 	}

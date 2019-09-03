@@ -7,7 +7,7 @@ class Models_model extends CI_Model {
             $this->db->select('models.id as id, models.name as name, models.manufacturer,' .
                 'manufacturers.id, manufacturers.name as manufacturer');
             $this->db->from('models');
-            $this->db->where('models.is_active', TRUE);
+            $this->db->where('models.is_deleted', TRUE);
             $this->db->join('manufacturers', 'models.manufacturer = manufacturers.id');
             return $this->db->get();
         }

@@ -51,13 +51,13 @@ if ( ! function_exists('record_exists')) {
     }
 }
 
-if ( ! function_exists('record_is_active')) {
-    function record_is_active($id, $table) {
+if ( ! function_exists('record_is_deleted')) {
+    function record_is_deleted($id, $table) {
         $ci =& get_instance();
         $ci->db->where('id', $id);
         $query = $ci->db->get($table);
         if ($query->num_rows() == 1) {
-            if ($query->row()->is_active == 1) {
+            if ($query->row()->is_deleted == 1) {
                 return true;
             } else {
                 return false;
