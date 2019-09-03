@@ -15,7 +15,7 @@ class Settings extends CI_Controller {
 			$this->load->model('Common_model');
 
 			$this->load->model('Settings_model');
-			$this->load->model('Asset_Types_model');
+			$this->load->model('AssetTypes_model');
 			$this->load->model('Teams_model');
 			$this->load->model('Manufacturers_model');
 			$this->load->model('Models_model');
@@ -43,7 +43,7 @@ class Settings extends CI_Controller {
 	}
 
 	public function asset_manager($data) {
-		$data['data']['data']['asset_types'] = $this->Asset_Types_model->get_active_asset_types();
+		$data['data']['data']['asset_types'] = $this->AssetTypes_model->get_active_asset_types();
 		$data['data']['data']['teams'] = $this->Teams_model->get_active_teams();
 		$data['data']['data']['manufacturers'] = $this->Manufacturers_model->get_active_manufacturers();
 		$data['data']['data']['models'] = $this->Models_model->get_active_models();

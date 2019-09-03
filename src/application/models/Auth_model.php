@@ -102,7 +102,7 @@ class Auth_model extends CI_Model {
         // validate the argument
 
         // SELECT `first_name`, `last_name` FROM `users` WHERE `email` = $email LIMIT 1
-        $this->db->select('id, first_name, last_name, last_login, is_active,
+        $this->db->select('id, first_name, last_name, last_login, is_deleted,
         last_modified_by, last_modified_time, created_by, created_time');
         $this->db->from($this->users_table);
         $this->db->where('email', $email);

@@ -15,7 +15,7 @@ class AssetTypes_model extends CI_Model {
     public function get_active_asset_types() {
         $this->db->select('id, name, rate');
         $this->db->from($this->table);
-        $this->db->where('is_active', TRUE);
+        $this->db->where('is_deleted', TRUE);
         return $this->db->get();
     }
 
@@ -31,40 +31,40 @@ class AssetTypes_model extends CI_Model {
 
     public function update_asset_type($id, $asset_type) {
         // check if asset type passed in exists and is active
-        if (record_exists($id, $this->table) && record_is_active($id, $this->table)) {
+        if (record_exists($id, $this->table) && record_is_deleted($id, $this->table)) {
             // if it is, update it
 
         } else {
-            log_message('error', 'AssetTypes_model: delete_asset_type - '.
-                'failed, record '.$id.' doesn\'t exist or is inactive');
+            log_message('error', 'AssetTypes_model: delete_asset_type -
+                failed, record '.$id.' doesn\'t exist or is inactive');
             return false;
         }
     }
 
     function delete_asset_type($id) {
         // check if asset type passed in exists and is active
-        if (record_exists($id, $this->table) && record_is_active($id, $this->table)) {
+        if (record_exists($id, $this->table) && record_is_deleted($id, $this->table)) {
             // if it is, set active to 0 (inactive) this is a soft delete
             if (set_last_modified_by($id, $this->user_id, $this->table)) {
                 if (set_last_modified_time($id, $this->table)) {
-                    $this->db->set('is_active', '0');
+                    $this->db->set('is_deleted', '0');
                     $this->db->where('id', $id);
                     return $this->db->update($this->table);
                 } else {
-                    log_message('error', 'AssetTypes_model: delete_asset_type - '.
-                        'failed to set last modified time. Record id: '.$id.
-                        ' Table: '.$this->table);
+                    log_message('error', 'AssetTypes_model: delete_asset_type -
+                        failed to set last modified time. Record id: '.$id.'
+                        Table: '.$this->table);
                     return false; // failed to set last modified time
                 }
             } else {
-                log_message('error', 'AssetTypes_model: delete_asset_type - '.
-                    'failed to set last modified by. Record id: '.$id.
-                    ' User id: '.$id.' Table: '.$this->table);
+                log_message('error', 'AssetTypes_model: delete_asset_type -
+                    failed to set last modified by. Record id: '.$id.'
+                    User id: '.$id.' Table: '.$this->table);
                 return false;  // failed to set last modified by
             }
         } else {
-            log_message('error', 'AssetTypes_model: delete_asset_type - ' .
-                'failed, record '.$id.' doesn\'t exist or is inactive');
+            log_message('error', 'AssetTypes_model: delete_asset_type -
+                failed, record '.$id.' doesn\'t exist or is inactive');
             return false; // failed, record doesn't exist or is not active
         }
     }
