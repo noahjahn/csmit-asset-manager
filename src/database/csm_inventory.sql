@@ -46,14 +46,14 @@ CREATE TABLE `assets` (
   `last_modified_by` varchar(255) NOT NULL,
   `last_modified_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` varchar(255) NOT NULL,
-  `created_by_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `assets`
 --
 
-INSERT INTO `assets` (`id`, `name`, `manufacturer`, `model`, `owner`, `serial_number`, `type`, `asset_tag`, `purchase_price`, `purchase_date`, `location`, `team`, `job_number`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_by_time`) VALUES
+INSERT INTO `assets` (`id`, `name`, `manufacturer`, `model`, `owner`, `serial_number`, `type`, `asset_tag`, `purchase_price`, `purchase_date`, `location`, `team`, `job_number`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
 (1, '1', 1, 1, 'IT Department', '2WZRNF2', 1, 3349, '1574.60', '2019-03-21', 'Kalamazoo', 1, NULL, 1, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
 (2, '2', 2, 2, 'Noah Jahn', 'PEWPD6JA00946', 2, 1373, NULL, NULL, 'Kalamazoo', 1, NULL, 1, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
 (3, '2', 2, 2, 'Noah Jahn', 'PEWPD8JA00341', 2, 2622, NULL, NULL, 'Kalamazoo', 1, NULL, 1, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
@@ -90,14 +90,14 @@ CREATE TABLE `asset_types` (
   `last_modified_by` varchar(255) NOT NULL,
   `last_modified_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` varchar(255) NOT NULL,
-  `created_by_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `asset_types`
 --
 
-INSERT INTO `asset_types` (`id`, `name`, `rate`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_by_time`) VALUES
+INSERT INTO `asset_types` (`id`, `name`, `rate`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
 (1, 'Computers', '100.00', 1, '', '2019-08-19 02:12:53', '', '2019-08-19 02:12:53'),
 (2, 'Monitors', '10.00', 1, '', '2019-08-19 02:12:53', '', '2019-08-19 02:12:53');
 
@@ -137,14 +137,14 @@ CREATE TABLE `manufacturers` (
   `last_modified_by` varchar(255) NOT NULL,
   `last_modified_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` varchar(255) NOT NULL,
-  `created_by_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `manufacturers`
 --
 
-INSERT INTO `manufacturers` (`id`, `name`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_by_time`) VALUES
+INSERT INTO `manufacturers` (`id`, `name`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
 (1, 'Dell', 1, '', '2019-08-19 02:10:06', '', '2019-08-19 02:10:06'),
 (2, 'Planar', 1, '', '2019-08-19 02:10:06', '', '2019-08-19 02:10:06'),
 (3, 'ASUS', 1, '', '2019-08-19 02:10:06', '', '2019-08-19 02:10:06');
@@ -190,14 +190,14 @@ CREATE TABLE `teams` (
   `last_modified_by` varchar(255) NOT NULL,
   `last_modified_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` varchar(255) NOT NULL,
-  `created_by_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `teams`
 --
 
-INSERT INTO `teams` (`id`, `name`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_by_time`) VALUES
+INSERT INTO `teams` (`id`, `name`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
 (1, 'Zulu', 1, '', '2019-08-19 02:12:40', '', '2019-08-19 02:12:40'),
 (2, 'SPARK', 1, '', '2019-08-19 02:12:40', '', '2019-08-19 02:12:40');
 
@@ -218,14 +218,14 @@ CREATE TABLE `users` (
   `last_modified_by` varchar(255) COLLATE utf8_bin NOT NULL,
   `last_modified_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` varchar(255) COLLATE utf8_bin NOT NULL,
-  `created_by_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `last_login`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_by_time`) VALUES
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `last_login`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
 (1, 'Super', 'User', 'administrator@csmgroup.com', '$2y$10$e9LFqB0jKJnQnkwxlKWWyuaCU6pA/R0rcyO7mnSPXdqWJV5SHiB0K', NULL, 1, '', '2019-08-19 02:19:39', '', '2019-08-19 02:19:39');
 
 --
