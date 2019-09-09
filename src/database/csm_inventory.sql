@@ -213,6 +213,7 @@ CREATE TABLE `users` (
   `last_name` varchar(255) COLLATE utf8_bin NOT NULL,
   `email` varchar(255) COLLATE utf8_bin NOT NULL,
   `password` varchar(255) COLLATE utf8_bin NOT NULL,
+  `session_token` varchar(255) COLLATE utf8_bin NOT NULL,
   `last_login` datetime DEFAULT NULL,
   `is_deleted` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1 active; 0 inactive',
   `last_modified_by` varchar(255) COLLATE utf8_bin NOT NULL,
@@ -225,8 +226,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `last_login`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
-(1, 'Super', 'User', 'administrator@csmgroup.com', '$2y$10$e9LFqB0jKJnQnkwxlKWWyuaCU6pA/R0rcyO7mnSPXdqWJV5SHiB0K', NULL, 1, '', '2019-08-19 02:19:39', '', '2019-08-19 02:19:39');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `session_token`, `last_login`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
+(1, 'Super', 'User', 'administrator@csmgroup.com', '$2y$10$e9LFqB0jKJnQnkwxlKWWyuaCU6pA/R0rcyO7mnSPXdqWJV5SHiB0K', 'test', NULL, 1, '', '2019-08-19 02:19:39', '', '2019-08-19 02:19:39');
 
 --
 -- Indexes for dumped tables
