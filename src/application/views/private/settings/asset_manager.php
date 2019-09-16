@@ -8,24 +8,13 @@
                 <col width="5%">
                 <thead class="table-header">
                     <tr class="table-primary">
+                        <th>ID</th>
                         <th>Name</th>
                         <th>Rate</th>
                         <th></th>
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <?php
-                    foreach($asset_types->result_array() as $asset_type) {
-                        echo '<tr class="table-row">';
-                        echo '<td>'.$asset_type['name'].'</td>';
-                        echo '<td>$'.$asset_type['rate'].'</td>';
-                        echo '<td><button class="table-icon" data-toggle="modal" data-target="#add_edit_asset_type_modal"><img class="mini-icon" src="'.base_url().'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
-                        echo '<td><button class="table-icon" data-toggle="modal" data-url="AssetTypes/delete/'.$asset_type['id'].'" data-title="Asset Type" data-target="#confirmation_modal"><img class="mini-icon" src="'.base_url().'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
-                        echo '</tr>';
-                    }
-                    ?>
-                </tbody>
             </table>
         </div>
         <div class="col">
@@ -110,3 +99,5 @@
         </div>
     </div>
 </div>
+
+<?php $this->load->view('private/modals/asset_types/delete'); ?>
