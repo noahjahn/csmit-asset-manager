@@ -144,21 +144,11 @@ $(function() {
 });
 /* *** ************************** *** */
 
-/* ******** Models Data table ******* */
-function prepareDataTable(tableId, tableTitle, buttonName, numColumns, ajaxUrl) {
-    switch (numColumns) {
-        case 3:
-            var targets = [2, 3];
-            break;
-        case 4:
-            var targets = [3, 4];
-            break;
-        default:
-            var targets = [2, 3];
-    }
-    $('#' + tableId).DataTable( {
+$(document).ready( function () {
+    /* Prepare Asset Types table */
+    $('#asset_types').DataTable( {
         ajax: {
-            url: baseUrl + ajaxUrl,
+            url: baseUrl + "AssetTypes/get_all_json",
             dataSrc: ''
         },
         columns: [
@@ -170,7 +160,7 @@ function prepareDataTable(tableId, tableTitle, buttonName, numColumns, ajaxUrl) 
                 }
             },
             { "render": function ( data, type, row ) {
-                    return '<button class="table-icon" data-toggle="modal" data-id="delete-asset-type" data-url="AssetTypes/delete/' + row.id + '" data-title="Asset Type" data-target="#delete-asset-type"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
+                    return '<button class="table-icon" data-toggle="modal" data-id="delete-asset-type" data-type="DELETE" data-tableid="asset_types" data-url="AssetTypes/delete/' + row.id + '" data-target="#delete-asset-type"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
                 }
             }
         ],
@@ -183,11 +173,11 @@ function prepareDataTable(tableId, tableTitle, buttonName, numColumns, ajaxUrl) 
             { "visible": false, "targets": 0 }
         ],
         dom:
-            "<'row'<'col-sm'<'table-title-" + tableId + "'>>fB>" +
+            "<'row'<'col-sm'<'table-title-asset_types'>>fB>" +
 			"<'row'<'col-sm'tr>>",
         buttons: [
             {
-                text: buttonName,
+                text: "Add Asset Type",
                 action: function (e, dt, node, config) {
                     alert( 'Button activated' );
                 },
@@ -202,15 +192,157 @@ function prepareDataTable(tableId, tableTitle, buttonName, numColumns, ajaxUrl) 
             searchPlaceholder: "Search..."
         }
     });
-    $("div.table-title-" + tableId).html('<h5 class="pt-3">' + tableTitle + '</h5>');
-    $("#" + tableId + "_wrapper").addClass("mb-4", "pt-2");
-}
+    $("div.table-title-asset_types").html('<h5 class="pt-3">Asset Types</h5>');
+    $("#asset_types_wrapper").addClass("mb-4", "pt-2");
 
-$(document).ready( function () {
-    prepareDataTable("asset_types", "Asset Types", "Add Asset Type", 4, "AssetTypes/get_all_json");
-    // prepareDataTable("teams", "Teams", "Add Team", 3);
-    // prepareDataTable("manufacturers", "Manufacturers", "Add Manufacturer", 3);
-    // prepareDataTable("models", "Models", "Add Model", 4);
+    /* Prepare Teams table */
+    $('#teams').DataTable( {
+        ajax: {
+            url: baseUrl + "Teams/get_all_json",
+            dataSrc: ''
+        },
+        columns: [
+            { "data": "id" },
+            { "data": "name" },
+            { "render": function ( row ) {
+                    return '<button class="table-icon" data-toggle="modal" data-target="#add_edit_teams_modal"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
+                }
+            },
+            { "render": function ( data, type, row ) {
+                    return '<button class="table-icon" data-toggle="modal" data-id="delete-team" data-type="DELETE" data-tableid="teams" data-url="Teams/delete/' + row.id + '"  data-target="#delete-team"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
+                }
+            }
+        ],
+        scrollY:        200,
+        paging:         false,
+        fixedHeader:    true,
+        info:           false,
+        columnDefs: [
+            { "orderable": false, "targets": [2,3] },
+            { "visible": false, "targets": 0 }
+        ],
+        dom:
+            "<'row'<'col-sm'<'table-title-teams'>>fB>" +
+			"<'row'<'col-sm'tr>>",
+        buttons: [
+            {
+                text: "Add Team",
+                action: function (e, dt, node, config) {
+                    alert( 'Button activated' );
+                },
+                init: function (api, node, config) {
+                    $(node).removeClass('btn-secondary');
+                },
+                className: 'btn-primary'
+            }
+        ],
+        language: {
+            search: "",
+            searchPlaceholder: "Search..."
+        }
+    });
+    $("div.table-title-teams").html('<h5 class="pt-3">Teams</h5>');
+    $("#teams_wrapper").addClass("mb-4", "pt-2");
+
+    /* Prepare Manufacturers table */
+    $('#manufacturers').DataTable( {
+        ajax: {
+            url: baseUrl + "Manufacturers/get_all_json",
+            dataSrc: ''
+        },
+        columns: [
+            { "data": "id" },
+            { "data": "name" },
+            { "render": function ( row ) {
+                    return '<button class="table-icon" data-toggle="modal" data-target="#add_edit_manufacturers_modal"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
+                }
+            },
+            { "render": function ( data, type, row ) {
+                    return '<button class="table-icon" data-toggle="modal" data-id="delete-manufacturer" data-type="DELETE" data-tableid="manufacturers" data-url="Manufacturers/delete/' + row.id + '" data-target="#delete-manufacturer"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
+                }
+            }
+        ],
+        scrollY:        200,
+        paging:         false,
+        fixedHeader:    true,
+        info:           false,
+        columnDefs: [
+            { "orderable": false, "targets": [2,3] },
+            { "visible": false, "targets": 0 }
+        ],
+        dom:
+            "<'row'<'col-sm'<'table-title-manufacturers'>>fB>" +
+			"<'row'<'col-sm'tr>>",
+        buttons: [
+            {
+                text: "Add Manufacturer",
+                action: function (e, dt, node, config) {
+                    alert( 'Button activated' );
+                },
+                init: function (api, node, config) {
+                    $(node).removeClass('btn-secondary');
+                },
+                className: 'btn-primary'
+            }
+        ],
+        language: {
+            search: "",
+            searchPlaceholder: "Search..."
+        }
+    });
+    $("div.table-title-manufacturers").html('<h5 class="pt-3">Manufacturers</h5>');
+    $("#manufacturers_wrapper").addClass("mb-4", "pt-2");
+
+    /* Prepare Models table */
+    $('#models').DataTable( {
+        ajax: {
+            url: baseUrl + "Models/get_all_json",
+            dataSrc: ''
+        },
+        columns: [
+            { "data": "id" },
+            { "data": "name" },
+            { "data": "manufacturer" },
+            { "render": function ( row ) {
+                    return '<button class="table-icon" data-toggle="modal" data-target="#add_edit_models_modal"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
+                }
+            },
+            { "render": function ( data, type, row ) {
+                    return '<button class="table-icon" data-toggle="modal" data-id="delete-model" data-type="DELETE" data-tableid="models" data-url="Models/delete/' + row.id + '" data-target="#delete-model"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
+                }
+            }
+        ],
+        "order": [[ 1, "desc" ]],
+        scrollY:        200,
+        paging:         false,
+        fixedHeader:    true,
+        info:           false,
+        columnDefs: [
+            { "orderable": false, "targets": [3,4] },
+            { "visible": false, "targets": 0 }
+        ],
+        dom:
+            "<'row'<'col-sm'<'table-title-models'>>fB>" +
+			"<'row'<'col-sm'tr>>",
+        buttons: [
+            {
+                text: "Add Model",
+                action: function (e, dt, node, config) {
+                    alert( 'Button activated' );
+                },
+                init: function (api, node, config) {
+                    $(node).removeClass('btn-secondary');
+                },
+                className: 'btn-primary'
+            }
+        ],
+        language: {
+            search: "",
+            searchPlaceholder: "Search..."
+        }
+    });
+    $("div.table-title-models").html('<h5 class="pt-3">Models</h5>');
+    $("#models_wrapper").addClass("mb-4", "pt-2");
 });
 
 
@@ -218,31 +350,33 @@ $(document).ready( function () {
 
 $(document).on("click", ".table-icon", function () {
     var url = $(this).data('url');
-    var title = $(this).data('title');
     var id = $(this).data('id');
+    var type = $(this).data('type');
+    var tableId = $(this).data('tableid');
 
-    var originalTitle = appendModalContent("#modal-title" + "-" + id, title);
-    var originalBody = appendModalContent("#modal-body" + "-" + id, title + "?");
+    console.log(tableId + " " + type + " " + url + " " + id);
 
-    console.log(url + " " + title)
-
+    // var originalTitle = appendModalContent("#modal-title" + "-" + id, title);
+    // var originalBody = appendModalContent("#modal-body" + "-" + id, title + "?");
+    console.log("#" + tableId);
     $("#modal-confirm" + "-" + id).click(async function(e) {
         $.ajax({
-            type: "DELETE",
+            type: type,
             url: baseUrl + url,
             success: function(result) {
+                alert('ajax success');
             },
             error: function(result) {
+                alert('ajax failure');
             }
         });
-        console.log(baseUrl + url);
-        var table = $("#asset_types").DataTable();
-        table.ajax.reload();
+        // console.log(tableId + " " + type + " " + url + " " + id);
+        $("#" + tableId).DataTable().ajax.reload();
     });
 
-    $("#" + id).on('hidden.bs.modal', async function () {
-        await sleep(100);
-        $("#modal-title" + "-" + id).text(originalTitle);
-        $("#modal-body" + "-" + id).text(originalBody);
-    });
+    // $("#" + id).on('hidden.bs.modal', async function () {
+    //     await sleep(100);
+    //     $("#modal-title" + "-" + id).text(originalTitle);
+    //     $("#modal-body" + "-" + id).text(originalBody);
+    // });
 });
