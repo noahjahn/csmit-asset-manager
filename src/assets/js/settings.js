@@ -154,9 +154,12 @@ $(document).ready( function () {
         columns: [
             { "data": "id" },
             { "data": "name" },
-            { "data": "rate" },
-            { "render": function ( row ) {
-                    return '<button class="table-icon" data-toggle="modal" data-target="#add_edit_asset_type_modal"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
+            { "data": "rate", "render": function (data, type, row) {
+                    return "$" + row.rate;
+            }
+            },
+            { "render": function ( data, type, row ) {
+                    return '<button class="table-icon" data-toggle="modal" data-target="#add-edit-asset-type" data-type="POST" data-tableid="asset_types" data-url="AssetTypes/edit/' + row.id + '" data-target="#add-edit-asset-type"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
                 }
             },
             { "render": function ( data, type, row ) {
@@ -179,7 +182,7 @@ $(document).ready( function () {
             {
                 text: "Add Asset Type",
                 action: function (e, dt, node, config) {
-                    alert( 'Button activated' );
+                    // addAssetTypeModal();
                 },
                 init: function (api, node, config) {
                     $(node).removeClass('btn-secondary');
@@ -204,8 +207,8 @@ $(document).ready( function () {
         columns: [
             { "data": "id" },
             { "data": "name" },
-            { "render": function ( row ) {
-                    return '<button class="table-icon" data-toggle="modal" data-target="#add_edit_teams_modal"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
+            { "render": function ( data, type, row ) {
+                    return '<button class="table-icon" data-toggle="modal" data-target="#add-edit-team" data-type="POST" data-tableid="teams" data-url="Teams/edit/' + row.id + '" data-target="#add-edit-team"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
                 }
             },
             { "render": function ( data, type, row ) {
@@ -253,8 +256,8 @@ $(document).ready( function () {
         columns: [
             { "data": "id" },
             { "data": "name" },
-            { "render": function ( row ) {
-                    return '<button class="table-icon" data-toggle="modal" data-target="#add_edit_manufacturers_modal"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
+            { "render": function ( data, type, row ) {
+                    return '<button class="table-icon" data-toggle="modal" data-target="#add-edit-manufacturer" data-type="POST" data-tableid="manufacturers" data-url="Manufacturers/edit/' + row.id + '" data-target="#add-edit-manufacturer"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
                 }
             },
             { "render": function ( data, type, row ) {
@@ -303,8 +306,8 @@ $(document).ready( function () {
             { "data": "id" },
             { "data": "name" },
             { "data": "manufacturer" },
-            { "render": function ( row ) {
-                    return '<button class="table-icon" data-toggle="modal" data-target="#add_edit_models_modal"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
+            { "render": function ( data, type, row ) {
+                    return '<button class="table-icon" data-toggle="modal" data-target="#add-edit-model" data-type="POST" data-tableid="models" data-url="Models/edit/' + row.id + '" data-target="#add-edit-model"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
                 }
             },
             { "render": function ( data, type, row ) {
@@ -312,7 +315,7 @@ $(document).ready( function () {
                 }
             }
         ],
-        "order": [[ 1, "desc" ]],
+        "order": [[ 1, "asc" ]],
         scrollY:        200,
         paging:         false,
         fixedHeader:    true,
@@ -354,8 +357,6 @@ $(document).on("click", ".table-icon", function () {
     var type = $(this).data('type');
     var tableId = $(this).data('tableid');
 
-    console.log(tableId + " " + type + " " + url + " " + id);
-
     // var originalTitle = appendModalContent("#modal-title" + "-" + id, title);
     // var originalBody = appendModalContent("#modal-body" + "-" + id, title + "?");
     console.log("#" + tableId);
@@ -364,13 +365,11 @@ $(document).on("click", ".table-icon", function () {
             type: type,
             url: baseUrl + url,
             success: function(result) {
-                alert('ajax success');
             },
             error: function(result) {
                 alert('ajax failure');
             }
         });
-        // console.log(tableId + " " + type + " " + url + " " + id);
         $("#" + tableId).DataTable().ajax.reload();
     });
 
