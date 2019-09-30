@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/custom-modal.css" />
 
-<div class="modal" tabindex="-1" role="dialog">
+<div class="modal" id="delete-asset" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
