@@ -42,10 +42,6 @@ class AssetManager extends CI_Controller {
 	}
 
 	public function delete_asset() {
-		$this->load->helper('form');
-		$this->load->library('form_validation');
-
-		$this->load->view('private/asset_manager/delete_asset');
 	}
 
 }

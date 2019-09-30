@@ -36,8 +36,8 @@ $(document).ready(function() {
         buttons: [
             {
                 text: "Add Asset",
-                action: function (e, dt, node, config) {
-                    alert( 'Button activated' );
+                action: function() {
+                    $('#add-asset').modal('show');
                 },
                 init: function (api, node, config) {
                     $(node).removeClass('btn-secondary');
