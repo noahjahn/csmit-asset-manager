@@ -17,11 +17,7 @@
                     </div>
                     <div class="form-group">
                         <label for="manufacturer">Manufacturer</label>
-                        <select class="form-control" id="manufacturer">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
+                        <select class="form-control" id="model-manufacturer">
                         </select>
                     </div>
                     <!-- <button type="submit" class="btn btn-primary">Submit</button> -->

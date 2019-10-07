@@ -15,7 +15,14 @@ class AssetTypes extends CI_Controller {
 	}
 
     public function add() {
-		$this->AssetTypes_model->add_asset_type();
+		if ($this->input->post('asset-type-add-edit-submit')) {
+			$this->form_validation->set_rules($this->AssetTypes_model->get_add_update_rules());
+			if ($this->form_validation->run() == TRUE) {
+				// $this->AssetTypes_model->add_asset_type();
+			} else {
+				// validation_errors();
+			}
+		}
     }
 
     public function edit() {

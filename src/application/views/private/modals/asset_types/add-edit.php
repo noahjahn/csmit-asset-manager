@@ -10,21 +10,24 @@
                 </button>
             </div>
             <div class="modal-body" id="modal-body-add-edit-asset-type">
-                <form action="">
+                <?php echo form_open(current_url(), array( 'id' => 'asset-type-add-edit-form', 'name' => 'asset-type-add-edit-form')); ?>
                     <div class="form-group">
                         <label>Name</label>
                         <input type="name" class="form-control" id="name">
+                        <div class="text-danger"><?php echo form_error("name"); ?></div>
                     </div>
                     <div class="form-group">
                         <label for="rate">Rate</label>
                         <input type="number" class="form-control" id="rate">
+                        <div class="text-danger"><?php echo form_error("rate"); ?></div>
                     </div>
-                    <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
-                    <div class="modal-footer">
-                        <button id="modal-cancel-add-edit-asset-type" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button id="modal-confirm-add-edit-asset-type" type="submit" class="btn btn-primary" data-dismiss="modal">Save</button>
-                    </div>
-                </form>
+                    <!-- <button id="modal-confirm-add-edit-asset-type" form="asset-type-add-edit-form" name="asset-type-add-edit-submit" type="submit" class="btn btn-primary">Save</button> -->
+                    <input type="submit" id="modal-confirm-add-edit-asset-type" form="asset-type-add-edit-form" name="asset-type-add-edit-submit" class="btn btn-primary">
+
+                <?php echo form_close(); ?>
+            </div>
+            <div class="modal-footer">
+                <button id="modal-cancel-add-edit-asset-type" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>

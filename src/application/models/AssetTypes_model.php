@@ -12,6 +12,23 @@ class AssetTypes_model extends CI_Model {
         $this->user_id = $this->session->userdata('id');
     }
 
+    public function get_add_update_rules() {
+        $form_rules = array (
+            array (
+                'field' => 'name',
+                'label' => 'Name',
+                'rules' => 'required|trim'
+            ),
+            array (
+                'field' => 'rate',
+                'label' => 'Rate',
+                'rules' => 'required|numeric|trim'
+            )
+        );
+
+        return $form_rules;
+    }
+
     public function get_active_asset_types() {
         $this->db->select('id, name, rate');
         $this->db->from($this->table);
