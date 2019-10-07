@@ -8,6 +8,7 @@ $(document).ready(function() {
 // } );
     $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
     makeAssetManagerActive();
+    loadManufacturers();
 });
 /* *** ************************** *** */
 
@@ -182,10 +183,16 @@ $(document).ready( function () {
             {
                 text: "Add Asset Type",
                 action: function (e, dt, node, config) {
-                    // addAssetTypeModal();
                 },
                 init: function (api, node, config) {
                     $(node).removeClass('btn-secondary');
+                    $(node).addClass("add-edit-button");
+                    $(node).attr("data-toggle", "modal");
+                    $(node).attr("data-url", "AssetTypes/add");
+                    $(node).attr("data-id", "add-edit-asset-type");
+                    $(node).attr("data-type", "POST");
+                    $(node).attr("data-tableid", "asset-types");
+                    $(node).attr("data-target", "#add-edit-asset-type");
                 },
                 className: 'btn-primary'
             }
@@ -231,10 +238,16 @@ $(document).ready( function () {
             {
                 text: "Add Team",
                 action: function (e, dt, node, config) {
-                    alert( 'Button activated' );
                 },
                 init: function (api, node, config) {
                     $(node).removeClass('btn-secondary');
+                    $(node).addClass("add-edit-button");
+                    $(node).attr("data-toggle", "modal");
+                    $(node).attr("data-url", "Teams/add");
+                    $(node).attr("data-id", "add-edit-team");
+                    $(node).attr("data-type", "POST");
+                    $(node).attr("data-tableid", "teams");
+                    $(node).attr("data-target", "#add-edit-team");
                 },
                 className: 'btn-primary'
             }
@@ -280,10 +293,16 @@ $(document).ready( function () {
             {
                 text: "Add Manufacturer",
                 action: function (e, dt, node, config) {
-                    alert( 'Button activated' );
                 },
                 init: function (api, node, config) {
                     $(node).removeClass('btn-secondary');
+                    $(node).addClass("add-edit-button");
+                    $(node).attr("data-toggle", "modal");
+                    $(node).attr("data-url", "Manufacturers/add");
+                    $(node).attr("data-id", "add-edit-manufacturer");
+                    $(node).attr("data-type", "POST");
+                    $(node).attr("data-tableid", "manufacturers");
+                    $(node).attr("data-target", "#add-edit-manufacturer");
                 },
                 className: 'btn-primary'
             }
@@ -331,10 +350,17 @@ $(document).ready( function () {
             {
                 text: "Add Model",
                 action: function (e, dt, node, config) {
-                    alert( 'Button activated' );
+                    // loadManufacturers("model-manufacturer");
                 },
                 init: function (api, node, config) {
                     $(node).removeClass('btn-secondary');
+                    $(node).addClass("add-edit-button");
+                    $(node).attr("data-toggle", "modal");
+                    $(node).attr("data-url", "Models/add");
+                    $(node).attr("data-id", "add-edit-model");
+                    $(node).attr("data-type", "POST");
+                    $(node).attr("data-tableid", "models");
+                    $(node).attr("data-target", "#add-edit-model");
                 },
                 className: 'btn-primary'
             }
@@ -348,34 +374,71 @@ $(document).ready( function () {
     $("#models_wrapper").addClass("mb-4", "pt-2");
 });
 
-
 /* *** ************************** *** */
 
-$(document).on("click", ".table-icon", function () {
+$(document).on("click", ".table-icon, .add-edit-button", function () {
     var url = $(this).data('url');
     var id = $(this).data('id');
     var type = $(this).data('type');
     var tableId = $(this).data('tableid');
 
+    console.log(url + "" + id +  " " + type + " " + tableId);
+
     // var originalTitle = appendModalContent("#modal-title" + "-" + id, title);
     // var originalBody = appendModalContent("#modal-body" + "-" + id, title + "?");
-    console.log("#" + tableId);
-    $("#modal-confirm" + "-" + id).click(async function(e) {
-        $.ajax({
-            type: type,
-            url: baseUrl + url,
-            success: function(result) {
-            },
-            error: function(result) {
-                alert('ajax failure');
-            }
+    if (type == "DELETE") {
+        $("#modal-confirm" + "-" + id).click(async function(e) {
+            $.ajax({
+                type: type,
+                url: baseUrl + url,
+                success: function(result) {
+                },
+                error: function(result) {
+                    console.log(result);
+                }
+            });
+            $("#" + tableId).DataTable().ajax.reload();
         });
-        $("#" + tableId).DataTable().ajax.reload();
-    });
-
-    // $("#" + id).on('hidden.bs.modal', async function () {
-    //     await sleep(100);
-    //     $("#modal-title" + "-" + id).text(originalTitle);
-    //     $("#modal-body" + "-" + id).text(originalBody);
-    // });
+    } else if (type == "POST") {
+        if (tableId == "asset-types") {
+            $("#asset-type-add-edit-form").submit(function(e) {
+                console.log( $( this ).serializeArray() );
+                e.preventDefault();
+            });
+            // var formData = $("#asset-type-add-edit-form").serializeArray()
+            // console.log(formData);
+        }
+    }
 });
+
+function loadManufacturers(selectId) {
+    $.ajax({
+        type: "GET",
+        url: baseUrl + "Manufacturers/get_all_json",
+        data: "{ name: name, id: id }",
+        contentType: "application/json;",
+        dataType: "json",
+        success: function(data)
+                {
+                    $.each(data, function () {
+                        $("#model-manufacturer").append("<option value=" + this.id + ">" + this.name + "</option>");
+                    });
+                },
+        failure: function () {
+            alert("Failed to load manufacturer");
+        }
+    });
+}
+
+function validateAssetTypes() {
+    var name = document.forms["asset-type-add-edit-form"]["name"].value;
+    var rate = document.forms["asset-type-add-edit-form"]["rate"].value;
+
+    if (name = "") {
+        $("#asset-type-add-edit-form #name").next().append("The Name field is required");
+    }
+
+    if (rate = "") {
+        $("#asset-type-add-edit-form #rate").next().append("The Rate field is required");
+    }
+}
