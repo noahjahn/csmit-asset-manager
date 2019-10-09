@@ -13,6 +13,9 @@ Settings:
 
 Backend QoL:
     1. Allow user's to choose their default page after signing in
+    
+Asset Manager:
+    1. Include depreciation
 
 ## Reference Links
 How to theme bootstrap: https://hackerthemes.com/kit/
