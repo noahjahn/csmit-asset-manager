@@ -26,10 +26,10 @@ class Manufacturers extends CI_Controller {
         $this->Manufacturers_model->delete_manufacturer($id);
     }
 
-	public function get_all_json() {
-		$manufacturers = $this->Manufacturers_model->get_active_Manufacturers();
-		$manufacturers = $manufacturers->result_array();
-		$json_manufacturers = json_encode($manufacturers, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+	public function get_active() {
+		$active_manufacturers = $this->Manufacturers_model->get_active_Manufacturers();
+		$active_manufacturers = $active_manufacturers->result_array();
+		$json_manufacturers = json_encode($active_manufacturers, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 		echo $json_manufacturers;
 	}
 

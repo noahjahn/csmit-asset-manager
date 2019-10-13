@@ -26,10 +26,10 @@ class Teams extends CI_Controller {
         $this->Teams_model->delete_team($id);
     }
 
-	public function get_all_json() {
-		$teams = $this->Teams_model->get_active_teams();
-		$teams = $teams->result_array();
-		$json_teams = json_encode($teams, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+	public function get_active() {
+		$active_teams = $this->Teams_model->get_active_teams();
+		$active_teams = $active_teams->result_array();
+		$json_teams = json_encode($active_teams, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 		echo $json_teams;
 	}
 
