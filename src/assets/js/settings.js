@@ -9,7 +9,42 @@ $(document).ready(function() {
     $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
     makeAssetManagerActive();
     loadManufacturers();
+
+    $("#asset-type-add-edit-form").on("submit", function(e) {
+        e.preventDefault();
+
+        $("#name-error").empty();
+        $("#rate-error").empty();
+
+        $.ajax({
+            type: 'POST',
+            url: "http://localhost/AssetTypes/add",
+            dataType: 'JSON',
+            data: $(this).serializeArray(),
+            success: function(result) {
+                if (result == "success") {
+                    $("#add-edit-asset-type").modal('hide');
+                    $("#asset_types").DataTable().ajax.reload();
+
+                } else {
+                    $("#name-error").append(result["name"]);
+                    $("#rate-error").append(result["rate"]);
+                }
+            },
+            error: function(result) {
+                console.log(result);
+            }
+        });
+    });
+
+    $('#add-edit-asset-type').on('hidden.bs.modal', function () {
+        $("#name-error").empty();
+        $("#rate-error").empty();
+    });
 });
+
+
+
 /* *** ************************** *** */
 
 
@@ -149,7 +184,7 @@ $(document).ready( function () {
     /* Prepare Asset Types table */
     $('#asset_types').DataTable( {
         ajax: {
-            url: baseUrl + "AssetTypes/get_all_json",
+            url: baseUrl + "AssetTypes/get_active",
             dataSrc: ''
         },
         columns: [
@@ -208,7 +243,7 @@ $(document).ready( function () {
     /* Prepare Teams table */
     $('#teams').DataTable( {
         ajax: {
-            url: baseUrl + "Teams/get_all_json",
+            url: baseUrl + "Teams/get_active",
             dataSrc: ''
         },
         columns: [
@@ -263,7 +298,7 @@ $(document).ready( function () {
     /* Prepare Manufacturers table */
     $('#manufacturers').DataTable( {
         ajax: {
-            url: baseUrl + "Manufacturers/get_all_json",
+            url: baseUrl + "Manufacturers/get_active",
             dataSrc: ''
         },
         columns: [
@@ -318,7 +353,7 @@ $(document).ready( function () {
     /* Prepare Models table */
     $('#models').DataTable( {
         ajax: {
-            url: baseUrl + "Models/get_all_json",
+            url: baseUrl + "Models/get_active",
             dataSrc: ''
         },
         columns: [
@@ -376,13 +411,13 @@ $(document).ready( function () {
 
 /* *** ************************** *** */
 
-$(document).on("click", ".table-icon, .add-edit-button", function () {
+$(document).on("click", ".table-icon", function () {
     var url = $(this).data('url');
     var id = $(this).data('id');
     var type = $(this).data('type');
     var tableId = $(this).data('tableid');
 
-    console.log(url + "" + id +  " " + type + " " + tableId);
+    console.log(url + " " + id +  " " + type + " " + tableId);
 
     // var originalTitle = appendModalContent("#modal-title" + "-" + id, title);
     // var originalBody = appendModalContent("#modal-body" + "-" + id, title + "?");
@@ -399,22 +434,13 @@ $(document).on("click", ".table-icon, .add-edit-button", function () {
             });
             $("#" + tableId).DataTable().ajax.reload();
         });
-    } else if (type == "POST") {
-        if (tableId == "asset-types") {
-            $("#asset-type-add-edit-form").submit(function(e) {
-                console.log( $( this ).serializeArray() );
-                e.preventDefault();
-            });
-            // var formData = $("#asset-type-add-edit-form").serializeArray()
-            // console.log(formData);
-        }
     }
 });
 
 function loadManufacturers(selectId) {
     $.ajax({
         type: "GET",
-        url: baseUrl + "Manufacturers/get_all_json",
+        url: baseUrl + "Manufacturers/get_active",
         data: "{ name: name, id: id }",
         contentType: "application/json;",
         dataType: "json",
