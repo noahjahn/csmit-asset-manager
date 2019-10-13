@@ -16,12 +16,12 @@ class AssetTypes_model extends CI_Model {
         $form_rules = array (
             array (
                 'field' => 'name',
-                'label' => 'Name',
+                'label' => 'name',
                 'rules' => 'required|trim'
             ),
             array (
                 'field' => 'rate',
-                'label' => 'Rate',
+                'label' => 'rate',
                 'rules' => 'required|numeric|trim'
             )
         );
@@ -40,7 +40,16 @@ class AssetTypes_model extends CI_Model {
         $asset_type should be an array with two keys: name, rate
     */
 
-    public function add_asset_type($asset_type) {
+    public function add_asset_type($name, $rate) {
+        $data = array(
+            'name' => $name,
+            'rate' => $rate,
+            'last_modified_by' => $this->user_id,
+            'created_by' => $this->user_id
+        );
+
+        $this->db->insert($this->table, $data);
+
 
         // if it's unique, add it
 
