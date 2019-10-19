@@ -96,8 +96,7 @@ class AssetTypes_model extends CI_Model {
             // if it is, update it
 
         } else {
-            log_message('error', 'AssetTypes_model: delete -
-                failed, record '.$id.' doesn\'t exist or is inactive');
+            log_message('error', 'AssetTypes_model: update - failed, record '.$id.' doesn\'t exist or is inactive');
             return FALSE;
         }
     }
