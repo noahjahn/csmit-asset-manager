@@ -16,6 +16,8 @@ class AssetTypes extends CI_Controller {
 	}
 
     public function add() {
+		log_message('error', 'AssetTypes: add - in function');
+
 		if (!$this->input->is_ajax_request()) {
             // echo $this->output_json(['unauthorized']);
             exit;
@@ -40,28 +42,30 @@ class AssetTypes extends CI_Controller {
     }
 
     public function edit() {
-		if (!$this->input->is_ajax_request()) {
-            // echo $this->output_json(['unauthorized']);
-            exit;
-        }
-		$this->form_validation->set_rules($this->AssetTypes_model->get_update_rules());
-		if ($this->form_validation->run() == TRUE) {
-			$id = $this->input->post('id');
-			$name = $this->input->post('name');
-			$rate = $this->input->post('rate');
-
-			$this->AssetTypes_model->update($id, $name, $rate);
-
-			echo json_encode("success");
-
-		} else {
-			// echo build_json_response(validation_errors(), 200);
-			$errors = array(
-                'name' => form_error('name'),
-                'rate' => form_error('rate')
-            );
-			echo json_encode($errors);
-		}
+		log_message('error', 'AssetTypes: edit - in function');
+		// if (!$this->input->is_ajax_request()) {
+        //     // echo $this->output_json(['unauthorized']);
+        //     exit;
+        // }
+		//
+		// $this->form_validation->set_rules($this->AssetTypes_model->get_update_rules());
+		// if ($this->form_validation->run() == TRUE) {
+		// 	$id = $this->input->post('id');
+		// 	$name = $this->input->post('name');
+		// 	$rate = $this->input->post('rate');
+		//
+		// 	$this->AssetTypes_model->update($id, $name, $rate);
+		//
+		// 	echo json_encode("success");
+		//
+		// } else {
+		// 	// echo build_json_response(validation_errors(), 200);
+		// 	$errors = array(
+        //         'name' => form_error('name'),
+        //         'rate' => form_error('rate')
+        //     );
+		// 	echo json_encode($errors);
+		// }
     }
 
     public function delete($id) {
