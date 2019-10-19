@@ -1,16 +1,10 @@
 /* *** Handle initial tab loading *** */
 $(document).ready(function() {
-//     $('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {
-//     // var target = $(e.target).attr("href"); // activated tab
-//     // alert (target);
-//     // $($.fn.dataTable.tables( true ) ).css('width', '100%');
-//     // $($.fn.dataTable.tables( true ) ).DataTable().columns.adjust().draw();
-// } );
     $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
     makeAssetManagerActive();
     loadManufacturers();
 
-    $("#asset-type-add-edit-form").on("submit", function(e) {
+    $("#add-asset-type-form").on("submit", function(e) {
         e.preventDefault();
 
         $("#name-error").empty();
@@ -23,7 +17,7 @@ $(document).ready(function() {
             data: $(this).serializeArray(),
             success: function(result) {
                 if (result == "success") {
-                    $("#add-edit-asset-type").modal('hide');
+                    $("#add-asset-type").modal('hide');
                     $("#asset_types").DataTable().ajax.reload();
 
                 } else {
@@ -37,14 +31,13 @@ $(document).ready(function() {
         });
     });
 
-    $('#add-edit-asset-type').on('hidden.bs.modal', function () {
+    $('#add-asset-type').on('hidden.bs.modal', function () {
         $("#name-error").empty();
         $("#rate-error").empty();
+        $("#name").val("");
+        $("#rate").val("");
     });
 });
-
-
-
 /* *** ************************** *** */
 
 
@@ -195,7 +188,7 @@ $(document).ready( function () {
             }
             },
             { "render": function ( data, type, row ) {
-                    return '<button class="table-icon" data-toggle="modal" data-target="#add-edit-asset-type" data-type="POST" data-tableid="asset_types" data-url="AssetTypes/edit/' + row.id + '" data-target="#add-edit-asset-type"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
+                    return '<button class="table-icon" data-toggle="modal" data-target="#edit-asset-type" data-type="POST" data-tableid="asset_types" data-url="AssetTypes/edit/' + row.id + '" data-target="#edit-asset-type"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
                 }
             },
             { "render": function ( data, type, row ) {
@@ -224,10 +217,10 @@ $(document).ready( function () {
                     $(node).addClass("add-edit-button");
                     $(node).attr("data-toggle", "modal");
                     $(node).attr("data-url", "AssetTypes/add");
-                    $(node).attr("data-id", "add-edit-asset-type");
+                    $(node).attr("data-id", "add-asset-type");
                     $(node).attr("data-type", "POST");
                     $(node).attr("data-tableid", "asset-types");
-                    $(node).attr("data-target", "#add-edit-asset-type");
+                    $(node).attr("data-target", "#add-asset-type");
                 },
                 className: 'btn-primary'
             }
@@ -417,23 +410,20 @@ $(document).on("click", ".table-icon", function () {
     var type = $(this).data('type');
     var tableId = $(this).data('tableid');
 
-    console.log(url + " " + id +  " " + type + " " + tableId);
-
-    // var originalTitle = appendModalContent("#modal-title" + "-" + id, title);
-    // var originalBody = appendModalContent("#modal-body" + "-" + id, title + "?");
     if (type == "DELETE") {
         $("#modal-confirm" + "-" + id).click(async function(e) {
             $.ajax({
                 type: type,
                 url: baseUrl + url,
                 success: function(result) {
+                    $("#" + tableId).DataTable().ajax.reload();
                 },
                 error: function(result) {
-                    console.log(result);
                 }
             });
-            $("#" + tableId).DataTable().ajax.reload();
         });
+    } else if (type == "PUT") {
+        
     }
 });
 
@@ -457,14 +447,14 @@ function loadManufacturers(selectId) {
 }
 
 function validateAssetTypes() {
-    var name = document.forms["asset-type-add-edit-form"]["name"].value;
-    var rate = document.forms["asset-type-add-edit-form"]["rate"].value;
+    var name = document.forms["add-asset-type-form"]["name"].value;
+    var rate = document.forms["add-asset-type-form"]["rate"].value;
 
     if (name = "") {
-        $("#asset-type-add-edit-form #name").next().append("The Name field is required");
+        $("#add-asset-type-form #name").next().append("The Name field is required");
     }
 
     if (rate = "") {
-        $("#asset-type-add-edit-form #rate").next().append("The Rate field is required");
+        $("#add-asset-type-form #rate").next().append("The Rate field is required");
     }
 }
