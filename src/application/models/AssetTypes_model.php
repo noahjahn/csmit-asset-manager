@@ -12,12 +12,15 @@ class AssetTypes_model extends CI_Model {
         $this->user_id = $this->session->userdata('id');
     }
 
-    public function get_add_update_rules() {
+    function get_add_rules() {
         $form_rules = array (
             array (
                 'field' => 'name',
                 'label' => 'name',
-                'rules' => 'required|trim'
+                'rules' => 'required|callback_is_name_unique|trim',
+                'errors' => array (
+                    'is_name_unique' => 'The %s field must contain a unique value.'
+                )
             ),
             array (
                 'field' => 'rate',
@@ -29,7 +32,39 @@ class AssetTypes_model extends CI_Model {
         return $form_rules;
     }
 
-    public function get_active_asset_types() {
+    function get_update_rules() {
+        $form_rules = array (
+            array (
+                'field' => 'id',
+                'label' => 'id',
+                'rules' => 'required|callback_record_exists['.$this->table.']|trim',
+                'errors' => array (
+                    'is_name_unique' => 'The %s field must contain a unique value.'
+                )
+            ),
+            array (
+                'field' => 'name',
+                'label' => 'name',
+                'rules' => 'required|callback_is_name_unique|trim',
+                'errors' => array (
+                    'is_name_unique' => 'The %s field must contain a unique value.'
+                )
+            ),
+            array (
+                'field' => 'rate',
+                'label' => 'rate',
+                'rules' => 'required|numeric|trim'
+            )
+        );
+
+        return $form_rules;
+    }
+
+    function get_table_columns() {
+        return ('id, name, rate, is_deleted, last_modified_by, last_modified_time, created_by, created_time');
+    }
+
+    function get_active() {
         $this->db->select('id, name, rate');
         $this->db->from($this->table);
         $this->db->where('is_deleted', FALSE);
@@ -40,7 +75,7 @@ class AssetTypes_model extends CI_Model {
         $asset_type should be an array with two keys: name, rate
     */
 
-    public function add_asset_type($name, $rate) {
+    function add($name, $rate) {
         $data = array(
             'name' => $name,
             'rate' => $rate,
@@ -55,19 +90,19 @@ class AssetTypes_model extends CI_Model {
 
     }
 
-    public function update_asset_type($id, $asset_type) {
+    function update($id, $asset_type) {
         // check if asset type passed in exists and is active
         if (record_exists($id, $this->table) && record_is_deleted($id, $this->table)) {
             // if it is, update it
 
         } else {
-            log_message('error', 'AssetTypes_model: delete_asset_type -
+            log_message('error', 'AssetTypes_model: delete -
                 failed, record '.$id.' doesn\'t exist or is inactive');
-            return false;
+            return FALSE;
         }
     }
 
-    function delete_asset_type($id) {
+    function delete($id) {
         // check if asset type passed in exists and is not deleted
         if (record_exists($id, $this->table) && !(record_is_deleted($id, $this->table))) {
             // if it is, set is_deleted to 1, this is a soft delete
@@ -77,23 +112,36 @@ class AssetTypes_model extends CI_Model {
                     $this->db->where('id', $id);
                     return $this->db->update($this->table);
                 } else {
-                    log_message('error', 'AssetTypes_model: delete_asset_type -
+                    log_message('error', 'AssetTypes_model: delete -
                         failed to set last modified time. Record id: '.$id.'
                         Table: '.$this->table);
-                    return false; // failed to set last modified time
+                    return FALSE; // failed to set last modified time
                 }
             } else {
-                log_message('error', 'AssetTypes_model: delete_asset_type -
+                log_message('error', 'AssetTypes_model: delete -
                     failed to set last modified by. Record id: '.$id.'
                     User id: '.$id.' Table: '.$this->table);
-                return false;  // failed to set last modified by
+                return FALSE;  // failed to set last modified by
             }
         } else {
-            log_message('error', 'AssetTypes_model: delete_asset_type -
+            log_message('error', 'AssetTypes_model: delete -
                 failed, record '.$id.' doesn\'t exist or is deleted');
-            return false; // failed, record doesn't exist or is deleted
+            return FALSE; // failed, record doesn't exist or is deleted
         }
     }
+
+    public function is_name_unique($name) {
+        $this->db->select($this->get_table_columns());
+        $this->db->from($this->table);
+        $this->db->where('name', $name);
+        $this->db->where('is_deleted', 0);
+
+        if ($this->db->get()->num_rows() == 0) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+	}
 }
 
 ?>
