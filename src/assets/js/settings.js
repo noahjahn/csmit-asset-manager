@@ -2,45 +2,9 @@
 $(document).ready(function() {
     $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
     makeAssetManagerActive();
-    loadManufacturers();
-
-    $("#add-asset-type-form").on("submit", function(e) {
-        e.preventDefault();
-
-        $("#name-error").empty();
-        $("#rate-error").empty();
-
-        $.ajax({
-            type: 'POST',
-            url: "http://localhost/AssetTypes/add",
-            dataType: 'JSON',
-            data: $(this).serializeArray(),
-            success: function(result) {
-                if (result == "success") {
-                    $("#add-asset-type").modal('hide');
-                    $("#asset_types").DataTable().ajax.reload();
-
-                } else {
-                    $("#name-error").append(result["name"]);
-                    $("#rate-error").append(result["rate"]);
-                }
-            },
-            error: function(result) {
-                console.log(result);
-            }
-        });
-    });
-
-    $('#add-asset-type').on('hidden.bs.modal', function () {
-        $("#name-error").empty();
-        $("#rate-error").empty();
-        $("#name").val("");
-        $("#rate").val("");
-    });
+    // loadManufacturers();
 });
 /* *** ************************** *** */
-
-
 
 /* *** Handle tab switching *** */
 function makeAssetManagerActive() {
@@ -174,64 +138,6 @@ $(function() {
 /* *** ************************** *** */
 
 $(document).ready( function () {
-    /* Prepare Asset Types table */
-    $('#asset_types').DataTable( {
-        ajax: {
-            url: baseUrl + "AssetTypes/get_active",
-            dataSrc: ''
-        },
-        columns: [
-            { "data": "id" },
-            { "data": "name" },
-            { "data": "rate", "render": function (data, type, row) {
-                    return "$" + row.rate;
-            }
-            },
-            { "render": function ( data, type, row ) {
-                    return '<button class="table-icon" data-toggle="modal" data-target="#edit-asset-type" data-type="POST" data-tableid="asset_types" data-url="AssetTypes/edit/' + row.id + '" data-target="#edit-asset-type"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
-                }
-            },
-            { "render": function ( data, type, row ) {
-                    return '<button class="table-icon" data-toggle="modal" data-id="delete-asset-type" data-type="DELETE" data-tableid="asset_types" data-url="AssetTypes/delete/' + row.id + '" data-target="#delete-asset-type"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
-                }
-            }
-        ],
-        scrollY:        200,
-        paging:         false,
-        fixedHeader:    true,
-        info:           false,
-        columnDefs: [
-            { "orderable": false, "targets": [3,4] },
-            { "visible": false, "targets": 0 }
-        ],
-        dom:
-            "<'row'<'col-sm'<'table-title-asset_types'>>fB>" +
-			"<'row'<'col-sm'tr>>",
-        buttons: [
-            {
-                text: "Add Asset Type",
-                action: function (e, dt, node, config) {
-                },
-                init: function (api, node, config) {
-                    $(node).removeClass('btn-secondary');
-                    $(node).addClass("add-edit-button");
-                    $(node).attr("data-toggle", "modal");
-                    $(node).attr("data-url", "AssetTypes/add");
-                    $(node).attr("data-id", "add-asset-type");
-                    $(node).attr("data-type", "POST");
-                    $(node).attr("data-tableid", "asset-types");
-                    $(node).attr("data-target", "#add-asset-type");
-                },
-                className: 'btn-primary'
-            }
-        ],
-        language: {
-            search: "",
-            searchPlaceholder: "Search..."
-        }
-    });
-    $("div.table-title-asset_types").html('<h5 class="pt-3">Asset Types</h5>');
-    $("#asset_types_wrapper").addClass("mb-4", "pt-2");
 
     /* Prepare Teams table */
     $('#teams').DataTable( {
@@ -404,28 +310,28 @@ $(document).ready( function () {
 
 /* *** ************************** *** */
 
-$(document).on("click", ".table-icon", function () {
-    var url = $(this).data('url');
-    var id = $(this).data('id');
-    var type = $(this).data('type');
-    var tableId = $(this).data('tableid');
-
-    if (type == "DELETE") {
-        $("#modal-confirm" + "-" + id).click(async function(e) {
-            $.ajax({
-                type: type,
-                url: baseUrl + url,
-                success: function(result) {
-                    $("#" + tableId).DataTable().ajax.reload();
-                },
-                error: function(result) {
-                }
-            });
-        });
-    } else if (type == "PUT") {
-        
-    }
-});
+// $(document).on("click", ".table-icon", function () {
+//     var url = $(this).data('url');
+//     var id = $(this).data('id');
+//     var type = $(this).data('type');
+//     var tableId = $(this).data('tableid');
+//
+//     if (type == "DELETE") {
+//         $("#modal-confirm" + "-" + id).click(async function(e) {
+//             $.ajax({
+//                 type: type,
+//                 url: baseUrl + url,
+//                 success: function(result) {
+//                     $("#" + tableId).DataTable().ajax.reload();
+//                 },
+//                 error: function(result) {
+//                 }
+//             });
+//         });
+//     } else if (type == "PUT") {
+//
+//     }
+// });
 
 function loadManufacturers(selectId) {
     $.ajax({

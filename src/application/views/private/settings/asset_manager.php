@@ -1,3 +1,5 @@
+<script id="asset-types-script" data-load-datatable="true" src="<?php echo base_url(); ?>assets/js/asset-types.js"></script>
+
 <div class="container-fluid container-style">
     <div class="row">
         <div class="col">
