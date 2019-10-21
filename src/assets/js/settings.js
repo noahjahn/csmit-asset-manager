@@ -138,62 +138,6 @@ $(function() {
 /* *** ************************** *** */
 
 $(document).ready( function () {
-
-    /* Prepare Teams table */
-    $('#teams').DataTable( {
-        ajax: {
-            url: baseUrl + "Teams/get_active",
-            dataSrc: ''
-        },
-        columns: [
-            { "data": "id" },
-            { "data": "name" },
-            { "render": function ( data, type, row ) {
-                    return '<button class="table-icon" data-toggle="modal" data-target="#add-edit-team" data-type="POST" data-tableid="teams" data-url="Teams/edit/' + row.id + '" data-target="#add-edit-team"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
-                }
-            },
-            { "render": function ( data, type, row ) {
-                    return '<button class="table-icon" data-toggle="modal" data-id="delete-team" data-type="DELETE" data-tableid="teams" data-url="Teams/delete/' + row.id + '"  data-target="#delete-team"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
-                }
-            }
-        ],
-        scrollY:        200,
-        paging:         false,
-        fixedHeader:    true,
-        info:           false,
-        columnDefs: [
-            { "orderable": false, "targets": [2,3] },
-            { "visible": false, "targets": 0 }
-        ],
-        dom:
-            "<'row'<'col-sm'<'table-title-teams'>>fB>" +
-			"<'row'<'col-sm'tr>>",
-        buttons: [
-            {
-                text: "Add Team",
-                action: function (e, dt, node, config) {
-                },
-                init: function (api, node, config) {
-                    $(node).removeClass('btn-secondary');
-                    $(node).addClass("add-edit-button");
-                    $(node).attr("data-toggle", "modal");
-                    $(node).attr("data-url", "Teams/add");
-                    $(node).attr("data-id", "add-edit-team");
-                    $(node).attr("data-type", "POST");
-                    $(node).attr("data-tableid", "teams");
-                    $(node).attr("data-target", "#add-edit-team");
-                },
-                className: 'btn-primary'
-            }
-        ],
-        language: {
-            search: "",
-            searchPlaceholder: "Search..."
-        }
-    });
-    $("div.table-title-teams").html('<h5 class="pt-3">Teams</h5>');
-    $("#teams_wrapper").addClass("mb-4", "pt-2");
-
     /* Prepare Manufacturers table */
     $('#manufacturers').DataTable( {
         ajax: {
@@ -310,28 +254,6 @@ $(document).ready( function () {
 
 /* *** ************************** *** */
 
-// $(document).on("click", ".table-icon", function () {
-//     var url = $(this).data('url');
-//     var id = $(this).data('id');
-//     var type = $(this).data('type');
-//     var tableId = $(this).data('tableid');
-//
-//     if (type == "DELETE") {
-//         $("#modal-confirm" + "-" + id).click(async function(e) {
-//             $.ajax({
-//                 type: type,
-//                 url: baseUrl + url,
-//                 success: function(result) {
-//                     $("#" + tableId).DataTable().ajax.reload();
-//                 },
-//                 error: function(result) {
-//                 }
-//             });
-//         });
-//     } else if (type == "PUT") {
-//
-//     }
-// });
 
 function loadManufacturers(selectId) {
     $.ajax({
@@ -350,17 +272,4 @@ function loadManufacturers(selectId) {
             alert("Failed to load manufacturer");
         }
     });
-}
-
-function validateAssetTypes() {
-    var name = document.forms["add-asset-type-form"]["name"].value;
-    var rate = document.forms["add-asset-type-form"]["rate"].value;
-
-    if (name = "") {
-        $("#add-asset-type-form #name").next().append("The Name field is required");
-    }
-
-    if (rate = "") {
-        $("#add-asset-type-form #rate").next().append("The Rate field is required");
-    }
 }
