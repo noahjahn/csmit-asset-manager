@@ -24,6 +24,8 @@ class AssetTypes_model extends CI_Model {
     }
 
     function get_insert_rules() {
+        log_message('debug', 'AssetTypes_model: get_insert_rules - in function');
+
         $form_rules = array(
             $this->get_insert_name_rules(),
             $this->get_insert_rate_rules()
@@ -115,11 +117,13 @@ class AssetTypes_model extends CI_Model {
             $i++;
         }
 
-        log_message('debug', 'AssetTypes_model: get_table_columns - '.$return);
+        log_message('debug', 'AssetTypes_model: get_table_columns - columns: '.$return);
         return $return;
     }
 
     function get_name_by_id($id) {
+        log_message('debug', 'AssetTypes_model: get_name_by_id - in function');
+
         if (record_exists($id, $this->table) && !(record_is_deleted($id, $this->table))) {
             $this->db->select($this->fields['name']);
             $this->db->from($this->table);
@@ -135,6 +139,8 @@ class AssetTypes_model extends CI_Model {
     }
 
     function get_id_by_name($name) {
+        log_message('debug', 'AssetTypes_model: get_id_by_name - in function');
+
         if ($this->is_name_unique($name)) {
             $this->db->select($this->fields['id']);
             $this->db->from($this->table);
@@ -150,17 +156,17 @@ class AssetTypes_model extends CI_Model {
     }
 
     function get_active() {
+        log_message('debug', 'AssetTypes_model: get_active - in function');
+
         $this->db->select('id, name, rate');
         $this->db->from($this->table);
         $this->db->where('is_deleted', FALSE);
         return $this->db->get()->result_array();
     }
 
-    /*
-        $asset_type should be an array with two keys: name, rate
-    */
-
     function insert($name, $rate) {
+        log_message('debug', 'AssetTypes_model: insert - in function');
+
         $data = array(
             'name' => $name,
             'rate' => $rate,
@@ -177,6 +183,8 @@ class AssetTypes_model extends CI_Model {
     }
 
     function update($id, $name, $rate) {
+        log_message('debug', 'AssetTypes_model: update - in function');
+
         // check if asset type passed in exists and is active
         if (record_exists($id, $this->table) && !(record_is_deleted($id, $this->table))) {
             // if it is, update it
@@ -201,6 +209,8 @@ class AssetTypes_model extends CI_Model {
     }
 
     function delete($id) {
+        log_message('debug', 'AssetTypes_model: delete - in function');
+
         // check if asset type passed in exists and is not deleted
         if (record_exists($id, $this->table) && !(record_is_deleted($id, $this->table))) {
             // if it is, set is_deleted to 1, this is a soft delete
@@ -224,6 +234,8 @@ class AssetTypes_model extends CI_Model {
     }
 
     function is_name_unique($name) {
+        log_message('debug', 'AssetTypes_model: is_name_unique - in function');
+
         $this->db->select($this->get_table_columns());
         $this->db->from($this->table);
         $this->db->where('name', $name);
@@ -240,7 +252,7 @@ class AssetTypes_model extends CI_Model {
 	}
 
     function is_name_unique_not_different_from_current($name, $id) {
-        log_message('debug', 'AssetTypes_model: is_name_unique_not_different_from_current - name: '.$name.' id: '.$id);
+        log_message('debug', 'AssetTypes_model: is_name_unique_not_different_from_current - in function');
 
         $this->db->select($this->get_table_columns());
         $this->db->from($this->table);
