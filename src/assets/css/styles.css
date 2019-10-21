@@ -29,6 +29,14 @@ body {
 
 /* *** END AUTHENTICATION STYLES *** */
 
+/* *** BOOTSTRAP OVERRIDES *** */
+.btn-danger {
+  color: #fff;
+  background-color: #672B2B;
+  border-color: #672B2B;
+}
+/* *** END BOOTSTRAP OVERRIDES *** */
+
 /* *** NAVIGATION STYLES *** */
 
 .usr-img {
