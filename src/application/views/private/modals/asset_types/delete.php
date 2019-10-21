@@ -1,4 +1,3 @@
-
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/custom-modal.css" />
 
 <div id="delete-asset-type" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
