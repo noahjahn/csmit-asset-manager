@@ -10,7 +10,26 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>Add Asset body goes here</p>
+        <div class="md-form mb-4">
+          <input type="text" id="input1" class="form-control validate">
+          <label data-success="right" data-error="wrong" for="input1">Input 1</label>
+        </div>
+        <div class="mb-4">
+          <input id="input2" type="text" class="form-control validate">
+          <label data-success="right" data-error="wrong" for="input2">Input 2</label>
+        </div>
+        <div class="mb-4">
+          <input id="input3" type="text" class="form-control validate">
+          <label data-success="right" data-error="wrong" for="input3">Input 3</label>
+        </div>
+        <div class="mb-4">
+          <input id="input4" type="text" class="form-control validate">
+          <label data-success="right" data-error="wrong" for="input4">Input 4</label>
+        </div>
+        <div class="mb-4">
+          <input id="input5" type="text" class="form-control validate">
+          <label data-success="right" data-error="wrong" for="input5">Input 5</label>
+        </div>
       </div>
       <div class="modal-footer">
         <button id="modal-add-asset" type="button" class="btn btn-primary">Add</button>
