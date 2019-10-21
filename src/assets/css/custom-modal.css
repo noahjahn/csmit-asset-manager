@@ -26,9 +26,18 @@
 .modal-body-footer {
     width: 100%;
     text-align: right;
-    padding: 1rem;
+    padding-top: 1rem;
     border-top: 1px solid #444;
 }
+
+.modal-body-footer .btn-primary {
+    margin-left: .25rem;
+}
+
+.modal-body-footer .btn-danger {
+    margin-right: .25rem;
+}
+
 
 .modal-body .form-group {
     margin-bottom: 1rem !important;
