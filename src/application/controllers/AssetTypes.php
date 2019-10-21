@@ -16,7 +16,7 @@ class AssetTypes extends CI_Controller {
 	}
 
     public function add() {
-		log_message('error', 'AssetTypes: add - in function');
+		log_message('debug', 'AssetTypes: add - in function');
 
 		if (!$this->input->is_ajax_request()) {
             // echo $this->output_json(['unauthorized']);
@@ -32,7 +32,6 @@ class AssetTypes extends CI_Controller {
 			echo json_encode("success");
 
 		} else {
-			// echo build_json_response(validation_errors(), 200);
 			$errors = array(
                 'name' => form_error('name'),
                 'rate' => form_error('rate')
@@ -53,7 +52,6 @@ class AssetTypes extends CI_Controller {
 		if ($this->form_validation->run() == TRUE) {
 			echo json_encode("success");
 		} else {
-			// echo build_json_response(validation_errors(), 200);
 			log_message('debug', 'AssetTypes: validate_add_name - failed to validate name');
 			$errors = array(
 				'name' => form_error('name'),
@@ -63,6 +61,8 @@ class AssetTypes extends CI_Controller {
 	}
 
 	public function validate_add_rate() {
+		log_message('debug', 'AssetTypes: validate_add_rate - in function');
+
 		if (!$this->input->is_ajax_request()) {
 			// echo $this->output_json(['unauthorized']);
 			exit;
@@ -72,7 +72,6 @@ class AssetTypes extends CI_Controller {
 		if ($this->form_validation->run() == TRUE) {
 			echo json_encode("success");
 		} else {
-			// echo build_json_response(validation_errors(), 200);
 			log_message('debug', 'AssetTypes: validate_add_rate - failed to validate rate');
 			$errors = array(
 				'rate' => form_error('rate'),
@@ -94,13 +93,11 @@ class AssetTypes extends CI_Controller {
 			$name = $this->input->post('name');
 			$rate = $this->input->post('rate');
 
-			log_message('debug', 'AssetTypes: edit - id='.$id.' name='.$name.' rate='.$rate);
 			$this->AssetTypes_model->update($id, $name, $rate);
 
 			echo json_encode("success");
 		} else {
-			// echo build_json_response(validation_errors(), 200);
-			log_message('error', 'AssetTypes: edit - failed to validate input');
+			log_message('debug', 'AssetTypes: edit - failed to validate input');
 			$errors = array(
 				'id' => form_error('id'),
                 'name' => form_error('name'),
@@ -122,7 +119,6 @@ class AssetTypes extends CI_Controller {
 		if ($this->form_validation->run() == TRUE) {
 			echo json_encode("success");
 		} else {
-			// echo build_json_response(validation_errors(), 200);
 			log_message('debug', 'AssetTypes: validate_edit_name - failed to validate name');
 			$errors = array(
                 'name' => form_error('name'),
@@ -132,31 +128,40 @@ class AssetTypes extends CI_Controller {
 	}
 
 	public function validate_edit_rate() {
+		log_message('debug', 'AssetTypes: validate_edit_rate - in function');
 		$this->validate_add_rate();
 	}
 
     public function delete($id) {
+		log_message('debug', 'AssetTypes: delete - in function');
+
         $this->AssetTypes_model->delete($id);
     }
 
 	public function get_active() {
+		log_message('debug', 'AssetTypes: get_active - in function');
+
 		$active_asset_types = $this->AssetTypes_model->get_active();
-		// log_message('debug', json_encode($active_asset_types));
 		$json_asset_types = json_encode($active_asset_types);
 		echo $json_asset_types;
 	}
 
 	function is_name_unique($name) {
+		log_message('debug', 'AssetTypes: is_name_unique - in function');
+
 		return $this->AssetTypes_model->is_name_unique($name);
 	}
 
 	function is_name_unique_not_different_from_current($name) {
+		log_message('debug', 'AssetTypes: is_name_unique_not_different_from_current - in function');
+
 		$id = $this->input->post('id');
-		log_message('debug', 'AssetTypes: is_name_unique_not_different_from_current - name: '.$name.' id: '.$id);
 		return $this->AssetTypes_model->is_name_unique_not_different_from_current($name, $id);
 	}
 
 	function id_exists($id) {
+		log_message('debug', 'AssetTypes: id_exists - in function');
+
 		return $this->AssetTypes_model->id_exists($id);
 	}
 }
