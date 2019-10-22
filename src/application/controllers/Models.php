@@ -26,10 +26,10 @@ class Models extends CI_Controller {
         $this->Models_model->delete_model($id);
     }
 
-	public function get_all_json() {
-		$models = $this->Models_model->get_active_models();
-		$models = $models->result_array();
-		$json_models = json_encode($models);
+	public function get_active() {
+		$active_models = $this->Models_model->get_active_models();
+		$active_models = $active_models->result_array();
+		$json_models = json_encode($active_models, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 		echo $json_models;
 	}
 

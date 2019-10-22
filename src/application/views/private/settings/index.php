@@ -1,6 +1,6 @@
 <?php $this->load->view('private/reusable/dataTables-include.php'); ?>
 
-<script src="<?php echo base_url(); ?>assets/js/modal-helper.js"></script>
+<!-- <script src="<?php //echo base_url(); ?>assets/js/modal-helper.js"></script> -->
 <script src="<?php echo base_url(); ?>assets/js/settings.js"></script>
 
 <div class="row">
