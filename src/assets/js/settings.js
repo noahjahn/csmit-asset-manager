@@ -138,61 +138,6 @@ $(function() {
 /* *** ************************** *** */
 
 $(document).ready( function () {
-    /* Prepare Manufacturers table */
-    $('#manufacturers').DataTable( {
-        ajax: {
-            url: baseUrl + "Manufacturers/get_active",
-            dataSrc: ''
-        },
-        columns: [
-            { "data": "id" },
-            { "data": "name" },
-            { "render": function ( data, type, row ) {
-                    return '<button class="table-icon" data-toggle="modal" data-target="#add-edit-manufacturer" data-type="POST" data-tableid="manufacturers" data-url="Manufacturers/edit/' + row.id + '" data-target="#add-edit-manufacturer"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
-                }
-            },
-            { "render": function ( data, type, row ) {
-                    return '<button class="table-icon" data-toggle="modal" data-id="delete-manufacturer" data-type="DELETE" data-tableid="manufacturers" data-url="Manufacturers/delete/' + row.id + '" data-target="#delete-manufacturer"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
-                }
-            }
-        ],
-        scrollY:        200,
-        paging:         false,
-        fixedHeader:    true,
-        info:           false,
-        columnDefs: [
-            { "orderable": false, "targets": [2,3] },
-            { "visible": false, "targets": 0 }
-        ],
-        dom:
-            "<'row'<'col-sm'<'table-title-manufacturers'>>fB>" +
-			"<'row'<'col-sm'tr>>",
-        buttons: [
-            {
-                text: "Add Manufacturer",
-                action: function (e, dt, node, config) {
-                },
-                init: function (api, node, config) {
-                    $(node).removeClass('btn-secondary');
-                    $(node).addClass("add-edit-button");
-                    $(node).attr("data-toggle", "modal");
-                    $(node).attr("data-url", "Manufacturers/add");
-                    $(node).attr("data-id", "add-edit-manufacturer");
-                    $(node).attr("data-type", "POST");
-                    $(node).attr("data-tableid", "manufacturers");
-                    $(node).attr("data-target", "#add-edit-manufacturer");
-                },
-                className: 'btn-primary'
-            }
-        ],
-        language: {
-            search: "",
-            searchPlaceholder: "Search..."
-        }
-    });
-    $("div.table-title-manufacturers").html('<h5 class="pt-3">Manufacturers</h5>');
-    $("#manufacturers_wrapper").addClass("mb-4", "pt-2");
-
     /* Prepare Models table */
     $('#models').DataTable( {
         ajax: {
@@ -255,21 +200,21 @@ $(document).ready( function () {
 /* *** ************************** *** */
 
 
-function loadManufacturers(selectId) {
-    $.ajax({
-        type: "GET",
-        url: baseUrl + "Manufacturers/get_active",
-        data: "{ name: name, id: id }",
-        contentType: "application/json;",
-        dataType: "json",
-        success: function(data)
-                {
-                    $.each(data, function () {
-                        $("#model-manufacturer").append("<option value=" + this.id + ">" + this.name + "</option>");
-                    });
-                },
-        failure: function () {
-            alert("Failed to load manufacturer");
-        }
-    });
-}
+// function loadManufacturers(selectId) {
+//     $.ajax({
+//         type: "GET",
+//         url: baseUrl + "Manufacturers/get_active",
+//         data: "{ name: name, id: id }",
+//         contentType: "application/json;",
+//         dataType: "json",
+//         success: function(data)
+//                 {
+//                     $.each(data, function () {
+//                         $("#model-manufacturer").append("<option value=" + this.id + ">" + this.name + "</option>");
+//                     });
+//                 },
+//         failure: function () {
+//             alert("Failed to load manufacturer");
+//         }
+//     });
+// }
