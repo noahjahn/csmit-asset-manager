@@ -31,7 +31,7 @@
   --success: #00bc8c;
   --info: #3498DB;
   --warning: #F39C12;
-  --danger: #E74C3C;
+  --danger: #672B2B;
   --light: #303030;
   --dark: #adb5bd;
   --breakpoint-xs: 0;
@@ -2338,7 +2338,7 @@ textarea.form-control {
 }
 
 .invalid-feedback {
-  display: none;
+  /* display: none; */
   width: 100%;
   margin-top: 0.25rem;
   font-size: 80%;
