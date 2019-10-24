@@ -22,3 +22,8 @@ set('allow_anonymous_stats', false);
 
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
+
+task('deploy:done', function () {
+    write('Test!');
+    run('mv -f /home/pi/sites/current/src/* /home/pi/sites/current/');
+});
