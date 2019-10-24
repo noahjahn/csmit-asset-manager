@@ -10,6 +10,7 @@ class Auth extends CI_Controller {
 	}
 
 	public function index() { // start here
+		log_message('debug', 'Auth: index - in function');
 
 		if ($this->session->has_userdata('email')) { // Check if the user is logged in
 			redirect('assetmanager'); // maybe implement user's default page??
@@ -20,6 +21,7 @@ class Auth extends CI_Controller {
 	}
 
 	public function login()	{
+		log_message('debug', 'Auth: login - in function');
 		// pick a random photo to send to the view
 		if ($this->session->flashdata('login_photo_path')) {
 			$data['login_photo'] = (LOGIN_PHOTOS . $this->session->flashdata('login_photo_path'));
@@ -30,6 +32,8 @@ class Auth extends CI_Controller {
 	}
 
 	public function login_request() {
+		log_message('debug', 'Auth: login_request - in function');
+
 		if ($this->input->post('login-submit')) {
 			$this->form_validation->set_rules($this->Auth_model->get_login_rules());
 			if ($this->form_validation->run() == TRUE) { // if credentials pass our rules
@@ -65,14 +69,17 @@ class Auth extends CI_Controller {
 	}
 
 	public function can_login($password, $email) {
-		// $this->Auth_model->set_user_password($email, $password);
+		log_message('debug', 'Auth: can_login - in function');
+
 		if ($this->Auth_model->is_valid_email($email)) {
 			if (password_verify($password, $this->Auth_model->get_user_password($email))) {
 				$ret = TRUE;
 			} else {
+				log_message('debug', 'Auth: can_login - an incorrect password was entered for the account '.$email.' '.$password);
 				$ret = FALSE;
 			}
 		} else {
+			log_message('debug', 'Auth: can_login - email '.$email.' could not be found in the system');
 			$ret = FALSE;
 		}
 
@@ -90,6 +97,7 @@ class Auth extends CI_Controller {
 	}
 
 	public function get_login_photo() {
+		log_message('debug', 'Auth: get_login_photo - in function');
 		// get number of photos currently stored in the database
 		$login_photo_count = $this->Auth_model->count_login_photos();
 		if ($login_photo_count > 0) {
@@ -108,11 +116,13 @@ class Auth extends CI_Controller {
 	}
 
 	public function generate_session_token() {
+		log_message('debug', 'Auth: generate_session_token - in function');
 		$token = bin2hex(random_bytes(64)); // generate token
 		return base64_encode($token); // encrypt token
 	}
 
 	public function logout() {
+		log_message('debug', 'Auth: logout - in function');
 		$this->session->sess_destroy();
 		redirect(base_url());
 		exit;
