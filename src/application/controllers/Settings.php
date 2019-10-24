@@ -23,6 +23,7 @@ class Settings extends CI_Controller {
 			$data['active_page'] = 'settings';
 			$data['title'] = 'Settings';
 			$data['main_content'] = 'private/settings/index';
+			$data['userdata'] = $this->session->all_userdata();
 			// if ($this->session->isset($_SESSION['settings_page']) {
 			//
 			// 	switch ($_SESSION['settings_page']) {

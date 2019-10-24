@@ -39,7 +39,11 @@ class Auth extends CI_Controller {
 				if ($this->can_login($password, $email)) {
 					$this->session->set_userdata('id', $this->Auth_model->get_user_id($email));
 					$this->session->set_userdata('email', $email);
+					$this->session->set_userdata('first_name', $first_name = $this->Auth_model->get_user_attributes_by_email($email)['first_name']);
+					$this->session->set_userdata('last_name', $last_name = $this->Auth_model->get_user_attributes_by_email($email)['last_name']);
 					$this->session->set_userdata('token', $encrypted_token = $this->generate_session_token()); // set encrypted token in user session variable
+
+					log_message('debug', 'Auth: login_request - first_name='.$first_name.' last_name='.$last_name);
 
 					if ($this->Auth_model->set_user_token($email, $encrypted_token)) { // set the token in the database
 						if ($this->Auth_model->set_last_login($email)) { // set the last user login in the database
