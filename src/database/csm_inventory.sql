@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Aug 21, 2019 at 02:07 AM
+-- Generation Time: Oct 13, 2019 at 05:10 PM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.19
 
@@ -42,7 +42,7 @@ CREATE TABLE `assets` (
   `location` varchar(128) NOT NULL,
   `team` int(11) NOT NULL,
   `job_number` int(11) DEFAULT NULL,
-  `is_deleted` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1 deleted; 0 not deleted',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 deleted; 0 not deleted',
   `last_modified_by` varchar(255) NOT NULL,
   `last_modified_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` varchar(255) NOT NULL,
@@ -86,7 +86,7 @@ CREATE TABLE `asset_types` (
   `id` int(11) NOT NULL,
   `name` varchar(128) NOT NULL,
   `rate` decimal(13,2) NOT NULL,
-  `is_deleted` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1 deleted; 0 not deleted',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 deleted; 0 not deleted',
   `last_modified_by` varchar(255) NOT NULL,
   `last_modified_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` varchar(255) NOT NULL,
@@ -133,7 +133,7 @@ INSERT INTO `login_photos` (`id`, `name`, `path`, `uploaded_by`, `date_uploaded`
 CREATE TABLE `manufacturers` (
   `id` int(11) NOT NULL,
   `name` varchar(128) NOT NULL,
-  `is_deleted` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1 deleted; 0 not deleted',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 deleted; 0 not deleted',
   `last_modified_by` varchar(255) NOT NULL,
   `last_modified_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` varchar(255) NOT NULL,
@@ -159,7 +159,7 @@ CREATE TABLE `models` (
   `id` int(11) NOT NULL,
   `name` varchar(128) NOT NULL,
   `manufacturer` int(11) NOT NULL,
-  `is_deleted` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1 deleted; 0 not deleted',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 deleted; 0 not deleted',
   `last_modified_by` varchar(255) NOT NULL,
   `last_modified_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` varchar(255) NOT NULL,
@@ -186,7 +186,7 @@ INSERT INTO `models` (`id`, `name`, `manufacturer`, `is_deleted`, `last_modified
 CREATE TABLE `teams` (
   `id` int(11) NOT NULL,
   `name` varchar(128) NOT NULL,
-  `is_deleted` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1 deleted; 0 not deleted',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 deleted; 0 not deleted',
   `last_modified_by` varchar(255) NOT NULL,
   `last_modified_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` varchar(255) NOT NULL,
@@ -215,7 +215,7 @@ CREATE TABLE `users` (
   `password` varchar(255) COLLATE utf8_bin NOT NULL,
   `session_token` varchar(255) COLLATE utf8_bin NOT NULL,
   `last_login` datetime DEFAULT NULL,
-  `is_deleted` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1 deleted; 0 not deleted',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 deleted; 0 not deleted',
   `last_modified_by` varchar(255) COLLATE utf8_bin NOT NULL,
   `last_modified_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` varchar(255) COLLATE utf8_bin NOT NULL,
@@ -227,7 +227,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `session_token`, `last_login`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
-(1, 'Super', 'User', 'administrator@csmgroup.com', '$2y$10$e9LFqB0jKJnQnkwxlKWWyuaCU6pA/R0rcyO7mnSPXdqWJV5SHiB0K', 'test', NULL, 1, '', '2019-08-19 02:19:39', '', '2019-08-19 02:19:39');
+(1, 'Super', 'User', 'administrator@csmgroup.com', '$2y$10$e9LFqB0jKJnQnkwxlKWWyuaCU6pA/R0rcyO7mnSPXdqWJV5SHiB0K', '$2y$10$V89KMVJPZtBGxqpC5JOiauCe2wTo2ntRYlcvQtq70T2xaqutYSMny', '2019-10-13 05:08:27', 1, '', '2019-08-19 02:19:39', '', '2019-08-19 02:19:39');
 
 --
 -- Indexes for dumped tables
@@ -339,12 +339,6 @@ ALTER TABLE `users`
 --
 ALTER TABLE `assets`
   ADD CONSTRAINT `assets_ibfk_1` FOREIGN KEY (`model`) REFERENCES `models` (`id`);
-
---
--- Constraints for table `asset_types`
---
-ALTER TABLE `asset_types`
-  ADD CONSTRAINT `asset_types_ibfk_1` FOREIGN KEY (`id`) REFERENCES `assets` (`type`);
 
 --
 -- Constraints for table `models`

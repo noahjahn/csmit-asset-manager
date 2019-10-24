@@ -4,16 +4,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class AssetManager_model extends CI_Model {
 
         public function get_assets() {
-            $this->db->select('assets.id as id, assets.model as name, '.
-                'manufacturers.name as manufacturer, models.name as model, owner, '.
-                'serial_number, asset_types.name as type, asset_tag, purchase_price, '.
-                'purchase_date, location, teams.name as team, job_number, '.
-                'asset_types.rate as rate, assets.last_modified_time as last_modified_time');
-            $this->db->from('assets');
-            $this->db->join('asset_types', 'assets.type = asset_types.id');
-            $this->db->join('teams', 'assets.team = teams.id');
-            $this->db->join('models', 'assets.model = models.id');
-            $this->db->join('manufacturers', 'models.manufacturer = manufacturers.id');
+            $this->db->select('
+              a.id              as id,
+              a.model           as name,
+              ma.name           as manufacturer,
+              mo.name           as model,
+              a.owner           as owner,
+              a.serial_number   as serial_number,
+              at.name           as type,
+              a.asset_tag       as asset_tag,
+              a.purchase_price  as purchase_price,
+              a.purchase_date   as purchase_date,
+              a.location        as location,
+              t.name            as team,
+              a.job_number      as job_number,
+              at.rate           as rate,
+              a.last_modified_time
+                                as last_modified_time
+            ');
+            $this->db->from('assets as a');
+            $this->db->join('asset_types as at'
+                          , 'a.type = at.id');
+            $this->db->join('teams as t'
+                          , 'a.team = t.id');
+            $this->db->join('models as mo'
+                          , 'a.model = mo.id');
+            $this->db->join('manufacturers as ma'
+                          , 'mo.manufacturer = ma.id');
             $query = $this->db->get();
 
             return $query;

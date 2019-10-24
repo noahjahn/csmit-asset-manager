@@ -1,7 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?><!DOCTYPE html>
-<?php $this->load->view('private/reusable/dataTables-include.php'); ?>
+<?php
+  $this->load->view('private/reusable/dataTables-include.php');
+  $this->load->view('private/modals/assets/delete.php');
+  $this->load->view('private/modals/assets/edit.php');
+  $this->load->view('private/modals/assets/add.php');
+  ?>
 <script src="<?php echo base_url(); ?>assets/js/asset_manager.js"></script>
 <table id="asset_manager" class="table table-hover">
     <thead class="table-header">
@@ -47,8 +52,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             // echo '<td>'.$asset['job_number'].'</td>';
             echo '<td>'.'$'.$asset['rate'].'</td>';
             // echo '<td>'.$asset['last_modified_time'].'</td>';
-            echo '<td><button class="table-icon" data-toggle="modal" data-target="#add_edit_asset_type_modal"><img class="mini-icon" src="'.base_url().'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
-            echo '<td><button class="table-icon" data-toggle="modal" data-target="#confirmation_modal"><img class="mini-icon" src="'.base_url().'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
+            echo '<td><button class="table-icon" data-toggle="modal" data-target="#edit-asset"><img class="mini-icon" src="'.base_url().'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
+            echo '<td><button class="table-icon" data-toggle="modal" data-target="#delete-asset"><img class="mini-icon" src="'.base_url().'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
             echo '</tr>';
             $assetCount++;
         }
