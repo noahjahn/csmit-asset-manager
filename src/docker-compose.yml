@@ -5,7 +5,7 @@ services:
         image: 'composer'
         command: install
         volumes:
-            - $PWD/application:/app
+            - $PWD:/app
         depends_on:
             - phpfpm-apache
 
