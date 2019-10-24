@@ -23,12 +23,18 @@ set('allow_anonymous_stats', false);
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
 
-after('deploy', 'merge-src');
-task('merge-src', function () {
-    run('rsync -abviuzP /var/www/html/csmit.noahjahn.dev/current/src/ /var/www/html/csmit.noahjahn.dev/current/');
+after('deploy:update_code', 'deploy:move_composer');
+
+task('deploy:move_composer', function () {
+    // run ('mv -f /var/www/html/csmit.noahjahn.dev/current/src/composer.json /var/www/html/csmit')
 });
 
-after('merge-src', 'update-database');
-task('update-database', function () {
-    
+after('deploy:move_composer', 'deploy:merge_src');
+task('deploy:merge_src', function () {
+    run('rsync -abviuzP /var/www/html/csmit.noahjahn.dev/release/src/ /var/www/html/csmit.noahjahn.dev/release/');
+});
+
+after('deploy:merge_src', 'update_database');
+task('update_database', function () {
+
 });
