@@ -264,7 +264,7 @@ $(document).ready(function() {
                     }
                 }
             ],
-            scrollY:        200,
+            scrollY:        212,
             paging:         false,
             fixedHeader:    true,
             info:           false,

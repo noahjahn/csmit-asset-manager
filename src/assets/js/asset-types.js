@@ -69,9 +69,6 @@ $(document).ready(function() {
     $("#add-asset-type-form").on("submit", function(e) {
         e.preventDefault(); // prevent modal from closing
 
-        $("#add-asset-type-form #name-error").empty(); // empty error messages, if there were any
-        $("#add-asset-type-form #rate-error").empty();
-
         $.ajax({
             type: 'POST',
             url: addAssetTypeUrl,
@@ -82,8 +79,24 @@ $(document).ready(function() {
                     $("#add-asset-type").modal('hide'); // if the submission was successful without any validation erros, we can hide the modal
                     $("#asset_types").DataTable().ajax.reload(); // also need to reload the datatable since we successfully add an asset type
                 } else {
-                    $("#add-asset-type-form #name-error").append(result["name"]); // display the error messages
-                    $("#add-asset-type-form #rate-error").append(result["rate"]);
+                    if (! result["name"] == "") {
+                        if (! result["name"] == $("#add-asset-type-form #name").val()) {
+                            $("#add-asset-type-form #name-error").empty(); // empty error messages, if there were any
+                            $("#add-asset-type-form #name-error").append(result["name"]); // display the error messages
+                        }
+                        if (! $("#add-asset-type-form #name").hasClass('is-invalid')) {
+                            $("#add-asset-type-form #name").addClass('is-invalid');
+                        }
+                    }
+                    if (! result["rate"] == "") {
+                        if (! result["rate"] == $("#add-asset-type-form #rate").val()) {
+                            $("#add-asset-type-form #rate-error").empty(); // empty error messages, if there were any
+                            $("#add-asset-type-form #rate-error").append(result["rate"]); // display the error messages
+                        }
+                        if (! $("#add-asset-type-form #rate").hasClass('is-invalid')) {
+                            $("#add-asset-type-form #rate").addClass('is-invalid');
+                        }
+                    }
                 }
             },
             error: function(result) {
@@ -228,7 +241,7 @@ $(document).ready(function() {
 
     $("#modal-submit-delete-asset-type").on("click", function(e) {
         var id = $("#modal-submit-delete-asset-type").data('id');
-        
+
         $.ajax({
             type: "DELETE",
             url: deleteAssetTypeUrl + id,
@@ -267,7 +280,7 @@ $(document).ready(function() {
                     }
                 }
             ],
-            scrollY:        200,
+            scrollY:        212,
             paging:         false,
             fixedHeader:    true,
             info:           false,
