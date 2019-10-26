@@ -4,19 +4,14 @@ $(document).ready(function() {
     /* *** Static Variables *** */
     var addTeamUrl = baseUrl + "Teams/add";
     var validateAddNameUrl = baseUrl + "Teams/validate_add_name";
-    var validateAddRateUrl = baseUrl + "Teams/validate_add_rate";
     var editTeamUrl = baseUrl + "Teams/edit";
     var validateEditNameUrl = baseUrl + "Teams/validate_edit_name";
-    var validateEditRateUrl = baseUrl + "Teams/validate_edit_rate";
     var deleteTeamUrl = baseUrl + "Teams/delete/";
     var getActiveTeamsUrl = baseUrl + "Teams/get_active";
     /* *** **************** *** */
 
     /* *** Handle add team *** */
     $("#add-team-form #name").blur(function() {
-        $("#add-team-form #name-error").empty(); // empty error messages, if there were any
-        $(this).removeClass('is-invalid');
-        $(this).removeClass('is-valid');
 
         $.ajax({
             type: 'POST',
@@ -26,36 +21,20 @@ $(document).ready(function() {
             headers: {"X-HTTP-Method-Override": "PUT"},
             success: function(result) {
                 if (result == "success") {
+                    $("#add-team-form #name-error").empty();
+                    $("#add-team-form #name").removeClass('is-invalid');
                     $("#add-team-form #name").addClass('is-valid');
                 } else {
-                    $("#add-team-form #name").addClass('is-invalid');
-                    $("#add-team-form #name-error").append(result["name"]); // display the error messages
-                }
-            },
-            error: function(result) {
-                var today = new Date();
-                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-                console.log("AJAX error, check server logs near local time: " + time);
-            }
-        });
-    });
-
-    $("#add-team-form #rate").blur(function() {
-        $("#add-team-form #rate-error").empty();
-        $(this).removeClass('is-invalid');
-
-        $.ajax({
-            type: 'POST',
-            url: validateAddRateUrl,
-            dataType: 'json',
-            data: $(this).serialize(), // get data from the form
-            headers: {"X-HTTP-Method-Override": "PUT"},
-            success: function(result) {
-                if (result == "success") {
-                    $("#add-team-form #rate").addClass('is-valid');
-                } else {
-                    $("#add-team-form #rate").addClass('is-invalid');
-                    $("#add-team-form #rate-error").append(result["rate"]); // display the error messages
+                    $("#add-team-form #name").removeClass('is-valid');
+                    if (! result["name"] == "") {
+                        if (! result["name"] == $("#add-team-form #name-error").val()) {
+                            $("#add-team-form #name-error").empty(); // empty error messages, if there were any
+                            $("#add-team-form #name-error").append(result["name"]); // display the error messages
+                        }
+                        if (! $("#add-team-form #name").hasClass('is-invalid')) {
+                            $("#add-team-form #name").addClass('is-invalid');
+                        }
+                    }
                 }
             },
             error: function(result) {
@@ -69,9 +48,6 @@ $(document).ready(function() {
     $("#add-team-form").on("submit", function(e) {
         e.preventDefault(); // prevent modal from closing
 
-        $("#add-team-form #name-error").empty(); // empty error messages, if there were any
-        $("#add-team-form #rate-error").empty();
-
         $.ajax({
             type: 'POST',
             url: addTeamUrl,
@@ -82,8 +58,15 @@ $(document).ready(function() {
                     $("#add-team").modal('hide'); // if the submission was successful without any validation erros, we can hide the modal
                     $("#teams").DataTable().ajax.reload(); // also need to reload the datatable since we successfully add an team
                 } else {
-                    $("#add-team-form #name-error").append(result["name"]); // display the error messages
-                    $("#add-team-form #rate-error").append(result["rate"]);
+                    if (! result["name"] == "") {
+                        if (! result["name"] == $("#add-team-form #name-error").val()) {
+                            $("#add-team-form #name-error").empty(); // empty error messages, if there were any
+                            $("#add-team-form #name-error").append(result["name"]); // display the error messages
+                        }
+                        if (! $("#add-team-form #name").hasClass('is-invalid')) {
+                            $("#add-team-form #name").addClass('is-invalid');
+                        }
+                    }
                 }
             },
             error: function(result) {
@@ -96,13 +79,9 @@ $(document).ready(function() {
 
     $('#add-team').on('hidden.bs.modal', function () {
         $("#add-team-form #name-error").empty(); // empty the errors when hiding the modal
-        $("#add-team-form #rate-error").empty();
         $("#add-team-form #name").val(""); // set the value to of the forms to have nothing in them, just in case the user left some data there without submitting
-        $("#add-team-form #rate").val("");
         $("#add-team-form #name").removeClass('is-invalid');
         $("#add-team-form #name").removeClass('is-valid');
-        $("#add-team-form #rate").removeClass('is-invalid');
-        $("#add-team-form #rate").removeClass('is-valid');
     });
     /* *** ********************* *** */
 
@@ -110,19 +89,12 @@ $(document).ready(function() {
     $(document).on("click", "#edit-team-button", function () {
         var id = $(this).data('id');
         var name = $(this).data('name');
-        var rate = $(this).data('rate');
 
         $("#edit-team-form #name").val(name); // set values for what is currently set
-        $("#edit-team-form #rate").val(rate);
         $("#edit-team-form #modal-submit-edit-team").data('id', id);
     });
 
     $("#edit-team-form #name").blur(function() {
-        $("#edit-team-form #name-error").empty(); // empty error messages, if there were any
-        $(this).removeClass('is-invalid');
-        $(this).removeClass('is-valid');
-
-
         var id = $("#modal-submit-edit-team").data('id');
 
         $.ajax({
@@ -133,36 +105,20 @@ $(document).ready(function() {
             headers: {"X-HTTP-Method-Override": "PUT"},
             success: function(result) {
                 if (result == "success") {
+                    $("#edit-team-form #name-error").empty();
+                    $("#edit-team-form #name").removeClass('is-invalid');
                     $("#edit-team-form #name").addClass('is-valid');
                 } else {
-                    $("#edit-team-form #name").addClass('is-invalid');
-                    $("#edit-team-form #name-error").append(result["name"]); // display the error messages
-                }
-            },
-            error: function(result) {
-                var today = new Date();
-                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-                console.log("AJAX error, check server logs near local time: " + time);
-            }
-        });
-    });
-
-    $("#edit-team-form #rate").blur(function() {
-        $("#edit-team-form #rate-error").empty();
-        $(this).removeClass('is-invalid');
-
-        $.ajax({
-            type: 'POST',
-            url: validateEditRateUrl,
-            dataType: 'json',
-            data: $(this).serialize(), // get data from the form
-            headers: {"X-HTTP-Method-Override": "PUT"},
-            success: function(result) {
-                if (result == "success") {
-                    $("#edit-team-form #rate").addClass('is-valid');
-                } else {
-                    $("#edit-team-form #rate").addClass('is-invalid');
-                    $("#edit-team-form #rate-error").append(result["rate"]); // display the error messages
+                    $("#edit-team-form #name").removeClass('is-valid');
+                    if (! result["name"] == "") {
+                        if (! result["name"] == $("#edit-team-form #name-error").val()) {
+                            $("#edit-team-form #name-error").empty(); // empty error messages, if there were any
+                            $("#edit-team-form #name-error").append(result["name"]); // display the error messages
+                        }
+                        if (! $("#edit-team-form #name").hasClass('is-invalid')) {
+                            $("#edit-team-form #name").addClass('is-invalid');
+                        }
+                    }
                 }
             },
             error: function(result) {
@@ -176,9 +132,6 @@ $(document).ready(function() {
     $("#edit-team-form").on("submit", function(e) {
         e.preventDefault(); // prevent modal from closing
 
-        $("#edit-team-form #name-error").empty(); // empty error messages, if there were any
-        $("#edit-team-form #rate-error").empty();
-
         var id = $("#modal-submit-edit-team").data('id');
 
         $.ajax({
@@ -190,13 +143,17 @@ $(document).ready(function() {
             success: function(result) {
                 if (result == "success") {
                     $("#edit-team").modal('hide'); // if the submission was successful without any validation erros, we can hide the modal
-                    $("#teams").DataTable().ajax.reload(); // also need to reload the datatable since we successfully edited an team
+                    $("#teams").DataTable().ajax.reload(); // also need to reload the datatable since we successfully add an team
                 } else {
-                    if (result["id"]) {
-                        console.log(result["id"]);
+                    if (! result["name"] == "") {
+                        if (! result["name"] == $("#edit-team-form #name-error").val()) {
+                            $("#edit-team-form #name-error").empty(); // empty error messages, if there were any
+                            $("#edit-team-form #name-error").append(result["name"]); // display the error messages
+                        }
+                        if (! $("#edit-team-form #name").hasClass('is-invalid')) {
+                            $("#edit-team-form #name").addClass('is-invalid');
+                        }
                     }
-                    $("#edit-team-form #name-error").append(result["name"]); // display the error messages
-                    $("#edit-team-form #rate-error").append(result["rate"]);
                 }
             },
             error: function(result) {
@@ -209,13 +166,9 @@ $(document).ready(function() {
 
     $('#edit-team').on('hidden.bs.modal', function () {
         $("#edit-team-form #name-error").empty(); // empty the errors when hiding the modal
-        $("#edit-team-form #rate-error").empty();
         $("#edit-team-form #name").val(""); // set the value to of the forms to have nothing in them, just in case the user left some data there without submitting
-        $("#edit-team-form #rate").val("");
         $("#edit-team-form #name").removeClass('is-invalid');
         $("#edit-team-form #name").removeClass('is-valid');
-        $("#edit-team-form #rate").removeClass('is-invalid');
-        $("#edit-team-form #rate").removeClass('is-valid');
     });
     /* *** ********************* *** */
 
@@ -244,12 +197,11 @@ $(document).ready(function() {
     });
     /* *** ********************* *** */
 
-    /* Prepare Teams table */
+    /* Prepare teams table */
     if (loadDataTable) {
-        /* Prepare Teams table */
         $('#teams').DataTable( {
             ajax: {
-                url: baseUrl + "Teams/get_active",
+                url: getActiveTeamsUrl,
                 dataSrc: ''
             },
             columns: [

@@ -14,9 +14,6 @@ $(document).ready(function() {
 
     /* *** Handle add asset type *** */
     $("#add-asset-type-form #name").blur(function() {
-        $("#add-asset-type-form #name-error").empty(); // empty error messages, if there were any
-        $(this).removeClass('is-invalid');
-        $(this).removeClass('is-valid');
 
         $.ajax({
             type: 'POST',
@@ -26,10 +23,20 @@ $(document).ready(function() {
             headers: {"X-HTTP-Method-Override": "PUT"},
             success: function(result) {
                 if (result == "success") {
+                    $("#add-asset-type-form #name-error").empty();
+                    $("#add-asset-type-form #name").removeClass('is-invalid');
                     $("#add-asset-type-form #name").addClass('is-valid');
                 } else {
-                    $("#add-asset-type-form #name").addClass('is-invalid');
-                    $("#add-asset-type-form #name-error").append(result["name"]); // display the error messages
+                    $("#add-asset-type-form #name").removeClass('is-valid');
+                    if (! result["name"] == "") {
+                        if (! result["name"] == $("#add-asset-type-form #name-error").val()) {
+                            $("#add-asset-type-form #name-error").empty(); // empty error messages, if there were any
+                            $("#add-asset-type-form #name-error").append(result["name"]); // display the error messages
+                        }
+                        if (! $("#add-asset-type-form #name").hasClass('is-invalid')) {
+                            $("#add-asset-type-form #name").addClass('is-invalid');
+                        }
+                    }
                 }
             },
             error: function(result) {
@@ -41,8 +48,6 @@ $(document).ready(function() {
     });
 
     $("#add-asset-type-form #rate").blur(function() {
-        $("#add-asset-type-form #rate-error").empty();
-        $(this).removeClass('is-invalid');
 
         $.ajax({
             type: 'POST',
@@ -52,10 +57,20 @@ $(document).ready(function() {
             headers: {"X-HTTP-Method-Override": "PUT"},
             success: function(result) {
                 if (result == "success") {
+                    $("#add-asset-type-form #rate-error").empty();
+                    $("#add-asset-type-form #rate").removeClass('is-invalid');
                     $("#add-asset-type-form #rate").addClass('is-valid');
                 } else {
-                    $("#add-asset-type-form #rate").addClass('is-invalid');
-                    $("#add-asset-type-form #rate-error").append(result["rate"]); // display the error messages
+                    $("#add-asset-type-form #rate").removeClass('is-valid');
+                    if (! result["rate"] == "") {
+                        if (! result["rate"] == $("#add-asset-type-form #rate-error").val()) {
+                            $("#add-asset-type-form #rate-error").empty(); // empty error messages, if there were any
+                            $("#add-asset-type-form #rate-error").append(result["rate"]); // display the error messages
+                        }
+                        if (! $("#add-asset-type-form #rate").hasClass('is-invalid')) {
+                            $("#add-asset-type-form #rate").addClass('is-invalid');
+                        }
+                    }
                 }
             },
             error: function(result) {
@@ -80,7 +95,7 @@ $(document).ready(function() {
                     $("#asset_types").DataTable().ajax.reload(); // also need to reload the datatable since we successfully add an asset type
                 } else {
                     if (! result["name"] == "") {
-                        if (! result["name"] == $("#add-asset-type-form #name").val()) {
+                        if (! result["name"] == $("#add-asset-type-form #name-error").val()) {
                             $("#add-asset-type-form #name-error").empty(); // empty error messages, if there were any
                             $("#add-asset-type-form #name-error").append(result["name"]); // display the error messages
                         }
@@ -89,7 +104,7 @@ $(document).ready(function() {
                         }
                     }
                     if (! result["rate"] == "") {
-                        if (! result["rate"] == $("#add-asset-type-form #rate").val()) {
+                        if (! result["rate"] == $("#add-asset-type-form #rate-error").val()) {
                             $("#add-asset-type-form #rate-error").empty(); // empty error messages, if there were any
                             $("#add-asset-type-form #rate-error").append(result["rate"]); // display the error messages
                         }
@@ -131,11 +146,6 @@ $(document).ready(function() {
     });
 
     $("#edit-asset-type-form #name").blur(function() {
-        $("#edit-asset-type-form #name-error").empty(); // empty error messages, if there were any
-        $(this).removeClass('is-invalid');
-        $(this).removeClass('is-valid');
-
-
         var id = $("#modal-submit-edit-asset-type").data('id');
 
         $.ajax({
@@ -146,10 +156,20 @@ $(document).ready(function() {
             headers: {"X-HTTP-Method-Override": "PUT"},
             success: function(result) {
                 if (result == "success") {
+                    $("#edit-asset-type-form #name-error").empty();
+                    $("#edit-asset-type-form #name").removeClass('is-invalid');
                     $("#edit-asset-type-form #name").addClass('is-valid');
                 } else {
-                    $("#edit-asset-type-form #name").addClass('is-invalid');
-                    $("#edit-asset-type-form #name-error").append(result["name"]); // display the error messages
+                    $("#edit-asset-type-form #name").removeClass('is-valid');
+                    if (! result["name"] == "") {
+                        if (! result["name"] == $("#edit-asset-type-form #name-error").val()) {
+                            $("#edit-asset-type-form #name-error").empty(); // empty error messages, if there were any
+                            $("#edit-asset-type-form #name-error").append(result["name"]); // display the error messages
+                        }
+                        if (! $("#edit-asset-type-form #name").hasClass('is-invalid')) {
+                            $("#edit-asset-type-form #name").addClass('is-invalid');
+                        }
+                    }
                 }
             },
             error: function(result) {
@@ -161,8 +181,6 @@ $(document).ready(function() {
     });
 
     $("#edit-asset-type-form #rate").blur(function() {
-        $("#edit-asset-type-form #rate-error").empty();
-        $(this).removeClass('is-invalid');
 
         $.ajax({
             type: 'POST',
@@ -172,10 +190,20 @@ $(document).ready(function() {
             headers: {"X-HTTP-Method-Override": "PUT"},
             success: function(result) {
                 if (result == "success") {
+                    $("#edit-asset-type-form #rate-error").empty();
+                    $("#edit-asset-type-form #rate").removeClass('is-invalid');
                     $("#edit-asset-type-form #rate").addClass('is-valid');
                 } else {
-                    $("#edit-asset-type-form #rate").addClass('is-invalid');
-                    $("#edit-asset-type-form #rate-error").append(result["rate"]); // display the error messages
+                    $("#edit-asset-type-form #rate").removeClass('is-valid');
+                    if (! result["rate"] == "") {
+                        if (! result["rate"] == $("#edit-asset-type-form #rate-error").val()) {
+                            $("#edit-asset-type-form #rate-error").empty(); // empty error messages, if there were any
+                            $("#edit-asset-type-form #rate-error").append(result["rate"]); // display the error messages
+                        }
+                        if (! $("#edit-asset-type-form #rate").hasClass('is-invalid')) {
+                            $("#edit-asset-type-form #rate").addClass('is-invalid');
+                        }
+                    }
                 }
             },
             error: function(result) {
@@ -189,9 +217,6 @@ $(document).ready(function() {
     $("#edit-asset-type-form").on("submit", function(e) {
         e.preventDefault(); // prevent modal from closing
 
-        $("#edit-asset-type-form #name-error").empty(); // empty error messages, if there were any
-        $("#edit-asset-type-form #rate-error").empty();
-
         var id = $("#modal-submit-edit-asset-type").data('id');
 
         $.ajax({
@@ -203,13 +228,26 @@ $(document).ready(function() {
             success: function(result) {
                 if (result == "success") {
                     $("#edit-asset-type").modal('hide'); // if the submission was successful without any validation erros, we can hide the modal
-                    $("#asset_types").DataTable().ajax.reload(); // also need to reload the datatable since we successfully edited an asset type
+                    $("#asset_types").DataTable().ajax.reload(); // also need to reload the datatable since we successfully add an asset type
                 } else {
-                    if (result["id"]) {
-                        console.log(result["id"]);
+                    if (! result["name"] == "") {
+                        if (! result["name"] == $("#edit-asset-type-form #name-error").val()) {
+                            $("#edit-asset-type-form #name-error").empty(); // empty error messages, if there were any
+                            $("#edit-asset-type-form #name-error").append(result["name"]); // display the error messages
+                        }
+                        if (! $("#edit-asset-type-form #name").hasClass('is-invalid')) {
+                            $("#edit-asset-type-form #name").addClass('is-invalid');
+                        }
                     }
-                    $("#edit-asset-type-form #name-error").append(result["name"]); // display the error messages
-                    $("#edit-asset-type-form #rate-error").append(result["rate"]);
+                    if (! result["rate"] == "") {
+                        if (! result["rate"] == $("#edit-asset-type-form #rate-error").val()) {
+                            $("#edit-asset-type-form #rate-error").empty(); // empty error messages, if there were any
+                            $("#edit-asset-type-form #rate-error").append(result["rate"]); // display the error messages
+                        }
+                        if (! $("#edit-asset-type-form #rate").hasClass('is-invalid')) {
+                            $("#edit-asset-type-form #rate").addClass('is-invalid');
+                        }
+                    }
                 }
             },
             error: function(result) {
