@@ -333,29 +333,6 @@ ALTER TABLE `teams`
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `assets`
---
-ALTER TABLE `assets`
-  ADD CONSTRAINT `assets_ibfk_1` FOREIGN KEY (`model`) REFERENCES `models` (`id`);
-
---
--- Constraints for table `models`
---
-ALTER TABLE `models`
-  ADD CONSTRAINT `manufacturer` FOREIGN KEY (`manufacturer`) REFERENCES `manufacturers` (`id`);
-
---
--- Constraints for table `teams`
---
-ALTER TABLE `teams`
-  ADD CONSTRAINT `teams_ibfk_1` FOREIGN KEY (`id`) REFERENCES `assets` (`team`);
-COMMIT;
-
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
