@@ -6,7 +6,7 @@
     <div id="usr-profile" class="text-center pt-4">
         <a href="" style="color: white;">
             <img class="usr-img" src="<?php echo base_url(); ?>assets/img/male-circle-512.png">
-            <h6><i>Noah Jahn<?php //echo $first_name . ' ' . $last_name ?></i></h6>
+            <h6><i><?php echo $userdata['first_name'].' '.$userdata['last_name'] ?></i></h6>
         </a>
     </div>
     <ul class="nav navbar-light">
@@ -31,9 +31,9 @@
                     </a>
                 </li>
             </div>
-            <div class="side-color <?php echo $active_page == 'helpdesk' ? 'vert-nav-item-active' : ''; ?>">
-                <li class="nav-item <?php echo $active_page == 'helpdesk' ? 'vert-nav-item-active-format' : 'vert-nav-item'; ?>">
-                    <a class="nav-link <?php echo $active_page == 'helpdesk' ? 'active' : ''; ?>" href="<?php echo base_url(); ?>helpdesk">
+            <!-- <div class="side-color <?php //echo $active_page == 'helpdesk' ? 'vert-nav-item-active' : ''; ?>">
+                <li class="nav-item <?php //echo $active_page == 'helpdesk' ? 'vert-nav-item-active-format' : 'vert-nav-item'; ?>">
+                    <a class="nav-link <?php //echo $active_page == 'helpdesk' ? 'active' : ''; ?>" href="<?php //echo base_url(); ?>helpdesk">
                         <span>
                             <img class="icon" src="<?php echo base_url(); ?>assets/img/icons/help-svgrepo-com.svg">
                         </span>
@@ -41,16 +41,16 @@
                     </a>
                 </li>
             </div>
-            <div class="side-color <?php echo $active_page == 'inventories' ? 'vert-nav-item-active' : ''; ?>">
-                <li class="nav-item <?php echo $active_page == 'inventories' ? 'vert-nav-item-active-format' : 'vert-nav-item'; ?>">
-                    <a class="nav-link <?php echo $active_page == 'inventories' ? 'active' : ''; ?>" href="<?php echo base_url(); ?>inventories">
+            <div class="side-color <?php //echo $active_page == 'inventories' ? 'vert-nav-item-active' : ''; ?>">
+                <li class="nav-item <?php //echo $active_page == 'inventories' ? 'vert-nav-item-active-format' : 'vert-nav-item'; ?>">
+                    <a class="nav-link <?php //echo $active_page == 'inventories' ? 'active' : ''; ?>" href="<?php //echo base_url(); ?>inventories">
                         <span>
                             <img class="icon" src="<?php echo base_url(); ?>assets/img/icons/check-list-svgrepo-com.svg">
                         </span>
                         <span class="nav-title pl-3">Inventories</span>
                     </a>
                 </li>
-            </div>
+            </div> -->
             <div class="side-color <?php echo $active_page == 'reports' ? 'vert-nav-item-active' : ''; ?>">
                 <li class="nav-item <?php echo $active_page == 'reports' ? 'vert-nav-item-active-format' : 'vert-nav-item'; ?>">
                     <a class="nav-link <?php echo $active_page == 'reports' ? 'active' : ''; ?>" href="<?php echo base_url(); ?>reports">
@@ -61,16 +61,16 @@
                     </a>
                 </li>
             </div>
-            <div class="side-color <?php echo $active_page == 'passwordmanager' ? 'vert-nav-item-active' : ''; ?>">
-                <li class="nav-item <?php echo $active_page == 'passwordmanager' ? 'vert-nav-item-active-format' : 'vert-nav-item'; ?>">
-                    <a class="nav-link <?php echo $active_page == 'passwordmanager' ? 'active' : ''; ?>" href="<?php echo base_url(); ?>passwordmanager">
+            <!-- <div class="side-color <?php //echo $active_page == 'passwordmanager' ? 'vert-nav-item-active' : ''; ?>">
+                <li class="nav-item <?php //echo $active_page == 'passwordmanager' ? 'vert-nav-item-active-format' : 'vert-nav-item'; ?>">
+                    <a class="nav-link <?php //echo $active_page == 'passwordmanager' ? 'active' : ''; ?>" href="<?php //echo base_url(); ?>passwordmanager">
                         <span>
                             <img class="icon" src="<?php echo base_url(); ?>assets/img/icons/padlock-svgrepo-com.svg">
                         </span>
                         <span class="nav-title pl-3">Password Manager</span>
                     </a>
                 </li>
-            </div>
+            </div> -->
             <div class="side-color <?php echo $active_page == 'settings' ? 'vert-nav-item-active' : ''; ?>">
                 <li class="nav-item <?php echo $active_page == 'settings' ? 'vert-nav-item-active-format' : 'vert-nav-item'; ?>">
                     <a class="nav-link <?php echo $active_page == 'settings' ? 'active' : ''; ?>" href="<?php echo base_url(); ?>settings">

@@ -17,6 +17,7 @@ class Reports extends CI_Controller {
             $data['active_page'] = 'reports';
             $data['title'] = 'Reports';
             $data['main_content'] = 'private/reports/index';
+			$data['userdata'] = $this->session->all_userdata();
 
             $this->load->view('private/reusable/page-template', $data);
         }

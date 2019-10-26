@@ -17,6 +17,7 @@ class Dashboard extends CI_Controller {
             $data['active_page'] = 'dashboard';
             $data['title'] = 'Dashboard';
             $data['main_content'] = 'private/dashboard/index';
+			$data['userdata'] = $this->session->all_userdata();
 
             $this->load->view('private/reusable/page-template', $data);
         }
