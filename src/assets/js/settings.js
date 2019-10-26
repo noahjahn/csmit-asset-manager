@@ -6,9 +6,26 @@ $(document).ready(function() {
 });
 /* *** ************************** *** */
 
+$(function(){
+    $('.nav-tabs .nav-item .nav-link').hover(function() {
+        $(this).addClass('nav-link-hover');
+        if ($(this).hasClass('active')) {
+            $(this).removeClass('active');
+            $(this).addClass('active.temp');
+        }
+    }, function() {
+        $(this).removeClass('nav-link-hover');
+        if ($(this).hasClass('active.temp')) {
+            $(this).removeClass('active.temp');
+            $(this).addClass('active');
+        }
+    });
+});
+
+
 /* *** Handle tab switching *** */
-function makeAssetManagerActive() {
-    $(this).addClass('active')
+function makeAssetManagerActive(obj) {
+    $(obj).addClass('active');
     $('#users-link').each(function() {
         $(this).removeClass('active');
     });
@@ -38,14 +55,14 @@ function makeAssetManagerActive() {
 
 $(function() {
     $('#asset-manager-link').click(function(e) {
-        e.preventDefault();
-        makeAssetManagerActive();
+        // e.preventDefault();
+        makeAssetManagerActive(this);
     });
 });
 
 $(function() {
     $('#users-link').click(function() {
-        $(this).addClass('active')
+        $(this).addClass('active');
         $('#asset-manager-link').each(function() {
             $(this).removeClass('active');
         });
@@ -76,7 +93,7 @@ $(function() {
 
 $(function() {
     $('#permissions-link').click(function() {
-        $(this).addClass('active')
+        $(this).addClass('active');
         $('#users-link').each(function() {
             $(this).removeClass('active');
         });
@@ -107,7 +124,7 @@ $(function() {
 
 $(function() {
     $('#login-photos-link').click(function() {
-        $(this).addClass('active')
+        $(this).addClass('active');
         $('#users-link').each(function() {
             $(this).removeClass('active');
         });
@@ -158,7 +175,7 @@ $(document).ready( function () {
             }
         ],
         "order": [[ 1, "asc" ]],
-        scrollY:        200,
+        scrollY:        212,
         paging:         false,
         fixedHeader:    true,
         info:           false,

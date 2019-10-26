@@ -117,6 +117,7 @@ body {
 }
 
 .container-style {
+    padding: 2rem;
     /* min-height: 30rem; */
     /* border-style: solid; */
     /* border-color: black; */
@@ -188,3 +189,28 @@ body {
 /* thead, tbody { display: block; width: 100%;} */
 
 /* *** CONTAINER STYLES *** */
+
+/* *** HORIZONTAL NAV STYLES *** */
+.nav-tabs .nav-link {
+    background-color: #303030 !important;
+    border-top-left-radius: unset !important;
+    border-top-right-radius: unset !important;
+
+}
+
+.nav-tabs .nav-link.active {
+    border-top-style: solid !important;
+    border-top-color: #3498DB !important;
+    border-top-width: 3px !important;
+}
+
+.nav-tabs {
+    z-index: 0;
+}
+
+.nav-link-hover {
+    border-top-style: solid !important;
+    border-top-color: #F39C12 !important;
+    border-top-width: 3px !important;
+}
+/* *** ********************* *** */
