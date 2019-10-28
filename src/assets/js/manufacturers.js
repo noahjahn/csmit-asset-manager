@@ -185,8 +185,19 @@ $(document).ready(function() {
         $.ajax({
             type: "DELETE",
             url: deleteManufacturerUrl + id,
+            dataType: 'json',
             success: function(result) {
-                $("#manufacturers").DataTable().ajax.reload();
+                if (result == "success") {
+                    $("#delete-manufacturer").modal('hide');
+                    $("#manufacturers").DataTable().ajax.reload(); // also need to reload the datatable since we successfully add an manufacturer
+                } else {
+                    if (! result["id"] == "") {
+                        if (! result["id"] == $("#delete-manufacturer #id-error").val()) {
+                            $("#modal-body-delete-manufacturer #id-error").empty(); // empty error messages, if there were any
+                            $("#modal-body-delete-manufacturer #id-error").append(result["id"]); // display the error messages
+                        }
+                    }
+                }
             },
             error: function(result) {
                 var today = new Date();
@@ -194,6 +205,10 @@ $(document).ready(function() {
                 console.log("AJAX error, check server logs near local time: " + time);
             }
         });
+    });
+
+    $('#delete-manufacturer').on('hidden.bs.modal', function () {
+        $("#modal-body-delete-manufacturer #id-error").empty(); // empty the errors when hiding the modal
     });
     /* *** ********************* *** */
 

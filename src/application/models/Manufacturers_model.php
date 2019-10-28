@@ -46,7 +46,7 @@ class Manufacturers_model extends CI_Model {
 
     function get_update_rules() {
         log_message('debug', 'Manufacturers_model: get_update_rules - in function');
-        $form_rules = array (
+        $form_rules = array(
             $this->get_update_id_rules(),
             $this->get_update_name_rules()
         );
