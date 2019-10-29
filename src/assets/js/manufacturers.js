@@ -144,6 +144,7 @@ $(document).ready(function() {
                 if (result == "success") {
                     $("#edit-manufacturer").modal('hide'); // if the submission was successful without any validation erros, we can hide the modal
                     $("#manufacturers").DataTable().ajax.reload(); // also need to reload the datatable since we successfully add an manufacturer
+                    $("#models").DataTable().ajax.reload(); // also need to reload the datatable since we successfully add an model
                 } else {
                     if (! result["name"] == "") {
                         if (! result["name"] == $("#edit-manufacturer-form #name-error").val()) {
