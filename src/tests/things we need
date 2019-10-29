@@ -1,0 +1,12 @@
+Standards (version control, coding standard, testing standards)
+Tests
+Project Demo
+How are we collaborating
+Maintenance Documents - install doc (How to install for who doesn't know how it works)
+    Checkout ANSIBLE
+    Security issues - how to address them
+    Performance measures
+    Document where admins need to check for updates
+    Included database install, population, and restore
+User documentation?
+Database Schema design
