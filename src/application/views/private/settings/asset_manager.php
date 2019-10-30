@@ -1,3 +1,8 @@
+<script id="asset-types-script" data-load-datatable="true" src="<?php echo base_url(); ?>assets/js/asset-types.js"></script>
+<script id="teams-script" data-load-datatable="true" src="<?php echo base_url(); ?>assets/js/teams.js"></script>
+<script id="manufacturers-script" data-load-datatable="true" src="<?php echo base_url(); ?>assets/js/manufacturers.js"></script>
+<script id="models-script" data-load-datatable="true" src="<?php echo base_url(); ?>assets/js/models.js"></script>
+
 <div class="container-fluid container-style">
     <div class="row">
         <div class="col">
@@ -8,24 +13,13 @@
                 <col width="5%">
                 <thead class="table-header">
                     <tr class="table-primary">
+                        <th>ID</th>
                         <th>Name</th>
                         <th>Rate</th>
                         <th></th>
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <?php
-                    foreach($asset_types->result_array() as $asset_type) {
-                        echo '<tr class="table-row">';
-                        echo '<td>'.$asset_type['name'].'</td>';
-                        echo '<td>$'.$asset_type['rate'].'</td>';
-                        echo '<td><button class="table-icon" data-toggle="modal" data-target="#add_edit_asset_type_modal"><img class="mini-icon" src="'.base_url().'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
-                        echo '<td><button class="table-icon" data-toggle="modal" data-target="#confirmation_modal"><img class="mini-icon" src="'.base_url().'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
-                        echo '</tr>';
-                    }
-                    ?>
-                </tbody>
             </table>
         </div>
         <div class="col">
@@ -35,22 +29,12 @@
                 <col width="5%">
                 <thead>
                     <tr class="table-primary">
-                        <th scope="col">Name</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <?php
-                    foreach($teams->result_array() as $team) {
-                        echo '<tr class="table-row">';
-                        echo '<td>'.$team['name'].'</td>';
-                        echo '<td><span class="table-icon"><img class="mini-icon" src="'.base_url().'assets/img/icons/edit-svgrepo-com-white.svg"><span></td>';
-                        echo '<td><button class="table-icon" data-toggle="modal" data-target="#confirmation_modal"><img class="mini-icon" src="'.base_url().'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
-                        echo '</tr>';
-                    }
-                    ?>
-                </tbody>
             </table>
         </div>
     </div>
@@ -62,22 +46,12 @@
                 <col width="5%">
                 <thead>
                     <tr class="table-primary">
-                        <th scope="col">Name</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <?php
-                    foreach($manufacturers->result_array() as $manufacturer) {
-                        echo '<tr class="table-row">';
-                        echo '<td>'.$manufacturer['name'].'</td>';
-                        echo '<td><span class="table-icon"><img class="mini-icon" src="'.base_url().'assets/img/icons/edit-svgrepo-com-white.svg"><span></td>';
-                        echo '<td><button class="table-icon" data-toggle="modal" data-target="#confirmation_modal"><img class="mini-icon" src="'.base_url().'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
-                        echo '</tr>';
-                    }
-                    ?>
-                </tbody>
             </table>
         </div>
         <div class="col">
@@ -88,25 +62,19 @@
                 <col width="5%">
                 <thead>
                     <tr class="table-primary">
-                        <th scope="col">Name</th>
-                        <th scope="col">Manufacturer</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Manufacturer</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <?php
-                    foreach($models->result_array() as $model) {
-                        echo '<tr class="table-row">';
-                        echo '<td>'.$model['name'].'</td>';
-                        echo '<td>'.$model['manufacturer'].'</td>';
-                        echo '<td><span class="table-icon"><img class="mini-icon" src="'.base_url().'assets/img/icons/edit-svgrepo-com-white.svg"><span></td>';
-                        echo '<td><button class="table-icon" data-toggle="modal" data-target="#confirmation_modal"><img class="mini-icon" src="'.base_url().'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
-                        echo '</tr>';
-                    }
-                    ?>
-                </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<?php $this->load->view('private/modals/asset_types/all'); ?>
+<?php $this->load->view('private/modals/manufacturers/all'); ?>
+<?php $this->load->view('private/modals/models/all'); ?>
+<?php $this->load->view('private/modals/teams/all'); ?>

@@ -23,5 +23,9 @@
     <script src="<?php echo base_url(); ?>assets/js/navbar.js"></script>
     <!-- ====== ========== ====== -->
 
+    <script>
+        var baseUrl = '<?php echo base_url(); ?>';
+    </script>
+
     <title>CSM Group Inventory</title>
 </head>

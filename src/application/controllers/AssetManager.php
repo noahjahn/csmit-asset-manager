@@ -1,9 +1,9 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');//What do?
 
 class AssetManager extends CI_Controller {
 
-	public function __construct() {
+	public function __construct() { //What for?
 		parent::__construct();
 		// check for user authorization
 	}
@@ -14,12 +14,12 @@ class AssetManager extends CI_Controller {
 		} else {
 			$this->load->model('AssetManager_model');
 
-			$data['active_page'] = 'asset_manager';
+			$data['active_page'] = 'assetmanager';
 			$data['title'] = 'Asset Manager';
 			$data['main_content'] = 'private/asset_manager/index';
+			$data['userdata'] = $this->session->all_userdata();
 
 			$data['data'] = $this->AssetManager_model->get_assets();
-			// $data['active_page'] = 'assetmanager';
 
 			$this->load->view('private/reusable/page-template', $data);
 
@@ -31,7 +31,7 @@ class AssetManager extends CI_Controller {
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 
-		$this->load->view('private/asset_manager/add');
+		$this->load->view('private/asset_manager/add_asset');
 	}
 
 	public function edit_asset() {
@@ -39,6 +39,9 @@ class AssetManager extends CI_Controller {
 		$this->load->library('form_validation');
 
 		$this->load->view('private/asset_manager/edit_asset');
+	}
+
+	public function delete_asset() {
 	}
 
 }

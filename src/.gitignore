@@ -12,6 +12,13 @@ application/composer.lock
 application/vendor
 
 .env
+!.env.example
+!.env.docker
+
+composer.lock
+
+uploads/*
+uploads/
 
 user_guide_src/build/*
 user_guide_src/cilexer/build/*
