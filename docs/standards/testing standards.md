@@ -12,8 +12,11 @@ The following testing approaches are used in order to automatically test various
   Installation Testing:
 
   Acceptance Testing:
+    Acceptance 
 
   Integration Testing:
+
+  Usability Testing:
 
   System Testing:
 
