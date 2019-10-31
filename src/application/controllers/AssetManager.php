@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');//What do?
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class AssetManager extends CI_Controller {
 
@@ -12,19 +12,28 @@ class AssetManager extends CI_Controller {
 		if (! $this->session->userdata('email')) { // if the user is not logged in
 			$this->load->view('errors/custom/access_denied'); // show a 403 forbidden error
 		} else {
+			$this->load->model('Common_model');
 			$this->load->model('AssetManager_model');
 
 			$data['active_page'] = 'assetmanager';
 			$data['title'] = 'Asset Manager';
 			$data['main_content'] = 'private/asset_manager/index';
 
-			$data['data'] = $this->AssetManager_model->get_assets();
+			$data['data']['data'] = $this->AssetManager_model->get_assets();
 			// $data['active_page'] = 'assetmanager';
 
 			$this->load->view('private/reusable/page-template', $data);
 
 	        // $this->load->view('private/asset_manager/index.php',$data);
 		}
+	}
+
+	public function get_active() {
+		log_message('debug', 'AssetManager: get_active - in function');
+
+		$active_assets = $this->AssetManager_model->get_active();
+		$json_teams = json_encode($active_teams);
+		echo $json_teams;
 	}
 
 	public function add_asset() {
