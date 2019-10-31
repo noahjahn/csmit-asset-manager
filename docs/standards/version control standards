@@ -1,0 +1,18 @@
+Version control for this software is maintained using Git
+
+"Master" Branch: The branch the production site is compiled from.
+
+"Develop" Branch: The primary branch for new development.
+
+*Branching new features*
+Each new feature should have it's own branch from "Develop".
+The standard naming convention for these branches is "Feature/..."
+Once a feature is complete, commit all changes to "Feature/..." branch
+Checkout your local "Develop" branch.
+Git-Pull to update "Develop"
+Merge "Feature/..." into "Develop"
+Resolve any conflicts between your feature, and the updated "Develop" branch.
+Once all conflicts are resolved, push local "Develop" branch to origin/Develop
+  Increase software version number +0.1
+Initiate a Pull Request from "origin/Master" to merge new version into production site.
+  Increase software version number +1.0
