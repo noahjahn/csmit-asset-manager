@@ -11,10 +11,11 @@
             </div>
             <div id="modal-body-delete-manufacturer" class="modal-body">
                 Are you sure you want to delete this Manufacturer?
+                <div id="id-error" class="invalid-feedback"></div>
             </div>
             <div class="modal-footer">
                 <button id="modal-cancel-delete-manufacturer" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                <button id="modal-submit-delete-manufacturer" type="button" class="btn btn-primary" data-dismiss="modal">Delete</button>
+                <button id="modal-submit-delete-manufacturer" type="button" class="btn btn-primary">Delete</button>
             </div>
         </div>
     </div>

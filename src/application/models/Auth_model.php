@@ -57,13 +57,15 @@ class Auth_model extends CI_Model {
         $this->db->select('password');
         $this->db->from($this->users_table);
         $this->db->where('email', $email);
-        $this->db->where('is_deleted', 1);
+        $this->db->where('is_deleted', 0);
         $this->db->limit(1);
 
         return $this->db->get()->result_array()[0]['password'];
     }
 
     public function set_user_password($email, $password) {
+        log_message('debug', 'Auth_model: set_user_password - in function');
+
         // validate the arguments first
         $hashed = password_hash($password, PASSWORD_DEFAULT); //https://www.php.net/manual/en/function.password-hash.php
 
@@ -71,7 +73,7 @@ class Auth_model extends CI_Model {
                 'password' => $hashed,
         );
 
-        $this->db->where('email', '$email');
+        $this->db->where('email', $email);
         $this->db->update($this->users_table, $data);
     }
 
@@ -79,19 +81,21 @@ class Auth_model extends CI_Model {
         $this->db->select('id');
         $this->db->from($this->users_table);
         $this->db->where('email', $email);
-        $this->db->where('is_deleted', 1);
+        $this->db->where('is_deleted', 0);
         $this->db->limit(1);
 
         return $this->db->get()->result_array()[0]['id'];
     }
 
     public function is_valid_email($email) {
+        log_message('debug', 'Auth_model: is_valid_email - in function. Params: email='.$email);
+
         // validate the argument
 
         $this->db->select('email');
         $this->db->from($this->users_table);
         $this->db->where('email', $email);
-        $this->db->where('is_deleted', 1);
+        $this->db->where('is_deleted', 0);
         $this->db->limit(1);
 
         return (! empty($this->db->get()->result())); // return true if not empty
@@ -109,7 +113,7 @@ class Auth_model extends CI_Model {
         last_modified_by, last_modified_time, created_by, created_time');
         $this->db->from($this->users_table);
         $this->db->where('email', $email);
-        $this->db->where('is_deleted', 1);
+        $this->db->where('is_deleted', 0);
         $this->db->limit(1);
 
         return $this->db->get()->result_array()[0];
@@ -125,7 +129,7 @@ class Auth_model extends CI_Model {
     public function set_last_login($email) {
         $this->db->set('last_login', date('Y-m-d h:i:s'));
         $this->db->where('email', $email);
-        $this->db->where('is_deleted', 1);
+        $this->db->where('is_deleted', 0);
         return $this->db->update($this->users_table);
     }
 

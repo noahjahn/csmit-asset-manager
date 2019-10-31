@@ -18,6 +18,7 @@ class AssetManager extends CI_Controller {
 			$data['active_page'] = 'assetmanager';
 			$data['title'] = 'Asset Manager';
 			$data['main_content'] = 'private/asset_manager/index';
+			$data['userdata'] = $this->session->all_userdata();
 
 			$data['data']['data'] = $this->AssetManager_model->get_assets();
 			// $data['active_page'] = 'assetmanager';

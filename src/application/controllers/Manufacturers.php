@@ -7,6 +7,7 @@ class Manufacturers extends CI_Controller {
 		parent::__construct();
 		// check for user authorization
         $this->load->model('Manufacturers_model');
+		$this->load->model('Models_model');
 		$this->load->helper("database");
 		$this->load->helper("general");
 	}
@@ -79,6 +80,9 @@ class Manufacturers extends CI_Controller {
 				'id' => form_error('id'),
                 'name' => form_error('name')
             );
+			$test = json_encode($errors);
+			log_message('debug', 'Manufacturers: edit - failed to validate input errors= '.$test);
+
 			echo json_encode($errors);
 		}
     }
@@ -97,7 +101,7 @@ class Manufacturers extends CI_Controller {
 		} else {
 			log_message('debug', 'Manufacturers: validate_edit_name - failed to validate name');
 			$errors = array(
-                'name' => form_error('name'),
+                'name' => form_error('name')
             );
 			echo json_encode($errors);
 		}
@@ -106,7 +110,16 @@ class Manufacturers extends CI_Controller {
     public function delete($id) {
 		log_message('debug', 'Manufacturers: delete - in function');
 
-        $this->Manufacturers_model->delete($id);
+		if ($this->has_model($id)) {
+			log_message('debug', 'Manufacturers: delete - can\'t delete this manufacturer='.$id.', it has at least one model tied to it');
+			$errors = array(
+				'id' => '<p>The manufacturer has at least one model linked to it. Please remove the model(s) before deleting this manufacturer.</p>'
+			);
+			echo json_encode($errors);
+		} else {
+			$this->Manufacturers_model->delete($id);
+			echo json_encode("success");
+		}
     }
 
 	public function get_active() {
@@ -134,5 +147,15 @@ class Manufacturers extends CI_Controller {
 		log_message('debug', 'Manufacturers: id_exists - in function');
 
 		return $this->Manufacturers_model->id_exists($id);
+	}
+
+	function has_model($id) {
+		log_message('debug', 'Manufacturers: has_model - in function');
+
+		if ($this->Models_model->get_manufacter_count($id) > 0) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
 	}
 }

@@ -1,6 +1,7 @@
 <script id="asset-types-script" data-load-datatable="true" src="<?php echo base_url(); ?>assets/js/asset-types.js"></script>
 <script id="teams-script" data-load-datatable="true" src="<?php echo base_url(); ?>assets/js/teams.js"></script>
 <script id="manufacturers-script" data-load-datatable="true" src="<?php echo base_url(); ?>assets/js/manufacturers.js"></script>
+<script id="models-script" data-load-datatable="true" src="<?php echo base_url(); ?>assets/js/models.js"></script>
 
 <div class="container-fluid container-style">
     <div class="row">
