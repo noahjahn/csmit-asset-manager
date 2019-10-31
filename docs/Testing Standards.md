@@ -1,4 +1,4 @@
-# IT Asset Manager - Testing Standards
+# Testing Standards
 
 ## Scope and Overview:
 This document is for anyone testing, developing, or maintaining an instance of this IT Asset Manager.

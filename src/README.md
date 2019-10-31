@@ -311,7 +311,6 @@ $dotenv->load();
 ```
 
 # Deployment
-
 This project uses [Deployer](https://deployer.org) to manage git-based deployments to remote servers. The deployment workflow is defined in Deployers CodeIgniter recipe, though we do add some configuration in `deploy.php`.
 
 Install Deployer
@@ -345,3 +344,11 @@ Checkout out `develop` and deploy it to staging
 $ git checkout develop
 $ dep deploy staging
 ```
+
+# Standards, Security, and Maintenance
+Please reference the following:
+* `/docs/Coding Standards.md`
+* `/docs/Testing Standards.md`
+* `/docs/Version Control Standards.md`
+* `/docs/Maintenance.md`
+* `/docs/Maintenance.md`
