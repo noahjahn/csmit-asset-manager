@@ -15,11 +15,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <?php echo form_open(current_url(), array( 'id' => 'login_form', 'name' => 'login_form', 'class' => 'h-100')); ?>
                                 <fieldset>
                                     <div class="form-group mb-5">
-                                        <input id="email" type="email" name="email" autocomplete="email" class="form-control login-input" placeholder="Email" value="<?php set_value('email'); ?>">
+                                        <input id="email" type="email" name="email" autocomplete="email" class="form-control login-input" placeholder="Email" value="<?php echo set_value('email'); ?>">
                                         <div class="text-danger"><?php echo form_error("email"); ?></div>
                                     </div>
                                     <div class="form-group mb-5">
-                                        <input id="password" type="password" name="password" autocomplete="password" class="form-control login-input" placeholder="Password" value="<?php set_value('password'); ?>">
+                                        <input id="password" type="password" name="password" autocomplete="password" class="form-control login-input" placeholder="Password" value="">
                                         <div class="text-danger"><?php echo form_error("password"); ?></div>
                                     </div>
                                     <div class="form-group mb-5">
