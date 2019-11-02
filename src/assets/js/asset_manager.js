@@ -1,6 +1,6 @@
 $(document).ready( function () {
     /* Prepare Models table */
-    $('#asset_manager').DataTable( {
+    $('#asset-manager').DataTable( {
         ajax: {
             url: baseUrl + "assetmanager/get_active",
             dataSrc: ''
@@ -21,16 +21,16 @@ $(document).ready( function () {
             // { "data": "job_number" },
             { "data": "rate" },
             { "render": function ( data, type, row ) {
-                    return '<button class="table-icon" data-toggle="modal" data-target="#add-edit-model" data-type="POST" data-tableid="models" data-url="Models/edit/' + row.id + '" data-target="#add-edit-model"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
+                    return '<button class="table-icon" data-toggle="modal" data-target="#add-edit-model" data-type="POST" data-tableid="models" data-url="AssetManager/edit/' + row.id + '" data-target="#edit-asset"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
                 }
             },
             { "render": function ( data, type, row ) {
-                    return '<button class="table-icon" data-toggle="modal" data-id="delete-model" data-type="DELETE" data-tableid="models" data-url="Models/delete/' + row.id + '" data-target="#delete-model"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
+                    return '<button class="table-icon" data-toggle="modal" data-id="delete-model" data-type="DELETE" data-tableid="models" data-url="AssetManager/delete/' + row.id + '" data-target="#delete-asset"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
                 }
             }
         ],
         "order": [[ 1, "asc" ]],
-        scrollY:        200,
+        scrollY:        600,
         paging:         true,
         fixedHeader:    true,
         info:           false,
