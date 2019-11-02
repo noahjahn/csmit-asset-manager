@@ -15,8 +15,9 @@ env:
          modules:
              enabled:
                  - \Helper\Acceptance
-                 - PhpBrowser:
+                 - WebDriver:
                      url: http://localhost/
+                     browser: chrome
 
     staging:
          modules:
