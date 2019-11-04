@@ -1,6 +1,10 @@
+function formatRow() {
+  return '<div"></div>';
+}
+
 $(document).ready( function () {
     /* Prepare Models table */
-    $('#asset-manager').DataTable( {
+    var table = $('#asset-manager').DataTable( {
         ajax: {
             url: baseUrl + "assetmanager/get_active",
             dataSrc: ''
@@ -54,6 +58,25 @@ $(document).ready( function () {
             searchPlaceholder: "Search..."
         }
     });
+
+    $('#asset-manager').on('click', 'tr', function () {
+      var tr = $(this)
+      var row = table.row(this);
+
+      if( row.child.isShown() ) {
+          //If This row is already open - close it
+          $('td.slider', row.child()).slideUp( 300, function () {
+              row.child.hide();
+              tr.removeClass('shown');
+          } );
+      }
+      else {
+        //Open the row
+        row.child( formatRow(row.data()), 'slider' ).show();
+        tr.addClass('shown');
+        $('td.slider', row.child()).slideDown(300);
+      }
+    } );
 });
 
 
