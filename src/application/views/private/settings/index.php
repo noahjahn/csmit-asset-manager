@@ -1,6 +1,5 @@
-<?php $this->load->view('private/reusable/dataTables-include.php'); ?>
+<?php $this->load->view('private/reusable/datatables-include.php'); ?>
 
-<!-- <script src="<?php //echo base_url(); ?>assets/js/modal-helper.js"></script> -->
 <script src="<?php echo base_url(); ?>assets/js/settings.js"></script>
 
 <div class="row">
@@ -19,7 +18,7 @@
         </li>
     </ul>
     <div class="tab-content background-light w-100" id="nav-tabContent">
-        <div id="asset-manager-content" class="tab-pane fade" role="tabpanel"><?php $this->load->view('private/settings/asset_manager', $data);?></div>
+        <div id="asset-manager-content" class="tab-pane fade" role="tabpanel"><?php $this->load->view('private/settings/asset_manager');?></div>
         <div id="users-content" class="tab-pane fade" role="tabpanel"><?php $this->load->view('private/settings/users', $this->data);?></div>
         <div id="permissions-content" class="tab-pane fade" role="tabpanel"><?php $this->load->view('private/settings/permissions', $this->data);?></div>
         <div id="login-photos-content" class="tab-pane fade" role="tabpanel"><?php $this->load->view('private/settings/login_photos', $this->data);?></div>
