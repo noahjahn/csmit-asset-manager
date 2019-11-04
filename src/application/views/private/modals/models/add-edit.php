@@ -23,7 +23,7 @@
                     </div>
                     <div class="form-group">
                         <label>Manufacturer</label>
-                        <select id="manufacturer" name="manufacturer" class="form-control" value="<?php set_value('manufacturer'); ?>"></select>
+                        <select id="test" type="text" name="manufacturer" class="form-control ui search dropdown" value="<?php set_value('manufacturer'); ?>"></select>
                         <div id="manufacturer-error" class="invalid-feedback"></div>
                     </div>
                     <div>
@@ -56,21 +56,7 @@
                     </div>
                     <div class="form-group">
                         <label>Manufacturer</label>
-                        <!-- <input list="brow" autocomplete="off" class="form-control">
-                            <datalist id="brow">
-                                <option value="Internet Explorer">
-                                <option value="Firefox">
-                                <option value="Chrome">
-                                <option value="Opera">
-                                <option value="Safari">
-                            </datalist>
-                        </input> -->
-                        <select id="manufacturer" type="text" name="manufacturer" class="form-control ui search dropdown is-valid" value="<?php set_value('manufacturer'); ?>">
-                            <option value="volvo">Volvo</option>
-                              <option value="saab">Saab</option>
-                              <option value="mercedes">Mercedes</option>
-                              <option value="audi">Audi</option>
-                        </select>
+                        <select id="manufacturer" type="text" name="manufacturer" class="form-control ui search dropdown is-valid" value="<?php set_value('manufacturer'); ?>"></select>
                         <div id="manufacturer-error" class="invalid-feedback"></div>
                     </div>
                     <div>

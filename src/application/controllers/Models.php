@@ -7,7 +7,7 @@ class Models extends CI_Controller {
 		parent::__construct();
 		// check for user authorization
         $this->load->model('Models_model');
-		$this->load->model('Models_model');
+		$this->load->model('Manufacturers_model');
 		$this->load->helper("database");
 		$this->load->helper("general");
 	}
@@ -54,6 +54,26 @@ class Models extends CI_Controller {
 			log_message('debug', 'Models: validate_add_name - failed to validate name');
 			$errors = array(
 				'name' => form_error('name'),
+			);
+			echo json_encode($errors);
+		}
+	}
+
+	public function validate_add_manufacturer() {
+		log_message('debug', 'Models: validate_add_manufacturer - in function');
+
+		if (!$this->input->is_ajax_request()) {
+			// echo $this->output_json(['unauthorized']);
+			exit;
+		}
+
+		$this->form_validation->set_rules(array($this->Models_model->get_insert_manufacturer_rules()));
+		if ($this->form_validation->run() == TRUE) {
+			echo json_encode("success");
+		} else {
+			log_message('debug', 'Models: validate_add_manufacturer - failed to validate manufacturer');
+			$errors = array(
+				'manufacturer' => form_error('manufacturer'),
 			);
 			echo json_encode($errors);
 		}
@@ -135,6 +155,16 @@ class Models extends CI_Controller {
 		log_message('debug', 'Models: id_exists - in function');
 
 		return $this->Models_model->id_exists($id);
+	}
+
+	function manufacturer_exists($id) {
+		log_message('debug', 'Models: manufacturer_exists - in function');
+
+		if ($this->Manufacturers_model->id_exists($id)) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
 	}
 
 }

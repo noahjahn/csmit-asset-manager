@@ -1,16 +1,47 @@
 var loadDataTable = $("#models-script").attr('data-load-datatable');
 
 $(document).ready(function() {
-    $('.ui.dropdown').dropdown();
-
     /* *** Static Variables *** */
     var addModelUrl = baseUrl + "Models/add";
     var validateAddNameUrl = baseUrl + "Models/validate_add_name";
+    var validateAddManufacturerUrl = baseUrl + "Models/validate_add_manufacturer";
     var editModelUrl = baseUrl + "Models/edit";
     var validateEditNameUrl = baseUrl + "Models/validate_edit_name";
+    var validateEditManufacturerUrl = baseUrl + "Models/validate_edit_manufacturer";
     var deleteModelUrl = baseUrl + "Models/delete/";
     var getActiveModelsUrl = baseUrl + "Models/get_active";
+    var getActiveManufacturersUrl = baseUrl + "Manufacturers/get_active";
     /* *** **************** *** */
+
+    /* *** Cached Variables *** */
+    var manufacturers = [];
+    var addManufacturerDropdown;
+    /* *** **************** *** */
+
+    /* *** Prepare Add Manufacturer Dropdown *** */
+    $.ajax({
+        async: false,
+        type: 'GET',
+        url: getActiveManufacturersUrl,
+        dataType: 'json',
+        success: function(result) {
+            Object.keys(result).forEach(function(i){
+                manufacturers.push({name: result[i].name, value: result[i].id});
+            });
+        },
+        error: function(result) {
+            var today = new Date();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            console.log("AJAX error, check server logs near local time: " + time);
+        }
+    });
+    $('#add-model .ui.dropdown').dropdown({
+        values: manufacturers
+    });
+    addManufacturerDropdown = $('div.form-control.ui.search.dropdown');
+    $('div.form-control.ui.search.dropdown').attr('tabindex', '1');
+
+    /* *** ****************************** *** */
 
     /* *** Handle add model *** */
     $("#add-model-form #name").blur(function() {
@@ -47,6 +78,58 @@ $(document).ready(function() {
         });
     });
 
+    // if (addManufacturerDropdown.blur())
+    addManufacturerDropdown.focusout(function() {
+        var shouldExit = false;
+        console.log('clicked off add manufacturer');
+        $('div.form-control.ui.search.dropdown .search').click(function(shouldExit) {
+            console.log('clicked search');
+            shouldExit = true;
+        });
+
+        if (shouldExit) {
+            return;
+        }
+
+        console.log('validation');
+        // $('div.form-control.ui.search.dropdown .search').attr('tabindex', '1');
+        // $('div.form-control.ui.search.dropdown .text').attr('tabindex', '1');
+        // $('div.form-control.ui.search.dropdown .menu').attr('tabindex', '1');
+        // $('div.form-control.ui.search.dropdown .menu .item').attr('tabindex', '1');
+        // if $()
+
+        // $.ajax({
+        //     type: 'POST',
+        //     url: validateAddManufacturerUrl,
+        //     dataType: 'json',
+        //     data: $(this).serialize(), // get data from the form
+        //     headers: {"X-HTTP-Method-Override": "PUT"},
+        //     success: function(result) {
+        //         if (result == "success") {
+        //             $("#add-model-form #manufacturer-error").empty();
+        //             $("#add-model-form #manufacturer").removeClass('is-invalid');
+        //             $("#add-model-form #manufacturer").addClass('is-valid');
+        //         } else {
+        //             $("#add-model-form #manufacturer").removeClass('is-valid');
+        //             if (! result["manufacturer"] == "") {
+        //                 if (! result["manufacturer"] == $("#add-model-form #manufacturer-error").val()) {
+        //                     $("#add-model-form #manufacturer-error").empty(); // empty error messages, if there were any
+        //                     $("#add-model-form #manufacturer-error").append(result["manufacturer"]); // display the error messages
+        //                 }
+        //                 if (! $("#add-model-form #manufacturer").hasClass('is-invalid')) {
+        //                     $("#add-model-form #manufacturer").addClass('is-invalid');
+        //                 }
+        //             }
+        //         }
+        //     },
+        //     error: function(result) {
+        //         var today = new Date();
+        //         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        //         console.log("AJAX error, check server logs near local time: " + time);
+        //     }
+        // });
+    });
+
     $("#add-model-form").on("submit", function(e) {
         e.preventDefault(); // prevent modal from closing
 
@@ -81,7 +164,11 @@ $(document).ready(function() {
 
     $('#add-model').on('hidden.bs.modal', function () {
         $("#add-model-form #name-error").empty(); // empty the errors when hiding the modal
+        $("#add-model-form #manufacturer-error").empty();
         $("#add-model-form #name").val(""); // set the value to of the forms to have nothing in them, just in case the user left some data there without submitting
+        $("#add-model .ui.dropdown .text").empty("");
+        $("#add-model .ui.dropdown .menu .active").removeClass('active');
+        $("#add-model .ui.dropdown .menu .selected").removeClass('selected');
         $("#add-model-form #name").removeClass('is-invalid');
         $("#add-model-form #name").removeClass('is-valid');
     });
