@@ -152,7 +152,7 @@ class Manufacturers extends CI_Controller {
 	function has_model($id) {
 		log_message('debug', 'Manufacturers: has_model - in function');
 
-		if ($this->Models_model->get_manufacter_count($id) > 0) {
+		if ($this->Models_model->get_manufacturer_count($id) > 0) {
 			return TRUE;
 		} else {
 			return FALSE;
