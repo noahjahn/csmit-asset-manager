@@ -161,7 +161,7 @@ body {
 .table-icon {
     background-color: transparent;
     border-color: transparent;
-
+    padding: 0px !important;
 }
 
 .table-icon img:hover {
