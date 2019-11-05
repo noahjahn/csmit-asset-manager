@@ -1,7 +1,3 @@
-function formatRow() {
-  return '<div"></div>';
-}
-
 $(document).ready( function () {
     /* Prepare Models table */
     var table = $('#asset-manager').DataTable( {
@@ -34,7 +30,7 @@ $(document).ready( function () {
             }
         ],
         "order": [[ 1, "asc" ]],
-        scrollY:        600,
+        scrollY:        800,
         paging:         true,
         fixedHeader:    true,
         info:           false,
@@ -65,7 +61,7 @@ $(document).ready( function () {
 
       if( row.child.isShown() ) {
           //If This row is already open - close it
-          $('td.slider', row.child()).slideUp( 300, function () {
+          $('div.slider', row.child()).slideUp( 300,function () {
               row.child.hide();
               tr.removeClass('shown');
           } );
@@ -74,63 +70,21 @@ $(document).ready( function () {
         //Open the row
         row.child( formatRow(row.data()), 'slider' ).show();
         tr.addClass('shown');
-        $('td.slider', row.child()).slideDown(300);
+        $('div.slider', row.child()).slideDown(300);
       }
     } );
 });
 
-
-
-/* *** Handle initial tab loading *** */
-// $(document).ready(function() {
-//         $('#asset_manager').DataTable({
-//             responsive: true,
-//         scrollY:        "70vh",
-//         paging:         false,
-//         fixedHeader:    true,
-//         info:           false,
-//         columns: [
-//             null,
-//             null,
-//             null,
-//             null,
-//             null,
-//             null,
-//             null,
-//             {
-//                 width: "16px"
-//             },
-//             {
-//                 width: "10px"
-//             },
-//         ],
-//         columnDefs: [
-//             {
-//                 orderable: false,
-//                 targets: [
-//                     7,
-//                     8
-//                 ]
-//             }
-//         ],
-//         dom:
-//             "<'row'<'col-sm'>fB>" +
-//             "<'row'<'col-sm'tr>>",
-//         buttons: [
-//             {
-//                 text: "Add Asset",
-//                 action: function() {
-//                     $('#add-asset').modal('show');
-//                 },
-//                 init: function (api, node, config) {
-//                     $(node).removeClass('btn-secondary');
-//                 },
-//                 className: 'btn-primary'
-//             }
-//         ],
-//         language: {
-//         search: "",
-//         searchPlaceholder: "Search..."
-//         }
-//         });
-// });
+function formatRow() {
+  return '<div class="slider">' +
+  '<table><tr>' +
+  '<td>Sub-Row Column 1</td>' +
+  '<td>Sub-Row Column 2</td>' +
+  '<td>Sub-Row Column 3</td>' +
+ '</tr><tr>' +
+  '<td>Sub-Row Column 4</td>' +
+  '<td>Sub-Row Column 5</td>' +
+  '<td>Sub-Row Column 6</td>' +
+  '</tr></table>' +
+  '</div>'; //Put child row data here.
+}

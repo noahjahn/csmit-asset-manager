@@ -54,13 +54,13 @@
     width: 100% !important;
 }
 
-td.slider {
+div.slider {
   display: none;
 }
 
-/* table.dataTable tbody td.no-padding {
+td.slider {
     padding: 0;
-} */
+}
 
 /* .scrollbar::-webkit-scrollbar-thumb
 {
