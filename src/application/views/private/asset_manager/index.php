@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   $this->load->view('private/modals/assets/edit.php');
   $this->load->view('private/modals/assets/add.php');
   ?>
-<script src="<?php echo base_url(); ?>assets/js/asset_manager.js"></script>
+<script id="asset-manager-script" data-load-datatable="true" src="<?php echo base_url(); ?>assets/js/asset_manager.js"></script>
 <table id="asset_manager" class="table table-hover">
     <thead class="table-header">
         <tr class="table-primary">
@@ -28,7 +28,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <th></th><th></th>
         </tr>
     </thead>
-    <tbody>
+    <!-- <tbody>
         <?php
         $assetCount = 0;
         foreach($data->result_array() as $asset) {
@@ -58,5 +58,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $assetCount++;
         }
         ?>
-    </tbody>
+    </tbody> -->
 </table>

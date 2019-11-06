@@ -10,25 +10,67 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="md-form mb-4">
-          <input type="text" id="input1" class="form-control validate">
-          <label data-success="right" data-error="wrong" for="input1">Input 1</label>
-        </div>
-        <div class="mb-4">
-          <input id="input2" type="text" class="form-control validate">
-          <label data-success="right" data-error="wrong" for="input2">Input 2</label>
-        </div>
-        <div class="mb-4">
-          <input id="input3" type="text" class="form-control validate">
-          <label data-success="right" data-error="wrong" for="input3">Input 3</label>
-        </div>
-        <div class="mb-4">
-          <input id="input4" type="text" class="form-control validate">
-          <label data-success="right" data-error="wrong" for="input4">Input 4</label>
-        </div>
-        <div class="mb-4">
-          <input id="input5" type="text" class="form-control validate">
-          <label data-success="right" data-error="wrong" for="input5">Input 5</label>
+        <div class="md-form container">
+          <div class="row">
+            <div class="col-sm">
+              <input type="text" id="add-asset-form-name" class="form-control validate">
+              <label data-success="right" data-error="wrong" for="add-asset-form-name">Name</label>
+            </div>
+            <div class="col-sm">
+              <input type="text" id="add-asset-form-manufacturer" class="form-control validate">
+              <label data-success="right" data-error="wrong" for="add-asset-form-manufacturer">Manufacturer</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm">
+              <input type="text" id="add-asset-form-model" class="form-control validate">
+              <label data-success="right" data-error="wrong" for="add-asset-form-">Model</label>
+            </div>
+            <div class="col-sm">
+              <input type="text" id="add-asset-form-owner" class="form-control validate">
+              <label data-success="right" data-error="wrong" for="add-asset-form-owner">Owner</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm">
+              <input type="text" id="add-asset-form-serialnum" class="form-control validate">
+              <label data-success="right" data-error="wrong" for="add-asset-form-serialnum">Serial Number</label>
+            </div>
+            <div class="col-sm">
+              <input type="text" id="add-asset-form-type" class="form-control validate">
+              <label data-success="right" data-error="wrong" for="add-asset-form-type">Type</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm">
+              <input type="text" id="add-asset-form-assettag" class="form-control validate">
+              <label data-success="right" data-error="wrong" for="add-asset-form-assettag">Asset Tag</label>
+            </div>
+            <div class="col-sm">
+              <input type="text" id="add-asset-form-purchaseprice" class="form-control validate">
+              <label data-success="right" data-error="wrong" for="add-asset-form-purchaseprice">Purchase Price</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm">
+              <input type="text" id="add-asset-form-purchasedate" class="form-control validate">
+              <label data-success="right" data-error="wrong" for="add-asset-form-purchasedate">Purchase Date</label>
+            </div>
+            <div class="col-sm">
+              <input type="text" id="add-asset-form-location" class="form-control validate">
+              <label data-success="right" data-error="wrong" for="add-asset-form-location">Location</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm">
+              <input type="text" id="add-asset-form-team" class="form-control validate">
+              <label data-success="right" data-error="wrong" for="add-asset-form-team">Team</label>
+            </div>
+            <div class="col-sm">
+              <input type="text" id="add-asset-form-jobnum" class="form-control validate">
+              <label data-success="right" data-error="wrong" for="add-asset-form-jobnum">Job Number</label>
+            </div>
+          </div>
         </div>
       </div>
       <div class="modal-footer">

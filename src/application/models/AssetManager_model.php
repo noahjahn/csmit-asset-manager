@@ -31,6 +31,7 @@ class AssetManager_model extends CI_Model {
                           , 'a.model = mo.id');
             $this->db->join('manufacturers as ma'
                           , 'mo.manufacturer = ma.id');
+            $this->db->where('a.is_deleted', FALSE);
             $query = $this->db->get();
 
             return $query;
