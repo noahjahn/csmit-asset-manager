@@ -54,7 +54,6 @@ body {
 /* *** END BOOTSTRAP OVERRIDES *** */
 
 /* *** NAVIGATION STYLES *** */
-
 .usr-img {
     background-color: grey;
     max-width: 128px;
@@ -230,3 +229,9 @@ body {
     border-top-width: 3px !important;
 }
 /* *** ********************* *** */
+
+/* *** FORM STYLES *** */
+.required {
+    color: #E74C3C;
+}
+/* *** *********** *** */

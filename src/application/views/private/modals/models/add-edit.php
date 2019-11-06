@@ -17,12 +17,12 @@
             <div class="modal-body" id="modal-body-add-model">
                 <?php echo form_open(current_url(), array( 'id' => 'add-model-form', 'name' => 'add-model-form')); ?>
                     <div class="form-group">
-                        <label>Name</label>
+                        <label>Name<span class="required"> *</span></label>
                         <input id="name" name="name" class="form-control" value="<?php set_value('name'); ?>">
                         <div id="name-error" class="invalid-feedback"></div>
                     </div>
                     <div class="form-group">
-                        <label>Manufacturer</label>
+                        <label>Manufacturer<span class="required"> *</span></label>
                         <select id="test" type="text" name="manufacturer" class="form-control ui search dropdown" value="<?php set_value('manufacturer'); ?>"></select>
                         <div id="manufacturer-error" class="invalid-feedback"></div>
                     </div>
@@ -50,12 +50,12 @@
             <div id="modal-body-edit-model" class="modal-body">
                 <?php echo form_open(current_url(), array( 'id' => 'edit-model-form', 'name' => 'edit-model-form')); ?>
                     <div class="form-group">
-                        <label>Name</label>
+                        <label>Name<span class="required"> *</span></label>
                         <input id="name" name="name" class="form-control" value="<?php set_value('name'); ?>">
                         <div id="name-error" class="invalid-feedback"></div>
                     </div>
                     <div class="form-group">
-                        <label>Manufacturer</label>
+                        <label>Manufacturer<span class="required"> *</span></label>
                         <select id="manufacturer" type="text" name="manufacturer" class="form-control ui search dropdown is-valid" value="<?php set_value('manufacturer'); ?>"></select>
                         <div id="manufacturer-error" class="invalid-feedback"></div>
                     </div>

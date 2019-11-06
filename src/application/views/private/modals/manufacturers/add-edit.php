@@ -12,7 +12,7 @@
             <div class="modal-body" id="modal-body-add-manufacturer">
                 <?php echo form_open(current_url(), array( 'id' => 'add-manufacturer-form', 'name' => 'add-manufacturer-form')); ?>
                     <div class="form-group">
-                        <label>Name</label>
+                        <label>Name<span class="required"> *</span></label>
                         <input id="name" name="name" class="form-control" value="<?php set_value('name'); ?>">
                         <div id="name-error" class="invalid-feedback"></div>
                     </div>
@@ -40,7 +40,7 @@
             <div id="modal-body-edit-manufacturer" class="modal-body">
                 <?php echo form_open(current_url(), array( 'id' => 'edit-manufacturer-form', 'name' => 'edit-manufacturer-form')); ?>
                     <div class="form-group">
-                        <label>Name</label>
+                        <label>Name<span class="required"> *</span></label>
                         <input id="name" name="name" class="form-control" value="<?php set_value('name'); ?>">
                         <div id="name-error" class="invalid-feedback"></div>
                     </div>

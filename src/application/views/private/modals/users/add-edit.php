@@ -12,32 +12,32 @@
             <div class="modal-body" id="modal-body-add-user">
                 <?php echo form_open(current_url(), array( 'id' => 'add-user-form', 'name' => 'add-user-form')); ?>
                     <div class="form-group">
-                        <label>First Name</label>
+                        <label>First Name<span class="required"> *</span></label>
                         <input id="first-name" name="first-name" class="form-control" value="<?php set_value('first_name'); ?>">
                         <div id="first-name-error" class="invalid-feedback"></div>
                     </div>
                     <div class="form-group">
-                        <label>Last Name</label>
+                        <label>Last Name<span class="required"> *</span></label>
                         <input id="last-name" name="last-name" class="form-control" value="<?php set_value('last_name'); ?>">
                         <div id="last-name-error" class="invalid-feedback"></div>
                     </div>
                     <div class="form-group">
-                        <label>Email</label>
+                        <label>Email<span class="required"> *</span></label>
                         <input id="email" name="email" class="form-control" value="<?php set_value('email'); ?>">
                         <div id="email-error" class="invalid-feedback"></div>
                     </div>
                     <div class="form-group">
-                        <label>Password</label>
+                        <label>Password<span class="required"> *</span></label>
                         <input id="password" type="password" name="password" class="form-control" value="<?php set_value('password'); ?>">
                         <div id="password-error" class="invalid-feedback"></div>
                     </div>
                     <div class="form-group">
-                        <label>Password Confirm</label>
+                        <label>Password Confirm<span class="required"> *</span></label>
                         <input id="password-confirm" type="password" name="password-confirm" class="form-control" value="<?php set_value('password_confirm'); ?>">
                         <div id="password-confirm-error" class="invalid-feedback"></div>
                     </div>
                     <div class="form-group">
-                        <label>Role</label>
+                        <label>Role<span class="required"> *</span></label>
                         <input id="role" name="role" class="form-control" value="<?php set_value('role'); ?>">
                         <div id="role-error" class="invalid-feedback"></div>
                     </div>
