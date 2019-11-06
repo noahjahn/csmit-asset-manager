@@ -4,5 +4,8 @@
     },
 	"require": {
 		"vlucas/phpdotenv": "^3"
+	},
+	"require-dev": {
+		"codeception/codeception": "^3.1"
 	}
 }

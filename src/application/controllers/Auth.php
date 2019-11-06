@@ -37,8 +37,8 @@ class Auth extends CI_Controller {
 		if ($this->input->post('login-submit')) {
 			$this->form_validation->set_rules($this->Auth_model->get_login_rules());
 			if ($this->form_validation->run() == TRUE) { // if credentials pass our rules
-				$email = $this->input->post('login_email'); // get email from login form
-				$password = $this->input->post('login_password'); // get password from login form
+				$email = $this->input->post('email'); // get email from login form
+				$password = $this->input->post('password'); // get password from login form
 
 				if ($this->can_login($password, $email)) {
 					$this->session->set_userdata('id', $this->Auth_model->get_user_id($email));
