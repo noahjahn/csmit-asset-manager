@@ -1,5 +1,6 @@
 body {
   overflow-x: hidden;
+  height: 100vh;
 }
 
 /* *** AUTHENTICATION STYLES *** */
@@ -16,6 +17,16 @@ body {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 0;
     color: #ffffff;
+}
+
+.login-form {
+    max-width: 20rem;
+    margin: auto;
+    padding: 1rem;
+}
+
+.parent {
+  /* position: relative; */
 }
 
 .form-control:focus {

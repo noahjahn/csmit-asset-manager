@@ -36,13 +36,13 @@ class Auth_model extends CI_Model {
     public function get_login_rules() {
         $form_rules = array (
             array (
-                'field' => 'login_email',
-                'label' => 'Email',
+                'field' => 'email',
+                'label' => 'email',
                 'rules' => 'required|valid_email|trim'
             ),
             array (
-                'field' => 'login_password',
-                'label' => 'Password',
+                'field' => 'password',
+                'label' => 'password',
                 'rules' => 'required|trim'
             )
         );
