@@ -4,6 +4,11 @@ $(document).ready(function() {
     makeAssetManagerActive();
     // loadManufacturers();
 });
+
+$(window).resize(function () {
+    console.log('recalculating!');
+    $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
+});
 /* *** ************************** *** */
 
 $(function(){

@@ -322,13 +322,14 @@ $(document).ready(function() {
             fixedHeader:    true,
             info:           false,
             columnDefs: [
-                { "width": "20px", "targets": [4,5] },
-                { "orderable": false, "targets": [4,5] },
-                { "visible": false, "targets": 0 }
+                { responsivePriority: -1, targets: [4,5] },
+                { width: "20px", targets: [4,5] },
+                { orderable: false, targets: [4,5] },
+                { visible: false, targets: 0 }
             ],
             dom:
-                "<'row'<'col-sm'<'table-title-users'>>fB>" +
-    			"<'row'<'col-sm'tr>>",
+                "<'row'<'col-md'<'table-title-users'>>fB>" +
+    			"<'row'<'col-md'tr>>",
             buttons: [
                 {
                     text: "Add User",

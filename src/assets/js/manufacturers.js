@@ -232,17 +232,20 @@ $(document).ready(function() {
                     }
                 }
             ],
+            responsive:     true,
             scrollY:        212,
             paging:         false,
             fixedHeader:    true,
             info:           false,
             columnDefs: [
-                { "orderable": false, "targets": [2,3] },
-                { "visible": false, "targets": 0 }
+                { responsivePriority: -1, targets: [2,3] },
+                { width: "20px", targets: [2,3] },
+                { orderable: false, targets: [2,3] },
+                { visible: false, targets: 0 }
             ],
             dom:
-                "<'row'<'col-sm'<'table-title-manufacturers'>>fB>" +
-    			"<'row'<'col-sm'tr>>",
+                "<'row'<'col-md-3'<'table-title-manufacturers'>><'col-md-9 pr-0 pt-0 pb-0'Bf>>" +
+    			"<'row'<'col-md'tr>>",
             buttons: [
                 {
                     text: "Add Manufacturer",

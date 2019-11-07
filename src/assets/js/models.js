@@ -233,7 +233,7 @@ $(document).ready(function() {
 
     /* Prepare models table */
     if (loadDataTable) {
-        $('#models').DataTable( {
+        var modelsTable = $('#models').DataTable( {
             ajax: {
                 url: getActiveModelsUrl,
                 dataSrc: ''
@@ -251,17 +251,21 @@ $(document).ready(function() {
                     }
                 }
             ],
+            responsive:     true,
             scrollY:        212,
             paging:         false,
             fixedHeader:    true,
             info:           false,
+            autoWidth:      false,
             columnDefs: [
-                { "orderable": false, "targets": [3,4] },
-                { "visible": false, "targets": 0 }
+                { responsivePriority: -1, targets: [3,4] },
+                { width: "20px", targets: [3,4] },
+                { orderable: false, targets: [3,4] },
+                { visible: false, targets: 0 }
             ],
             dom:
-                "<'row'<'col-sm'<'table-title-models'>>fB>" +
-    			"<'row'<'col-sm'tr>>",
+                "<'row'<'col-md-3'<'table-title-models'>><'col-md-9 pr-0 pt-0 pb-0'Bf>>" +
+    			"<'row'<'col-md'tr>>",
             buttons: [
                 {
                     text: "Add Model",
@@ -283,6 +287,8 @@ $(document).ready(function() {
         $("div.table-title-models").html('<h5 class="pt-3">Models</h5>');
         $("#models_wrapper").addClass("mb-4", "pt-2");
     }
+
+
     /* *** **** *** ** ** * */
 
 });
