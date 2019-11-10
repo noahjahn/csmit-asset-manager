@@ -16,6 +16,10 @@ class Users_model extends CI_Model {
             'first_name' => 'first_name',
             'last_name' => 'last_name',
             'email' => 'email',
+            'password' => 'password',
+            'role' => 'role',
+            'session_token' => 'session_token',
+            'last_login' => 'last_login',
             'is_deleted' => 'is_deleted',
             'last_modified_by' => 'last_modified_by',
             'last_modified_time' => 'last_modified_time',
@@ -28,29 +32,95 @@ class Users_model extends CI_Model {
         log_message('debug', 'Users_model: get_insert_rules - in function');
 
         $form_rules = array(
-            $this->get_insert_name_rules()
+            $this->get_first_name_rules(),
+            $this->get_last_name_rules(),
+            $this->get_insert_email_rules(),
+            $this->get_insert_password_rules(),
+            $this->get_password_confirm_rules(TRUE),
+            $this->get_role_rules()
         );
         return $form_rules;
     }
 
-    function get_insert_name_rules() {
-        log_message('debug', 'Users_model: get_insert_name_rules - in function');
-        $name_rules = array(
-            'field' => $this->fields['name'],
-            'label' => $this->fields['name'],
-            'rules' => 'required|callback_is_name_unique|trim',
-            'errors' => array(
-                'is_name_unique' => 'The %s field must contain a unique value.'
-            )
+    function get_first_name_rules() {
+        log_message('debug', 'Users_model: get_insert_first_name_rules - in function');
+        $first_name_rules = array(
+            'field' => $this->fields['first_name'],
+            'label' => 'first name',
+            'rules' => 'required|trim',
         );
-        return $name_rules;
+        return $first_name_rules;
     }
 
-    function get_update_rules() {
+    function get_last_name_rules() {
+        log_message('debug', 'Users_model: get_insert_last_name_rules - in function');
+        $last_name_rules = array(
+            'field' => $this->fields['last_name'],
+            'label' => 'last name',
+            'rules' => 'required|trim',
+        );
+        return $last_name_rules;
+    }
+
+    function get_insert_email_rules() {
+        log_message('debug', 'Users_model: get_insert_email_rules - in function');
+        $email_rules = array(
+            'field' => $this->fields['email'],
+            'label' => 'email',
+            'rules' => 'required|valid_email|callback_is_email_unique|trim',
+            'errors' => array(
+                'is_email_unique' => 'The %s field must contain a unique value.'
+            )
+        );
+        return $email_rules;
+    }
+
+    function get_insert_password_rules() {
+        log_message('debug', 'Users_model: get_insert_password_rules - in function');
+        $password_rules = array(
+            'field' => $this->fields['password'],
+            'label' => 'password',
+            'rules' => 'required|min_length[8]',
+        );
+        return $password_rules;
+    }
+
+    function get_password_confirm_rules($check_password_confirmation) {
+        log_message('debug', 'Users_model: get_password_confirm_rules - in function');
+        $password_confirm_rules = array(
+            'field' => 'password_confirm',
+            'label' => 'password confirmation',
+        );
+
+        if ($check_password_confirmation) {
+            array_push($password_confirm_rules, $password_confirm_rules['rules']='required|matches[password]');
+        } else {
+            array_push($password_confirm_rules, $password_confirm_rules['rules']='');
+        }
+
+        return $password_confirm_rules;
+    }
+
+    function get_role_rules() {
+        log_message('debug', 'Users_model: get_insert_role_rules - in function');
+        $role_rules = array(
+            'field' => $this->fields['role'],
+            'label' => 'role',
+            'rules' => 'required',
+        );
+        return $role_rules;
+    }
+
+    function get_update_rules($check_password_confirmation) {
         log_message('debug', 'Users_model: get_update_rules - in function');
         $form_rules = array (
             $this->get_update_id_rules(),
-            $this->get_update_name_rules()
+            $this->get_first_name_rules(),
+            $this->get_last_name_rules(),
+            $this->get_update_email_rules(),
+            $this->get_update_password_rules(),
+            $this->get_password_confirm_rules($check_password_confirmation),
+            $this->get_role_rules()
         );
         return $form_rules;
     }
@@ -59,7 +129,7 @@ class Users_model extends CI_Model {
         log_message('debug', 'Users_model: get_update_id_rules - in function');
         $id_rules = array(
             'field' => $this->fields['id'],
-            'label' => $this->fields['id'],
+            'label' => 'id',
             'rules' => 'required|callback_id_exists|trim',
             'errors' => array (
                 'id_exists' => 'The %s field does not exist.'
@@ -68,17 +138,27 @@ class Users_model extends CI_Model {
         return $id_rules;
     }
 
-    function get_update_name_rules() {
-        log_message('debug', 'Users_model: get_update_name_rules - in function');
-        $name_rules = array(
-            'field' => $this->fields['name'],
-            'label' => $this->fields['name'],
-            'rules' => 'required|callback_is_name_unique_not_different_from_current|trim',
-            'errors' => array (
-                'is_name_unique_not_different_from_current' => 'The %s field must contain a unique value.'
+    function get_update_email_rules() {
+        log_message('debug', 'Users_model: get_update_email_rules - in function');
+        $email_rules = array(
+            'field' => $this->fields['email'],
+            'label' => "email",
+            'rules' => 'required|valid_email|callback_is_email_unique_not_different_from_current|trim',
+            'errors' => array(
+                'is_email_unique_not_different_from_current' => 'The %s field must contain a unique value.'
             )
         );
-        return $name_rules;
+        return $email_rules;
+    }
+
+    function get_update_password_rules() {
+        log_message('debug', 'Users_model: get_update_password_rules - in function');
+        $password_rules = array(
+            'field' => $this->fields['password'],
+            'label' => 'password',
+            'rules' => 'min_length[8]',
+        );
+        return $password_rules;
     }
 
     function get_table_columns() {
@@ -99,87 +179,68 @@ class Users_model extends CI_Model {
         return $return;
     }
 
-    function get_name_by_id($id) {
-        log_message('debug', 'Users_model: get_name_by_id - in function');
-
-        if (record_exists($id, $this->table) && !(record_is_deleted($id, $this->table))) {
-            $this->db->select($this->fields['name']);
-            $this->db->from($this->table);
-            $this->db->where($this->fields['id'], $id);
-            $this->db->limit(1);
-
-            return $this->db->get()->result_array()['name'];
-
-        } else {
-            log_message('error', 'Users_model: get_name_by_id - failed, record '.$id.' doesn\'t exist or is inactive');
-            return FALSE;
-        }
-    }
-
-    function get_id_by_name($name) {
-        log_message('debug', 'Users_model: get_id_by_name - in function');
-
-        if ($this->is_name_unique($name)) {
-            $this->db->select($this->fields['id']);
-            $this->db->from($this->table);
-            $this->db->where($this->fields['name'], $name);
-            $this->db->limit(1);
-
-            return $this->db->get()->result_array()[0][$this->fields['id']];
-
-        } else {
-            log_message('error', 'Users_model: get_id_by_name - failed, name '.$name.' isn\'t unique');
-            return FALSE;
-        }
-    }
-
     function get_active() {
         log_message('debug', 'Users_model: get_active - in function');
 
-        $this->db->select('id, first_name, last_name, email');
-        $this->db->from($this->table);
+
+        $this->db->select("
+            u1.id,
+            u1.first_name,
+            u1.last_name,
+            u1.email,
+            u1.last_login,
+            (
+                SELECT CONCAT_WS
+                    (
+                        ' ',
+                        (
+                            SELECT
+                                u2.first_name
+                            FROM `users` AS u2
+                            WHERE u2.id = u1.last_modified_by
+                        ),
+                        (
+                            SELECT
+                                u2.last_name
+                            FROM `users` AS u2
+                            WHERE u2.id = u1.last_modified_by
+                        )
+                    )
+            ) AS 'last_modified_by_name'
+        ");
+        $this->db->from($this->table.' AS u1');
         $this->db->where('is_deleted', FALSE);
         return $this->db->get()->result_array();
     }
 
-    function insert($name) {
+    function insert($user) {
         log_message('debug', 'Users_model: insert - in function');
 
-        $data = array(
-            'name' => $name,
-            'last_modified_by' => $this->user_id,
-            'created_by' => $this->user_id
-        );
-
-        if ($this->is_name_unique($name)) { // if it's unique, add it
-            $this->db->insert($this->table, $data);
+        if ($this->is_email_unique($user['email'])) { // if it's unique, add it
+            $this->db->insert($this->table, $user);
         } else {
-            log_message('error', 'Users_model: insert - failed, record '.$name.' isn\'t unique');
+            log_message('error', 'Users_model: insert - failed, record '.$user['email'].' isn\'t unique');
             return FALSE;
         }
     }
 
-    function update($id, $name) {
+    function update($user) {
         log_message('debug', 'Users_model: update - in function');
 
         // check if user passed in exists and is active
-        if (record_exists($id, $this->table) && !(record_is_deleted($id, $this->table))) {
-            // if it is, update it
-            $data = array(
-                'name' => $name,
-                'last_modified_by' => $this->user_id,
-                'created_by' => $this->user_id
-            );
+        if (record_exists($user['id'], $this->table) && !(record_is_deleted($user['id'], $this->table))) {
 
-            if ($this->is_name_unique_not_different_from_current($name, $id)) {
-                $this->db->where('id', $id);
-                $this->db->update($this->table, $data);
+            if ($this->is_email_unique_not_different_from_current($user['email'], $user['id'])) {
+                log_message('debug', 'Users_model: update - in function '.json_encode($user));
+                $this->db->where('id', $user['id']);
+                $this->db->update($this->table, $user);
+                return TRUE;
             } else {
-                log_message('error', 'Users_model: update - failed, record '.$name.' isn\'t unique');
+                log_message('error', 'Users_model: update - failed, record '.$user['email'].' isn\'t unique');
                 return FALSE;
             }
         } else {
-            log_message('error', 'Users_model: update - failed, record '.$id.' doesn\'t exist or is inactive');
+            log_message('error', 'Users_model: update - failed, record '.$user['id'].' doesn\'t exist or is inactive');
             return FALSE;
         }
     }
@@ -209,12 +270,12 @@ class Users_model extends CI_Model {
         }
     }
 
-    function is_name_unique($name) {
-        log_message('debug', 'Users_model: is_name_unique - in function');
+    function is_email_unique($email) {
+        log_message('debug', 'Users_model: is_email_unique - in function');
 
         $this->db->select($this->get_table_columns());
         $this->db->from($this->table);
-        $this->db->where('name', $name);
+        $this->db->where($this->fields['email'], $email);
         $this->db->where('is_deleted', 0);
 
         $query = $this->db->get();
@@ -222,17 +283,17 @@ class Users_model extends CI_Model {
         if ($query->num_rows() == 0) {
             return TRUE;
         } else {
-            log_message('debug', 'Users_model: is_name_unique - found more than one record with the same name '.$name);
+            log_message('debug', 'Users_model: is_email_unique - found more than one record with the same name '.$email);
             return FALSE;
         }
 	}
 
-    function is_name_unique_not_different_from_current($name, $id) {
-        log_message('debug', 'Users_model: is_name_unique_not_different_from_current - in function');
+    function is_email_unique_not_different_from_current($email, $id) {
+        log_message('debug', 'Users_model: is_email_unique_not_different_from_current - in function');
 
         $this->db->select($this->get_table_columns());
         $this->db->from($this->table);
-        $this->db->where('name', $name);
+        $this->db->where('email', $email);
         $this->db->where('is_deleted', 0);
 
         $query = $this->db->get();
@@ -241,14 +302,14 @@ class Users_model extends CI_Model {
             if ($query->result_array()[0]['id'] == $id) {
                 return TRUE;
             } else {
-                log_message('error', 'Users_model: is_name_unique_not_different_from_current - the name '.$name.' entered already exists');
+                log_message('error', 'Users_model: is_email_unique_not_different_from_current - the email '.$email.' entered already exists. id='.$id);
                 return FALSE;
             }
         } else if ($query->num_rows() == 0) {
-            log_message('debug', 'Users_model: is_name_unique_not_different_from_current - a new name has been entered: '.$name);
+            log_message('debug', 'Users_model: is_email_unique_not_different_from_current - a new email has been entered: '.$email);
             return TRUE;
         } else {
-            log_message('error', 'Users_model: is_name_unique_not_different_from_current - found more than one record with the same name: '.$name);
+            log_message('error', 'Users_model: is_email_unique_not_different_from_current - found more than one record with the same email: '.$email);
             return FALSE;
         }
 	}
