@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Oct 24, 2019 at 03:04 AM
+-- Generation Time: Nov 10, 2019 at 12:51 AM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.19
 
@@ -212,6 +212,7 @@ CREATE TABLE `users` (
   `first_name` varchar(255) COLLATE utf8_bin NOT NULL,
   `last_name` varchar(255) COLLATE utf8_bin NOT NULL,
   `email` varchar(255) COLLATE utf8_bin NOT NULL,
+  `role` varchar(255) COLLATE utf8_bin NOT NULL,
   `password` varchar(255) COLLATE utf8_bin NOT NULL,
   `session_token` varchar(255) COLLATE utf8_bin NOT NULL,
   `last_login` datetime DEFAULT NULL,
@@ -226,11 +227,11 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `session_token`, `last_login`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
-(1, 'Super', 'User', 'administrator@csmgroup.com', '$2y$10$e9LFqB0jKJnQnkwxlKWWyuaCU6pA/R0rcyO7mnSPXdqWJV5SHiB0K', '$2y$10$V89KMVJPZtBGxqpC5JOiauCe2wTo2ntRYlcvQtq70T2xaqutYSMny', '2019-10-13 05:08:27', 0, '', '2019-08-19 02:19:39', '', '2019-08-19 02:19:39'),
-(2, 'Kalem', 'Pulliam', 'kalem.pulliam@csmgroup.com', '$2y$10$0OENbB0zml9KeBlCMqluQurim0RJ7I5gjUanKKgLQG9SUdtfQ5yY.', '$2y$10$47hsS9eSC6DOzd5zxjoRvug6ZhaW5343tycphiqrcmd4.01Z.Wha2', '2019-10-24 03:02:39', 0, '1', '2019-10-24 03:01:55', '1', '2019-10-24 03:01:55'),
-(3, 'Ben', 'Stieber', 'ben.stieber@csmgroup.com', '$2y$10$RU2YYI8r9avLIG8zGAml.eHQe/M5VbSGz2HtoqbI52Ardk7uti6/G', '', NULL, 0, '1', '2019-10-24 03:01:55', '1', '2019-10-24 03:01:55'),
-(4, 'Derrick', 'Quintanilla', 'derrick.quintanilla@csmgroup.com', '$2y$10$nas7DlXu3hPbb0K7BUTCgerEGNT1wVRJ/CqZNxYo14JULu9plSZr.', '', NULL, 0, '1', '2019-10-24 03:01:55', '1', '2019-10-24 03:01:55');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `role`, `password`, `session_token`, `last_login`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
+(1, 'Super', 'User', 'administrator@csmgroup.com', '', '$2y$10$e9LFqB0jKJnQnkwxlKWWyuaCU6pA/R0rcyO7mnSPXdqWJV5SHiB0K', '$2y$10$6JQS6JGvTM9f5ix5WRDoWO8eGbFTb8aghRQoRJqJp/BNQjH2dE7fS', '2019-11-09 09:25:34', 0, '', '2019-08-19 02:19:39', '', '2019-08-19 02:19:39'),
+(2, 'Kalem', 'Pulliam', 'kalem.pulliam@csmgroup.com', '', '$2y$10$0OENbB0zml9KeBlCMqluQurim0RJ7I5gjUanKKgLQG9SUdtfQ5yY.', '$2y$10$47hsS9eSC6DOzd5zxjoRvug6ZhaW5343tycphiqrcmd4.01Z.Wha2', '2019-10-24 03:02:39', 0, '1', '2019-10-24 03:01:55', '1', '2019-10-24 03:01:55'),
+(3, 'Ben', 'Stieber', 'ben.stieber@csmgroup.com', '', '$2y$10$RU2YYI8r9avLIG8zGAml.eHQe/M5VbSGz2HtoqbI52Ardk7uti6/G', '', NULL, 0, '1', '2019-10-24 03:01:55', '1', '2019-10-24 03:01:55'),
+(4, 'Derrick', 'Quintanilla', 'derrick.quintanilla@csmgroup.com', '', '$2y$10$nas7DlXu3hPbb0K7BUTCgerEGNT1wVRJ/CqZNxYo14JULu9plSZr.', '', NULL, 0, '1', '2019-10-24 03:01:55', '1', '2019-10-24 03:01:55');
 
 --
 -- Indexes for dumped tables
@@ -285,7 +286,8 @@ ALTER TABLE `teams`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -332,6 +334,7 @@ ALTER TABLE `teams`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
