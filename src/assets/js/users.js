@@ -30,6 +30,7 @@ $(document).ready(function() {
             dataType: 'json',
             data: $(this).serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
                     addFirstNameError.empty();
@@ -65,6 +66,7 @@ $(document).ready(function() {
             dataType: 'json',
             data: $(this).serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
                     addLastNameError.empty();
@@ -100,6 +102,7 @@ $(document).ready(function() {
             dataType: 'json',
             data: $(this).serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
                     addEmailError.empty();
@@ -135,6 +138,7 @@ $(document).ready(function() {
             dataType: 'json',
             data: $(this).serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
                     addPasswordError.empty();
@@ -170,6 +174,7 @@ $(document).ready(function() {
             dataType: 'json',
             data: $(this).serialize() + "&" + addPasswordField.serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
                     addPasswordConfirmError.empty();
@@ -205,6 +210,7 @@ $(document).ready(function() {
             dataType: 'json',
             data: $(this).serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
                     addRoleError.empty();
@@ -377,6 +383,7 @@ $(document).ready(function() {
             dataType: 'json',
             data: $(this).serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
                     editFirstNameError.empty();
@@ -410,6 +417,7 @@ $(document).ready(function() {
             dataType: 'json',
             data: $(this).serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
                     editLastNameError.empty();
@@ -445,6 +453,7 @@ $(document).ready(function() {
             dataType: 'json',
             data: "id=" + id + "&" + $(this).serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
                     editEmailError.empty();
@@ -478,6 +487,7 @@ $(document).ready(function() {
             dataType: 'json',
             data: $(this).serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
                     editPasswordError.empty();
@@ -511,6 +521,7 @@ $(document).ready(function() {
             dataType: 'json',
             data: $(this).serialize() + "&" + editPasswordField.serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
                     editPasswordConfirmError.empty();
@@ -544,6 +555,7 @@ $(document).ready(function() {
             dataType: 'json',
             data: $(this).serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
                     editRoleError.empty();
