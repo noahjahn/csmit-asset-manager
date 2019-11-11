@@ -6,7 +6,6 @@ $(document).ready(function() {
 });
 
 $(window).resize(function () {
-    console.log('recalculating!');
     $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
 });
 /* *** ************************** *** */
