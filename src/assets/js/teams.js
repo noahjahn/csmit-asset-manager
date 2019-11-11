@@ -11,7 +11,10 @@ $(document).ready(function() {
     /* *** **************** *** */
 
     /* *** Handle add team *** */
-    $("#add-team-form #name").blur(function() {
+    var addTeamField = $("#add-team-form #add-team-name");
+    var addTeamError = $("#add-team-form #add-team-name-error");
+
+    addTeamField.blur(function() {
 
         $.ajax({
             type: 'POST',
@@ -19,20 +22,21 @@ $(document).ready(function() {
             dataType: 'json',
             data: $(this).serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
-                    $("#add-team-form #name-error").empty();
-                    $("#add-team-form #name").removeClass('is-invalid');
-                    $("#add-team-form #name").addClass('is-valid');
+                    addTeamError.empty();
+                    addTeamField.removeClass('is-invalid');
+                    addTeamField.addClass('is-valid');
                 } else {
-                    $("#add-team-form #name").removeClass('is-valid');
+                    addTeamField.removeClass('is-valid');
                     if (! result["name"] == "") {
-                        if (! result["name"] == $("#add-team-form #name-error").val()) {
-                            $("#add-team-form #name-error").empty(); // empty error messages, if there were any
-                            $("#add-team-form #name-error").append(result["name"]); // display the error messages
+                        if (! result["name"] == addTeamError.val()) {
+                            addTeamError.empty(); // empty error messages, if there were any
+                            addTeamError.append(result["name"]); // display the error messages
                         }
-                        if (! $("#add-team-form #name").hasClass('is-invalid')) {
-                            $("#add-team-form #name").addClass('is-invalid');
+                        if (! addTeamField.hasClass('is-invalid')) {
+                            addTeamField.addClass('is-invalid');
                         }
                     }
                 }
@@ -59,12 +63,12 @@ $(document).ready(function() {
                     $("#teams").DataTable().ajax.reload(); // also need to reload the datatable since we successfully add an team
                 } else {
                     if (! result["name"] == "") {
-                        if (! result["name"] == $("#add-team-form #name-error").val()) {
-                            $("#add-team-form #name-error").empty(); // empty error messages, if there were any
-                            $("#add-team-form #name-error").append(result["name"]); // display the error messages
+                        if (! result["name"] == addTeamError.val()) {
+                            addTeamError.empty(); // empty error messages, if there were any
+                            addTeamError.append(result["name"]); // display the error messages
                         }
-                        if (! $("#add-team-form #name").hasClass('is-invalid')) {
-                            $("#add-team-form #name").addClass('is-invalid');
+                        if (! addTeamField.hasClass('is-invalid')) {
+                            addTeamField.addClass('is-invalid');
                         }
                     }
                 }
@@ -78,23 +82,26 @@ $(document).ready(function() {
     });
 
     $('#add-team').on('hidden.bs.modal', function () {
-        $("#add-team-form #name-error").empty(); // empty the errors when hiding the modal
-        $("#add-team-form #name").val(""); // set the value to of the forms to have nothing in them, just in case the user left some data there without submitting
-        $("#add-team-form #name").removeClass('is-invalid');
-        $("#add-team-form #name").removeClass('is-valid');
+        addTeamError.empty(); // empty the errors when hiding the modal
+        addTeamField.val(""); // set the value to of the forms to have nothing in them, just in case the user left some data there without submitting
+        addTeamField.removeClass('is-invalid');
+        addTeamField.removeClass('is-valid');
     });
     /* *** ********************* *** */
 
     /* *** Handle edit team *** */
-    $(document).on("click", "#edit-team-button", function () {
+    var editTeamField = $("#edit-team-form #edit-team-name");
+    var editTeamError = $("#edit-team-form #edit-team-name-error");
+
+    $(document).on("click", ".edit-team-button", function () {
         var id = $(this).data('id');
         var name = $(this).data('name');
 
-        $("#edit-team-form #name").val(name); // set values for what is currently set
+        editTeamField.val(name); // set values for what is currently set
         $("#edit-team-form #modal-submit-edit-team").data('id', id);
     });
 
-    $("#edit-team-form #name").blur(function() {
+    editTeamField.blur(function() {
         var id = $("#modal-submit-edit-team").data('id');
 
         $.ajax({
@@ -103,20 +110,21 @@ $(document).ready(function() {
             dataType: 'json',
             data: "id=" + id + "&" + $(this).serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
-                    $("#edit-team-form #name-error").empty();
-                    $("#edit-team-form #name").removeClass('is-invalid');
-                    $("#edit-team-form #name").addClass('is-valid');
+                    editTeamError.empty();
+                    editTeamField.removeClass('is-invalid');
+                    editTeamField.addClass('is-valid');
                 } else {
-                    $("#edit-team-form #name").removeClass('is-valid');
+                    editTeamField.removeClass('is-valid');
                     if (! result["name"] == "") {
-                        if (! result["name"] == $("#edit-team-form #name-error").val()) {
-                            $("#edit-team-form #name-error").empty(); // empty error messages, if there were any
-                            $("#edit-team-form #name-error").append(result["name"]); // display the error messages
+                        if (! result["name"] == editTeamError.val()) {
+                            editTeamError.empty(); // empty error messages, if there were any
+                            editTeamError.append(result["name"]); // display the error messages
                         }
-                        if (! $("#edit-team-form #name").hasClass('is-invalid')) {
-                            $("#edit-team-form #name").addClass('is-invalid');
+                        if (! editTeamField.hasClass('is-invalid')) {
+                            editTeamField.addClass('is-invalid');
                         }
                     }
                 }
@@ -140,18 +148,19 @@ $(document).ready(function() {
             dataType: 'json',
             data: "id=" + id + "&" + $(this).serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
                     $("#edit-team").modal('hide'); // if the submission was successful without any validation erros, we can hide the modal
                     $("#teams").DataTable().ajax.reload(); // also need to reload the datatable since we successfully add an team
                 } else {
                     if (! result["name"] == "") {
-                        if (! result["name"] == $("#edit-team-form #name-error").val()) {
-                            $("#edit-team-form #name-error").empty(); // empty error messages, if there were any
-                            $("#edit-team-form #name-error").append(result["name"]); // display the error messages
+                        if (! result["name"] == editTeamError.val()) {
+                            editTeamError.empty(); // empty error messages, if there were any
+                            editTeamError.append(result["name"]); // display the error messages
                         }
-                        if (! $("#edit-team-form #name").hasClass('is-invalid')) {
-                            $("#edit-team-form #name").addClass('is-invalid');
+                        if (! editTeamField.hasClass('is-invalid')) {
+                            editTeamField.addClass('is-invalid');
                         }
                     }
                 }
@@ -165,15 +174,15 @@ $(document).ready(function() {
     });
 
     $('#edit-team').on('hidden.bs.modal', function () {
-        $("#edit-team-form #name-error").empty(); // empty the errors when hiding the modal
-        $("#edit-team-form #name").val(""); // set the value to of the forms to have nothing in them, just in case the user left some data there without submitting
-        $("#edit-team-form #name").removeClass('is-invalid');
-        $("#edit-team-form #name").removeClass('is-valid');
+        editTeamError.empty(); // empty the errors when hiding the modal
+        editTeamField.val(""); // set the value to of the forms to have nothing in them, just in case the user left some data there without submitting
+        editTeamField.removeClass('is-invalid');
+        editTeamField.removeClass('is-valid');
     });
     /* *** ********************* *** */
 
     /* *** Handle delete team *** */
-    $(document).on("click", "#delete-team-button", function () {
+    $(document).on("click", ".delete-team-button", function () {
         var id = $(this).data('id');
         $("#modal-submit-delete-team").data('id', id);
 
@@ -208,11 +217,11 @@ $(document).ready(function() {
                 { "data": "id" },
                 { "data": "name" },
                 { "render": function ( data, type, row ) {
-                        return '<button id="edit-team-button" class="table-icon" data-toggle="modal" data-id="' + row.id + '" data-name="' + row.name + '" data-target="#edit-team"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
+                        return '<button class="table-icon edit-team-button" data-toggle="modal" data-id="' + row.id + '" data-name="' + row.name + '" data-target="#edit-team"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
                     }
                 },
                 { "render": function ( data, type, row ) {
-                        return '<button id="delete-team-button" class="table-icon" data-toggle="modal" data-id="' + row.id + '" data-target="#delete-team"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
+                        return '<button class="table-icon delete-team-button" data-toggle="modal" data-id="' + row.id + '" data-target="#delete-team"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
                     }
                 }
             ],

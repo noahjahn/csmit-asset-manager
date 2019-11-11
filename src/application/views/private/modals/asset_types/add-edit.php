@@ -13,13 +13,13 @@
                 <?php echo form_open(current_url(), array( 'id' => 'add-asset-type-form', 'name' => 'add-asset-type-form')); ?>
                     <div class="form-group">
                         <label>Name<span class="required"> *</span></label>
-                        <input id="name" name="name" class="form-control" value="<?php set_value('name'); ?>">
-                        <div id="name-error" class="invalid-feedback"></div>
+                        <input id="add-asset-type-name" name="name" class="form-control" value="<?php set_value('name'); ?>">
+                        <div id="add-asset-type-name-error" class="invalid-feedback"></div>
                     </div>
                     <div class="form-group">
                         <label for="rate">Rate<span class="required"> *</span></label>
-                        <input id="rate" name="rate" type="number" step=".01" class="form-control" value="<?php set_value('rate'); ?>">
-                        <div id="rate-error" class="invalid-feedback"></div>
+                        <input id="add-asset-type-rate" name="rate" type="number" step=".01" class="form-control" value="<?php set_value('rate'); ?>">
+                        <div id="add-asset-type-rate-error" class="invalid-feedback"></div>
                     </div>
                     <div>
                         <div class="modal-body-footer">
@@ -46,13 +46,13 @@
                 <?php echo form_open(current_url(), array( 'id' => 'edit-asset-type-form', 'name' => 'edit-asset-type-form')); ?>
                     <div class="form-group">
                         <label>Name<span class="required"> *</span></label>
-                        <input id="name" name="name" class="form-control" value="<?php set_value('name'); ?>">
-                        <div id="name-error" class="invalid-feedback"></div>
+                        <input id="edit-asset-type-name" name="name" class="form-control" value="<?php set_value('name'); ?>">
+                        <div id="edit-asset-type-name-error" class="invalid-feedback"></div>
                     </div>
                     <div class="form-group">
                         <label for="rate">Rate<span class="required"> *</span></label>
-                        <input id="rate" name="rate" type="number" step=".01" class="form-control" value="<?php set_value('rate'); ?>">
-                        <div id="rate-error" class="invalid-feedback"></div>
+                        <input id="edit-asset-type-rate" name="rate" type="number" step=".01" class="form-control" value="<?php set_value('rate'); ?>">
+                        <div id="edit-asset-type-rate-error" class="invalid-feedback"></div>
                     </div>
                     <div>
                         <div class="modal-body-footer">

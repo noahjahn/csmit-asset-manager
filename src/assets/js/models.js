@@ -16,11 +16,12 @@ $(document).ready(function() {
     /* *** Cached Variables *** */
     var manufacturers = [];
     var addManufacturerDropdown;
+    var isAddManufacturerFilled = false;
+    var isEditManufacturerFilled = false;
     /* *** **************** *** */
 
     /* *** Prepare Add Manufacturer Dropdown *** */
     $.ajax({
-        async: false,
         type: 'GET',
         url: getActiveManufacturersUrl,
         dataType: 'json',
@@ -35,34 +36,71 @@ $(document).ready(function() {
             console.log("AJAX error, check server logs near local time: " + time);
         }
     });
-    $('#add-model .ui.dropdown').dropdown({
-        values: manufacturers
+
+    function compareStrings(str1, str2) {
+        str1 = str1.toLowerCase();
+        str2 = str2.toLowerCase();
+        return (str1 < str2) ? -1 : (str1 > str2) ? 1 : 0;
+    }
+
+    var addModelButton = $('#add-model-button');
+    $(document).on("click", addModelButton, function () {
+        if (! isAddManufacturerFilled) {
+            manufacturers.sort(function(a, b) {
+                return compareStrings(a.name, b.name);
+            })
+            Object.keys(manufacturers).forEach(function(i) {
+                $("#add-model-manufacturer").append("<option data-value=\"" + manufacturers[i].value + "\">" + manufacturers[i].name + "</option>");
+            });
+            isAddManufacturerFilled = true;
+            $('#add-model .ui.dropdown').dropdown({
+                // values: manufacturers
+            });
+        }
+    });
+
+    var editModelButton = $('.edit-model-button');
+    $(document).on("click", editModelButton, function () {
+        if (! isEditManufacturerFilled) {
+            manufacturers.sort(function(a, b) {
+                return compareStrings(a.name, b.name);
+            })
+            Object.keys(manufacturers).forEach(function(i) {
+                $("#edit-model-manufacturer").append("<option data-value=\"" + manufacturers[i].value + "\">" + manufacturers[i].name + "</option>");
+            });
+            isEditManufacturerFilled = true;
+            $('#edit-model .ui.dropdown').dropdown({
+                // values: manufacturers
+            });
+        }
     });
     /* *** ****************************** *** */
 
     /* *** Handle add model *** */
-    $("#add-model-form #name").blur(function() {
-
+    var addNameField = $("#add-model-name");
+    var addNameError = $("#add-model-name-error");
+    addNameField.blur(function() {
         $.ajax({
             type: 'POST',
             url: validateAddNameUrl,
             dataType: 'json',
             data: $(this).serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
-                    $("#add-model-form #name-error").empty();
-                    $("#add-model-form #name").removeClass('is-invalid');
-                    $("#add-model-form #name").addClass('is-valid');
+                    addNameError.empty();
+                    addNameField.removeClass('is-invalid');
+                    addNameField.addClass('is-valid');
                 } else {
-                    $("#add-model-form #name").removeClass('is-valid');
+                    addNameField.removeClass('is-valid');
                     if (! result["name"] == "") {
-                        if (! result["name"] == $("#add-model-form #name-error").val()) {
-                            $("#add-model-form #name-error").empty(); // empty error messages, if there were any
-                            $("#add-model-form #name-error").append(result["name"]); // display the error messages
+                        if (! result["name"] == addNameError.val()) {
+                            addNameError.empty(); // empty error messages, if there were any
+                            addNameError.append(result["name"]); // display the error messages
                         }
-                        if (! $("#add-model-form #name").hasClass('is-invalid')) {
-                            $("#add-model-form #name").addClass('is-invalid');
+                        if (! addNameField.hasClass('is-invalid')) {
+                            addNameField.addClass('is-invalid');
                         }
                     }
                 }
@@ -77,7 +115,6 @@ $(document).ready(function() {
 
     $("#add-model-form").on("submit", function(e) {
         e.preventDefault(); // prevent modal from closing
-
         $.ajax({
             type: 'POST',
             url: addModelUrl,
@@ -89,12 +126,12 @@ $(document).ready(function() {
                     $("#models").DataTable().ajax.reload(); // also need to reload the datatable since we successfully add an model
                 } else {
                     if (! result["name"] == "") {
-                        if (! result["name"] == $("#add-model-form #name-error").val()) {
-                            $("#add-model-form #name-error").empty(); // empty error messages, if there were any
-                            $("#add-model-form #name-error").append(result["name"]); // display the error messages
+                        if (! result["name"] == addNameError.val()) {
+                            addNameError.empty(); // empty error messages, if there were any
+                            addNameError.append(result["name"]); // display the error messages
                         }
-                        if (! $("#add-model-form #name").hasClass('is-invalid')) {
-                            $("#add-model-form #name").addClass('is-invalid');
+                        if (! addNameField.hasClass('is-invalid')) {
+                            addNameField.addClass('is-invalid');
                         }
                     }
                 }
@@ -108,27 +145,29 @@ $(document).ready(function() {
     });
 
     $('#add-model').on('hidden.bs.modal', function () {
-        $("#add-model-form #name-error").empty(); // empty the errors when hiding the modal
-        $("#add-model-form #manufacturer-error").empty();
-        $("#add-model-form #name").val(""); // set the value to of the forms to have nothing in them, just in case the user left some data there without submitting
-        $("#add-model .ui.dropdown .text").empty("");
-        $("#add-model .ui.dropdown .menu .active").removeClass('active');
-        $("#add-model .ui.dropdown .menu .selected").removeClass('selected');
-        $("#add-model-form #name").removeClass('is-invalid');
-        $("#add-model-form #name").removeClass('is-valid');
+        addNameError.empty(); // empty the errors when hiding the modal
+        // $("#add-model-form #manufacturer-error").empty();
+        addNameField.val(""); // set the value to of the forms to have nothing in them, just in case the user left some data there without submitting
+        // $("#add-model .ui.dropdown .text").empty("");
+        // $("#add-model .ui.dropdown .menu .active").removeClass('active');
+        // $("#add-model .ui.dropdown .menu .selected").removeClass('selected');
+        addNameField.removeClass('is-invalid');
+        addNameField.removeClass('is-valid');
     });
     /* *** ********************* *** */
 
     /* *** Handle edit model *** */
-    $(document).on("click", "#edit-model-button", function () {
+    var editNameField = $("#edit-model-name");
+    var editNameError = $("#edit-model-name-error");
+    $(document).on("click", ".edit-model-button", function () {
         var id = $(this).data('id');
         var name = $(this).data('name');
 
-        $("#edit-model-form #name").val(name); // set values for what is currently set
+        editNameField.val(name); // set values for what is currently set
         $("#edit-model-form #modal-submit-edit-model").data('id', id);
     });
 
-    $("#edit-model-form #name").blur(function() {
+    editNameField.blur(function() {
         var id = $("#modal-submit-edit-model").data('id');
 
         $.ajax({
@@ -137,20 +176,21 @@ $(document).ready(function() {
             dataType: 'json',
             data: "id=" + id + "&" + $(this).serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
-                    $("#edit-model-form #name-error").empty();
-                    $("#edit-model-form #name").removeClass('is-invalid');
-                    $("#edit-model-form #name").addClass('is-valid');
+                    editNameError.empty();
+                    editNameField.removeClass('is-invalid');
+                    editNameField.addClass('is-valid');
                 } else {
-                    $("#edit-model-form #name").removeClass('is-valid');
+                    editNameField.removeClass('is-valid');
                     if (! result["name"] == "") {
-                        if (! result["name"] == $("#edit-model-form #name-error").val()) {
-                            $("#edit-model-form #name-error").empty(); // empty error messages, if there were any
-                            $("#edit-model-form #name-error").append(result["name"]); // display the error messages
+                        if (! result["name"] == editNameError.val()) {
+                            editNameError.empty(); // empty error messages, if there were any
+                            editNameError.append(result["name"]); // display the error messages
                         }
-                        if (! $("#edit-model-form #name").hasClass('is-invalid')) {
-                            $("#edit-model-form #name").addClass('is-invalid');
+                        if (! editNameField.hasClass('is-invalid')) {
+                            editNameField.addClass('is-invalid');
                         }
                     }
                 }
@@ -174,18 +214,19 @@ $(document).ready(function() {
             dataType: 'json',
             data: "id=" + id + "&" + $(this).serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
                     $("#edit-model").modal('hide'); // if the submission was successful without any validation erros, we can hide the modal
                     $("#models").DataTable().ajax.reload(); // also need to reload the datatable since we successfully add an model
                 } else {
                     if (! result["name"] == "") {
-                        if (! result["name"] == $("#edit-model-form #name-error").val()) {
-                            $("#edit-model-form #name-error").empty(); // empty error messages, if there were any
-                            $("#edit-model-form #name-error").append(result["name"]); // display the error messages
+                        if (! result["name"] == editNameError.val()) {
+                            editNameError.empty(); // empty error messages, if there were any
+                            editNameError.append(result["name"]); // display the error messages
                         }
-                        if (! $("#edit-model-form #name").hasClass('is-invalid')) {
-                            $("#edit-model-form #name").addClass('is-invalid');
+                        if (! editNameField.hasClass('is-invalid')) {
+                            editNameField.addClass('is-invalid');
                         }
                     }
                 }
@@ -199,15 +240,15 @@ $(document).ready(function() {
     });
 
     $('#edit-model').on('hidden.bs.modal', function () {
-        $("#edit-model-form #name-error").empty(); // empty the errors when hiding the modal
-        $("#edit-model-form #name").val(""); // set the value to of the forms to have nothing in them, just in case the user left some data there without submitting
-        $("#edit-model-form #name").removeClass('is-invalid');
-        $("#edit-model-form #name").removeClass('is-valid');
+        editNameError.empty(); // empty the errors when hiding the modal
+        editNameField.val(""); // set the value to of the forms to have nothing in them, just in case the user left some data there without submitting
+        editNameField.removeClass('is-invalid');
+        editNameField.removeClass('is-valid');
     });
     /* *** ********************* *** */
 
     /* *** Handle delete model *** */
-    $(document).on("click", "#delete-model-button", function () {
+    $(document).on("click", ".delete-model-button", function () {
         var id = $(this).data('id');
         $("#modal-submit-delete-model").data('id', id);
 
@@ -243,11 +284,11 @@ $(document).ready(function() {
                 { "data": "name" },
                 { "data": "manufacturer" },
                 { "render": function ( data, type, row ) {
-                        return '<button id="edit-model-button" class="table-icon" data-toggle="modal" data-id="' + row.id + '" data-name="' + row.name + '" data-target="#edit-model"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
+                        return '<button  class="table-icon edit-model-button" data-toggle="modal" data-id="' + row.id + '" data-name="' + row.name + '" data-target="#edit-model"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
                     }
                 },
                 { "render": function ( data, type, row ) {
-                        return '<button id="delete-model-button" class="table-icon" data-toggle="modal" data-id="' + row.id + '" data-target="#delete-model"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
+                        return '<button class="table-icon delete-model-button" data-toggle="modal" data-id="' + row.id + '" data-target="#delete-model"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
                     }
                 }
             ],
@@ -273,6 +314,7 @@ $(document).ready(function() {
                     },
                     init: function (api, node, config) {
                         $(node).removeClass('btn-secondary');
+                        $(node).attr("id", "add-model-button");
                         $(node).attr("data-toggle", "modal");
                         $(node).attr("data-target", "#add-model");
                     },

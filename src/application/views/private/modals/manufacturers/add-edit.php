@@ -13,8 +13,8 @@
                 <?php echo form_open(current_url(), array( 'id' => 'add-manufacturer-form', 'name' => 'add-manufacturer-form')); ?>
                     <div class="form-group">
                         <label>Name<span class="required"> *</span></label>
-                        <input id="name" name="name" class="form-control" value="<?php set_value('name'); ?>">
-                        <div id="name-error" class="invalid-feedback"></div>
+                        <input id="add-manufacturer-name" name="name" class="form-control" value="<?php set_value('name'); ?>">
+                        <div id="add-manufacturer-name-error" class="invalid-feedback"></div>
                     </div>
                     <div>
                         <div class="modal-body-footer">
@@ -41,8 +41,8 @@
                 <?php echo form_open(current_url(), array( 'id' => 'edit-manufacturer-form', 'name' => 'edit-manufacturer-form')); ?>
                     <div class="form-group">
                         <label>Name<span class="required"> *</span></label>
-                        <input id="name" name="name" class="form-control" value="<?php set_value('name'); ?>">
-                        <div id="name-error" class="invalid-feedback"></div>
+                        <input id="edit-manufacturer-name" name="name" class="form-control" value="<?php set_value('name'); ?>">
+                        <div id="edit-manufacturer-name-error" class="invalid-feedback"></div>
                     </div>
                     <div>
                         <div class="modal-body-footer">
