@@ -63,20 +63,6 @@ class Auth_model extends CI_Model {
         return $this->db->get()->result_array()[0]['password'];
     }
 
-    public function set_user_password($email, $password) {
-        log_message('debug', 'Auth_model: set_user_password - in function');
-
-        // validate the arguments first
-        $hashed = password_hash($password, PASSWORD_DEFAULT); //https://www.php.net/manual/en/function.password-hash.php
-
-        $data = array(
-                'password' => $hashed,
-        );
-
-        $this->db->where('email', $email);
-        $this->db->update($this->users_table, $data);
-    }
-
     public function get_user_id($email) {
         $this->db->select('id');
         $this->db->from($this->users_table);
