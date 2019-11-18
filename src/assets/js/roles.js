@@ -732,20 +732,13 @@ $(document).ready(function() {
             columns: [
                 { "data": "id" },
                 { "data": "name" },
-                { "data": "last_name" },
-                { "data": "email" },
-                { "data": "last_login", "render": function (data, type, row) {
-                        var ret;
-                        if (row.last_login == null) {
-                            ret = "Never!";
-                        } else {
-                            var date = new Date(row.last_login);
-                            ret = date.toLocaleString('en-US', { hour12: true });
-                        }
-                        return ret;
-                    }
-                },
-                { "data": "last_modified_by_name"},
+                { "data": "dashboard" },
+                { "data": "asset_manager" },
+                { "data": "reports" },
+                { "data": "asset_groups" },
+                { "data": "users" },
+                { "data": "roles" },
+                { "data": "login_photos" },
                 { "render": function ( data, type, row ) {
                         return '<button class="table-icon edit-role-button" data-toggle="modal" data-id="' + row.id + '" data-first_name="' + row.first_name + '" data-last_name="' + row.last_name + '" data-email="' + row.email + '" data-role="' + row.role + '" data-target="#edit-role"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
                     }

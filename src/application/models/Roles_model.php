@@ -14,6 +14,7 @@ class Roles_model extends CI_Model {
         $this->fields = array(
             'id' => 'id',
             'name' => 'name',
+            'dashboard' => 'dashboard',
             'asset_manager' => 'asset_manager',
             'reports' => 'reports',
             'asset_groups' => 'asset_groups',
