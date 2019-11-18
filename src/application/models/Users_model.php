@@ -188,6 +188,7 @@ class Users_model extends CI_Model {
             u1.first_name,
             u1.last_name,
             u1.email,
+            roles.name as role,
             u1.last_login,
             (
                 SELECT CONCAT_WS
@@ -209,7 +210,8 @@ class Users_model extends CI_Model {
             ) AS 'last_modified_by_name'
         ");
         $this->db->from($this->table.' AS u1');
-        $this->db->where('is_deleted', FALSE);
+        $this->db->join('roles', 'u1.role = roles.id');
+        $this->db->where('u1.is_deleted', FALSE);
         return $this->db->get()->result_array();
     }
 

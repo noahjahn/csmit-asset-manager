@@ -5,7 +5,7 @@ $(document).ready(function() {
     var addUserUrl = baseUrl + "Users/add";
     var validateAddEmailUrl = baseUrl + "Users/validate_add_email";
     var validateAddPasswordUrl = baseUrl + "Users/validate_add_password";
-    var validateAddPasswordConfirmUrl = baseUrl + "Users/validate_add_password_confirm";
+    var validateAddPasswordConfirmUrl = baseUrl + "Users/validate_password_confirm";
 
     var validateFirstNameUrl = baseUrl + "Users/validate_first_name";
     var validateLastNameUrl = baseUrl + "Users/validate_last_name";
@@ -18,7 +18,86 @@ $(document).ready(function() {
 
     var deleteUserUrl = baseUrl + "Users/delete/";
     var getActiveUsersUrl = baseUrl + "Users/get_active";
+    var getActiveRolesUrl = baseUrl + "Roles/get_active";
     /* *** **************** *** */
+
+    /* *** Cached Variables *** */
+    var roles = [];
+    var addRoleDropdown;
+    var isAddRoleFilled = false;
+    var isEditRoleFilled = false;
+    /* *** **************** *** */
+
+    /* *** Prepare Add Manufacturer Dropdown *** */
+    $.ajax({
+        type: 'GET',
+        url: getActiveRolesUrl,
+        dataType: 'json',
+        success: function(result) {
+            // console.log(result[0].id);
+            Object.keys(result).forEach(function(i){
+                roles.push({name: result[i].name, value: result[i].id});
+            });
+        },
+        error: function(result) {
+            var today = new Date();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            console.log("AJAX error, check server logs near local time: " + time);
+        }
+    });
+
+    function compareStrings(str1, str2) {
+        str1 = str1.toLowerCase();
+        str2 = str2.toLowerCase();
+        return (str1 < str2) ? -1 : (str1 > str2) ? 1 : 0;
+    }
+
+    var addUserButton = $('#add-user-button');
+    console.log(addUserButton);
+    addUserButton.click(function(e) {
+        e.preventDefault();
+      alert( "Handler for .click() called." );
+    });
+    // addUserButton.click(function (e) {
+    //     e.preventDefault();
+    //     console.log("clicked add button");
+    //
+    //     if (! isAddRoleFilled) {
+    //         roles.sort(function(a, b) {
+    //             return compareStrings(a.name, b.name);
+    //         })
+    //         console.log(roles);
+    //         isAddRoleFilled = true;
+    //         $('#add-user-role').dropdown({
+    //             values: roles
+    //         });
+    //     }
+    // });
+
+    var editUserButton = $('#edit-user-button');
+    $(document).on("click", editUserButton, function () {
+        console.log("clicked edit button");
+        // if (! isAddRoleFilled) {
+            roles.sort(function(a, b) {
+                return compareStrings(a.name, b.name);
+            })
+            // isAddRoleFilled = true;
+            var role = $("#modal-submit-edit-user").data('role');
+            console.log(role);
+            var editDisplayRoles = [];
+            Object.keys(roles).forEach(function(i){
+                if (roles[i].value == role) {
+                    editDisplayRoles.push({name: roles[i].name, value: roles[i].id, selected: true });
+                } else {
+                    editDisplayRoles.push({name: roles[i].name, value: roles[i].id});
+                }
+            });
+            $('#role-user-role').dropdown({
+                values: editDisplayRoles
+            });
+            console.log(editDisplayRoles);
+        // }
+    });
 
     /* *** Handle add user *** */
     var addFirstNameField = $('#add-user-form #add-user-first-name');
@@ -204,47 +283,50 @@ $(document).ready(function() {
     var addRoleField = $('#add-user-form #add-user-role');
     var addRoleError = $("#add-user-form #add-user-role-error");
     addRoleField.blur(function() {
-        $.ajax({
-            type: 'POST',
-            url: validateRoleUrl,
-            dataType: 'json',
-            data: $(this).serialize(), // get data from the form
-            headers: {"X-HTTP-Method-Override": "PUT"},
-            async: true,
-            success: function(result) {
-                if (result == "success") {
-                    addRoleError.empty();
-                    addRoleField.removeClass('is-invalid');
-                    addRoleField.addClass('is-valid');
-                } else {
-                    addRoleField.removeClass('is-valid');
-                    if (! result["role"] == "") {
-                        if (! result["role"] == addRoleError.val()) {
-                            addRoleError.empty(); // empty error messages, if there were any
-                            addRoleError.append(result["role"]); // display the error messages
-                        }
-                        if (! addRoleField.hasClass('is-invalid')) {
-                            addRoleField.addClass('is-invalid');
-                        }
-                    }
-                }
-            },
-            error: function(result) {
-                var today = new Date();
-                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-                console.log("AJAX error, check server logs near local time: " + time);
-            }
-        });
+        // $.ajax({
+        //     type: 'POST',
+        //     url: validateRoleUrl,
+        //     dataType: 'json',
+        //     data: $(this).serialize(), // get data from the form
+        //     headers: {"X-HTTP-Method-Override": "PUT"},
+        //     async: true,
+        //     success: function(result) {
+        //         if (result == "success") {
+        //             addRoleError.empty();
+        //             addRoleField.removeClass('is-invalid');
+        //             addRoleField.addClass('is-valid');
+        //         } else {
+        //             addRoleField.removeClass('is-valid');
+        //             if (! result["role"] == "") {
+        //                 if (! result["role"] == addRoleError.val()) {
+        //                     addRoleError.empty(); // empty error messages, if there were any
+        //                     addRoleError.append(result["role"]); // display the error messages
+        //                 }
+        //                 if (! addRoleField.hasClass('is-invalid')) {
+        //                     addRoleField.addClass('is-invalid');
+        //                 }
+        //             }
+        //         }
+        //     },
+        //     error: function(result) {
+        //         var today = new Date();
+        //         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        //         console.log("AJAX error, check server logs near local time: " + time);
+        //     }
+        // });
     });
 
     $("#add-user-form").on("submit", function(e) {
         e.preventDefault(); // prevent modal from closing
 
+        var role = $('#add-user-form .item.active.selected').data('value');
+        console.log(role);
+
         $.ajax({
             type: 'POST',
             url: addUserUrl,
             dataType: 'json',
-            data: $(this).serialize(), // get data from the form
+            data: $(this).serialize() + "&" + "role=" + role, // get data from the form
             success: function(result) {
                 if (result == "success") {
                     $("#add-user").modal('hide'); // if the submission was successful without any validation erros, we can hide the modal
@@ -734,6 +816,7 @@ $(document).ready(function() {
                 { "data": "first_name" },
                 { "data": "last_name" },
                 { "data": "email" },
+                { "data": "role" },
                 { "data": "last_login", "render": function (data, type, row) {
                         var ret;
                         if (row.last_login == null) {
@@ -745,7 +828,7 @@ $(document).ready(function() {
                         return ret;
                     }
                 },
-                { "data": "last_modified_by_name"},
+                // { "data": "last_modified_by_name"},
                 { "render": function ( data, type, row ) {
                         return '<button class="table-icon edit-user-button" data-toggle="modal" data-id="' + row.id + '" data-first_name="' + row.first_name + '" data-last_name="' + row.last_name + '" data-email="' + row.email + '" data-role="' + row.role + '" data-target="#edit-user"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
                     }
@@ -775,6 +858,7 @@ $(document).ready(function() {
                     },
                     init: function (api, node, config) {
                         $(node).removeClass('btn-secondary');
+                        $(node).attr("id", "add-user-button");
                         $(node).attr("data-toggle", "modal");
                         $(node).attr("data-target", "#add-user");
                     },

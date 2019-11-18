@@ -145,7 +145,7 @@ class Users extends CI_Controller {
 		}
 
 		$this->form_validation->set_rules(array($this->Users_model->get_insert_password_rules()));
-		$this->form_validation->set_rules(array($this->Users_model->get_password_confirm_rules()));
+		$this->form_validation->set_rules(array($this->Users_model->get_password_confirm_rules(TRUE)));
 		if ($this->form_validation->run() == TRUE) {
 			echo json_encode("success");
 		} else {
@@ -301,7 +301,7 @@ class Users extends CI_Controller {
 		log_message('debug', 'Users: get_active - in function');
 
 		$active_users = $this->Users_model->get_active();
-		$json_users = json_encode($active_users, JSON_PRETTY_PRINT);
+		$json_users = json_encode($active_users);
 		echo $json_users;
 	}
 
