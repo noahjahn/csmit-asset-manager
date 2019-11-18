@@ -49,12 +49,10 @@ $(document).ready(function() {
             manufacturers.sort(function(a, b) {
                 return compareStrings(a.name, b.name);
             })
-            Object.keys(manufacturers).forEach(function(i) {
-                $("#add-model-manufacturer").append("<option data-value=\"" + manufacturers[i].value + "\">" + manufacturers[i].name + "</option>");
-            });
+            
             isAddManufacturerFilled = true;
-            $('#add-model .ui.dropdown').dropdown({
-                // values: manufacturers
+            $('#add-model-manufacturer').dropdown({
+                values: manufacturers
             });
         }
     });
