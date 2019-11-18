@@ -32,7 +32,7 @@ function makeAssetManagerActive(obj) {
     $('#users-link').each(function() {
         $(this).removeClass('active');
     });
-    $('#permissions-link').each(function() {
+    $('#roles-link').each(function() {
         $(this).removeClass('active');
     });
     $('#login-photos-link').each(function() {
@@ -46,7 +46,7 @@ function makeAssetManagerActive(obj) {
         $(this).removeClass('show');
         $(this).removeClass('active');
     });
-    $('#permissions-content').each(function() {
+    $('#roles-content').each(function() {
         $(this).removeClass('show');
         $(this).removeClass('active');
     });
@@ -70,7 +70,7 @@ $(function() {
         $('#asset-manager-link').each(function() {
             $(this).removeClass('active');
         });
-        $('#permissions-link').each(function() {
+        $('#roles-link').each(function() {
             $(this).removeClass('active');
         });
         $('#login-photos-link').each(function() {
@@ -84,7 +84,7 @@ $(function() {
             $(this).removeClass('show');
             $(this).removeClass('active');
         });
-        $('#permissions-content').each(function() {
+        $('#roles-content').each(function() {
             $(this).removeClass('show');
             $(this).removeClass('active');
         });
@@ -97,7 +97,7 @@ $(function() {
 });
 
 $(function() {
-    $('#permissions-link').click(function() {
+    $('#roles-link').click(function() {
         $(this).addClass('active');
         $('#users-link').each(function() {
             $(this).removeClass('active');
@@ -108,7 +108,7 @@ $(function() {
         $('#login-photos-link').each(function() {
             $(this).removeClass('active');
         });
-        $('#permissions-content').each(function() {
+        $('#roles-content').each(function() {
             $(this).addClass('show');
             $(this).addClass('active');
         });
@@ -134,7 +134,7 @@ $(function() {
         $('#users-link').each(function() {
             $(this).removeClass('active');
         });
-        $('#permissions-link').each(function() {
+        $('#roles-link').each(function() {
             $(this).removeClass('active');
         });
         $('#asset-manager-link').each(function() {
@@ -148,7 +148,7 @@ $(function() {
             $(this).removeClass('show');
             $(this).removeClass('active');
         });
-        $('#permissions-content').each(function() {
+        $('#roles-content').each(function() {
             $(this).removeClass('show');
             $(this).removeClass('active');
         });

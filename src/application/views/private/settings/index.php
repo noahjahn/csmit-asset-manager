@@ -11,7 +11,7 @@
             <a id="users-link" class="nav-link" href="#users">Users</a>
         </li>
         <li class="nav-item">
-            <a id="permissions-link" class="nav-link disabled" href="#permissions">Permissions</a>
+            <a id="roles-link" class="nav-link" href="#roles">Roles</a>
         </li>
         <li class="nav-item">
             <a id="login-photos-link" class="nav-link" href="#login_photos">Login Photos</a>
@@ -20,7 +20,7 @@
     <div class="tab-content background-light w-100" id="nav-tabContent">
         <div id="asset-manager-content" class="tab-pane fade" role="tabpanel"><?php $this->load->view('private/settings/asset_manager');?></div>
         <div id="users-content" class="tab-pane fade" role="tabpanel"><?php $this->load->view('private/settings/users');?></div>
-        <div id="permissions-content" class="tab-pane fade" role="tabpanel"><?php $this->load->view('private/settings/permissions');?></div>
+        <div id="roles-content" class="tab-pane fade" role="tabpanel"><?php $this->load->view('private/settings/roles');?></div>
         <div id="login-photos-content" class="tab-pane fade" role="tabpanel"><?php $this->load->view('private/settings/login_photos');?></div>
     </div>
 </div>
