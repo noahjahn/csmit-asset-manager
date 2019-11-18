@@ -732,15 +732,92 @@ $(document).ready(function() {
             columns: [
                 { "data": "id" },
                 { "data": "name" },
-                { "data": "dashboard" },
-                { "data": "asset_manager" },
-                { "data": "reports" },
-                { "data": "asset_groups" },
-                { "data": "users" },
-                { "data": "roles" },
-                { "data": "login_photos" },
+                { "data": "dashboard", "render": function (data, type, row) {
+                        if (row.dashboard == 2) {
+                            return 'W';
+                        } else if (row.dashboard == 4) {
+                            return 'R';
+                        } else if (row.dashboard == 6) {
+                            return 'RW';
+                        } else {
+                            return '';
+                        }
+                    }
+                },
+                { "data": "asset_manager", "render": function (data, type, row) {
+                        if (row.dashboard == 2) {
+                            return 'W';
+                        } else if (row.dashboard == 4) {
+                            return 'R';
+                        } else if (row.dashboard == 6) {
+                            return 'RW';
+                        } else {
+                            return '';
+                        }
+                    }
+                },
+                { "data": "reports", "render": function (data, type, row) {
+                        if (row.dashboard == 2) {
+                            return 'W';
+                        } else if (row.dashboard == 4) {
+                            return 'R';
+                        } else if (row.dashboard == 6) {
+                            return 'RW';
+                        } else {
+                            return '';
+                        }
+                    }
+                },
+                { "data": "asset_groups", "render": function (data, type, row) {
+                        if (row.dashboard == 2) {
+                            return 'W';
+                        } else if (row.dashboard == 4) {
+                            return 'R';
+                        } else if (row.dashboard == 6) {
+                            return 'RW';
+                        } else {
+                            return '';
+                        }
+                    }
+                },
+                { "data": "users", "render": function (data, type, row) {
+                        if (row.dashboard == 2) {
+                            return 'W';
+                        } else if (row.dashboard == 4) {
+                            return 'R';
+                        } else if (row.dashboard == 6) {
+                            return 'RW';
+                        } else {
+                            return '';
+                        }
+                    }
+                },
+                { "data": "roles", "render": function (data, type, row) {
+                        if (row.dashboard == 2) {
+                            return 'W';
+                        } else if (row.dashboard == 4) {
+                            return 'R';
+                        } else if (row.dashboard == 6) {
+                            return 'RW';
+                        } else {
+                            return '';
+                        }
+                    }
+                },
+                { "data": "login_photos", "render": function (data, type, row) {
+                        if (row.dashboard == 2) {
+                            return 'W';
+                        } else if (row.dashboard == 4) {
+                            return 'R';
+                        } else if (row.dashboard == 6) {
+                            return 'RW';
+                        } else {
+                            return '';
+                        }
+                    }
+                },
                 { "render": function ( data, type, row ) {
-                        return '<button class="table-icon edit-role-button" data-toggle="modal" data-id="' + row.id + '" data-first_name="' + row.first_name + '" data-last_name="' + row.last_name + '" data-email="' + row.email + '" data-role="' + row.role + '" data-target="#edit-role"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
+                        return '<button class="table-icon edit-role-button" data-toggle="modal" data-id="' + row.id + '" data-name="' + row.name + '" data-dashboard="' + row.dashboard + '" data-asset_manager="' + row.asset_manager + '" data-reports="' + row.reports + '" data-asset_groups="' + row.asset_groups + '" data-users="' + row.users + '" data-login_photos="' + row.login_photos + '" data-target="#edit-role"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
                     }
                 },
                 { "render": function ( data, type, row ) {
@@ -753,9 +830,9 @@ $(document).ready(function() {
             fixedHeader:    true,
             info:           false,
             columnDefs: [
-                { responsivePriority: -1, targets: [6,7] },
-                { width: "20px", targets: [6,7] },
-                { orderable: false, targets: [6,7] },
+                { responsivePriority: -1, targets: [9,10] },
+                { width: "20px", targets: [9,10] },
+                { orderable: false, targets: [9,10] },
                 { visible: false, targets: 0 }
             ],
             dom:
