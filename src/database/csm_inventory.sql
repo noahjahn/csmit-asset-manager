@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Nov 10, 2019 at 12:51 AM
+-- Generation Time: Nov 11, 2019 at 11:34 PM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.19
 
@@ -98,7 +98,7 @@ CREATE TABLE `asset_types` (
 --
 
 INSERT INTO `asset_types` (`id`, `name`, `rate`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
-(1, 'Computers', '100.00', 0, '', '2019-08-19 02:12:53', '', '2019-08-19 02:12:53'),
+(1, 'Computerss', '1000.00', 1, '1', '2019-11-10 23:39:22', '1', '2019-08-19 02:12:53'),
 (2, 'Monitors', '10.00', 0, '', '2019-08-19 02:12:53', '', '2019-08-19 02:12:53');
 
 -- --------------------------------------------------------
@@ -110,19 +110,21 @@ INSERT INTO `asset_types` (`id`, `name`, `rate`, `is_deleted`, `last_modified_by
 CREATE TABLE `login_photos` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `path` varchar(255) NOT NULL,
-  `uploaded_by` varchar(255) NOT NULL,
-  `date_uploaded` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 deleted; 0 not deleted',
+  `last_modified_by` int(8) NOT NULL,
+  `last_modified_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int(8) NOT NULL,
+  `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `login_photos`
 --
 
-INSERT INTO `login_photos` (`id`, `name`, `path`, `uploaded_by`, `date_uploaded`) VALUES
-(1, 'images.jpg', 'images.jpg', 'administrator@csmgroup.com', '2019-06-10 12:11:59'),
-(2, 'information-technology.jpg', 'information-technology.jpg', 'administrator@csmgroup.com', '2019-06-10 12:11:59'),
-(3, 'pexels-photo-546819.jpeg', 'pexels-photo-546819.jpeg', 'administrator@csmgroup.com', '2019-06-10 12:12:23');
+INSERT INTO `login_photos` (`id`, `name`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
+(1, 'images.jpg', 0, 0, '2019-11-11 23:34:40', 0, '2019-11-11 23:34:40'),
+(2, 'information-technology.jpg', 0, 0, '2019-11-11 23:34:40', 0, '2019-11-11 23:34:40'),
+(3, 'pexels-photo-546819.jpeg', 0, 0, '2019-11-11 23:34:40', 0, '2019-11-11 23:34:40');
 
 -- --------------------------------------------------------
 
@@ -228,7 +230,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `role`, `password`, `session_token`, `last_login`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
-(1, 'Super', 'User', 'administrator@csmgroup.com', '', '$2y$10$e9LFqB0jKJnQnkwxlKWWyuaCU6pA/R0rcyO7mnSPXdqWJV5SHiB0K', '$2y$10$6JQS6JGvTM9f5ix5WRDoWO8eGbFTb8aghRQoRJqJp/BNQjH2dE7fS', '2019-11-09 09:25:34', 0, '', '2019-08-19 02:19:39', '', '2019-08-19 02:19:39'),
+(1, 'Super', 'User', 'administrator@csmgroup.com', 'undefined', '$2y$10$e9LFqB0jKJnQnkwxlKWWyuaCU6pA/R0rcyO7mnSPXdqWJV5SHiB0K', '$2y$10$7Fh7hlXKbWU/O6YFZL1qPOuHDVS7GXNVEeMCaJQOcwgm8dqQiI8ay', '2019-11-11 11:22:25', 0, '1', '2019-11-10 22:32:09', '', '2019-08-19 02:19:39'),
 (2, 'Kalem', 'Pulliam', 'kalem.pulliam@csmgroup.com', '', '$2y$10$0OENbB0zml9KeBlCMqluQurim0RJ7I5gjUanKKgLQG9SUdtfQ5yY.', '$2y$10$47hsS9eSC6DOzd5zxjoRvug6ZhaW5343tycphiqrcmd4.01Z.Wha2', '2019-10-24 03:02:39', 0, '1', '2019-10-24 03:01:55', '1', '2019-10-24 03:01:55'),
 (3, 'Ben', 'Stieber', 'ben.stieber@csmgroup.com', '', '$2y$10$RU2YYI8r9avLIG8zGAml.eHQe/M5VbSGz2HtoqbI52Ardk7uti6/G', '', NULL, 0, '1', '2019-10-24 03:01:55', '1', '2019-10-24 03:01:55'),
 (4, 'Derrick', 'Quintanilla', 'derrick.quintanilla@csmgroup.com', '', '$2y$10$nas7DlXu3hPbb0K7BUTCgerEGNT1wVRJ/CqZNxYo14JULu9plSZr.', '', NULL, 0, '1', '2019-10-24 03:01:55', '1', '2019-10-24 03:01:55');
