@@ -7,7 +7,7 @@
 }
 
 .form-control {
-    background-color: #3B3B3B !important;
+    background-color: #303030 !important;
     padding: 0.375rem 0.75rem !important;
     line-height: 1.5 !important;
     border-radius: 0.2rem !important;
@@ -21,7 +21,7 @@
 }
 
 .form-control-sm {
-    background-color: #3B3B3B !important;
+    background-color: #303030 !important;
     padding: 0.375rem 0.75rem;
     line-height: 1.5;
     border-radius: 0.2rem;
@@ -34,7 +34,7 @@
 }
 
 .dataTables_scrollBody {
-    background-color: #3B3B3B !important;
+    background-color: #303030 !important;
 }
 
 /* .dataTables_filter {
@@ -59,7 +59,22 @@ div.slider {
 }
 
 td.slider {
-    padding: 0;
+  padding: 0;
+  border: 0;
+}
+
+table.child-edit-table {
+  width: 100%;
+}
+tr.child-edit-row {
+  margin: 0;
+}
+td.child-edit-col {
+  border: 0;
+  margin: 0;
+}
+input.asset-manager-edit-field {
+  width: auto;
 }
 
 /* .scrollbar::-webkit-scrollbar-thumb

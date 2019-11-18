@@ -1,4 +1,5 @@
 $(document).ready( function () {
+    $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
     /* Prepare Models table */
     var table = $('#asset-manager').DataTable( {
         ajax: {
@@ -61,30 +62,54 @@ $(document).ready( function () {
 
       if( row.child.isShown() ) {
           //If This row is already open - close it
+          $(tr).css({"background-color":"#303030", "box-shadow":"none"});
+        //  $(tr).children().css();
+          row.child().find('div').css({"background-color":"#303030", "box-shadow":"none"});
           $('div.slider', row.child()).slideUp( 300,function () {
               row.child.hide();
               tr.removeClass('shown');
           } );
+
       }
       else {
         //Open the row
         row.child( formatRow(row.data()), 'slider' ).show();
         tr.addClass('shown');
         $('div.slider', row.child()).slideDown(300);
+        $('div.slider').css({"background-color":"#3B3B3B", "box-shadow":"inset 0px -1px 2px black"});
+        $(tr).css("background-color","#3B3B3B");
+        $(tr).css("box-shadow","inset 0px 2px 2px black")
       }
     } );
 });
 
 function formatRow() {
   return '<div class="slider">' +
-  '<table><tr>' +
-  '<td>Sub-Row Column 1</td>' +
-  '<td>Sub-Row Column 2</td>' +
-  '<td>Sub-Row Column 3</td>' +
- '</tr><tr>' +
-  '<td>Sub-Row Column 4</td>' +
-  '<td>Sub-Row Column 5</td>' +
-  '<td>Sub-Row Column 6</td>' +
+  '<table class="child-edit-table table data-table" role="grid"><tr class="child-edit-row row" role="row">' +
+  '<td><label>Serial Number</label></td>' +
+  '<td></td>' +
+  '<td><label>Purchase Price</label></td>' +
+  '<td></td>' +
+  '<td></td>' +
+  // '<td class="child-edit-col col-sm" colspan="1" rowspan="1"><input id="asset-manager-edit-model" class="asset-manager-edit-field"></input></td>' +
+  // '<td class="child-edit-col col-sm" colspan="1" rowspan="1"><input id="asset-manager-edit-manufacturer" class="asset-manager-edit-field"></input></td>' +
+  // '<td class="child-edit-col col-sm" colspan="1" rowspan="1"><input id="asset-manager-edit-owner" class="asset-manager-edit-field"></input></td>' +
+  // '<td class="child-edit-col col-sm" colspan="1" rowspan="1"><input id="asset-manager-edit-type" class="asset-manager-edit-field"></input></td>' +
+  // '<td class="child-edit-col col-sm" colspan="1" rowspan="1"><input id="asset-manager-edit-asset-tag" class="asset-manager-edit-field"></input></td>' +
+  // '<td class="child-edit-col col-sm" colspan="1" rowspan="1"><input id="asset-manager-edit-team" class="asset-manager-edit-field"></input></td>' +
+  // '<td class="child-edit-col col-sm" colspan="1" rowspan="1"><input id="asset-manager-edit-rate" class="asset-manager-edit-field"></input></td>' +
+  // '<td class="child-edit-col col-sm" colspan="1" rowspan="1"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></td>' +
+  // '<td class="child-edit-col col-sm" colspan="1" rowspan="1"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></td>' +
+  '</tr><tr class="child-edit-row row" role="row">' +
+  '<td class="child-edit-col"><input id="asset-manager-edit-serial-number" class="asset-manager-edit-field"></input></td>' +
+  '<td class="child-edit-col" colspan="1"></td>' +
+  '<td class="child-edit-col"><input id="asset-manager-edit-purchase-price" class="asset-manager-edit-field"></input></td>' +
+  '<td class="child-edit-col"><input id="asset-manager-edit-job-number" class="asset-manager-edit-field"></input></td>' +
+  '<td class="child-edit-col"></td>' +
+  '<td class="child-edit-col" rowspan="2"><input id="asset-manager-edit-notes" class="asset-manager-edit-field"></input></td>' +
+  '<td class="child-edit-col"></td>' +
+  '<td class="child-edit-col"></td>' +
+  '<td class="child-edit-col"></td>' +
   '</tr></table>' +
   '</div>'; //Put child row data here.
 }
