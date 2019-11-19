@@ -8,8 +8,9 @@
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Email</th>
+                <th>Role</th>
                 <th>Last Login</th>
-                <th>Last Modified By</th>
+                <!-- <th>Last Modified By</th> -->
                 <th></th>
                 <th></th>
             </tr>

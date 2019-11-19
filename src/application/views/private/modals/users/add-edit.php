@@ -38,7 +38,7 @@
                     </div>
                     <div class="form-group">
                         <label>Role<span class="required"> *</span></label>
-                        <input id="add-user-role" name="role" class="form-control" value="<?php set_value('role'); ?>">
+                        <select id="add-user-role" type="text" name="role" class="form-control ui search dropdown" value="<?php set_value('role'); ?>"></select>
                         <div id="add-user-role-error" class="invalid-feedback"></div>
                     </div>
                     <div>
@@ -91,7 +91,7 @@
                     </div>
                     <div class="form-group">
                         <label>Role<span class="required"> *</span></label>
-                        <input id="edit-user-role" name="role" class="form-control" value="<?php set_value('role'); ?>">
+                        <select id="edit-user-role" type="text" name="role" class="form-control ui search dropdown" value="<?php set_value('role'); ?>"></select>
                         <div id="edit-user-role-error" class="invalid-feedback"></div>
                     </div>
                     <div>

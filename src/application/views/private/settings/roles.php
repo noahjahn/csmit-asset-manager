@@ -1,3 +1,4 @@
+<script id="roles-script" data-load-datatable="true" src="<?php echo base_url(); ?>assets/js/roles.js"></script>
 
 <div class="container-fluid container-style">
     <table id="roles" class="table table-hover">
