@@ -68,68 +68,23 @@ $(document).ready(function() {
         }
     });
 
-    // $(document).on("click", "#add-user-button", function() {
-    //     if (! isAddRoleFilled) {
-    //         roles.sort(function(a, b) {
-    //             return compareStrings(a.name, b.name);
-    //         })
-    //         console.log(roles);
-    //         isAddRoleFilled = true;
-    //         $('#add-user-role').dropdown({
-    //             values: roles
-    //         });
-    //     }
-    // });
-
     $(document).on("click", "#edit-user-button", function() {
-        if (! isAddRoleFilled) {
+        if (! isEditRoleFilled) {
             roles.sort(function(a, b) {
                 return compareStrings(a.name, b.name);
+            })
+
+            isEditRoleFilled = true;
+            $('#edit-user-role').dropdown({
+                values: roles
             });
+
         }
-
-        var roleId = $(this).data('id');
-        var editDisplayRoles = [];
-        Object.keys(roles).forEach(function(i){
-            console.log(roles[i].value + "=" + roleId);
-            if (roles[i].value == roleId) {
-                editDisplayRoles.push({name: roles[i].name, value: roles[i].value, selected: true });
-            } else {
-                editDisplayRoles.push({name: roles[i].name, value: roles[i].value});
-            }
-        });
-
-        $('#edit-user-role').dropdown({
-            values: editDisplayRoles
-        });
+        var roleId = $(this).data('role-id');
+        $('#edit-user-role').dropdown('set selected', roleId);
 
         $('#edit-user').modal('show');
     });
-
-    // var editUserButton = $('#edit-user-button');
-    // $(document).on("click", editUserButton, function () {
-    //     console.log("clicked edit button");
-    //     // if (! isAddRoleFilled) {
-    //         roles.sort(function(a, b) {
-    //             return compareStrings(a.name, b.name);
-    //         })
-    //         // isAddRoleFilled = true;
-    //         var role = $("#modal-submit-edit-user").data('role');
-    //         console.log(role);
-    //         var editDisplayRoles = [];
-    //         Object.keys(roles).forEach(function(i){
-    //             if (roles[i].value == role) {
-    //                 editDisplayRoles.push({name: roles[i].name, value: roles[i].id, selected: true });
-    //             } else {
-    //                 editDisplayRoles.push({name: roles[i].name, value: roles[i].id});
-    //             }
-    //         });
-    //         $('#role-user-role').dropdown({
-    //             values: editDisplayRoles
-    //         });
-    //         console.log(editDisplayRoles);
-    //     // }
-    // });
 
     /* *** Handle add user *** */
     var addFirstNameField = $('#add-user-form #add-user-first-name');
@@ -859,9 +814,8 @@ $(document).ready(function() {
                         return ret;
                     }
                 },
-                // { "data": "last_modified_by_name"},
                 { "render": function ( data, type, row ) {
-                        return '<button id="edit-user-button" class="table-icon edit-user-button"  data-id="' + row.id + '" data-first_name="' + row.first_name + '" data-last_name="' + row.last_name + '" data-email="' + row.email + '" data-role="' + row.role + '" data-target="#edit-user"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
+                        return '<button id="edit-user-button" class="table-icon edit-user-button"  data-id="' + row.id + '" data-first_name="' + row.first_name + '" data-last_name="' + row.last_name + '" data-email="' + row.email + '" data-role-id="' + row.roleid + '" data-target="#edit-user"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
                     }
                 },
                 { "render": function ( data, type, row ) {
