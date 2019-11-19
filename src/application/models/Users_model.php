@@ -189,6 +189,7 @@ class Users_model extends CI_Model {
             u1.last_name,
             u1.email,
             roles.name as role,
+            u1.role as roleid,
             u1.last_login,
             (
                 SELECT CONCAT_WS
