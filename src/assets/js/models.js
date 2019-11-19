@@ -27,7 +27,12 @@ $(document).ready(function() {
         dataType: 'json',
         success: function(result) {
             Object.keys(result).forEach(function(i){
-                manufacturers.push({name: result[i].name, value: result[i].id});
+                manufacturers.push(
+                    {
+                        name: result[i].name,
+                        value: result[i].id
+                    }
+                );
             });
         },
         error: function(result) {
@@ -43,13 +48,12 @@ $(document).ready(function() {
         return (str1 < str2) ? -1 : (str1 > str2) ? 1 : 0;
     }
 
-    var addModelButton = $('#add-model-button');
-    $(document).on("click", addModelButton, function () {
+    $(document).on("click", "#add-model-button", function () {
         if (! isAddManufacturerFilled) {
             manufacturers.sort(function(a, b) {
                 return compareStrings(a.name, b.name);
             })
-            
+
             isAddManufacturerFilled = true;
             $('#add-model-manufacturer').dropdown({
                 values: manufacturers
@@ -57,20 +61,22 @@ $(document).ready(function() {
         }
     });
 
-    var editModelButton = $('.edit-model-button');
-    $(document).on("click", editModelButton, function () {
+    $(document).on("click", "#edit-model-button", function () {
         if (! isEditManufacturerFilled) {
             manufacturers.sort(function(a, b) {
                 return compareStrings(a.name, b.name);
             })
-            Object.keys(manufacturers).forEach(function(i) {
-                $("#edit-model-manufacturer").append("<option data-value=\"" + manufacturers[i].value + "\">" + manufacturers[i].name + "</option>");
-            });
+
             isEditManufacturerFilled = true;
-            $('#edit-model .ui.dropdown').dropdown({
-                // values: manufacturers
+            $('#edit-model-manufacturer').dropdown({
+                values: manufacturers
             });
+
         }
+        var manufacturerId = $(this).data('manufacturer-id');
+        $('#edit-model-manufacturer').dropdown('set selected', manufacturerId);
+
+        $('#edit-model').modal('show');
     });
     /* *** ****************************** *** */
 
@@ -237,7 +243,10 @@ $(document).ready(function() {
         });
     });
 
+    console.log($('#edit-model-manufacturer.ui.dropdown'));
+
     $('#edit-model').on('hidden.bs.modal', function () {
+        $('.ui.search.dropdown#edit-model-manufacturer').dropdown('remove selected');
         editNameError.empty(); // empty the errors when hiding the modal
         editNameField.val(""); // set the value to of the forms to have nothing in them, just in case the user left some data there without submitting
         editNameField.removeClass('is-invalid');
@@ -282,7 +291,7 @@ $(document).ready(function() {
                 { "data": "name" },
                 { "data": "manufacturer" },
                 { "render": function ( data, type, row ) {
-                        return '<button  class="table-icon edit-model-button" data-toggle="modal" data-id="' + row.id + '" data-name="' + row.name + '" data-target="#edit-model"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
+                        return '<button id="edit-model-button" class="table-icon edit-model-button" data-toggle="modal" data-id="' + row.id + '" data-name="' + row.name + '" data-manufacturer-id="' + row.manufacturersid + '" data-target="#edit-model"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
                     }
                 },
                 { "render": function ( data, type, row ) {
@@ -327,8 +336,5 @@ $(document).ready(function() {
         $("div.table-title-models").html('<h5 class="pt-3">Models</h5>');
         $("#models_wrapper").addClass("mb-4", "pt-2");
     }
-
-
     /* *** **** *** ** ** * */
-
 });
