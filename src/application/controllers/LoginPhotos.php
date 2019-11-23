@@ -10,7 +10,7 @@ class LoginPhotos extends CI_Controller {
 		$this->load->helper("database");
 		$this->load->helper("general");
 		$this->user_id = $this->session->userdata('id');
-        $this->login_photos_path = 
+        $this->login_photos_path = LOGIN_PHOTOS;
 	}
 
 	public function index() {
@@ -30,8 +30,8 @@ class LoginPhotos extends CI_Controller {
 	public function get_active() {
 		log_message('debug', 'LoginPhotos: get_active - in function');
 
-		$active_users = $this->LoginPhotos_model->get_active();
-		$json_users = json_encode($active_users, JSON_PRETTY_PRINT);
-		echo $json_users;
+		$active_login_photos = $this->LoginPhotos_model->get_active();
+		$json_login_photos = json_encode($active_login_photos);
+		echo $json_login_photos;
 	}
 }
