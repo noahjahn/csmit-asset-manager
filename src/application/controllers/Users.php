@@ -297,6 +297,46 @@ class Users extends CI_Controller {
         $this->Users_model->delete($id);
     }
 
+	public function get_id($email) {
+		log_message('debug', 'Users: get_id - in function');
+
+		$this->Users_model->get_id($email);
+	}
+
+	public function  get_role($id) {
+		log_message('debug', 'Users: get_role - in function');
+
+		$this->Users_model->get_role($id);
+	}
+
+	public function get_user_attributes_by_email($email) {
+        // validate the argument
+
+		$id = $this->get_id($email);
+
+		if (isset($id)) {
+			$user_attributes = array (
+				'id' => $id,
+				'email' => $email,
+				'first_name',
+				'last_name',
+				
+			);
+		}
+
+
+
+        // SELECT `first_name`, `last_name` FROM `users` WHERE `email` = $email LIMIT 1
+        $this->db->select('id, first_name, last_name, last_login,
+        last_modified_by, last_modified_time, created_by, created_time');
+        $this->db->from($this->users_table);
+        $this->db->where('email', $email);
+        $this->db->where('is_deleted', 0);
+        $this->db->limit(1);
+
+        return $this->db->get()->result_array()[0];
+    }
+
 	public function get_active() {
 		log_message('debug', 'Users: get_active - in function');
 

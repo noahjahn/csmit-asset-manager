@@ -49,10 +49,24 @@ class LoginPhotos_model extends CI_Model {
         return $return;
     }
 
+    function get_name($id) {
+        log_message('debug', 'LoginPhotos_model: get_name - in function');
+
+        if ($this->id_exists($id)) {
+            $this->db->select('name');
+            $this->db->from($this->table);
+            $this->db->where('id', $id);
+            $this->db->where('is_deleted', FALSE);
+            return $this->db->get()->result_array()[0]['name'];
+        } else {
+            return FALSE;
+        }
+    }
+
     function get_active() {
         log_message('debug', 'LoginPhotos_model: get_active - in function');
 
-        $this->db->select('name');
+        $this->db->select($this->get_table_columns());
         $this->db->from($this->table);
         $this->db->where('is_deleted', FALSE);
         return $this->db->get()->result_array();

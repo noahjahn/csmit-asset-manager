@@ -9,6 +9,7 @@ class Users_model extends CI_Model {
 
     function __construct() {
         parent::__construct();
+        $this->load->helper('database');
         $this->table = "users";
         $this->user_id = $this->session->userdata('id');
         $this->fields = array(
@@ -179,9 +180,21 @@ class Users_model extends CI_Model {
         return $return;
     }
 
+    function get_attributes($id) {
+        log_message('debug', 'Users_model: get_attributes - in function');
+
+        if ($this->id_exists($id)) {
+            $this->db->select('id, role, email, first_name, last_name');
+            $this->db->from($this->table);
+            $this->db->where('id', $id);
+            return $this->db->get()->result_array()[0];
+        } else {
+            return FALSE;
+        }
+    }
+
     function get_active() {
         log_message('debug', 'Users_model: get_active - in function');
-
 
         $this->db->select("
             u1.id,
@@ -214,6 +227,28 @@ class Users_model extends CI_Model {
         $this->db->join('roles', 'u1.role = roles.id');
         $this->db->where('u1.is_deleted', FALSE);
         return $this->db->get()->result_array();
+    }
+
+    function set_session_token($id, $encrypted_token) {
+        if ($this->id_exists($id)) {
+            $session_token = base64_decode($encrypted_token);
+            $this->db->set('session_token', password_hash($session_token, PASSWORD_DEFAULT));
+            $this->db->where('id', $id);
+            return $this->db->update($this->table);
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function set_last_login($id) {
+        if ($this->id_exists($id)) {
+            $this->db->set('last_login', date('Y-m-d h:i:s'));
+            $this->db->where('id', $id);
+            $this->db->where('is_deleted', 0);
+            return $this->db->update($this->table);
+        } else {
+            return FALSE;
+        }
     }
 
     function insert($user) {
@@ -318,8 +353,42 @@ class Users_model extends CI_Model {
 	}
 
     function id_exists($id) {
-        log_message('debug', 'Users_model: record_exists - in function');
+        log_message('debug', 'Users_model: id_exists - in function');
         return record_exists($id, $this->table);
+    }
+
+    function email_exists($email) {
+        log_message('debug', 'Users_model: email - in function');
+
+        $this->db->where('email', $email);
+        $result = $this->db->get($this->table);
+        if ($result->num_rows() > 0) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    function get_id($email) {
+        log_message('debug', 'Users_model: get_id - in function');
+        if ($this->email_exists($email)) {
+            $this->db->select('id');
+            $this->db->where('email', $email);
+            return $this->db->get($this->table)->result_array()[0]['id'];
+        } else {
+            return FALSE;
+        }
+    }
+
+    function get_role($id) {
+        log_message('debug', 'Users_model: get_role - in function');
+        if ($this->id_exists($id)) {
+            $this->db->select('role');
+            $this->db->where('id', $id);
+            return $this->db->get($this->table)->result()[0];
+        } else {
+            return FALSE;
+        }
     }
 }
 
