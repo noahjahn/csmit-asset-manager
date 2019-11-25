@@ -30,7 +30,6 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `assets` (
   `id` int(11) NOT NULL,
-  `name` varchar(128) NOT NULL,
   `manufacturer` int(11) NOT NULL,
   `model` int(11) NOT NULL,
   `owner` varchar(128) NOT NULL,
@@ -42,6 +41,7 @@ CREATE TABLE `assets` (
   `location` varchar(128) NOT NULL,
   `team` int(11) NOT NULL,
   `job_number` int(11) DEFAULT NULL,
+  `notes` varchar(255),
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 deleted; 0 not deleted',
   `last_modified_by` varchar(255) NOT NULL,
   `last_modified_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -53,28 +53,28 @@ CREATE TABLE `assets` (
 -- Dumping data for table `assets`
 --
 
-INSERT INTO `assets` (`id`, `name`, `manufacturer`, `model`, `owner`, `serial_number`, `type`, `asset_tag`, `purchase_price`, `purchase_date`, `location`, `team`, `job_number`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
-(1, '1', 1, 1, 'IT Department', '2WZRNF2', 1, 3349, '1574.60', '2019-03-21', 'Kalamazoo', 1, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
-(2, '2', 2, 2, 'Noah Jahn', 'PEWPD6JA00946', 2, 1373, NULL, NULL, 'Kalamazoo', 1, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
-(3, '2', 2, 2, 'Noah Jahn', 'PEWPD8JA00341', 2, 2622, NULL, NULL, 'Kalamazoo', 1, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
-(4, '3', 2, 3, 'Noah Jahn', 'PL751NSS03674', 2, 2977, NULL, NULL, 'Kalamazoo', 2, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
-(5, '3', 2, 3, 'Noah Jahn', 'PL751NSS03465', 2, 2935, NULL, NULL, 'Kalamazoo', 2, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
-(6, '4', 3, 4, 'Noah Jahn', '171115234500327', 1, 3100, NULL, NULL, 'Kalamazoo', 1, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
-(7, '5', 1, 5, 'Noah Jahn', 'auto-1550095609.740821-1bc35', 3, 6548, NULL, NULL, 'Kalamazoo', 2, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
-(8, '1', 1, 1, 'IT Department', '2WZRNF2', 1, 3349, '1574.60', '2019-03-21', 'Kalamazoo', 1, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
-(9, '2', 2, 2, 'Noah Jahn', 'PEWPD6JA00946', 2, 1373, NULL, NULL, 'Kalamazoo', 1, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
-(10, '2', 2, 2, 'Noah Jahn', 'PEWPD8JA00341', 2, 2622, NULL, NULL, 'Kalamazoo', 1, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
-(11, '3', 2, 3, 'Noah Jahn', 'PL751NSS03674', 2, 2977, NULL, NULL, 'Kalamazoo', 2, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
-(12, '3', 2, 3, 'Noah Jahn', 'PL751NSS03465', 2, 2935, NULL, NULL, 'Kalamazoo', 2, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
-(13, '4', 3, 4, 'Noah Jahn', '171115234500327', 1, 3100, NULL, NULL, 'Kalamazoo', 1, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
-(14, '5', 1, 5, 'Noah Jahn', 'auto-1550095609.740821-1bc35', 3, 6548, NULL, NULL, 'Kalamazoo', 2, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
-(15, '1', 1, 1, 'IT Department', '2WZRNF2', 1, 3349, '1574.60', '2019-03-21', 'Kalamazoo', 1, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
-(16, '2', 2, 2, 'Noah Jahn', 'PEWPD6JA00946', 2, 1373, NULL, NULL, 'Kalamazoo', 1, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
-(17, '2', 2, 2, 'Noah Jahn', 'PEWPD8JA00341', 2, 2622, NULL, NULL, 'Kalamazoo', 1, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
-(18, '3', 2, 3, 'Noah Jahn', 'PL751NSS03674', 2, 2977, NULL, NULL, 'Kalamazoo', 2, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
-(19, '3', 2, 3, 'Noah Jahn', 'PL751NSS03465', 2, 2935, NULL, NULL, 'Kalamazoo', 2, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
-(20, '4', 3, 4, 'Noah Jahn', '171115234500327', 1, 3100, NULL, NULL, 'Kalamazoo', 1, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
-(21, '5', 1, 5, 'Noah Jahn', 'auto-1550095609.740821-1bc35', 3, 6548, NULL, NULL, 'Kalamazoo', 2, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26');
+INSERT INTO `assets` (`id`, `manufacturer`, `model`, `owner`, `serial_number`, `type`, `asset_tag`, `purchase_price`, `purchase_date`, `location`, `team`, `job_number`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
+(1, 1, 1, 'IT Department', '2WZRNF2', 1, 3349, '1574.60', '2019-03-21', 'Kalamazoo', 1, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
+(2, 2, 2, 'Noah Jahn', 'PEWPD6JA00946', 2, 1373, NULL, NULL, 'Kalamazoo', 1, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
+(3, 2, 2, 'Noah Jahn', 'PEWPD8JA00341', 2, 2622, NULL, NULL, 'Kalamazoo', 1, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
+(4, 2, 3, 'Noah Jahn', 'PL751NSS03674', 2, 2977, NULL, NULL, 'Kalamazoo', 2, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
+(5, 2, 3, 'Noah Jahn', 'PL751NSS03465', 2, 2935, NULL, NULL, 'Kalamazoo', 2, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
+(6, 3, 4, 'Noah Jahn', '171115234500327', 1, 3100, NULL, NULL, 'Kalamazoo', 1, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
+(7, 1, 5, 'Noah Jahn', 'auto-1550095609.740821-1bc35', 3, 6548, NULL, NULL, 'Kalamazoo', 2, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
+(8, 1, 1, 'IT Department', '2WZRNF2', 1, 3349, '1574.60', '2019-03-21', 'Kalamazoo', 1, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
+(9, 2, 2, 'Noah Jahn', 'PEWPD6JA00946', 2, 1373, NULL, NULL, 'Kalamazoo', 1, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
+(10, 2, 2, 'Noah Jahn', 'PEWPD8JA00341', 2, 2622, NULL, NULL, 'Kalamazoo', 1, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
+(11, 2, 3, 'Noah Jahn', 'PL751NSS03674', 2, 2977, NULL, NULL, 'Kalamazoo', 2, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
+(12, 2, 3, 'Noah Jahn', 'PL751NSS03465', 2, 2935, NULL, NULL, 'Kalamazoo', 2, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
+(13, 3, 4, 'Noah Jahn', '171115234500327', 1, 3100, NULL, NULL, 'Kalamazoo', 1, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
+(14, 1, 5, 'Noah Jahn', 'auto-1550095609.740821-1bc35', 3, 6548, NULL, NULL, 'Kalamazoo', 2, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
+(15, 1, 1, 'IT Department', '2WZRNF2', 1, 3349, '1574.60', '2019-03-21', 'Kalamazoo', 1, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
+(16, 2, 2, 'Noah Jahn', 'PEWPD6JA00946', 2, 1373, NULL, NULL, 'Kalamazoo', 1, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
+(17, 2, 2, 'Noah Jahn', 'PEWPD8JA00341', 2, 2622, NULL, NULL, 'Kalamazoo', 1, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
+(18, 2, 3, 'Noah Jahn', 'PL751NSS03674', 2, 2977, NULL, NULL, 'Kalamazoo', 2, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
+(19, 2, 3, 'Noah Jahn', 'PL751NSS03465', 2, 2935, NULL, NULL, 'Kalamazoo', 2, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
+(20, 3, 4, 'Noah Jahn', '171115234500327', 1, 3100, NULL, NULL, 'Kalamazoo', 1, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26'),
+(21, 1, 5, 'Noah Jahn', 'auto-1550095609.740821-1bc35', 3, 6548, NULL, NULL, 'Kalamazoo', 2, NULL, 0, '', '2019-08-19 02:21:26', '', '2019-08-19 02:21:26');
 
 -- --------------------------------------------------------
 

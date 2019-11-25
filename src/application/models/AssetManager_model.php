@@ -19,6 +19,7 @@ class AssetManager_model extends CI_Model {
               t.name            as team,
               a.job_number      as job_number,
               at.rate           as rate,
+              a.notes           as notes,
               a.last_modified_time
                                 as last_modified_time
             ');

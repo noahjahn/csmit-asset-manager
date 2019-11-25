@@ -12,6 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <thead class="table-header">
         <tr class="table-primary">
             <!-- <th scope="col">Name</th> -->
+            <th>Id</th>
             <th>Model</th>
             <th>Manufacturer</th>
             <th>Owner</th>
