@@ -1,5 +1,6 @@
 /* *** Handle initial tab loading *** */
 $(document).ready(function() {
+    loadTabContent();
     $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
     makeAssetManagerActive();
     // loadManufacturers();
@@ -160,3 +161,39 @@ $(function() {
     });
 });
 /* *** ************************** *** */
+
+// function loadTabContent() {
+//     var navTabs = $('#nav-tabs-test');
+//     var tabContent = $('#nav-tab-content');
+//
+//     var assetGroupsAccess = getAssetGroupsAccess();
+//     console.log(assetGroupsAccess);
+//     if (assetGroupsAccess == 6) {
+//         console.log(assetGroupsAccess);
+//         navTabs.append(
+//             "<li class=\"nav-item\">" +
+//             "<a id=\"asset-manager-link\" class=\"nav-link active\" href=\"#asset_manager\">Asset Manager</a>" +
+//             "</li>"
+//         );
+//     } else if (assetGroupsAccess == 4) {
+//         // load view-only ciew
+//     } else {
+//
+//     }
+// }
+//
+// function getAssetGroupsAccess() {
+//     console.log($.ajax({
+//         type: 'GET',
+//         url: baseUrl + 'Settings/get_asset_groups_access',
+//         dataType: 'json',
+//         success: function(result) {
+//
+//         },
+//         error: function(result) {
+//             var today = new Date();
+//             var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+//             console.log("AJAX error, check server logs near local time: " + time);
+//         }
+//     }));
+// }

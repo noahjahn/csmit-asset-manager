@@ -6,9 +6,11 @@ class Roles_model extends CI_Model {
     private $table;
     private $user_id;
     private $fields;
+    private $permissionable_pages;
 
     function __construct() {
         parent::__construct();
+        $this->load->helper('database');
         $this->table = "roles";
         $this->user_id = $this->session->userdata('id');
         $this->fields = array(
@@ -27,6 +29,49 @@ class Roles_model extends CI_Model {
             'created_by' => 'created_by',
             'created_time' => 'created_time'
         );
+        $this->permissionable_pages = array(
+            'dashboard',
+            'asset_manager',
+            'reports',
+            'asset_groups',
+            'users',
+            'roles',
+            'login_photos'
+        );
+    }
+
+    function get_page_access($id, $page) {
+        log_message('debug', 'Roles_model: get_page_access - in function. id='.$id.',page='.$page);
+
+        if ($this->id_exists($id) && !(record_is_deleted($id, $this->table))) {
+            if (in_array($page, $this->permissionable_pages)) {
+                $this->db->select($page);
+                $this->db->from($this->table);
+                $this->db->where('id', $id);
+                return $this->db->get()->result_array()[0][$page];
+            } else {
+                log_message('debug', 'Roles_model: get_page_access - page not in permissionable pages. page='.$page);
+                return FALSE;
+            }
+        } else {
+            return FALSE;
+        }
+    }
+
+    function get_settings_access($id) {
+        log_message('debug', 'Roles_model: get_settings_access - in function');
+
+        if ($this->id_exists($id) && !(record_is_deleted($id, $this->table))) {
+            $tabs = array(
+                'asset_groups' => $this->get_page_access($id, 'asset_groups'),
+                'users' => $this->get_page_access($id, 'users'),
+                'roles' => $this->get_page_access($id, 'roles'),
+                'login_photos' => $this->get_page_access($id, 'login_photos')
+            );
+            return $tabs;
+        } else {
+            return FALSE;
+        }
     }
 
     // function get_insert_rules() {
@@ -291,10 +336,10 @@ class Roles_model extends CI_Model {
     //     }
 	// }
     //
-    // function id_exists($id) {
-    //     log_message('debug', 'Users_model: record_exists - in function');
-    //     return record_exists($id, $this->table);
-    // }
+    function id_exists($id) {
+        log_message('debug', 'Roles_model: id_exists - in function');
+        return record_exists($id, $this->table);
+    }
 }
 
 ?>
