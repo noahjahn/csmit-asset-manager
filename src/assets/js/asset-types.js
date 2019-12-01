@@ -51,7 +51,7 @@ $(document).ready(function() {
 
     addRateField = $("#add-asset-type-form #add-asset-type-rate");
     addRateError = $("#add-asset-type-form #add-asset-type-rate-error");
-    $("#add-asset-type-form #rate").blur(function() {
+    addRateField.blur(function() {
         $.ajax({
             type: 'POST',
             url: validateAddRateUrl,
