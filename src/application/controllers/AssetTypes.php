@@ -18,10 +18,10 @@ class AssetTypes extends CI_Controller {
 		$this->user_id = $this->session->userdata('id');
 		$this->user_role_id = $this->session->userdata('id');
 
-		// if ( ! is_authorized($this->user_role_id, $this->page)) {
-		// 	echo 'unauthorized';
-		// 	exit;
-		// }
+		if ( ! is_authorized($this->user_role_id, $this->page)) {
+			echo 'unauthorized';
+			exit;
+		}
 	}
 
 	public function index() {
