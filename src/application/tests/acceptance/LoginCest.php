@@ -12,8 +12,8 @@ class LoginCest
 
         $this->invalid_email = 'email@email.com';
         $this->invalid_password = 'password';
-        $this->valid_email = 'tester@csmgroup.com';
-        $this->valid_password = 'testing123';
+        $this->valid_email = 'noah.jahn@sparkbusinessworks.com';
+        $this->valid_password = 'Rocky1921!';
 
     }
 
