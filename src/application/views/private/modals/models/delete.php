@@ -13,7 +13,7 @@
                 Are you sure you want to delete this Model?
             </div>
             <div class="modal-footer">
-                <button id="modal-cancel-delete-model" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button id="modal-cancel-delete-model" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                 <button id="modal-confirm-delete-model" type="button" class="btn btn-primary" data-dismiss="modal">Delete</button>
             </div>
         </div>
