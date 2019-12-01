@@ -134,6 +134,17 @@ Expand Row Details
       }
     } );
 
+/**************
+Edit Asset
+**************/
+    $('#asset-manager').on('click', '#edit-asset-button', function () {
+        var id = $(this).data('id');
+        var parent_row = $(this).closest('.parent-row');
+        var table_row = table.row(parent_row);
+
+        table_row.each('td').replaceWith("<input></input>");
+        table_row.child().each('p').replaceWith("<input></input>");
+    });
 
 /**************
 Delete Asset
