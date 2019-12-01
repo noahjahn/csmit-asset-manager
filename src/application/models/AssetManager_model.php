@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class AssetManager_model extends CI_Model {
 
-        public function get_assets() {
+        public function get_active() {
             $this->db->select('
               a.id              as id,
               a.model           as name,
@@ -32,7 +32,7 @@ class AssetManager_model extends CI_Model {
             $this->db->join('manufacturers as ma'
                           , 'mo.manufacturer = ma.id');
             $this->db->where('a.is_deleted', FALSE);
-            $query = $this->db->get();
+            $query = $this->db->get()->result_array();
 
             return $query;
         }

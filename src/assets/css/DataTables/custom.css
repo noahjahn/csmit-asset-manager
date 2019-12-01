@@ -85,6 +85,14 @@ table.dataTable tbody td {
     }
 }
 
+div.slider {
+  display: none;
+}
+
+td.slider {
+    padding: 0;
+}
+
 /* .scrollbar::-webkit-scrollbar-thumb
 {
     border-radius: 10px;
