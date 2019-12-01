@@ -10,6 +10,8 @@ class Models extends CI_Controller {
 		$this->load->model('Manufacturers_model');
 		$this->load->helper("database");
 		$this->load->helper("general");
+		$this->user_id = $this->session->userdata('id');
+		
 	}
 
 	public function index() {
@@ -25,9 +27,16 @@ class Models extends CI_Controller {
         }
 		$this->form_validation->set_rules($this->Models_model->get_insert_rules());
 		if ($this->form_validation->run() == TRUE) {
-			$name = $this->input->post('name');
+			$model = array(
+				'name' => $this->input->post('name'),
+				'manufacturer' => $this->input->post('manufacturer'),
+				'last_modified_by' => $this->user_id,
+				'last_modified_time' => date('Y-m-d H:i:s'),
+				'created_by' => $this->user_id,
+				'created_time' => date('Y-m-d H:i:s')
+			);
 
-			$this->Models_model->insert($name);
+			$this->Models_model->insert($model);
 
 			echo json_encode("success");
 
@@ -88,10 +97,15 @@ class Models extends CI_Controller {
 
 		$this->form_validation->set_rules($this->Models_model->get_update_rules());
 		if ($this->form_validation->run() == TRUE) {
-			$id = $this->input->post('id');
-			$name = $this->input->post('name');
+			$model = array(
+				'id' => $this->input->post('id'),
+				'name' => $this->input->post('name'),
+				'manufacturer' => $this->input->post('manufacturer'),
+				'last_modified_by' => $this->user_id,
+				'last_modified_time' => date('Y-m-d H:i:s')
+			);
 
-			$this->Models_model->update($id, $name);
+			$this->Models_model->update($model);
 
 			echo json_encode("success");
 		} else {
