@@ -1,4 +1,4 @@
-<script id="users-script" data-load-datatable="true" src="<?php echo base_url(); ?>assets/js/users.js"></script>
+<script id="users-script" data-load-datatable="true" src="<?php echo base_url(); ?>assets/js/users-view.js"></script>
 
 <div class="container-fluid container-style">
     <table id="users" class="table table-hover">
@@ -10,9 +10,6 @@
                 <th>Email</th>
                 <th>Role</th>
                 <th>Last Login</th>
-                <!-- <th>Last Modified By</th> -->
-                <th></th>
-                <th></th>
             </tr>
         </thead>
     </table>

@@ -20,4 +20,4 @@
     </table>
 </div>
 
-<!-- <?php $this->load->view('private/modals/roles/all'); ?> -->
+<?php $this->load->view('private/modals/roles/all'); ?>
