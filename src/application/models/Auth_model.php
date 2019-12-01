@@ -6,7 +6,7 @@ class Auth_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
-        $this->user_table = "users";
+        $this->users_table = "users";
     }
 
     public function get_login_rules() {
