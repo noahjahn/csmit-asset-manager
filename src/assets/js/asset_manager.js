@@ -1,6 +1,9 @@
 $(document).ready( function () {
     $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
-    /* Prepare Models table */
+    var deleteAssetUrl = baseUrl + "assetmanager/delete/";
+/***************************
+Prepare Asset Manager table
+***************************/
     var table = $('#asset-manager').DataTable( {
         ajax: {
             url: baseUrl + "assetmanager/get_active",
@@ -32,11 +35,11 @@ $(document).ready( function () {
             { "data": "team" },
             { "data": "rate" },
             { "render": function ( data, type, row ) {
-                    return '<button class="table-icon" data-toggle="modal" data-target="#add-edit-model" data-type="POST" data-tableid="models" data-id = "' + row.id + '" data-url="AssetManager/edit/' + row.id + '" data-target="#edit-asset"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button>';
+                    return '<button class="table-icon" id="edit-asset-button" data-toggle="modal" data-target="#edit-asset" data-type="POST" data-tableid="asset-manager" data-id = "' + row.id + '" data-url="AssetManager/edit/' + row.id + '"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button>';
                 }
             },
             { "render": function ( data, type, row ) {
-                    return '<button class="table-icon" data-toggle="modal" data-id="delete-model" data-type="DELETE" data-tableid="models" data-id = "' + row.id + '"data-url="AssetManager/delete/' + row.id + '" data-target="#delete-asset"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button>';
+                    return '<button class="table-icon" id="delete-asset-button" data-toggle="modal" data-target="#delete-asset" data-type="DELETE" data-tableid="asset-manager" data-id = "' + row.id + '"data-url="AssetManager/delete/' + row.id + '"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button>';
                 }
             },
             //Child row fields.
@@ -76,6 +79,11 @@ $(document).ready( function () {
           $(row).addClass('parent-row'); //Add class used for dropdown
         }
     });
+
+
+/********************
+Expand Row Details
+********************/
 
     $('#asset-manager').on('click', '.parent-row', function () {
       var tr = $(this)
@@ -125,8 +133,36 @@ $(document).ready( function () {
         $(tr).css("box-shadow","inset 0px 2px 2px black")
       }
     } );
+
+
+/**************
+Delete Asset
+**************/
+    $('#asset-manager').on("click", "#delete-asset-button", function () {
+        var id = $(this).data('id');
+        $("#modal-confirm-delete-asset").data('id', id);
+
+    });
+
+    $("#modal-confirm-delete-asset").on("click", function(e) {
+        var id = $("#modal-confirm-delete-asset").data('id');
+
+        $.ajax({
+            type: "DELETE",
+            url: deleteAssetUrl + id,
+            success: function(result) {
+                $("#asset-manager").DataTable().ajax.reload();
+            },
+            error: function(result) {
+                var today = new Date();
+                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                console.log("AJAX error, check server logs near local time: " + time);
+            }
+        });
+    });
 });
 
+/**************************** Child Row Structure *****************************/
 function formatRow() { //Put child row data here.
   return '<div class="slider">' +
   '<table class="edit-table row">' +
@@ -167,6 +203,15 @@ function formatRow() { //Put child row data here.
 $(window).resize(function () {
   $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
 });
+
+
+
+
+
+
+
+
+
 //
 // '<div class="slider">' +
 // '<table class="edit-table row">' +

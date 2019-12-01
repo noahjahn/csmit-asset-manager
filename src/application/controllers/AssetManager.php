@@ -7,6 +7,8 @@ class AssetManager extends CI_Controller {
 		parent::__construct();
 		$this->load->model('Common_model');
 		$this->load->model('AssetManager_model');
+		$this->load->helper("database");
+		$this->load->helper("general");
 		// check for user authorization
 	}
 
@@ -49,7 +51,10 @@ class AssetManager extends CI_Controller {
 		$this->load->view('private/asset_manager/edit_asset');
 	}
 
-	public function delete_asset() {
+	public function delete($id) {
+	log_message('debug', 'AssetManager: delete - in function');
+
+	$this->AssetManager_model->delete($id);
 	}
 
 }

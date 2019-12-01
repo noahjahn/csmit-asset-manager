@@ -13,8 +13,8 @@
         <p>Are you sure you want to delete this Asset?</p>
       </div>
       <div class="modal-footer">
-        <button id="modal-delete-asset" type="button" class="btn btn-primary">Delete</button>
-        <button id="modal-nevermind" type="button" class="btn btn-secondary" data-dismiss="modal">Nevermind</button>
+        <button id="modal-confirm-delete-asset" type="button" class="btn btn-primary" data-dismiss="modal">Delete</button>
+        <button id="modal-cancel-delete-asset" type="button" class="btn btn-secondary" data-dismiss="modal">Nevermind</button>
       </div>
     </div>
   </div>

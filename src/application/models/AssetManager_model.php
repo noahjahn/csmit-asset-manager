@@ -3,6 +3,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class AssetManager_model extends CI_Model {
 
+    private $table;
+    private $user_id;
+
+        function __construct() {
+            parent::__construct();
+            $this->table = "assets";
+            $this->user_id = $this->session->userdata('id');
+        }
+
         public function get_active() {
             $this->db->select('
               a.id              as id,
@@ -23,6 +32,7 @@ class AssetManager_model extends CI_Model {
               a.last_modified_time
                                 as last_modified_time
             ');
+
             $this->db->from('assets as a');
             $this->db->join('asset_types as at'
                           , 'a.type = at.id');
@@ -38,16 +48,41 @@ class AssetManager_model extends CI_Model {
             return $query;
         }
 
-        public function add_asset() {
+        function add_asset() {
             $this->load->helper('form');
             $this->load->library('form_validation');
 
 
         }
 
-        public function update_asset() {
+        function update_asset() {
 
 
+        }
+
+        function delete($id) {
+            log_message('debug', 'AssetManager_model: delete - in function');
+
+            // check if model passed in exists and is not deleted
+            if (record_exists($id, $this->table) && !(record_is_deleted($id, $this->table))) {
+                // if it is, set is_deleted to 1, this is a soft delete
+                if (set_last_modified_by($id, $this->user_id, $this->table)) {
+                    if (set_last_modified_time($id, $this->table)) {
+                        $this->db->set('is_deleted', '1');
+                        $this->db->where('id', $id);
+                        return $this->db->update($this->table);
+                    } else {
+                        log_message('error', 'AssetManager_model: delete - failed to set last modified time. Record id: '.$id.' Table: '.$this->table);
+                        return FALSE; // failed to set last modified time
+                    }
+                } else {
+                    log_message('error', 'AssetManager_model: delete - failed to set last modified by. Record id: '.$id.' User id: '.$id.' Table: '.$this->table);
+                    return FALSE;  // failed to set last modified by
+                }
+            } else {
+                log_message('error', 'AssetManager_model: delete - failed, record '.$id.' doesn\'t exist or is deleted');
+                return FALSE; // failed, record doesn't exist or is deleted
+            }
         }
 }
 
