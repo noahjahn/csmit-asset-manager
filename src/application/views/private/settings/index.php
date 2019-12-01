@@ -3,7 +3,7 @@
 <script src="<?php echo base_url(); ?>assets/js/settings.js"></script>
 
 <div class="row">
-    <ul class="nav nav-tabs" style="width: 100%">
+    <ul id="nav-tabs" class="nav nav-tabs" style="width: 100%">
         <li class="nav-item">
             <a id="asset-manager-link" class="nav-link active" href="#asset_manager">Asset Manager</a>
         </li>
@@ -17,7 +17,7 @@
             <a id="login-photos-link" class="nav-link" href="#login_photos">Login Photos</a>
         </li>
     </ul>
-    <div class="tab-content background-light w-100" id="nav-tabContent">
+    <div class="tab-content background-light w-100" id="nav-tab-content">
         <div id="asset-manager-content" class="tab-pane fade" role="tabpanel"><?php $this->load->view('private/settings/asset_manager');?></div>
         <div id="users-content" class="tab-pane fade" role="tabpanel"><?php $this->load->view('private/settings/users');?></div>
         <div id="roles-content" class="tab-pane fade" role="tabpanel"><?php $this->load->view('private/settings/roles');?></div>
