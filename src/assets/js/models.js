@@ -117,13 +117,19 @@ $(document).ready(function() {
         });
     });
 
+    var addManufacturerField = $('#add-model-form #add-model-manufacturer');
+    var addManufacturerError = $("#add-model-form #add-model-manufacturer-error");
+
     $("#add-model-form").on("submit", function(e) {
         e.preventDefault(); // prevent modal from closing
+
+        var manufacturer = $('#add-model-form .item.active.selected').data('value');
+
         $.ajax({
             type: 'POST',
             url: addModelUrl,
             dataType: 'json',
-            data: $(this).serialize(), // get data from the form
+            data: $(this).serialize() + "&" + "manufacturer=" + manufacturer, // get data from the form
             success: function(result) {
                 if (result == "success") {
                     $("#add-model").modal('hide'); // if the submission was successful without any validation erros, we can hide the modal
@@ -173,7 +179,6 @@ $(document).ready(function() {
 
     editNameField.blur(function() {
         var id = $("#modal-submit-edit-model").data('id');
-
         $.ajax({
             type: 'POST',
             url: validateEditNameUrl,
@@ -211,12 +216,13 @@ $(document).ready(function() {
         e.preventDefault(); // prevent modal from closing
 
         var id = $("#modal-submit-edit-model").data('id');
+        var manufacturer = $('#edit-model-form .item.active.selected').data('value');
 
         $.ajax({
             type: 'POST',
             url: editModelUrl,
             dataType: 'json',
-            data: "id=" + id + "&" + $(this).serialize(), // get data from the form
+            data: "id=" + id + "&" + $(this).serialize() + "&manufacturer=" + manufacturer, // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
             async: true,
             success: function(result) {
@@ -291,6 +297,7 @@ $(document).ready(function() {
                 { "data": "name" },
                 { "data": "manufacturer" },
                 { "render": function ( data, type, row ) {
+                    // if ()
                         return '<button id="edit-model-button" class="table-icon edit-model-button" data-toggle="modal" data-id="' + row.id + '" data-name="' + row.name + '" data-manufacturer-id="' + row.manufacturersid + '" data-target="#edit-model"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
                     }
                 },
