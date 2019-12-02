@@ -35,11 +35,11 @@ Prepare Asset Manager table
             { "data": "team" },
             { "data": "rate" },
             { "render": function ( data, type, row ) {
-                    return '<button class="table-icon" id="edit-asset-button" data-toggle="modal" data-target="#edit-asset" data-type="POST" data-tableid="asset-manager" data-id = "' + row.id + '" data-url="AssetManager/edit/' + row.id + '"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button>';
+                    return '<button class="table-icon" id="edit-asset-button" data-toggle="modal" data-target="#edit-asset" data-type="POST" data-tableid="asset-manager" data-id = "' + row.id + '" data-url="AssetManager/edit/' + row.id + '"><img class="mini-icon" id="edit-asset-button" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button>';
                 }
             },
             { "render": function ( data, type, row ) {
-                    return '<button class="table-icon" id="delete-asset-button" data-toggle="modal" data-target="#delete-asset" data-type="DELETE" data-tableid="asset-manager" data-id = "' + row.id + '"data-url="AssetManager/delete/' + row.id + '"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button>';
+                    return '<button class="table-icon delete-asset-button" data-toggle="modal" data-target="#delete-asset" data-type="DELETE" data-tableid="asset-manager" data-id = "' + row.id + '"data-url="AssetManager/delete/' + row.id + '"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button>';
                 }
             },
             //Child row fields.
@@ -84,11 +84,72 @@ Prepare Asset Manager table
 /********************
 Expand Row Details
 ********************/
+    $('#asset-manager').on('click', '.parent-row', function(e) {
+      if(e.target.id == 'edit-asset-button') {
+        console.log("edit click");
+      }
 
-    $('#asset-manager').on('click', '.parent-row', function () {
-      var tr = $(this)
+      var model = table.cell(row,1).data();
+      var manufacturer = table.cell(row,2).data();
+      var owner = table.cell(row,3).data();
+      var type = table.cell(row,4).data();
+      var asset_tag = table.cell(row,5).data();
+      var team = table.cell(row,6).data();
+      var rate = table.cell(row,7).data();
+
+
       var row = table.row(this);
+      if (row.child.isShown() ) {
 
+
+        $(this).find('.table-icon').css("border-color", "transparent");
+        console.log("isshown")
+        if(e.target.id == 'edit-asset-button') {
+            /**If edit was clicked, save changes**/
+          //  var serial_number = table.cell(row,10).data();
+            //var serial_number = table.cell(row,10).data();
+          //  var serial_number = table.cell(row,10).data();
+
+            $(this).find('.asset_manager_model').html(model);
+            $(this).find('.asset_manager_manufacturer').html(manufacturer);
+            $(this).find('.asset_manager_owner').html(owner);
+            $(this).find('.asset_manager_type').html(type);
+            $(this).find('.asset_manager_asset_tag').html(asset_tag);
+            $(this).find('.asset_manager_team').html(team);
+            $(this).find('.asset_manager_rate').html(rate);
+          }
+          else {
+            return;
+          }
+      }
+      else {
+        //Highlight icons
+        $(this).find('.table-icon').css("border", "2px solid red");
+        console.log("isnotshown")
+
+        /**If edit was clicked, open input fields and ensure details are expanded.**/
+        $(this).find('.asset_manager_model').html('<input type="text" class="in-row-edit"></input>');
+        $(this).find('.asset_manager_manufacturer').html('<input type="text" class="in-row-edit"></input>');
+        $(this).find('.asset_manager_owner').html('<input type="text" class="in-row-edit"></input>');
+        $(this).find('.asset_manager_type').html('<input type="text" class="in-row-edit"></input>');
+        $(this).find('.asset_manager_asset_tag').html('<input type="text" class="in-row-edit"></input>');
+        $(this).find('.asset_manager_team').html('<input type="text" class="in-row-edit"></input>');
+        $(this).find('.asset_manager_rate').html('<input type="text" class="in-row-edit"></input>');
+      //  row.child().find('.asset_manager_serial_number').html('<input type="text" class="in-row-edit"></input>');
+        //table_row.child().find('.asset_manager_purchase_price').html('<input type="text"></input>');
+      //  table_row.child().find('.asset_manager_job_number').html('<input type="text"></input>');
+      //  table_row.child().find('.asset_manager_location').html('<input type="text"></input>');
+        //table_row.child().find('.asset_manager_purchase_date').html('<input type="text"></input>');
+        //table_row.child().find('.asset_manager_notes').html('<input type="text">' + notes + '</input>');
+
+        $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
+      }
+      showDetails(this);
+    });
+//Function called, also used by Edit
+    function showDetails(clickedRow) {
+      var tr = $(clickedRow);
+      var row = table.row(clickedRow);
 
       if( row.child.isShown() ) { //If This detail row is already open - close it
 
@@ -104,6 +165,7 @@ Expand Row Details
 
       }
       else { //Open the details row
+
 
         //**Add check to prevent re-createing child row if it exists.
 
@@ -132,19 +194,20 @@ Expand Row Details
         $(tr).css("background-color","#3B3B3B");
         $(tr).css("box-shadow","inset 0px 2px 2px black")
       }
-    } );
+    }
 
 /**************
 Edit Asset
 **************/
-    $('#asset-manager').on('click', '#edit-asset-button', function () {
-        var id = $(this).data('id');
-        var parent_row = $(this).closest('.parent-row');
-        var table_row = table.row(parent_row);
-
-        table_row.each('td').replaceWith("<input></input>");
-        table_row.child().each('p').replaceWith("<input></input>");
-    });
+    // $('#asset-manager').on('click', '#edit-asset-button', function () {
+    //     var id = $(this).data('id');
+    //     var parent_row = $(this).closest('tr.parent-row');
+    //     var row = parent_row[0]; //Convert jquery object to full HTML object
+    //     var table_row = table.row(parent_row);
+    //     var notes = table.cell(row,15).data();
+    //
+    //
+    // });
 
 /**************
 Delete Asset
@@ -172,6 +235,7 @@ Delete Asset
         });
     });
 });
+
 
 /**************************** Child Row Structure *****************************/
 function formatRow() { //Put child row data here.
