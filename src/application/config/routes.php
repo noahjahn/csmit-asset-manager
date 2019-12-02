@@ -61,5 +61,8 @@ $route['settings'] = 'Settings/index';
 
 $route['assettypes/delete/:num'] = 'AssetTypes/delete';
 
+$route['forbidden'] = 'Errors/forbidden';
+$route['unauthorized'] = 'Errors/unauthorized';
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

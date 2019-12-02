@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             401
         </div>
         <div class="text-danger" style="padding-top: 0px; padding-left: 20em;">
-            Error: Unauthorized access! You don't have the correct permissions to access this page.
+            Error: Unauthorized access! Are you signed in?
         </div>
     </body>
 </html>

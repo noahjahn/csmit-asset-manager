@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             403
         </div>
         <div class="text-danger" style="padding-top: 0px; padding-left: 20em;">
-            Error: Access denied! Are you signed in?
+            Error: Forbidden. Do youu have permssions to view this page?
         </div>
     </body>
 </html>
