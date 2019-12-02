@@ -10,10 +10,17 @@ class Settings extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		log_message('debug', 'Settings: construct - in function');
-
 		$this->load->model('Roles_model');
+		$this->load->helper("authorization");
 		$this->user_id = $this->session->userdata('id');
-		$this->user_role_id = $this->session->userdata('role');
+		$this->user_role_id = $this->session->userdata('id');
+		$this->page = 'settings';
+		if (! $this->session->userdata('id')) { // if the user is not logged in
+            redirect('unauthorized');
+		}
+		if ( ! is_authorized($this->user_role_id, $this->page)) {
+			redirect('forbidden');
+		}
 		if (empty($this->session->userdata('settings_active_tab'))) {
 			$tabs = $this->Roles_model->get_settings_access($this->user_role_id);
 			if ($tabs['asset_groups'] == R || $tabs['asset_groups'] == RW) {
@@ -33,33 +40,29 @@ class Settings extends CI_Controller {
 	public function index() {
 		log_message('debug', 'Settings: index - in function');
 
-		if (! $this->session->userdata('email')) { // if the user is not logged in
-			$this->load->view('errors/custom/access_denied'); // show a 403 unathorized error
-		} else {
-			$user_data = array(
-				'asset_groups' => $this->get_asset_groups_access(),
-				'users' => $this->get_users_access(),
-				'roles' => $this->get_roles_access(),
-				'login_photos' => $this->get_login_photos_access()
-			);
-			$this->session->set_userdata($user_data);
-			$view_data['active_page'] = 'settings';
-			$view_data['title'] = 'Settings';
-			$view_data['main_content'] = 'private/settings/index';
-			$view_data['userdata'] = $this->session->all_userdata();
+		$user_data = array(
+			'asset_groups' => $this->get_asset_groups_access(),
+			'users' => $this->get_users_access(),
+			'roles' => $this->get_roles_access(),
+			'login_photos' => $this->get_login_photos_access()
+		);
+		$this->session->set_userdata($user_data);
+		$view_data['active_page'] = 'settings';
+		$view_data['title'] = 'Settings';
+		$view_data['main_content'] = 'private/settings/index';
+		$view_data['userdata'] = $this->session->all_userdata();
 
-			switch ($this->Roles_model->get_page_access($this->user_role_id, $this->page)) {
-				case R:
-					$view_data['access'] = R;
-					$this->load->view('private/reusable/page-template', $view_data);
-					break;
-				case RW:
-					$view_data['access'] = RW;
-					$this->load->view('private/reusable/page-template', $view_data);
-					break;
-				default:
-					$this->load->view('errors/custom/unauthorized');
-			}
+		switch ($this->Roles_model->get_page_access($this->user_role_id, $this->page)) {
+			case R:
+				$view_data['access'] = R;
+				$this->load->view('private/reusable/page-template', $view_data);
+				break;
+			case RW:
+				$view_data['access'] = RW;
+				$this->load->view('private/reusable/page-template', $view_data);
+				break;
+			default:
+				$this->load->view('errors/custom/unauthorized');
 		}
 	}
 
