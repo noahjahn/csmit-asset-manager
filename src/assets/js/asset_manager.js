@@ -39,7 +39,7 @@ Prepare Asset Manager table
                 }
             },
             { "render": function ( data, type, row ) {
-                    return '<button class="table-icon delete-asset-button" data-toggle="modal" data-target="#delete-asset" data-type="DELETE" data-tableid="asset-manager" data-id = "' + row.id + '"data-url="AssetManager/delete/' + row.id + '"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button>';
+                    return '<button class="table-icon" id="delete-asset-button" data-toggle="modal" data-target="#delete-asset" data-type="DELETE" data-tableid="asset-manager" data-id = "' + row.id + '"data-url="AssetManager/delete/' + row.id + '"><img class="mini-icon" id="delete-asset-button" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button>';
                 }
             },
             //Child row fields.
@@ -85,6 +85,7 @@ Prepare Asset Manager table
 Expand Row Details
 ********************/
     $('#asset-manager').on('click', '.parent-row', function(e) {
+
       if(e.target.id == 'edit-asset-button') {
         console.log("edit click");
       }
@@ -102,9 +103,12 @@ Expand Row Details
       if (row.child.isShown() ) {
 
 
-        $(this).find('.table-icon').css("border-color", "transparent");
+
         console.log("isshown")
         if(e.target.id == 'edit-asset-button') {
+
+          $(this).find('.table-icon').css("border-color", "transparent");
+          $(this).find('#delete-asset-button').attr('data-target','#delete-asset');
             /**If edit was clicked, save changes**/
           //  var serial_number = table.cell(row,10).data();
             //var serial_number = table.cell(row,10).data();
@@ -122,9 +126,14 @@ Expand Row Details
             return;
           }
       }
+      else if(e.target.id == 'delete-asset-button') {
+        //call delete
+        return;
+      }
       else {
         //Highlight icons
         $(this).find('.table-icon').css("border", "2px solid red");
+        $(this).find('#delete-asset-button').attr('data-target','');
         console.log("isnotshown")
 
         /**If edit was clicked, open input fields and ensure details are expanded.**/
