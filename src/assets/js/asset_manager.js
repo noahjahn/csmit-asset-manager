@@ -81,15 +81,36 @@ Prepare Asset Manager table
     });
 
 
-/********************
-Expand Row Details
-********************/
+/***********************************
+Handler for clicking on an asset row
+Decision Path:
+-IF Detail Row is Expanded before clicking (row.child.isshown)
+    +In Edit mode
+        >Save Button clicked              : Save changes and re-display new data
+        >Anything else                    : Nothing
+    +Not in Edit mode
+        >Edit Button clicked              : Enable editing
+        >Delete Button clicked            : Open delete menu
+        >Anywhere else on the row clicked : Close detail row
+-IF Detail Row is Closed before clicking
+        >Edit Button clicked              : Expand detail row and enable editing
+        >Delete Button clicked            : Open delete menu
+        >Anywhere else on the row clicked : Expand details row
+***********************************/
     $('#asset-manager').on('click', '.parent-row', function(e) {
 
+      //Get row we're on
+      var tr = $(this);
+      var row = table.row(this);
+
+      //Sanity check to ensure we're clicking the "edit button". Delete later
       if(e.target.id == 'edit-asset-button') {
         console.log("edit click");
       }
 
+      //Get current values in row.
+      //Replace inputs with these after editing if nothing was changed.
+      //--STILL NEED-- Update field if the value changed.
       var model = table.cell(row,1).data();
       var manufacturer = table.cell(row,2).data();
       var owner = table.cell(row,3).data();
@@ -97,22 +118,31 @@ Expand Row Details
       var asset_tag = table.cell(row,5).data();
       var team = table.cell(row,6).data();
       var rate = table.cell(row,7).data();
+      var serial_number = table.cell(row,10).data();
+      var purchase_price = table.cell(row,11).data();
+      var job_number = table.cell(row,12).data();
+      var location = table.cell(row,13).data();
+      var purchase_date = table.cell(row,14).data();
+      var notes = table.cell(row,15).data();
+      var last_modified_time = table.cell(row,16).data();
 
 
-      var row = table.row(this);
+/****************IF Detail Row is EXPANDED before clicking*********************/
       if (row.child.isShown() ) {
 
-
-
-        console.log("isshown")
-        if(e.target.id == 'edit-asset-button') {
-
-          $(this).find('.table-icon').css("border-color", "transparent");
-          $(this).find('#delete-asset-button').attr('data-target','#delete-asset');
-            /**If edit was clicked, save changes**/
-          //  var serial_number = table.cell(row,10).data();
-            //var serial_number = table.cell(row,10).data();
-          //  var serial_number = table.cell(row,10).data();
+        /**********************If row is in edit mode************************/
+        if($(this).hasClass('edit-mode')) {
+          /**********If the save button is clicked**********/
+          if(e.target.id == 'edit-asset-button') {
+            $(this).removeClass('edit-mode');
+            $(this).find('.table-icon').css("border-color", "transparent");
+            $(this).find('#delete-asset-button').attr('data-target','#delete-asset');
+            $(this).find('#delete-asset-button').css('display','block');
+            $(this).find('#edit-asset-button').replaceWith('<button class="table-icon" id="edit-asset-button" data-toggle="modal" data-target="#edit-asset" data-type="POST" data-tableid="asset-manager" data-id = "' + row.id + '" data-url="AssetManager/edit/' + row.id + '"><img class="mini-icon" id="edit-asset-button" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button>');
+              /**If edit was clicked, save changes**/
+            //  var serial_number = table.cell(row,10).data();
+              //var serial_number = table.cell(row,10).data();
+            //  var serial_number = table.cell(row,10).data();
 
             $(this).find('.asset_manager_model').html(model);
             $(this).find('.asset_manager_manufacturer').html(manufacturer);
@@ -121,102 +151,148 @@ Expand Row Details
             $(this).find('.asset_manager_asset_tag').html(asset_tag);
             $(this).find('.asset_manager_team').html(team);
             $(this).find('.asset_manager_rate').html(rate);
+            row.child().find("p.asset_manager_serial_number").html(serial_number);
+            row.child().find("p.asset_manager_purchase_price").html(purchase_price);
+            row.child().find("p.asset_manager_job_number").html(job_number);
+            row.child().find("p.asset_manager_location").html(location);
+            row.child().find("p.asset_manager_purchase_date").html(purchase_date);
+            row.child().find("p.asset_manager_notes").html(notes);
+            row.child().find("p.asset_manager_last_modified_time").html(last_modified_time);
+
+            $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
           }
+          /**********If the save button is not clicked**********/
           else {
-            return;
+              ;//do nothing.
           }
-      }
-      else if(e.target.id == 'delete-asset-button') {
-        //call delete
-        return;
-      }
-      else {
-        //Highlight icons
-        $(this).find('.table-icon').css("border", "2px solid red");
-        $(this).find('#delete-asset-button').attr('data-target','');
-        console.log("isnotshown")
+        }
+        /**********************If row is NOT in edit mode**********************/
+        else {
+          /**********If the edit button is clicked**********/
+          if(e.target.id == 'edit-asset-button') {
+            $(this).addClass('edit-mode');
+            $(this).find('.table-icon').css("border", "2px solid red");
 
-        /**If edit was clicked, open input fields and ensure details are expanded.**/
-        $(this).find('.asset_manager_model').html('<input type="text" class="in-row-edit"></input>');
-        $(this).find('.asset_manager_manufacturer').html('<input type="text" class="in-row-edit"></input>');
-        $(this).find('.asset_manager_owner').html('<input type="text" class="in-row-edit"></input>');
-        $(this).find('.asset_manager_type').html('<input type="text" class="in-row-edit"></input>');
-        $(this).find('.asset_manager_asset_tag').html('<input type="text" class="in-row-edit"></input>');
-        $(this).find('.asset_manager_team').html('<input type="text" class="in-row-edit"></input>');
-        $(this).find('.asset_manager_rate').html('<input type="text" class="in-row-edit"></input>');
-      //  row.child().find('.asset_manager_serial_number').html('<input type="text" class="in-row-edit"></input>');
-        //table_row.child().find('.asset_manager_purchase_price').html('<input type="text"></input>');
-      //  table_row.child().find('.asset_manager_job_number').html('<input type="text"></input>');
-      //  table_row.child().find('.asset_manager_location').html('<input type="text"></input>');
-        //table_row.child().find('.asset_manager_purchase_date').html('<input type="text"></input>');
-        //table_row.child().find('.asset_manager_notes').html('<input type="text">' + notes + '</input>');
+            //Hide Trashcan
+            $(this).find('#delete-asset-button').attr('data-target','');
+            $(this).find('#delete-asset-button').css('display','none');
+            $(this).find('img#edit-asset-button.mini-icon').remove();
+            $(this).find('button#edit-asset-button.table-icon').replaceWith('<button id="edit-asset-button" type="button" class="btn btn-primary">Save</button>');
 
-        $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
+            /**If edit was clicked, open input fields and ensure details are expanded.**/
+            //Parent row fields
+            $(this).find('.asset_manager_model').html('<input type="text" class="in-row-edit"></input>');
+            $(this).find('.asset_manager_manufacturer').html('<input type="text" class="in-row-edit"></input>');
+            $(this).find('.asset_manager_owner').html('<input type="text" class="in-row-edit"></input>');
+            $(this).find('.asset_manager_type').html('<input type="text" class="in-row-edit"></input>');
+            $(this).find('.asset_manager_asset_tag').html('<input type="text" class="in-row-edit"></input>');
+            $(this).find('.asset_manager_team').html('<input type="text" class="in-row-edit"></input>');
+            $(this).find('.asset_manager_rate').html('<input type="text" class="in-row-edit"></input>');
+            //Child row fields
+            row.child().find('.asset_manager_serial_number').html('<input type="text" class="in-row-edit"></input>');
+            row.child().find('.asset_manager_purchase_price').html('<input type="text" class="in-row-edit"></input>');
+            row.child().find('.asset_manager_job_number').html('<input type="text" class="in-row-edit"></input>');
+            row.child().find('.asset_manager_location').html('<input type="text" class="in-row-edit"></input>');
+            row.child().find('.asset_manager_purchase_date').html('<input type="text" class="in-row-edit"></input>');
+            row.child().find('.asset_manager_notes').html('<input type="text" class="in-row-edit" value="notes would go here"></input>');
+
+            $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
+          }
+          /**********If the delete button is clicked**********/
+          else if (e.target.id == 'delete-asset-button') {
+            ;//Do Nothing *here*. Modal will catch event.
+          }
+          /**********If Anywhere else on the row is clicked**********/
+          else {
+            //Remove light-grey focus styled when detail row is closed
+            $(tr).css({"background-color":"#303030", "box-shadow":"none"});
+            //  $(tr).children().css();
+            row.child().find('div').css({"background-color":"#303030", "box-shadow":"none"});
+            //Close detail row
+            $('div.slider', row.child()).slideUp( 300,function () {
+                row.child.hide();
+                tr.removeClass('shown');
+            } );
+          }
+        }
       }
-      showDetails(this);
+/*********END EXPANDED ROW IF***********/
+
+/****************IF Detail Row is CLOSED before clicking*********************/
+      else { //If child row is NOT shown
+
+        /**********If the edit button is  clicked**********/
+        if(e.target.id == 'edit-asset-button') {
+          $(this).addClass('edit-mode');
+          $(this).find('.table-icon').css("border", "2px solid red");
+
+          //Hide Trashcan
+          $(this).find('#delete-asset-button').attr('data-target','');
+          $(this).find('#delete-asset-button').css('display','none');
+          $(this).find('img#edit-asset-button.mini-icon').remove();
+          $(this).find('button#edit-asset-button.table-icon').replaceWith('<button id="edit-asset-button" type="button" class="btn btn-primary">Save</button>');
+
+          //Get child row structure
+          row.child( formatRow(row.data()), 'slider' ).show();
+          //Fill child row fields
+          //Slide detail row down
+          tr.addClass('shown');
+          $('div.slider', row.child()).slideDown(300);
+          //Add light-grey focus styling when detail row is opening
+          $('div.slider').css({"background-color":"#3B3B3B", "box-shadow":"inset 0px -1px 2px black"});
+          $(tr).css("background-color","#3B3B3B");
+          $(tr).css("box-shadow","inset 0px 2px 2px black");
+
+          /**If edit was clicked, open input fields and ensure details are expanded.**/
+          //Parent row fields
+          $(this).find('.asset_manager_model').html('<input type="text" class="in-row-edit"></input>');
+          $(this).find('.asset_manager_manufacturer').html('<input type="text" class="in-row-edit"></input>');
+          $(this).find('.asset_manager_owner').html('<input type="text" class="in-row-edit"></input>');
+          $(this).find('.asset_manager_type').html('<input type="text" class="in-row-edit"></input>');
+          $(this).find('.asset_manager_asset_tag').html('<input type="text" class="in-row-edit"></input>');
+          $(this).find('.asset_manager_team').html('<input type="text" class="in-row-edit"></input>');
+          $(this).find('.asset_manager_rate').html('<input type="text" class="in-row-edit"></input>');
+          //Child row fields
+          row.child().find('.asset_manager_serial_number').html('<input type="text" class="in-row-edit"></input>');
+          row.child().find('.asset_manager_purchase_price').html('<input type="text" class="in-row-edit"></input>');
+          row.child().find('.asset_manager_job_number').html('<input type="text" class="in-row-edit"></input>');
+          row.child().find('.asset_manager_location').html('<input type="text" class="in-row-edit"></input>');
+          row.child().find('.asset_manager_purchase_date').html('<input type="text" class="in-row-edit"></input>');
+          row.child().find('.asset_manager_notes').html('<input type="text" class="in-row-edit" value="notes would go here"></input>');
+
+          $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
+
+        }
+        /**********If the delete button is  clicked**********/
+        else if (e.target.id == 'delete-asset-button') {//If delete button is clicked
+          ;//Do Nothing *here*. Modal will catch event.
+        }
+        /**********If Anywhere else on the row is clicked**********/
+        else {
+          //Highlight icons
+          //Slide detail row down
+          tr.addClass('shown');
+          //Get child row structure
+          row.child( formatRow(row.data()), 'slider' ).show();
+          //Fill child row fields
+          row.child().find("p.asset_manager_serial_number").html(serial_number);
+          row.child().find("p.asset_manager_purchase_price").html(purchase_price);
+          row.child().find("p.asset_manager_job_number").html(job_number);
+          row.child().find("p.asset_manager_location").html(location);
+          row.child().find("p.asset_manager_purchase_date").html(purchase_date);
+          row.child().find("p.asset_manager_notes").html(notes);
+          row.child().find("p.asset_manager_last_modified_time").html(last_modified_time);
+          $('div.slider', row.child()).slideDown(300);
+          //Add light-grey focus styling when detail row is opening
+          $('div.slider').css({"background-color":"#3B3B3B", "box-shadow":"inset 0px -1px 2px black"});
+          $(tr).css("background-color","#3B3B3B");
+          $(tr).css("box-shadow","inset 0px 2px 2px black");
+        }
+      }
+/***************END CLOSED ROW IF***************/
     });
-//Function called, also used by Edit
-    function showDetails(clickedRow) {
-      var tr = $(clickedRow);
-      var row = table.row(clickedRow);
+//End function
 
-      if( row.child.isShown() ) { //If This detail row is already open - close it
-
-        //Remove light-grey focus styled when detail row is closed
-        $(tr).css({"background-color":"#303030", "box-shadow":"none"});
-        //  $(tr).children().css();
-        row.child().find('div').css({"background-color":"#303030", "box-shadow":"none"});
-        //Close detail row
-        $('div.slider', row.child()).slideUp( 300,function () {
-            row.child.hide();
-            tr.removeClass('shown');
-        } );
-
-      }
-      else { //Open the details row
-
-
-        //**Add check to prevent re-createing child row if it exists.
-
-        //Get child row structure
-        row.child( formatRow(row.data()), 'slider' ).show();
-        //Fill child row fields
-        var serial_number = table.cell(row,10).data();
-        var purchase_price = table.cell(row,11).data();
-        var job_number = table.cell(row,12).data();
-        var location = table.cell(row,13).data();
-        var purchase_date = table.cell(row,14).data();
-        var notes = table.cell(row,15).data();
-        var last_modified_time = table.cell(row,16).data();
-        row.child().find("p.asset_manager_serial_number").html(serial_number);
-        row.child().find("p.asset_manager_purchase_price").html(purchase_price);
-        row.child().find("p.asset_manager_job_number").html(job_number);
-        row.child().find("p.asset_manager_location").html(location);
-        row.child().find("p.asset_manager_purchase_date").html(purchase_date);
-        row.child().find("p.asset_manager_notes").html(notes);
-        row.child().find("p.asset_manager_last_modified_time").html(last_modified_time);
-        //Slide detail row down
-        tr.addClass('shown');
-        $('div.slider', row.child()).slideDown(300);
-        //Add light-grey focus styling when detail row is opening
-        $('div.slider').css({"background-color":"#3B3B3B", "box-shadow":"inset 0px -1px 2px black"});
-        $(tr).css("background-color","#3B3B3B");
-        $(tr).css("box-shadow","inset 0px 2px 2px black")
-      }
-    }
-
-/**************
-Edit Asset
-**************/
-    // $('#asset-manager').on('click', '#edit-asset-button', function () {
-    //     var id = $(this).data('id');
-    //     var parent_row = $(this).closest('tr.parent-row');
-    //     var row = parent_row[0]; //Convert jquery object to full HTML object
-    //     var table_row = table.row(parent_row);
-    //     var notes = table.cell(row,15).data();
-    //
-    //
-    // });
 
 /**************
 Delete Asset
