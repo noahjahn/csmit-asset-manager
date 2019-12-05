@@ -11,28 +11,31 @@ $(document).ready(function() {
     /* *** **************** *** */
 
     /* *** Handle add manufacturer *** */
-    $("#add-manufacturer-form #name").blur(function() {
+    var addNameField = $("#add-manufacturer-form #add-manufacturer-name");
+    var addNameError = $("#add-manufacturer-form #add-manufacturer-name-error");
 
+    addNameField.blur(function() {
         $.ajax({
             type: 'POST',
             url: validateAddNameUrl,
             dataType: 'json',
             data: $(this).serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
-                    $("#add-manufacturer-form #name-error").empty();
-                    $("#add-manufacturer-form #name").removeClass('is-invalid');
-                    $("#add-manufacturer-form #name").addClass('is-valid');
+                    addNameError.empty();
+                    addNameField.removeClass('is-invalid');
+                    addNameField.addClass('is-valid');
                 } else {
-                    $("#add-manufacturer-form #name").removeClass('is-valid');
+                    addNameField.removeClass('is-valid');
                     if (! result["name"] == "") {
-                        if (! result["name"] == $("#add-manufacturer-form #name-error").val()) {
-                            $("#add-manufacturer-form #name-error").empty(); // empty error messages, if there were any
-                            $("#add-manufacturer-form #name-error").append(result["name"]); // display the error messages
+                        if (! result["name"] == addNameError.val()) {
+                            addNameError.empty(); // empty error messages, if there were any
+                            addNameError.append(result["name"]); // display the error messages
                         }
-                        if (! $("#add-manufacturer-form #name").hasClass('is-invalid')) {
-                            $("#add-manufacturer-form #name").addClass('is-invalid');
+                        if (! addNameField.hasClass('is-invalid')) {
+                            addNameField.addClass('is-invalid');
                         }
                     }
                 }
@@ -59,12 +62,12 @@ $(document).ready(function() {
                     $("#manufacturers").DataTable().ajax.reload(); // also need to reload the datatable since we successfully add an manufacturer
                 } else {
                     if (! result["name"] == "") {
-                        if (! result["name"] == $("#add-manufacturer-form #name-error").val()) {
-                            $("#add-manufacturer-form #name-error").empty(); // empty error messages, if there were any
-                            $("#add-manufacturer-form #name-error").append(result["name"]); // display the error messages
+                        if (! result["name"] == addNameError.val()) {
+                            addNameError.empty(); // empty error messages, if there were any
+                            addNameError.append(result["name"]); // display the error messages
                         }
-                        if (! $("#add-manufacturer-form #name").hasClass('is-invalid')) {
-                            $("#add-manufacturer-form #name").addClass('is-invalid');
+                        if (! addNameField.hasClass('is-invalid')) {
+                            addNameField.addClass('is-invalid');
                         }
                     }
                 }
@@ -78,23 +81,26 @@ $(document).ready(function() {
     });
 
     $('#add-manufacturer').on('hidden.bs.modal', function () {
-        $("#add-manufacturer-form #name-error").empty(); // empty the errors when hiding the modal
-        $("#add-manufacturer-form #name").val(""); // set the value to of the forms to have nothing in them, just in case the user left some data there without submitting
-        $("#add-manufacturer-form #name").removeClass('is-invalid');
-        $("#add-manufacturer-form #name").removeClass('is-valid');
+        addNameError.empty(); // empty the errors when hiding the modal
+        addNameField.val(""); // set the value to of the forms to have nothing in them, just in case the user left some data there without submitting
+        addNameField.removeClass('is-invalid');
+        addNameField.removeClass('is-valid');
     });
     /* *** ********************* *** */
 
     /* *** Handle edit manufacturer *** */
-    $(document).on("click", "#edit-manufacturer-button", function () {
+    var editNameField = $("#edit-manufacturer-form #edit-manufacturer-name");
+    var editNameError = $("#edit-manufacturer-form #edit-manufacturer-name-error");
+
+    $(document).on("click", ".edit-manufacturer-button", function () {
         var id = $(this).data('id');
         var name = $(this).data('name');
 
-        $("#edit-manufacturer-form #name").val(name); // set values for what is currently set
+        editNameField.val(name); // set values for what is currently set
         $("#edit-manufacturer-form #modal-submit-edit-manufacturer").data('id', id);
     });
 
-    $("#edit-manufacturer-form #name").blur(function() {
+    editNameField.blur(function() {
         var id = $("#modal-submit-edit-manufacturer").data('id');
 
         $.ajax({
@@ -103,20 +109,21 @@ $(document).ready(function() {
             dataType: 'json',
             data: "id=" + id + "&" + $(this).serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
-                    $("#edit-manufacturer-form #name-error").empty();
-                    $("#edit-manufacturer-form #name").removeClass('is-invalid');
-                    $("#edit-manufacturer-form #name").addClass('is-valid');
+                    editNameError.empty();
+                    editNameField.removeClass('is-invalid');
+                    editNameField.addClass('is-valid');
                 } else {
-                    $("#edit-manufacturer-form #name").removeClass('is-valid');
+                    editNameField.removeClass('is-valid');
                     if (! result["name"] == "") {
-                        if (! result["name"] == $("#edit-manufacturer-form #name-error").val()) {
-                            $("#edit-manufacturer-form #name-error").empty(); // empty error messages, if there were any
-                            $("#edit-manufacturer-form #name-error").append(result["name"]); // display the error messages
+                        if (! result["name"] == editNameError.val()) {
+                            editNameError.empty(); // empty error messages, if there were any
+                            editNameError.append(result["name"]); // display the error messages
                         }
-                        if (! $("#edit-manufacturer-form #name").hasClass('is-invalid')) {
-                            $("#edit-manufacturer-form #name").addClass('is-invalid');
+                        if (! editNameField.hasClass('is-invalid')) {
+                            editNameField.addClass('is-invalid');
                         }
                     }
                 }
@@ -140,6 +147,7 @@ $(document).ready(function() {
             dataType: 'json',
             data: "id=" + id + "&" + $(this).serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
                     $("#edit-manufacturer").modal('hide'); // if the submission was successful without any validation erros, we can hide the modal
@@ -147,12 +155,12 @@ $(document).ready(function() {
                     $("#models").DataTable().ajax.reload(); // also need to reload the datatable since we successfully add an model
                 } else {
                     if (! result["name"] == "") {
-                        if (! result["name"] == $("#edit-manufacturer-form #name-error").val()) {
-                            $("#edit-manufacturer-form #name-error").empty(); // empty error messages, if there were any
-                            $("#edit-manufacturer-form #name-error").append(result["name"]); // display the error messages
+                        if (! result["name"] == editNameError.val()) {
+                            editNameError.empty(); // empty error messages, if there were any
+                            editNameError.append(result["name"]); // display the error messages
                         }
-                        if (! $("#edit-manufacturer-form #name").hasClass('is-invalid')) {
-                            $("#edit-manufacturer-form #name").addClass('is-invalid');
+                        if (! editNameField.hasClass('is-invalid')) {
+                            editNameField.addClass('is-invalid');
                         }
                     }
                 }
@@ -166,15 +174,15 @@ $(document).ready(function() {
     });
 
     $('#edit-manufacturer').on('hidden.bs.modal', function () {
-        $("#edit-manufacturer-form #name-error").empty(); // empty the errors when hiding the modal
-        $("#edit-manufacturer-form #name").val(""); // set the value to of the forms to have nothing in them, just in case the user left some data there without submitting
-        $("#edit-manufacturer-form #name").removeClass('is-invalid');
-        $("#edit-manufacturer-form #name").removeClass('is-valid');
+        editNameError.empty(); // empty the errors when hiding the modal
+        editNameField.val(""); // set the value to of the forms to have nothing in them, just in case the user left some data there without submitting
+        editNameField.removeClass('is-invalid');
+        editNameField.removeClass('is-valid');
     });
     /* *** ********************* *** */
 
     /* *** Handle delete manufacturer *** */
-    $(document).on("click", "#delete-manufacturer-button", function () {
+    $(document).on("click", ".delete-manufacturer-button", function () {
         var id = $(this).data('id');
         $("#modal-submit-delete-manufacturer").data('id', id);
 
@@ -224,25 +232,28 @@ $(document).ready(function() {
                 { "data": "id" },
                 { "data": "name" },
                 { "render": function ( data, type, row ) {
-                        return '<button id="edit-manufacturer-button" class="table-icon" data-toggle="modal" data-id="' + row.id + '" data-name="' + row.name + '" data-target="#edit-manufacturer"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
+                        return '<button class="table-icon edit-manufacturer-button" data-toggle="modal" data-id="' + row.id + '" data-name="' + row.name + '" data-target="#edit-manufacturer"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
                     }
                 },
                 { "render": function ( data, type, row ) {
-                        return '<button id="delete-manufacturer-button" class="table-icon" data-toggle="modal" data-id="' + row.id + '" data-target="#delete-manufacturer"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
+                        return '<button class="table-icon delete-manufacturer-button" data-toggle="modal" data-id="' + row.id + '" data-target="#delete-manufacturer"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
                     }
                 }
             ],
+            responsive:     true,
             scrollY:        212,
             paging:         false,
             fixedHeader:    true,
             info:           false,
             columnDefs: [
-                { "orderable": false, "targets": [2,3] },
-                { "visible": false, "targets": 0 }
+                { responsivePriority: -1, targets: [2,3] },
+                { width: "20px", targets: [2,3] },
+                { orderable: false, targets: [2,3] },
+                { visible: false, targets: 0 }
             ],
             dom:
-                "<'row'<'col-sm'<'table-title-manufacturers'>>fB>" +
-    			"<'row'<'col-sm'tr>>",
+                "<'row'<'col-md-3'<'table-title-manufacturers'>><'col-md-9 pr-0 pt-0 pb-0'Bf>>" +
+    			"<'row'<'col-md'tr>>",
             buttons: [
                 {
                     text: "Add Manufacturer",

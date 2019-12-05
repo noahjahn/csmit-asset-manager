@@ -17,14 +17,14 @@
             <div class="modal-body" id="modal-body-add-model">
                 <?php echo form_open(current_url(), array( 'id' => 'add-model-form', 'name' => 'add-model-form')); ?>
                     <div class="form-group">
-                        <label>Name</label>
-                        <input id="name" name="name" class="form-control" value="<?php set_value('name'); ?>">
-                        <div id="name-error" class="invalid-feedback"></div>
+                        <label>Name<span class="required"> *</span></label>
+                        <input id="add-model-name" name="name" class="form-control" value="<?php set_value('name'); ?>">
+                        <div id="add-model-name-error" class="invalid-feedback"></div>
                     </div>
                     <div class="form-group">
-                        <label>Manufacturer</label>
-                        <select id="manufacturer" name="manufacturer" class="form-control" value="<?php set_value('manufacturer'); ?>"></select>
-                        <div id="manufacturer-error" class="invalid-feedback"></div>
+                        <label>Manufacturer<span class="required"> *</span></label>
+                        <select id="add-model-manufacturer" type="text" name="manufacturer" class="form-control ui search dropdown" value="<?php set_value('manufacturer'); ?>"></select>
+                        <div id="add-model-manufacturer-error" class="invalid-feedback"></div>
                     </div>
                     <div>
                         <div class="modal-body-footer">
@@ -50,28 +50,14 @@
             <div id="modal-body-edit-model" class="modal-body">
                 <?php echo form_open(current_url(), array( 'id' => 'edit-model-form', 'name' => 'edit-model-form')); ?>
                     <div class="form-group">
-                        <label>Name</label>
-                        <input id="name" name="name" class="form-control" value="<?php set_value('name'); ?>">
+                        <label>Name<span class="required"> *</span></label>
+                        <input id="edit-model-name" name="name" class="form-control" value="<?php set_value('name'); ?>">
                         <div id="name-error" class="invalid-feedback"></div>
                     </div>
                     <div class="form-group">
-                        <label>Manufacturer</label>
-                        <!-- <input list="brow" autocomplete="off" class="form-control">
-                            <datalist id="brow">
-                                <option value="Internet Explorer">
-                                <option value="Firefox">
-                                <option value="Chrome">
-                                <option value="Opera">
-                                <option value="Safari">
-                            </datalist>
-                        </input> -->
-                        <select id="manufacturer" type="text" name="manufacturer" class="form-control ui search dropdown is-valid" value="<?php set_value('manufacturer'); ?>">
-                            <option value="volvo">Volvo</option>
-                              <option value="saab">Saab</option>
-                              <option value="mercedes">Mercedes</option>
-                              <option value="audi">Audi</option>
-                        </select>
-                        <div id="manufacturer-error" class="invalid-feedback"></div>
+                        <label>Manufacturer<span class="required"> *</span></label>
+                        <select id="edit-model-manufacturer" type="text" name="manufacturer" class="form-control ui search dropdown" value="<?php set_value('manufacturer'); ?>"></select>
+                        <div id="edit-model-manufacturer-error" class="invalid-feedback"></div>
                     </div>
                     <div>
                         <div class="modal-body-footer">

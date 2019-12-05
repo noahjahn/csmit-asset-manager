@@ -12,9 +12,9 @@
             <div class="modal-body" id="modal-body-add-team">
                 <?php echo form_open(current_url(), array( 'id' => 'add-team-form', 'name' => 'add-team-form')); ?>
                     <div class="form-group">
-                        <label>Name</label>
-                        <input id="name" name="name" class="form-control" value="<?php set_value('name'); ?>">
-                        <div id="name-error" class="invalid-feedback"></div>
+                        <label>Name<span class="required"> *</span></label>
+                        <input id="add-team-name" name="name" class="form-control" value="<?php set_value('name'); ?>">
+                        <div id="add-team-name-error" class="invalid-feedback"></div>
                     </div>
                     <div>
                         <div class="modal-body-footer">
@@ -40,9 +40,9 @@
             <div id="modal-body-edit-team" class="modal-body">
                 <?php echo form_open(current_url(), array( 'id' => 'edit-team-form', 'name' => 'edit-team-form')); ?>
                     <div class="form-group">
-                        <label>Name</label>
-                        <input id="name" name="name" class="form-control" value="<?php set_value('name'); ?>">
-                        <div id="name-error" class="invalid-feedback"></div>
+                        <label>Name<span class="required"> *</span></label>
+                        <input id="edit-team-name" name="name" class="form-control" value="<?php set_value('name'); ?>">
+                        <div id="edit-team-name-error" class="invalid-feedback"></div>
                     </div>
                     <div>
                         <div class="modal-body-footer">

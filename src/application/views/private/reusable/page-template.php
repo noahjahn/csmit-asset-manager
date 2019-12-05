@@ -8,11 +8,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <?php $this->load->view('require/navbar'); ?>
             <div class="container-fluid mt-4 ml-3 mr-3">
                 <?php
+                // echo $userdata['role']->role;
                 $page['title'] = $title; $this->load->view('private/reusable/page-header', $page);
                 if (isset($data)) {
                     $this->load->view($main_content, $data);
                 } else {
-                    $this->load->view($main_content);
+                    $this->load->view($main_content, $userdata);
                     log_message('debug', 'View: page-template: No data passed '.
                         'to the '.$page['title'].' page');
                 }

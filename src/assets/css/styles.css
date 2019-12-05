@@ -54,7 +54,6 @@ body {
 /* *** END BOOTSTRAP OVERRIDES *** */
 
 /* *** NAVIGATION STYLES *** */
-
 .usr-img {
     background-color: grey;
     max-width: 128px;
@@ -172,7 +171,7 @@ body {
 .table-icon {
     background-color: transparent;
     border-color: transparent;
-
+    padding: 0px !important;
 }
 
 .table-icon img:hover {
@@ -229,4 +228,30 @@ body {
     border-top-color: #F39C12 !important;
     border-top-width: 3px !important;
 }
+/* *** ********************* *** */
+
+/* *** FORM STYLES *** */
+.required {
+    color: #E74C3C;
+}
+/* *** *********** *** */
+
+/* *** SETTINGS LOGIN PHOTOS *** */
+#login-photos {
+    height: 25%;
+    overflow-y: scroll;
+}
+
+.settings-login-photo {
+    width: 30%;
+    height: 100%;
+    margin: 1em;
+}
+
+#login-photo-drop-zone {
+    border: 5px solid black;
+    width:  100%;
+    height: 100%;
+}
+
 /* *** ********************* *** */

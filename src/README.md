@@ -95,7 +95,7 @@ The `-d` flag runs the containers in detached mode: Run containers in the backgr
 ### Server installation for production
 "The machine" will refer to the computer (VM or not) where the code and web server will live
 
-Assumptions made
+Assumptions made: 
 * a DNS Alias "A" record of choice (example: inventory.csmgroup.com) is pointing to the public IP address of the machine
 * networking equipment is configured to allow all traffic over ports 80 (http) and 443 (https) to the machine
 * networking equipment is configured to allow (restricted if desired) traffic over port 22 (SSH) to the machine

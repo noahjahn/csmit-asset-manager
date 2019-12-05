@@ -13,28 +13,30 @@ $(document).ready(function() {
     /* *** **************** *** */
 
     /* *** Handle add asset type *** */
-    $("#add-asset-type-form #name").blur(function() {
-
+    addNameField = $("#add-asset-type-form #add-asset-type-name");
+    addNameError = $("#add-asset-type-form #add-asset-type-name-error");
+    addNameField.blur(function() {
         $.ajax({
             type: 'POST',
             url: validateAddNameUrl,
             dataType: 'json',
             data: $(this).serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
-                    $("#add-asset-type-form #name-error").empty();
-                    $("#add-asset-type-form #name").removeClass('is-invalid');
-                    $("#add-asset-type-form #name").addClass('is-valid');
+                    addNameError.empty();
+                    addNameField.removeClass('is-invalid');
+                    addNameField.addClass('is-valid');
                 } else {
-                    $("#add-asset-type-form #name").removeClass('is-valid');
+                    addNameField.removeClass('is-valid');
                     if (! result["name"] == "") {
-                        if (! result["name"] == $("#add-asset-type-form #name-error").val()) {
-                            $("#add-asset-type-form #name-error").empty(); // empty error messages, if there were any
-                            $("#add-asset-type-form #name-error").append(result["name"]); // display the error messages
+                        if (! result["name"] == addNameError.val()) {
+                            addNameError.empty(); // empty error messages, if there were any
+                            addNameError.append(result["name"]); // display the error messages
                         }
-                        if (! $("#add-asset-type-form #name").hasClass('is-invalid')) {
-                            $("#add-asset-type-form #name").addClass('is-invalid');
+                        if (! addNameField.hasClass('is-invalid')) {
+                            addNameField.addClass('is-invalid');
                         }
                     }
                 }
@@ -47,28 +49,30 @@ $(document).ready(function() {
         });
     });
 
-    $("#add-asset-type-form #rate").blur(function() {
-
+    addRateField = $("#add-asset-type-form #add-asset-type-rate");
+    addRateError = $("#add-asset-type-form #add-asset-type-rate-error");
+    addRateField.blur(function() {
         $.ajax({
             type: 'POST',
             url: validateAddRateUrl,
             dataType: 'json',
             data: $(this).serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
-                    $("#add-asset-type-form #rate-error").empty();
-                    $("#add-asset-type-form #rate").removeClass('is-invalid');
-                    $("#add-asset-type-form #rate").addClass('is-valid');
+                    addRateError.empty();
+                    addRateField.removeClass('is-invalid');
+                    addRateField.addClass('is-valid');
                 } else {
-                    $("#add-asset-type-form #rate").removeClass('is-valid');
+                    addRateField.removeClass('is-valid');
                     if (! result["rate"] == "") {
-                        if (! result["rate"] == $("#add-asset-type-form #rate-error").val()) {
-                            $("#add-asset-type-form #rate-error").empty(); // empty error messages, if there were any
-                            $("#add-asset-type-form #rate-error").append(result["rate"]); // display the error messages
+                        if (! result["rate"] == addRateError.val()) {
+                            addRateError.empty(); // empty error messages, if there were any
+                            addRateError.append(result["rate"]); // display the error messages
                         }
-                        if (! $("#add-asset-type-form #rate").hasClass('is-invalid')) {
-                            $("#add-asset-type-form #rate").addClass('is-invalid');
+                        if (! addRateField.hasClass('is-invalid')) {
+                            addRateField.addClass('is-invalid');
                         }
                     }
                 }
@@ -83,7 +87,6 @@ $(document).ready(function() {
 
     $("#add-asset-type-form").on("submit", function(e) {
         e.preventDefault(); // prevent modal from closing
-
         $.ajax({
             type: 'POST',
             url: addAssetTypeUrl,
@@ -95,21 +98,21 @@ $(document).ready(function() {
                     $("#asset_types").DataTable().ajax.reload(); // also need to reload the datatable since we successfully add an asset type
                 } else {
                     if (! result["name"] == "") {
-                        if (! result["name"] == $("#add-asset-type-form #name-error").val()) {
-                            $("#add-asset-type-form #name-error").empty(); // empty error messages, if there were any
-                            $("#add-asset-type-form #name-error").append(result["name"]); // display the error messages
+                        if (! result["name"] == addNameError.val()) {
+                            addNameError.empty(); // empty error messages, if there were any
+                            addNameError.append(result["name"]); // display the error messages
                         }
-                        if (! $("#add-asset-type-form #name").hasClass('is-invalid')) {
-                            $("#add-asset-type-form #name").addClass('is-invalid');
+                        if (! addNameField.hasClass('is-invalid')) {
+                            addNameField.addClass('is-invalid');
                         }
                     }
                     if (! result["rate"] == "") {
-                        if (! result["rate"] == $("#add-asset-type-form #rate-error").val()) {
-                            $("#add-asset-type-form #rate-error").empty(); // empty error messages, if there were any
-                            $("#add-asset-type-form #rate-error").append(result["rate"]); // display the error messages
+                        if (! result["rate"] == addRateError.val()) {
+                            addRateError.empty(); // empty error messages, if there were any
+                            addRateError.append(result["rate"]); // display the error messages
                         }
-                        if (! $("#add-asset-type-form #rate").hasClass('is-invalid')) {
-                            $("#add-asset-type-form #rate").addClass('is-invalid');
+                        if (! addRateField.hasClass('is-invalid')) {
+                            addRateField.addClass('is-invalid');
                         }
                     }
                 }
@@ -123,51 +126,56 @@ $(document).ready(function() {
     });
 
     $('#add-asset-type').on('hidden.bs.modal', function () {
-        $("#add-asset-type-form #name-error").empty(); // empty the errors when hiding the modal
-        $("#add-asset-type-form #rate-error").empty();
-        $("#add-asset-type-form #name").val(""); // set the value to of the forms to have nothing in them, just in case the user left some data there without submitting
-        $("#add-asset-type-form #rate").val("");
-        $("#add-asset-type-form #name").removeClass('is-invalid');
-        $("#add-asset-type-form #name").removeClass('is-valid');
-        $("#add-asset-type-form #rate").removeClass('is-invalid');
-        $("#add-asset-type-form #rate").removeClass('is-valid');
+        addNameError.empty(); // empty the errors when hiding the modal
+        addRateError.empty();
+        addNameField.val(""); // set the value to of the forms to have nothing in them, just in case the user left some data there without submitting
+        addRateField.val("");
+        addNameField.removeClass('is-invalid');
+        addNameField.removeClass('is-valid');
+        addRateField.removeClass('is-invalid');
+        addRateField.removeClass('is-valid');
     });
     /* *** ********************* *** */
 
     /* *** Handle edit asset type *** */
-    $(document).on("click", "#edit-asset-type-button", function () {
+    var editNameField = $("#edit-asset-type-form #edit-asset-type-name");
+    var editNameError = $("#edit-asset-type-form #edit-asset-type-name-error");
+    var editRateField = $("#edit-asset-type-form #edit-asset-type-rate");
+    var editRateError = $("#edit-asset-type-form #edit-asset-type-rate-error");
+
+    $(document).on("click", ".edit-asset-type-button", function () {
         var id = $(this).data('id');
         var name = $(this).data('name');
         var rate = $(this).data('rate');
 
-        $("#edit-asset-type-form #name").val(name); // set values for what is currently set
-        $("#edit-asset-type-form #rate").val(rate);
+        editNameField.val(name); // set values for what is currently set
+        editRateField.val(rate);
         $("#edit-asset-type-form #modal-submit-edit-asset-type").data('id', id);
     });
 
-    $("#edit-asset-type-form #name").blur(function() {
+    editNameField.blur(function() {
         var id = $("#modal-submit-edit-asset-type").data('id');
-
         $.ajax({
             type: 'POST',
             url: validateEditNameUrl,
             dataType: 'json',
             data: "id=" + id + "&" + $(this).serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
-                    $("#edit-asset-type-form #name-error").empty();
-                    $("#edit-asset-type-form #name").removeClass('is-invalid');
-                    $("#edit-asset-type-form #name").addClass('is-valid');
+                    editNameError.empty();
+                    editNameField.removeClass('is-invalid');
+                    editNameField.addClass('is-valid');
                 } else {
-                    $("#edit-asset-type-form #name").removeClass('is-valid');
+                    editNameField.removeClass('is-valid');
                     if (! result["name"] == "") {
-                        if (! result["name"] == $("#edit-asset-type-form #name-error").val()) {
-                            $("#edit-asset-type-form #name-error").empty(); // empty error messages, if there were any
-                            $("#edit-asset-type-form #name-error").append(result["name"]); // display the error messages
+                        if (! result["name"] == editNameError.val()) {
+                            editNameError.empty(); // empty error messages, if there were any
+                            editNameError.append(result["name"]); // display the error messages
                         }
-                        if (! $("#edit-asset-type-form #name").hasClass('is-invalid')) {
-                            $("#edit-asset-type-form #name").addClass('is-invalid');
+                        if (! editNameField.hasClass('is-invalid')) {
+                            editNameField.addClass('is-invalid');
                         }
                     }
                 }
@@ -180,28 +188,28 @@ $(document).ready(function() {
         });
     });
 
-    $("#edit-asset-type-form #rate").blur(function() {
-
+    editRateField.blur(function() {
         $.ajax({
             type: 'POST',
             url: validateEditRateUrl,
             dataType: 'json',
             data: $(this).serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
-                    $("#edit-asset-type-form #rate-error").empty();
-                    $("#edit-asset-type-form #rate").removeClass('is-invalid');
-                    $("#edit-asset-type-form #rate").addClass('is-valid');
+                    editRateField.empty();
+                    editRateField.removeClass('is-invalid');
+                    editRateField.addClass('is-valid');
                 } else {
-                    $("#edit-asset-type-form #rate").removeClass('is-valid');
+                    editRateField.removeClass('is-valid');
                     if (! result["rate"] == "") {
-                        if (! result["rate"] == $("#edit-asset-type-form #rate-error").val()) {
-                            $("#edit-asset-type-form #rate-error").empty(); // empty error messages, if there were any
-                            $("#edit-asset-type-form #rate-error").append(result["rate"]); // display the error messages
+                        if (! result["rate"] == editRateField.val()) {
+                            editRateField.empty(); // empty error messages, if there were any
+                            editRateField.append(result["rate"]); // display the error messages
                         }
-                        if (! $("#edit-asset-type-form #rate").hasClass('is-invalid')) {
-                            $("#edit-asset-type-form #rate").addClass('is-invalid');
+                        if (! editRateField.hasClass('is-invalid')) {
+                            editRateField.addClass('is-invalid');
                         }
                     }
                 }
@@ -225,27 +233,28 @@ $(document).ready(function() {
             dataType: 'json',
             data: "id=" + id + "&" + $(this).serialize(), // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
             success: function(result) {
                 if (result == "success") {
                     $("#edit-asset-type").modal('hide'); // if the submission was successful without any validation erros, we can hide the modal
                     $("#asset_types").DataTable().ajax.reload(); // also need to reload the datatable since we successfully add an asset type
                 } else {
                     if (! result["name"] == "") {
-                        if (! result["name"] == $("#edit-asset-type-form #name-error").val()) {
-                            $("#edit-asset-type-form #name-error").empty(); // empty error messages, if there were any
-                            $("#edit-asset-type-form #name-error").append(result["name"]); // display the error messages
+                        if (! result["name"] == editNameError.val()) {
+                            editNameError.empty(); // empty error messages, if there were any
+                            editNameError.append(result["name"]); // display the error messages
                         }
-                        if (! $("#edit-asset-type-form #name").hasClass('is-invalid')) {
-                            $("#edit-asset-type-form #name").addClass('is-invalid');
+                        if (! editNameField.hasClass('is-invalid')) {
+                            editNameField.addClass('is-invalid');
                         }
                     }
                     if (! result["rate"] == "") {
-                        if (! result["rate"] == $("#edit-asset-type-form #rate-error").val()) {
-                            $("#edit-asset-type-form #rate-error").empty(); // empty error messages, if there were any
-                            $("#edit-asset-type-form #rate-error").append(result["rate"]); // display the error messages
+                        if (! result["rate"] == editRateError.val()) {
+                            editRateError.empty(); // empty error messages, if there were any
+                            editRateError.append(result["rate"]); // display the error messages
                         }
-                        if (! $("#edit-asset-type-form #rate").hasClass('is-invalid')) {
-                            $("#edit-asset-type-form #rate").addClass('is-invalid');
+                        if (! editRateField.hasClass('is-invalid')) {
+                            editRateField.addClass('is-invalid');
                         }
                     }
                 }
@@ -259,19 +268,19 @@ $(document).ready(function() {
     });
 
     $('#edit-asset-type').on('hidden.bs.modal', function () {
-        $("#edit-asset-type-form #name-error").empty(); // empty the errors when hiding the modal
-        $("#edit-asset-type-form #rate-error").empty();
-        $("#edit-asset-type-form #name").val(""); // set the value to of the forms to have nothing in them, just in case the user left some data there without submitting
-        $("#edit-asset-type-form #rate").val("");
-        $("#edit-asset-type-form #name").removeClass('is-invalid');
-        $("#edit-asset-type-form #name").removeClass('is-valid');
-        $("#edit-asset-type-form #rate").removeClass('is-invalid');
-        $("#edit-asset-type-form #rate").removeClass('is-valid');
+        editNameError.empty(); // empty the errors when hiding the modal
+        editRateError.empty();
+        editNameField.val(""); // set the value to of the forms to have nothing in them, just in case the user left some data there without submitting
+        editRateField.val("");
+        editNameField.removeClass('is-invalid');
+        editNameField.removeClass('is-valid');
+        editRateField.removeClass('is-invalid');
+        editRateField.removeClass('is-valid');
     });
     /* *** ********************* *** */
 
     /* *** Handle delete asset type *** */
-    $(document).on("click", "#delete-asset-type-button", function () {
+    $(document).on("click", ".delete-asset-type-button", function () {
         var id = $(this).data('id');
         $("#modal-submit-delete-asset-type").data('id', id);
 
@@ -307,28 +316,31 @@ $(document).ready(function() {
                 { "data": "name" },
                 { "data": "rate", "render": function (data, type, row) {
                         return "$" + row.rate;
-                }
-                },
-                { "render": function ( data, type, row ) {
-                        return '<button id="edit-asset-type-button" class="table-icon" data-toggle="modal" data-id="' + row.id + '" data-name="' + row.name + '" data-rate="' + row.rate + '" data-target="#edit-asset-type"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
                     }
                 },
                 { "render": function ( data, type, row ) {
-                        return '<button id="delete-asset-type-button" class="table-icon" data-toggle="modal" data-id="' + row.id + '" data-target="#delete-asset-type"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
+                        return '<button class="table-icon edit-asset-type-button" data-toggle="modal" data-id="' + row.id + '" data-name="' + row.name + '" data-rate="' + row.rate + '" data-target="#edit-asset-type"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
+                    }
+                },
+                { "render": function ( data, type, row ) {
+                        return '<button class="table-icon delete-asset-type-button" data-toggle="modal" data-id="' + row.id + '" data-target="#delete-asset-type"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td>';
                     }
                 }
             ],
+            responsive:     true,
             scrollY:        212,
             paging:         false,
             fixedHeader:    true,
             info:           false,
             columnDefs: [
-                { "orderable": false, "targets": [3,4] },
-                { "visible": false, "targets": 0 }
+                { responsivePriority: -1, targets: [3,4] },
+                { width: "20px", targets: [3,4] },
+                { orderable: false, targets: [3,4] },
+                { visible: false, targets: 0 }
             ],
             dom:
-                "<'row'<'col-sm'<'table-title-asset_types'>>fB>" +
-    			"<'row'<'col-sm'tr>>",
+                "<'row'<'col-md-3'<'table-title-asset_types'>><'col-md-9 pr-0 pt-0 pb-0'Bf>>" +
+    			"<'row'<'col-md'tr>>",
             buttons: [
                 {
                     text: "Add Asset Type",

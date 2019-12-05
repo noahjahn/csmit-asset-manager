@@ -27,7 +27,8 @@ class Models_model extends CI_Model {
         log_message('debug', 'Models_model: get_insert_rules - in function');
 
         $form_rules = array(
-            $this->get_insert_name_rules()
+            $this->get_insert_name_rules(),
+            $this->get_insert_manufacturer_rules()
         );
         return $form_rules;
     }
@@ -40,6 +41,19 @@ class Models_model extends CI_Model {
             'rules' => 'required|callback_is_name_unique|trim',
             'errors' => array(
                 'is_name_unique' => 'The %s field must contain a unique value.'
+            )
+        );
+        return $name_rules;
+    }
+
+    function get_insert_manufacturer_rules() {
+        log_message('debug', 'Models_model: get_insert_manufacturer_rules - in function');
+        $name_rules = array(
+            'field' => $this->fields['manufacturer'],
+            'label' => $this->fields['manufacturer'],
+            'rules' => 'required|callback_manufacturer_exists|trim',
+            'errors' => array(
+                'manufacturer_exists' => 'The manufacturer with id %s does not exist.'
             )
         );
         return $name_rules;
@@ -132,8 +146,8 @@ class Models_model extends CI_Model {
         }
     }
 
-    public function get_manufacter_count($manufacturer_id) {
-        log_message('debug', 'Models_model: get_manufacter_count - in function');
+    public function get_manufacturer_count($manufacturer_id) {
+        log_message('debug', 'Models_model: get_manufacturer_count - in function');
 
         $this->db->select($this->fields['id']);
         $this->db->from($this->table);
@@ -155,44 +169,32 @@ class Models_model extends CI_Model {
         return $this->db->get()->result_array();
     }
 
-    function insert($name) {
+    function insert($model) {
         log_message('debug', 'Models_model: insert - in function');
 
-        $data = array(
-            'name' => $name,
-            'last_modified_by' => $this->user_id,
-            'created_by' => $this->user_id
-        );
-
-        if ($this->is_name_unique($name)) { // if it's unique, add it
-            $this->db->insert($this->table, $data);
+        if ($this->is_name_unique($model['name'])) { // if it's unique, add it
+            $this->db->insert($this->table, $model);
         } else {
-            log_message('error', 'Models_model: insert - failed, record '.$name.' isn\'t unique');
+            log_message('error', 'Models_model: insert - failed, record '.$model['name'].' isn\'t unique');
             return FALSE;
         }
     }
 
-    function update($id, $name) {
+    function update($model) {
         log_message('debug', 'Models_model: update - in function');
 
         // check if model passed in exists and is active
-        if (record_exists($id, $this->table) && !(record_is_deleted($id, $this->table))) {
+        if (record_exists($model['id'], $this->table) && !(record_is_deleted($model['id'], $this->table))) {
             // if it is, update it
-            $data = array(
-                'name' => $name,
-                'last_modified_by' => $this->user_id,
-                'created_by' => $this->user_id
-            );
-
-            if ($this->is_name_unique_not_different_from_current($name, $id)) {
-                $this->db->where('id', $id);
-                $this->db->update($this->table, $data);
+            if ($this->is_name_unique_not_different_from_current($model['name'], $model['id'])) {
+                $this->db->where('id', $model['id']);
+                $this->db->update($this->table, $model);
             } else {
-                log_message('error', 'Models_model: update - failed, record '.$name.' isn\'t unique');
+                log_message('error', 'Models_model: update - failed, record '.$model['name'].' isn\'t unique');
                 return FALSE;
             }
         } else {
-            log_message('error', 'Models_model: update - failed, record '.$id.' doesn\'t exist or is inactive');
+            log_message('error', 'Models_model: update - failed, record '.$model['id'].' doesn\'t exist or is inactive');
             return FALSE;
         }
     }

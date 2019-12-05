@@ -164,46 +164,32 @@ class AssetTypes_model extends CI_Model {
         return $this->db->get()->result_array();
     }
 
-    function insert($name, $rate) {
+    function insert($asset_type) {
         log_message('debug', 'AssetTypes_model: insert - in function');
 
-        $data = array(
-            'name' => $name,
-            'rate' => $rate,
-            'last_modified_by' => $this->user_id,
-            'created_by' => $this->user_id
-        );
-
-        if ($this->is_name_unique($name)) { // if it's unique, add it
-            $this->db->insert($this->table, $data);
+        if ($this->is_name_unique($asset_type['name'])) { // if it's unique, add it
+            $this->db->insert($this->table, $asset_type);
         } else {
-            log_message('error', 'AssetTypes_model: insert - failed, record '.$name.' isn\'t unique');
+            log_message('error', 'AssetTypes_model: insert - failed, record '.$asset_type['name'].' isn\'t unique');
             return FALSE;
         }
     }
 
-    function update($id, $name, $rate) {
+    function update($asset_type) {
         log_message('debug', 'AssetTypes_model: update - in function');
 
         // check if asset type passed in exists and is active
-        if (record_exists($id, $this->table) && !(record_is_deleted($id, $this->table))) {
+        if (record_exists($asset_type['id'], $this->table) && !(record_is_deleted($asset_type['id'], $this->table))) {
             // if it is, update it
-            $data = array(
-                'name' => $name,
-                'rate' => $rate,
-                'last_modified_by' => $this->user_id,
-                'created_by' => $this->user_id
-            );
-
-            if ($this->is_name_unique_not_different_from_current($name, $id)) {
-                $this->db->where('id', $id);
-                $this->db->update($this->table, $data);
+            if ($this->is_name_unique_not_different_from_current($asset_type['name'], $asset_type['id'])) {
+                $this->db->where('id', $asset_type['id']);
+                $this->db->update($this->table, $asset_type);
             } else {
-                log_message('error', 'AssetTypes_model: update - failed, record '.$name.' isn\'t unique');
+                log_message('error', 'AssetTypes_model: update - failed, record '.$asset_type['name'].' isn\'t unique');
                 return FALSE;
             }
         } else {
-            log_message('error', 'AssetTypes_model: update - failed, record '.$id.' doesn\'t exist or is inactive');
+            log_message('error', 'AssetTypes_model: update - failed, record '.$asset_type['id'].' doesn\'t exist or is inactive');
             return FALSE;
         }
     }
@@ -212,7 +198,7 @@ class AssetTypes_model extends CI_Model {
         log_message('debug', 'AssetTypes_model: delete - in function');
 
         // check if asset type passed in exists and is not deleted
-        if (record_exists($id, $this->table) && !(record_is_deleted($id, $this->table))) {
+        if ($this->id_exists($id) && !(record_is_deleted($id, $this->table))) {
             // if it is, set is_deleted to 1, this is a soft delete
             if (set_last_modified_by($id, $this->user_id, $this->table)) {
                 if (set_last_modified_time($id, $this->table)) {

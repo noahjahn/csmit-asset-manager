@@ -3,16 +3,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class AssetTypes extends CI_Controller {
 
+	private $page;
+	private $user_id;
+	private $user_role_id;
+
 	public function __construct() {
 		parent::__construct();
 		// check for user authorization
         $this->load->model('AssetTypes_model');
 		$this->load->helper("database");
 		$this->load->helper("general");
+		$this->load->helper("authorization");
+		$this->page = 'asset_groups';
+		$this->user_id = $this->session->userdata('id');
+		$this->user_role_id = $this->session->userdata('id');
+
+		// if ( ! is_authorized($this->user_role_id, $this->page)) {
+		// 	echo 'unauthorized';
+		// 	exit;
+		// }
 	}
 
 	public function index() {
-
+		log_message('debug', 'AssetTypes: index - in function');
 	}
 
     public function add() {
@@ -24,10 +37,16 @@ class AssetTypes extends CI_Controller {
         }
 		$this->form_validation->set_rules($this->AssetTypes_model->get_insert_rules());
 		if ($this->form_validation->run() == TRUE) {
-			$name = $this->input->post('name');
-			$rate = $this->input->post('rate');
+			$asset_type = array(
+				'name' => $this->input->post('name'),
+				'rate' => $this->input->post('rate'),
+				'last_modified_by' => $this->user_id,
+				'last_modified_time' => date('Y-m-d H:i:s'),
+				'created_by' => $this->user_id,
+				'created_time' => date('Y-m-d H:i:s')
+			);
 
-			$this->AssetTypes_model->insert($name, $rate);
+			$this->AssetTypes_model->insert($asset_type);
 
 			echo json_encode("success");
 
@@ -89,11 +108,15 @@ class AssetTypes extends CI_Controller {
 
 		$this->form_validation->set_rules($this->AssetTypes_model->get_update_rules());
 		if ($this->form_validation->run() == TRUE) {
-			$id = $this->input->post('id');
-			$name = $this->input->post('name');
-			$rate = $this->input->post('rate');
+			$asset_type = array(
+				'id' => $this->input->post('id'),
+				'name' => $this->input->post('name'),
+				'rate' => $this->input->post('rate'),
+				'last_modified_by' => $this->user_id,
+				'last_modified_time' => date('Y-m-d H:i:s'),
+			);
 
-			$this->AssetTypes_model->update($id, $name, $rate);
+			$this->AssetTypes_model->update($asset_type);
 
 			echo json_encode("success");
 		} else {
@@ -146,20 +169,20 @@ class AssetTypes extends CI_Controller {
 		echo $json_asset_types;
 	}
 
-	function is_name_unique($name) {
+	private function is_name_unique($name) {
 		log_message('debug', 'AssetTypes: is_name_unique - in function');
 
 		return $this->AssetTypes_model->is_name_unique($name);
 	}
 
-	function is_name_unique_not_different_from_current($name) {
+	private function is_name_unique_not_different_from_current($name) {
 		log_message('debug', 'AssetTypes: is_name_unique_not_different_from_current - in function');
 
 		$id = $this->input->post('id');
 		return $this->AssetTypes_model->is_name_unique_not_different_from_current($name, $id);
 	}
 
-	function id_exists($id) {
+	private function id_exists($id) {
 		log_message('debug', 'AssetTypes: id_exists - in function');
 
 		return $this->AssetTypes_model->id_exists($id);

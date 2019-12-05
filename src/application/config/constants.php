@@ -90,5 +90,16 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 |--------------------------------------------------------------------------
 |
 */
+
+/*
+    File system constants
+*/
 defined('UPLOADS')      OR define('UPLOADS', "uploads/");
 defined('LOGIN_PHOTOS') OR define('LOGIN_PHOTOS', UPLOADS . "login_photos/");
+
+/*
+    Roles (access) constants
+*/
+defined('W')    OR define('W', 2);
+defined('R')    OR define('R', 4);
+defined('RW')   OR define('RW', 6);

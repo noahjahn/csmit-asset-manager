@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?><!DOCTYPE html>
 <?php
-  $this->load->view('private/reusable/dataTables-include.php');
+  $this->load->view('private/reusable/datatables-include.php');
   $this->load->view('private/modals/assets/delete.php');
   $this->load->view('private/modals/assets/edit.php');
   $this->load->view('private/modals/assets/add.php');

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Oct 24, 2019 at 03:04 AM
+-- Generation Time: Nov 18, 2019 at 03:51 AM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.19
 
@@ -98,8 +98,10 @@ CREATE TABLE `asset_types` (
 --
 
 INSERT INTO `asset_types` (`id`, `name`, `rate`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
-(1, 'Computers', '100.00', 0, '', '2019-08-19 02:12:53', '', '2019-08-19 02:12:53'),
-(2, 'Monitors', '10.00', 0, '', '2019-08-19 02:12:53', '', '2019-08-19 02:12:53');
+(1, 'Computerss', '1000.00', 1, '1', '2019-11-10 23:39:22', '1', '2019-08-19 02:12:53'),
+(2, 'Monitors', '10.00', 0, '', '2019-08-19 02:12:53', '', '2019-08-19 02:12:53'),
+(3, 'Test', '123.00', 1, '1', '2019-11-10 23:39:59', '1', '2019-11-10 23:39:55'),
+(4, 'Computers', '100.00', 0, '1', '2019-11-10 23:40:05', '1', '2019-11-10 23:40:05');
 
 -- --------------------------------------------------------
 
@@ -110,19 +112,21 @@ INSERT INTO `asset_types` (`id`, `name`, `rate`, `is_deleted`, `last_modified_by
 CREATE TABLE `login_photos` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `path` varchar(255) NOT NULL,
-  `uploaded_by` varchar(255) NOT NULL,
-  `date_uploaded` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 deleted; 0 not deleted',
+  `last_modified_by` int(8) NOT NULL,
+  `last_modified_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int(8) NOT NULL,
+  `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `login_photos`
 --
 
-INSERT INTO `login_photos` (`id`, `name`, `path`, `uploaded_by`, `date_uploaded`) VALUES
-(1, 'images.jpg', 'images.jpg', 'administrator@csmgroup.com', '2019-06-10 12:11:59'),
-(2, 'information-technology.jpg', 'information-technology.jpg', 'administrator@csmgroup.com', '2019-06-10 12:11:59'),
-(3, 'pexels-photo-546819.jpeg', 'pexels-photo-546819.jpeg', 'administrator@csmgroup.com', '2019-06-10 12:12:23');
+INSERT INTO `login_photos` (`id`, `name`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
+(1, 'images.jpg', 0, 0, '2019-11-11 23:34:40', 0, '2019-11-11 23:34:40'),
+(2, 'information-technology.jpg', 0, 0, '2019-11-11 23:34:40', 0, '2019-11-11 23:34:40'),
+(3, 'pexels-photo-546819.jpeg', 0, 0, '2019-11-11 23:34:40', 0, '2019-11-11 23:34:40');
 
 -- --------------------------------------------------------
 
@@ -147,7 +151,8 @@ CREATE TABLE `manufacturers` (
 INSERT INTO `manufacturers` (`id`, `name`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
 (1, 'Dell', 0, '', '2019-08-19 02:10:06', '', '2019-08-19 02:10:06'),
 (2, 'Planar', 0, '', '2019-08-19 02:10:06', '', '2019-08-19 02:10:06'),
-(3, 'ASUS', 0, '', '2019-08-19 02:10:06', '', '2019-08-19 02:10:06');
+(3, 'ASUS', 0, '', '2019-08-19 02:10:06', '', '2019-08-19 02:10:06'),
+(4, 'Tests', 1, '1', '2019-11-11 00:12:45', '1', '2019-11-11 00:12:38');
 
 -- --------------------------------------------------------
 
@@ -180,6 +185,36 @@ INSERT INTO `models` (`id`, `name`, `manufacturer`, `is_deleted`, `last_modified
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `dashboard` tinyint(1) NOT NULL DEFAULT '0' COMMENT '2=write; 4=read; 6=read write',
+  `asset_manager` tinyint(1) NOT NULL DEFAULT '0' COMMENT '2=write; 4=read; 6=read write',
+  `reports` tinyint(1) NOT NULL DEFAULT '0' COMMENT '2=write; 4=read; 6=read write',
+  `asset_groups` tinyint(1) NOT NULL DEFAULT '0' COMMENT '2=write; 4=read; 6=read write',
+  `users` tinyint(1) NOT NULL DEFAULT '0' COMMENT '2=write; 4=read; 6=read write',
+  `roles` tinyint(1) NOT NULL DEFAULT '0' COMMENT '2=write; 4=read; 6=read write',
+  `login_photos` tinyint(1) NOT NULL DEFAULT '0' COMMENT '2=write; 4=read; 6=read write',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `last_modified_by` int(11) NOT NULL,
+  `last_modified_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int(11) NOT NULL,
+  `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`id`, `name`, `dashboard`, `asset_manager`, `reports`, `asset_groups`, `users`, `roles`, `login_photos`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
+(1, 'Administrator', 6, 6, 6, 6, 6, 6, 6, 0, 1, '2019-11-18 02:07:57', 1, '2019-11-18 02:07:57');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `teams`
 --
 
@@ -199,7 +234,8 @@ CREATE TABLE `teams` (
 
 INSERT INTO `teams` (`id`, `name`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
 (1, 'Zulu', 0, '', '2019-08-19 02:12:40', '', '2019-08-19 02:12:40'),
-(2, 'SPARK', 0, '', '2019-08-19 02:12:40', '', '2019-08-19 02:12:40');
+(2, 'SPARK', 0, '', '2019-08-19 02:12:40', '', '2019-08-19 02:12:40'),
+(3, 'Otherss', 1, '1', '2019-11-10 23:55:45', '1', '2019-11-10 23:54:19');
 
 -- --------------------------------------------------------
 
@@ -209,28 +245,30 @@ INSERT INTO `teams` (`id`, `name`, `is_deleted`, `last_modified_by`, `last_modif
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `first_name` varchar(255) COLLATE utf8_bin NOT NULL,
-  `last_name` varchar(255) COLLATE utf8_bin NOT NULL,
-  `email` varchar(255) COLLATE utf8_bin NOT NULL,
-  `password` varchar(255) COLLATE utf8_bin NOT NULL,
-  `session_token` varchar(255) COLLATE utf8_bin NOT NULL,
-  `last_login` datetime DEFAULT NULL,
+  `first_name` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `role` tinyint(1) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `session_token` varchar(255) NOT NULL,
+  `last_login` timestamp NULL DEFAULT NULL,
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 deleted; 0 not deleted',
-  `last_modified_by` varchar(255) COLLATE utf8_bin NOT NULL,
+  `last_modified_by` tinyint(1) NOT NULL,
   `last_modified_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `created_by` varchar(255) COLLATE utf8_bin NOT NULL,
+  `created_by` tinyint(1) NOT NULL,
   `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `session_token`, `last_login`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
-(1, 'Super', 'User', 'administrator@csmgroup.com', '$2y$10$e9LFqB0jKJnQnkwxlKWWyuaCU6pA/R0rcyO7mnSPXdqWJV5SHiB0K', '$2y$10$V89KMVJPZtBGxqpC5JOiauCe2wTo2ntRYlcvQtq70T2xaqutYSMny', '2019-10-13 05:08:27', 0, '', '2019-08-19 02:19:39', '', '2019-08-19 02:19:39'),
-(2, 'Kalem', 'Pulliam', 'kalem.pulliam@csmgroup.com', '$2y$10$0OENbB0zml9KeBlCMqluQurim0RJ7I5gjUanKKgLQG9SUdtfQ5yY.', '$2y$10$47hsS9eSC6DOzd5zxjoRvug6ZhaW5343tycphiqrcmd4.01Z.Wha2', '2019-10-24 03:02:39', 0, '1', '2019-10-24 03:01:55', '1', '2019-10-24 03:01:55'),
-(3, 'Ben', 'Stieber', 'ben.stieber@csmgroup.com', '$2y$10$RU2YYI8r9avLIG8zGAml.eHQe/M5VbSGz2HtoqbI52Ardk7uti6/G', '', NULL, 0, '1', '2019-10-24 03:01:55', '1', '2019-10-24 03:01:55'),
-(4, 'Derrick', 'Quintanilla', 'derrick.quintanilla@csmgroup.com', '$2y$10$nas7DlXu3hPbb0K7BUTCgerEGNT1wVRJ/CqZNxYo14JULu9plSZr.', '', NULL, 0, '1', '2019-10-24 03:01:55', '1', '2019-10-24 03:01:55');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `role`, `password`, `session_token`, `last_login`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
+(1, 'Super', 'User', 'administrator@csmgroup.com', 1, '$2y$10$e9LFqB0jKJnQnkwxlKWWyuaCU6pA/R0rcyO7mnSPXdqWJV5SHiB0K', '$2y$10$Mu2rQiXy49WwHBJV8qsGBel0R/yh5DNmmmnyyV3Ptt9DM.YEZ8l9q', '2019-11-18 01:29:11', 0, 1, '2019-11-10 22:32:09', 1, '2019-08-19 02:19:39'),
+(2, 'Kalem', 'Pulliam', 'kalem.pulliam@csmgroup.com', 1, '$2y$10$0OENbB0zml9KeBlCMqluQurim0RJ7I5gjUanKKgLQG9SUdtfQ5yY.', '$2y$10$47hsS9eSC6DOzd5zxjoRvug6ZhaW5343tycphiqrcmd4.01Z.Wha2', '2019-10-24 03:02:39', 0, 1, '2019-10-24 03:01:55', 1, '2019-10-24 03:01:55'),
+(3, 'Ben', 'Stieber', 'ben.stieber@csmgroup.com', 1, '$2y$10$RU2YYI8r9avLIG8zGAml.eHQe/M5VbSGz2HtoqbI52Ardk7uti6/G', '', NULL, 0, 1, '2019-10-24 03:01:55', 1, '2019-10-24 03:01:55'),
+(4, 'Derrick', 'Quintanilla', 'derrick.quintanilla@csmgroup.com', 1, '$2y$10$nas7DlXu3hPbb0K7BUTCgerEGNT1wVRJ/CqZNxYo14JULu9plSZr.', '', NULL, 0, 1, '2019-10-24 03:01:55', 1, '2019-10-24 03:01:55'),
+(5, 'Noah', 'Jahn', 'noah.jahn@sparkbusinessworks.com', 1, '$2y$10$pveOWgoX.aE1DuvWny5g2.6jXVaA/FAui41Z7pBfgIryhgRcntqFy', '', NULL, 0, 1, '2019-11-18 03:05:31', 1, '2019-11-18 03:05:31');
 
 --
 -- Indexes for dumped tables
@@ -275,6 +313,12 @@ ALTER TABLE `models`
   ADD KEY `manufacturer` (`manufacturer`);
 
 --
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `teams`
 --
 ALTER TABLE `teams`
@@ -285,7 +329,8 @@ ALTER TABLE `teams`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -301,7 +346,7 @@ ALTER TABLE `assets`
 -- AUTO_INCREMENT for table `asset_types`
 --
 ALTER TABLE `asset_types`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `login_photos`
@@ -313,7 +358,7 @@ ALTER TABLE `login_photos`
 -- AUTO_INCREMENT for table `manufacturers`
 --
 ALTER TABLE `manufacturers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `models`
@@ -322,16 +367,23 @@ ALTER TABLE `models`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `teams`
 --
 ALTER TABLE `teams`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
