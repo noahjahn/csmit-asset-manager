@@ -1,6 +1,33 @@
 $(document).ready( function () {
+    //Fit table to screen size when page loads
     $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
+
+    //Controller function URLs
     var deleteAssetUrl = baseUrl + "assetmanager/delete/";
+    var getActiveManufacturersUrl = baseUrl + "manufacturers/get_active";
+    var getActiveModelsUrl = baseUrl + "models/get_active";
+    var getActiveTypesUrl = baseUrl + "assettypes/get_active";
+    var getActiveTeamsUrl = baseUrl + "teams/get_active";
+
+    /***Variables for add/edit field dropdown menus****/
+    var manufacturersDropdown = [];
+    var modelsDropdown = [];
+    var typesDropdown = [];
+    var teamsDropdown = [];
+
+    var addManufacturerDropdown;
+    var addModelDropdown;
+    var addTypeDropdown;
+    var addTeamDropdown;
+
+    var isManufacturersSorted = false;
+    var isModelsSorted = false;
+    var isTypesSorted = false;
+    var isTeamsSorted = false;
+
+    /****End dropdown fields*************************/
+
+
 /*******************************************************************************
 Build Asset Manager table
 *******************************************************************************/
@@ -19,9 +46,9 @@ Build Asset Manager table
             { "className": "asset_manager_team", "targets": 6 },
             { "className": "asset_manager_rate", "targets": 7 },
             { "responsivePriority": -1, "targets": [8,9] },
-            { "width": "10px", "targets": [8,9,10,11,12,13,14,15,16] },
-            { "orderable": false, "targets": [8,9,10,11,12,13,14,15,16] },
-            { "visible": false, "targets": [0,10,11,12,13,14,15,16] }
+            { "width": "10px", "targets": [8,9] },
+            { "orderable": false, "targets": [8,9,10,11,12,13,14,15,16,17,18,19,20] },
+            { "visible": false, "targets": [0,10,11,12,13,14,15,16,17,18,19,20] }
         ],
         columns: [
             { "data": "id" },
@@ -49,7 +76,11 @@ Build Asset Manager table
             { "data": "location" },
             { "data": "purchase_date" },
             { "data": "notes" },
-            { "data": "last_modified_time" }
+            { "data": "last_modified_time" },
+            {"data": "manufacturer_id"},
+            {"data": "model_id"},
+            {"data": "type_id"},
+            {"data": "team_id"}
         ],
         "order": [[ 1, "asc" ]],
         scrollY:        800,
@@ -80,6 +111,116 @@ Build Asset Manager table
         }
     });
 /****************************End Build Table **********************************/
+
+/********* Manufacturer Dropdown **********/
+    //Prepare data
+    $.ajax({//Manufacturers
+        type: 'GET',
+        url: getActiveManufacturersUrl,
+        dataType: 'json',
+        success: function(result) {
+            Object.keys(result).forEach(function(i){
+                manufacturersDropdown.push(
+                    {
+                        name: result[i].name,
+                        value: result[i].id
+                    }
+                );
+            });
+        },
+        error: function(result) {
+            var today = new Date();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            console.log("AJAX error, check server logs near local time: " + time);
+        }
+    });
+    $.ajax({//Models
+        type: 'GET',
+        url: getActiveModelsUrl,
+        dataType: 'json',
+        success: function(result) {
+            Object.keys(result).forEach(function(i){
+                modelsDropdown.push(
+                    {
+                        name: result[i].name,
+                        value: result[i].id
+                    }
+                );
+            });
+        },
+        error: function(result) {
+            var today = new Date();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            console.log("AJAX error, check server logs near local time: " + time);
+        }
+    });
+    $.ajax({//Types
+        type: 'GET',
+        url: getActiveTypesUrl,
+        dataType: 'json',
+        success: function(result) {
+            Object.keys(result).forEach(function(i){
+                typesDropdown.push(
+                    {
+                        name: result[i].name,
+                        value: result[i].id
+                    }
+                );
+            });
+        },
+        error: function(result) {
+            var today = new Date();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            console.log("AJAX error, check server logs near local time: " + time);
+        }
+    });
+    $.ajax({//Teams
+        type: 'GET',
+        url: getActiveTeamsUrl,
+        dataType: 'json',
+        success: function(result) {
+            Object.keys(result).forEach(function(i){
+                teamsDropdown.push(
+                    {
+                        name: result[i].name,
+                        value: result[i].id
+                    }
+                );
+            });
+        },
+        error: function(result) {
+            var today = new Date();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            console.log("AJAX error, check server logs near local time: " + time);
+        }
+    });
+
+    //Sort dropdowns
+    if (! isManufacturersSorted) {
+        manufacturersDropdown.sort(function(a, b) {
+            return compareStrings(a.name, b.name);
+        })
+      isManufacturersSorted = true;
+    }
+    if (! isModelsSorted) {
+        modelsDropdown.sort(function(a, b) {
+            return compareStrings(a.name, b.name);
+        })
+        isModelsSorted = true;
+    }
+    if (! isTypesSorted) {
+        typesDropdown.sort(function(a, b) {
+            return compareStrings(a.name, b.name);
+        })
+        isTypesSorted = true;
+    }
+    if (! isTeamsSorted) {
+        teamsDropdown.sort(function(a, b) {
+            return compareStrings(a.name, b.name);
+        })
+        isTeamsSorted = true;
+    }
+/********* End Manufacturer Dropdown **********/
 
 /*******************************************************************************
 ********************************************************************************
@@ -130,6 +271,8 @@ Decision Path:
       var last_modified_time = table.cell(row,16).data();
 
 
+
+
 /****************IF Detail Row is EXPANDED before clicking*********************/
       if (row.child.isShown() ) {
 
@@ -171,7 +314,6 @@ Decision Path:
             row.child().find("p.asset_manager_notes").html(notes);
             row.child().find("p.asset_manager_last_modified_time").html(last_modified_time);
 
-            $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
           }
           /**********If the save button is not clicked**********/
           else {
@@ -185,6 +327,12 @@ Decision Path:
             //Enter edit mode
             $(this).addClass('edit-mode');
 
+            //dropdown Variables
+            var manufacturer_id = table.cell(row,17).data();
+            var model_id = table.cell(row,18).data();
+            var type_id = table.cell(row,19).data();
+            var team_id = table.cell(row,20).data();
+
             //Hide delete Trash-icon
             $(this).find('#delete-asset-button').attr('data-target','');
             $(this).find('#delete-asset-button').css('display','none');
@@ -195,12 +343,38 @@ Decision Path:
 
             /**If edit was clicked, open input fields and ensure details are expanded.**/
             //Parent row fields
-            $(this).find('.asset_manager_model').html('<input type="text" class="in-row-edit"></input>');
-            $(this).find('.asset_manager_manufacturer').html('<input type="text" class="in-row-edit"></input>');
+            $(this).find('.asset_manager_model').html('');
+              $(this).find('.asset_manager_model').dropdown({
+                      values: modelsDropdown
+              });
+              $(this).find('.asset_manager_model').attr('class','in-row-edit');
+              //$('.asset_manager_model').dropdown('set selected', model_id);
+
+            $(this).find('.asset_manager_manufacturer').html('');
+              $(this).find('.asset_manager_manufacturer').dropdown({
+                    values: manufacturersDropdown
+              });
+              $(this).find('.asset_manager_manufacturer').attr('class','in-row-edit');
+              //$('.asset_manager_manufacturer').dropdown('set selected', manufacturer_id);
+
             $(this).find('.asset_manager_owner').html('<input type="text" class="in-row-edit"></input>');
-            $(this).find('.asset_manager_type').html('<input type="text" class="in-row-edit"></input>');
+
+            $(this).find('.asset_manager_type').html('');
+              $(this).find('.asset_manager_type').dropdown({
+                    values: typesDropdown
+              });
+              $(this).find('.asset_manager_type').attr('class','in-row-edit');
+              //$('.asset_manager_type').dropdown('set selected', type_id);
+
             $(this).find('.asset_manager_asset_tag').html('<input type="text" class="in-row-edit"></input>');
-            $(this).find('.asset_manager_team').html('<input type="text" class="in-row-edit"></input>');
+
+            $(this).find('.asset_manager_team').html('');
+              $(this).find('.asset_manager_team').dropdown({
+                    values: teamsDropdown
+              });
+              $(this).find('.asset_manager_team').attr('class','in-row-edit');
+              //$('.asset_manager_team').dropdown('set selected', team_id);
+
             $(this).find('.asset_manager_rate').html('<input type="text" class="in-row-edit"></input>');
             //Child row fields
             row.child().find('.asset_manager_serial_number').html('<input type="text" class="in-row-edit"></input>');
@@ -209,6 +383,7 @@ Decision Path:
             row.child().find('.asset_manager_location').html('<input type="text" class="in-row-edit"></input>');
             row.child().find('.asset_manager_purchase_date').html('<input type="text" class="in-row-edit"></input>');
             row.child().find('.asset_manager_notes').html('<input type="text" class="in-row-edit" value="notes would go here"></input>');
+
 
             $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
           }
@@ -241,7 +416,13 @@ Decision Path:
           //Enter edit mode
           $(this).addClass('edit-mode');
 
-          //Hide Delete trash-icon
+          //dropdown Variables
+          var manufacturer_id = table.cell(row,17).data();
+          var model_id = table.cell(row,18).data();
+          var type_id = table.cell(row,19).data();
+          var team_id = table.cell(row,20).data();
+
+          //Hide delete Trash-icon
           $(this).find('#delete-asset-button').attr('data-target','');
           $(this).find('#delete-asset-button').css('display','none');
 
@@ -262,12 +443,38 @@ Decision Path:
 
           /**If edit was clicked, open input fields and ensure details are expanded.**/
           //Parent row fields
-          $(this).find('.asset_manager_model').html('<input type="text" class="in-row-edit"></input>');
-          $(this).find('.asset_manager_manufacturer').html('<input type="text" class="in-row-edit"></input>');
+          $(this).find('.asset_manager_model').html('');
+            $(this).find('.asset_manager_model').dropdown({
+                    values: modelsDropdown
+            });
+            $(this).find('.asset_manager_model').attr('class','in-row-edit');
+            //$('.asset_manager_model').dropdown('set selected', model_id);
+
+          $(this).find('.asset_manager_manufacturer').html('');
+            $(this).find('.asset_manager_manufacturer').dropdown({
+                  values: manufacturersDropdown
+            });
+            $(this).find('.asset_manager_manufacturer').attr('class','in-row-edit');
+            //$('.asset_manager_manufacturer').dropdown('set selected', manufacturer_id);
+
           $(this).find('.asset_manager_owner').html('<input type="text" class="in-row-edit"></input>');
-          $(this).find('.asset_manager_type').html('<input type="text" class="in-row-edit"></input>');
+
+          $(this).find('.asset_manager_type').html('');
+            $(this).find('.asset_manager_type').dropdown({
+                  values: typesDropdown
+            });
+            $(this).find('.asset_manager_type').attr('class','in-row-edit');
+            //$('.asset_manager_type').dropdown('set selected', type_id);
+
           $(this).find('.asset_manager_asset_tag').html('<input type="text" class="in-row-edit"></input>');
-          $(this).find('.asset_manager_team').html('<input type="text" class="in-row-edit"></input>');
+
+          $(this).find('.asset_manager_team').html('');
+            $(this).find('.asset_manager_team').dropdown({
+                  values: teamsDropdown
+            });
+            $(this).find('.asset_manager_team').attr('class','in-row-edit');
+            //$('.asset_manager_team').dropdown('set selected', team_id);
+
           $(this).find('.asset_manager_rate').html('<input type="text" class="in-row-edit"></input>');
           //Child row fields
           row.child().find('.asset_manager_serial_number').html('<input type="text" class="in-row-edit"></input>');
@@ -351,28 +558,28 @@ function formatRow() { //Put child row data here.
   '<tr class="edit-row">' +
   '<td class="edit-col">' +
       '<div>  <label>Serial Number</label> </div>' +
-      '<div>  <p class="asset_manager_serial_number">*error* serial number not showing correctly</p></div>' +
+      '<div>  <p class="asset_manager_serial_number">*error*</p></div>' +
     '</td>' +
   '<td class="edit-col">' +
       '<div>  <label>Purchase Price</label> </div>' +
-      '<div>  <p class="asset_manager_purchase_price">*error* purchase price not showing correctly</p></div>' +
+      '<div>  <p class="asset_manager_purchase_price">*error*</p></div>' +
     '</td>' +
   '<td class="edit-col">' +
       '<div>  <label>Job Number</label> </div>' +
-      '<div>  <p class="asset_manager_job_number">*error* job number not showing correctly</p></div>' +
+      '<div>  <p class="asset_manager_job_number">*error*</p></div>' +
     '</td>' +
   '<td class="edit-col" rowspan="2">' +
       '<div>  <label>Notes</label> </div>' +
-      '<div>  <p class="asset_manager_notes">NOTES! Still need DB field</p></div>' +
+      '<div>  <p class="asset_manager_notes">*error*</p></div>' +
     '</td>' +
   '</tr><tr class="edit-row">' +
   '<td class="edit-col">' +
       '<div>  <label>Location</label> </div>'+
-      '<div>  <p class="asset_manager_location">*error* location not showing correctly</p></div>' +
+      '<div>  <p class="asset_manager_location">*error*</p></div>' +
     '</td>' +
   '<td class="edit-col">' +
       '<div>  <label>Purchase Date</label> </div>' +
-      '<div>  <p class="asset_manager_purchase_date">*error* purchase date not showing correctly</p></div>' +
+      '<div>  <p class="asset_manager_purchase_date">*error*</p></div>' +
     '</td>' +
   '<td class="edit-col">' +
       '<div>  <label>Last Updated</label> </div>' +
@@ -382,6 +589,14 @@ function formatRow() { //Put child row data here.
   '</div>';
 }
 
+//Sort function for dropdowns
+function compareStrings(str1, str2) {
+    str1 = str1.toLowerCase();
+    str2 = str2.toLowerCase();
+    return (str1 < str2) ? -1 : (str1 > str2) ? 1 : 0;
+}
+
+//Resize table as screen changes size
 $(window).resize(function () {
   $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
 });
@@ -447,3 +662,7 @@ $(window).resize(function () {
 // $(tr).find('.asset_manager_asset_tag').html('');
 // $(tr).find('.asset_manager_team').html('');
 // $(tr).find('.asset_manager_rate').html('');
+
+/* *** **************** *** */
+
+/* *** Prepare Add Manufacturer Dropdown *** */

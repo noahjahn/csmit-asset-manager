@@ -30,7 +30,11 @@ class AssetManager_model extends CI_Model {
               at.rate           as rate,
               a.notes           as notes,
               a.last_modified_time
-                                as last_modified_time
+                                as last_modified_time,
+              ma.id             as manufacturer_id,
+              mo.id             as model_id,
+              at.id             as type_id,
+              t.id              as team_id
             ');
 
             $this->db->from('assets as a');
