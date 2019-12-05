@@ -1,9 +1,9 @@
 $(document).ready( function () {
     $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
     var deleteAssetUrl = baseUrl + "assetmanager/delete/";
-/***************************
-Prepare Asset Manager table
-***************************/
+/*******************************************************************************
+Build Asset Manager table
+*******************************************************************************/
     var table = $('#asset-manager').DataTable( {
         ajax: {
             url: baseUrl + "assetmanager/get_active",
@@ -79,10 +79,12 @@ Prepare Asset Manager table
           $(row).addClass('parent-row'); //Add class used for dropdown
         }
     });
+/****************************End Build Table **********************************/
 
+/*******************************************************************************
+********************************************************************************
+ROW-CLICK EVENT
 
-/***********************************
-Handler for clicking on an asset row
 Decision Path:
 -IF Detail Row is Expanded before clicking (row.child.isshown)
     +In Edit mode
@@ -96,7 +98,8 @@ Decision Path:
         >Edit Button clicked              : Expand detail row and enable editing
         >Delete Button clicked            : Open delete menu
         >Anywhere else on the row clicked : Expand details row
-***********************************/
+********************************************************************************
+*******************************************************************************/
     $('#asset-manager').on('click', '.parent-row', function(e) {
 
       //Get row we're on
@@ -134,11 +137,20 @@ Decision Path:
         if($(this).hasClass('edit-mode')) {
           /**********If the save button is clicked**********/
           if(e.target.id == 'edit-asset-button') {
+
+            //leave edit mode
             $(this).removeClass('edit-mode');
-            $(this).find('.table-icon').css("border-color", "transparent");
+
+            //Make delete trash-icon visible and usable.
             $(this).find('#delete-asset-button').attr('data-target','#delete-asset');
             $(this).find('#delete-asset-button').css('display','block');
+
+            //Remove Save button, and replace with Edit Button
             $(this).find('#edit-asset-button').replaceWith('<button class="table-icon" id="edit-asset-button" data-toggle="modal" data-target="#edit-asset" data-type="POST" data-tableid="asset-manager" data-id = "' + row.id + '" data-url="AssetManager/edit/' + row.id + '"><img class="mini-icon" id="edit-asset-button" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button>');
+
+            //Push changes to Database
+
+
               /**If edit was clicked, save changes**/
             //  var serial_number = table.cell(row,10).data();
               //var serial_number = table.cell(row,10).data();
@@ -290,8 +302,13 @@ Decision Path:
         }
       }
 /***************END CLOSED ROW IF***************/
-    });
-//End function
+});
+/*******************************************************************************
+********************************************************************************
+END ROW-CLICK EVENT
+********************************************************************************
+*******************************************************************************/
+
 
 
 /**************
