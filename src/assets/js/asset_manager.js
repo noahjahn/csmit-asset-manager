@@ -182,12 +182,14 @@ Decision Path:
         else {
           /**********If the edit button is clicked**********/
           if(e.target.id == 'edit-asset-button') {
+            //Enter edit mode
             $(this).addClass('edit-mode');
-            $(this).find('.table-icon').css("border", "2px solid red");
 
-            //Hide Trashcan
+            //Hide delete Trash-icon
             $(this).find('#delete-asset-button').attr('data-target','');
             $(this).find('#delete-asset-button').css('display','none');
+
+            //Replace edit button with save button
             $(this).find('img#edit-asset-button.mini-icon').remove();
             $(this).find('button#edit-asset-button.table-icon').replaceWith('<button id="edit-asset-button" type="button" class="btn btn-primary">Save</button>');
 
@@ -235,12 +237,15 @@ Decision Path:
 
         /**********If the edit button is  clicked**********/
         if(e.target.id == 'edit-asset-button') {
-          $(this).addClass('edit-mode');
-          $(this).find('.table-icon').css("border", "2px solid red");
 
-          //Hide Trashcan
+          //Enter edit mode
+          $(this).addClass('edit-mode');
+
+          //Hide Delete trash-icon
           $(this).find('#delete-asset-button').attr('data-target','');
           $(this).find('#delete-asset-button').css('display','none');
+
+          //Replace edit button with save button
           $(this).find('img#edit-asset-button.mini-icon').remove();
           $(this).find('button#edit-asset-button.table-icon').replaceWith('<button id="edit-asset-button" type="button" class="btn btn-primary">Save</button>');
 
