@@ -79,6 +79,10 @@ td.edit-col {
   margin: 0;
   background-color: #606060;
 }
+.btn-primary#edit-asset-button {
+  margin: 0;
+  margin-top: -7px;
+}
 .asset-manager-edit-notes {
     background-color: #303030 !important;
     padding: 0.375rem 0.75rem !important;
