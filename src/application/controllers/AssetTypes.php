@@ -31,16 +31,13 @@ class AssetTypes extends CI_Controller {
 		}
 	}
 
-	// public function index() {
-	// 	log_message('debug', 'AssetTypes: index - in function');
-	// }
-
     public function add() {
 		log_message('debug', 'AssetTypes: add - in function');
 
 		if (!$this->input->is_ajax_request()) {
 			redirect('forbidden');
         }
+		
 		$this->form_validation->set_rules($this->AssetTypes_model->get_insert_rules());
 		if ($this->form_validation->run() == TRUE) {
 			$asset_type = array(
