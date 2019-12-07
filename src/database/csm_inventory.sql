@@ -12,12 +12,6 @@ SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
 --
 -- Database: `csm_inventory`
 --
@@ -98,10 +92,9 @@ CREATE TABLE `asset_types` (
 --
 
 INSERT INTO `asset_types` (`id`, `name`, `rate`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
-(1, 'Computerss', '1000.00', 1, '1', '2019-11-10 23:39:22', '1', '2019-08-19 02:12:53'),
+(1, 'Computers', '1000.00', 1, '1', '2019-11-10 23:39:22', '1', '2019-08-19 02:12:53'),
 (2, 'Monitors', '10.00', 0, '', '2019-08-19 02:12:53', '', '2019-08-19 02:12:53'),
-(3, 'Test', '123.00', 1, '1', '2019-11-10 23:39:59', '1', '2019-11-10 23:39:55'),
-(4, 'Computers', '100.00', 0, '1', '2019-11-10 23:40:05', '1', '2019-11-10 23:40:05');
+(3, 'Test', '123.00', 1, '1', '2019-11-10 23:39:59', '1', '2019-11-10 23:39:55');
 
 -- --------------------------------------------------------
 
@@ -151,8 +144,7 @@ CREATE TABLE `manufacturers` (
 INSERT INTO `manufacturers` (`id`, `name`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
 (1, 'Dell', 0, '', '2019-08-19 02:10:06', '', '2019-08-19 02:10:06'),
 (2, 'Planar', 0, '', '2019-08-19 02:10:06', '', '2019-08-19 02:10:06'),
-(3, 'ASUS', 0, '', '2019-08-19 02:10:06', '', '2019-08-19 02:10:06'),
-(4, 'Tests', 1, '1', '2019-11-11 00:12:45', '1', '2019-11-11 00:12:38');
+(3, 'ASUS', 0, '', '2019-08-19 02:10:06', '', '2019-08-19 02:10:06');
 
 -- --------------------------------------------------------
 
@@ -234,9 +226,7 @@ CREATE TABLE `teams` (
 
 INSERT INTO `teams` (`id`, `name`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
 (1, 'Zulu', 0, '', '2019-08-19 02:12:40', '', '2019-08-19 02:12:40'),
-(2, 'SPARK', 0, '', '2019-08-19 02:12:40', '', '2019-08-19 02:12:40'),
-(3, 'Otherss', 1, '1', '2019-11-10 23:55:45', '1', '2019-11-10 23:54:19');
-
+(2, 'SPARK', 0, '', '2019-08-19 02:12:40', '', '2019-08-19 02:12:40');
 -- --------------------------------------------------------
 
 --
