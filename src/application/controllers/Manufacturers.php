@@ -3,13 +3,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Manufacturers extends CI_Controller {
 
+	private $user_id;
+	private $user_role_id;
+	private $page;
+
 	public function __construct() {
 		parent::__construct();
-		// check for user authorization
         $this->load->model('Manufacturers_model');
 		$this->load->model('Models_model');
 		$this->load->helper("database");
 		$this->load->helper("general");
+		$this->load->helper("authorization");
+		$this->user_id = $this->session->userdata('id');
+		$this->user_role_id = $this->session->userdata('id');
+		$this->page = 'asset_groups';
+		if ( ! $this->session->userdata('id')) { // if the user is not logged in
+            redirect('unauthorized');
+		}
+		if ( ! is_authorized($this->user_role_id, $this->page)) {
+			redirect('forbidden');
+		}
+
+		if ($this->uri->total_segments() > 1) {
+			if ( ! $this->uri->segment(2) == 'get_active') {
+				if ( ! has_write_access($this->user_role_id, $this->page)) {
+					redirect('forbidden');
+				}
+			}
+		}
 	}
 
 	public function index() {
