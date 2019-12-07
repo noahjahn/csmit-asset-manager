@@ -14,12 +14,9 @@ class Settings extends CI_Controller {
 		$this->load->helper("authorization");
 		$this->user_id = $this->session->userdata('id');
 		$this->user_role_id = $this->session->userdata('id');
-		$this->page = 'settings';
+		// $this->page = 'settings';
 		if (! $this->session->userdata('id')) { // if the user is not logged in
             redirect('unauthorized');
-		}
-		if ( ! is_authorized($this->user_role_id, $this->page)) {
-			redirect('forbidden');
 		}
 		if (empty($this->session->userdata('settings_active_tab'))) {
 			$tabs = $this->Roles_model->get_settings_access($this->user_role_id);
