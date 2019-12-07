@@ -145,7 +145,7 @@
                     <div>
                         <div class="modal-body-footer">
                             <button id="modal-cancel-add-role" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                            <input type="submit" name="role-add-edit-submit" value="Save" class="btn btn-primary">
+                            <input type="submit" name="role-add-submit" value="Save" class="btn btn-primary">
                         </div>
                     </div>
                 <?php echo form_close(); ?>
@@ -299,7 +299,7 @@
                     <div>
                         <div class="modal-body-footer">
                             <button id="modal-cancel-edit-role" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                            <input type="submit" name="role-edit-edit-submit" value="Save" class="btn btn-primary">
+                            <input id="modal-submit-edit-role" type="submit" name="role-edit-submit" value="Save" class="btn btn-primary">
                         </div>
                     </div>
                 <?php echo form_close(); ?>

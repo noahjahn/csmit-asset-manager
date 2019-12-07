@@ -29,7 +29,7 @@
                     <div>
                         <div class="modal-body-footer">
                             <button id="modal-cancel-add-model" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                            <input type="submit" name="model-add-edit-submit" value="Save" class="btn btn-primary">
+                            <input type="submit" name="model-edit-submit" value="Save" class="btn btn-primary">
                         </div>
                     </div>
                 <?php echo form_close(); ?>
@@ -62,7 +62,7 @@
                     <div>
                         <div class="modal-body-footer">
                             <button id="modal-cancel-edit-model" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                            <input id="modal-submit-edit-model" type="submit" name="model-edit-edit-submit" value="Save" class="btn btn-primary">
+                            <input id="modal-submit-edit-model" type="submit" name="model-edit-submit" value="Save" class="btn btn-primary">
                         </div>
                     </div>
                 <?php echo form_close(); ?>
