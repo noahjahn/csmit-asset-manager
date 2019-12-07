@@ -249,8 +249,6 @@ $(document).ready(function() {
         });
     });
 
-    console.log($('#edit-model-manufacturer.ui.dropdown'));
-
     $('#edit-model').on('hidden.bs.modal', function () {
         $('.ui.search.dropdown#edit-model-manufacturer').dropdown('remove selected');
         editNameError.empty(); // empty the errors when hiding the modal
