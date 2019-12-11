@@ -6,6 +6,7 @@ class LoginPhotos extends CI_Controller {
 	private $user_id;
 	private $user_role_id;
 	private $page;
+	private $login_photos_path;
 
 	public function __construct() {
 		parent::__construct();
@@ -33,12 +34,36 @@ class LoginPhotos extends CI_Controller {
         $this->login_photos_path = LOGIN_PHOTOS;
 	}
 
-	public function index() {
-
-	}
-
     public function add() {
 		log_message('debug', 'LoginPhotos: add - in function');
+
+		if (!empty($_FILES['file']['name'])) {
+			// Set preference
+			$config['upload_path'] = $this->login_photos_path;
+			$config['allowed_types'] = 'jpg|jpeg|png|gif';
+			$config['max_size'] = '24000'; // max_size in kb
+			$config['max_width'] = 1920;
+	        $config['max_height'] = 1080;
+			$config['file_name'] = str_replace(' ', '_', $this->LoginPhotos_model->get_next_increment() . '-' . $_FILES['file']['name']);
+
+
+			$this->load->library('upload', $config);
+
+			if ($this->upload->do_upload('file')) {
+				$upload_data = $this->upload->data();
+				$login_photo = array(
+					'name' => $upload_data['file_name'],
+					'last_modified_by' => $this->user_id,
+					'last_modified_time' => date('Y-m-d H:i:s'),
+					'created_by' => $this->user_id,
+					'created_time' => date('Y-m-d H:i:s')
+				);
+				$this->LoginPhotos_model->insert($login_photo);
+				echo json_encode("success");
+			} else {
+				log_message('debug', $this->upload->display_errors());
+			}
+		}
     }
 
     public function delete($id) {
