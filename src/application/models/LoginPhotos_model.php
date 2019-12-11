@@ -22,13 +22,11 @@ class LoginPhotos_model extends CI_Model {
         );
     }
 
-    function get_insert_rules() {
-        log_message('debug', 'LoginPhotos_model: get_insert_rules - in function');
+    function get_next_increment() {
+        log_message('debug', 'LoginPhotos_model: get_next_increment - in function');
 
-        $form_rules = array(
-            $this->get_name_rules()
-        );
-        return $form_rules;
+        $query = $this->db->query('SHOW TABLE STATUS LIKE \''. $this->table . '\'');
+        return $query->result_array()[0]['Auto_increment'];
     }
 
     function get_table_columns() {
@@ -72,37 +70,12 @@ class LoginPhotos_model extends CI_Model {
         return $this->db->get()->result_array();
     }
 
-    function insert($user) {
+    function insert($login_photo) {
         log_message('debug', 'LoginPhotos_model: insert - in function');
 
-        if ($this->is_email_unique($user['email'])) { // if it's unique, add it
-            $this->db->insert($this->table, $user);
-        } else {
-            log_message('error', 'LoginPhotos_model: insert - failed, record '.$user['email'].' isn\'t unique');
-            return FALSE;
-        }
-    }
-
-    function update($user) {
-        log_message('debug', 'LoginPhotos_model: update - in function');
-
-        // check if user passed in exists and is active
-        if (record_exists($user['id'], $this->table) && !(record_is_deleted($user['id'], $this->table))) {
-
-            if ($this->is_email_unique_not_different_from_current($user['email'], $user['id'])) {
-                log_message('debug', 'LoginPhotos_model: update - in function '.json_encode($user));
-                $this->db->where('id', $user['id']);
-                $this->db->update($this->table, $user);
-                return TRUE;
-            } else {
-                log_message('error', 'LoginPhotos_model: update - failed, record '.$user['email'].' isn\'t unique');
-                return FALSE;
-            }
-        } else {
-            log_message('error', 'LoginPhotos_model: update - failed, record '.$user['id'].' doesn\'t exist or is inactive');
-            return FALSE;
-        }
-    }
+        $this->db->insert($this->table, $login_photo);
+        return TRUE;
+    } 
 
     function delete($id) {
         log_message('debug', 'LoginPhotos_model: delete - in function');
