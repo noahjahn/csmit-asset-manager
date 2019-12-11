@@ -17,6 +17,9 @@ application/vendor
 
 composer.lock
 
+node_modules/
+node_modules/*
+
 uploads/*
 uploads/
 
