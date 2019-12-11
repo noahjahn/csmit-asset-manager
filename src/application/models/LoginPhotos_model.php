@@ -75,7 +75,7 @@ class LoginPhotos_model extends CI_Model {
 
         $this->db->insert($this->table, $login_photo);
         return TRUE;
-    } 
+    }
 
     function delete($id) {
         log_message('debug', 'LoginPhotos_model: delete - in function');

@@ -69,7 +69,13 @@ class LoginPhotos extends CI_Controller {
     public function delete($id) {
 		log_message('debug', 'LoginPhotos: delete - in function');
 
-        $this->LoginPhotos_model->delete($id);
+		$file_pointer = $this->login_photos_path . $this->LoginPhotos_model->get_name($id);
+		$this->LoginPhotos_model->delete($id);
+		if (!unlink($file_pointer)) {
+			log_message('debug', 'LoginPhotos: delete - file cannot be delete. file_pointer='.$file_pointer);
+		} else {
+    		log_message('debug', 'LoginPhotos: delete - file deleted. file_pointer='.$file_pointer);
+		}
     }
 
 	public function get_active() {
