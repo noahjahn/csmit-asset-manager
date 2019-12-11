@@ -26,7 +26,7 @@ class Auth extends CI_Controller {
 		log_message('debug', 'Auth: index - in function');
 
 		if ($this->session->has_userdata('id')) { // Check if the user is logged in
-			redirect('assetmanager'); // maybe implement user's default page??
+			redirect('dashboard'); // maybe implement user's default page??
 		} else { // send them to the login form
 			$this->login_request(); // try a login request.. did the user submit the login form?
 			$this->load_login(); // finish by loading the login page, assuming the login failed or was never requested
