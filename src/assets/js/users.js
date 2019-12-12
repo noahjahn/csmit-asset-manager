@@ -654,12 +654,13 @@ $(document).ready(function() {
         e.preventDefault(); // prevent modal from closing
 
         var id = $("#modal-submit-edit-user").data('id');
+        var role = $('#edit-user-form .item.active.selected').data('value');
 
         $.ajax({
             type: 'POST',
             url: editUserUrl,
             dataType: 'json',
-            data: "id=" + id + "&" + $(this).serialize(), // get data from the form
+            data: "id=" + id + "&" + $(this).serialize() + "&role=" + role, // get data from the form
             success: function(result) {
                 if (result == "success") {
                     $("#edit-user").modal('hide'); // if the submission was successful without any validation erros, we can hide the modal
