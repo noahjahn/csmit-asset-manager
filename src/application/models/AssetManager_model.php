@@ -49,9 +49,15 @@ class AssetManager_model extends CI_Model {
               t.name            as team,
               a.job_number      as job_number,
               at.rate           as rate,
+              a.notes           as notes,
               a.last_modified_time
-                                as last_modified_time
+                                as last_modified_time,
+              ma.id             as manufacturer_id,
+              mo.id             as model_id,
+              at.id             as type_id,
+              t.id              as team_id
             ');
+
             $this->db->from('assets as a');
             $this->db->join('asset_types as at'
                           , 'a.type = at.id');
@@ -67,16 +73,40 @@ class AssetManager_model extends CI_Model {
             return $query;
         }
 
-        public function add_asset() {
-            $this->load->helper('form');
-            $this->load->library('form_validation');
+        function add($asset) {
+            log_message('debug', 'AssetManager_model: add - in function');
+            $this->db->insert($this->table, $asset);
+
+        }
+
+        function update_asset() {
 
 
         }
 
-        public function update_asset() {
+        function delete($id) {
+            log_message('debug', 'AssetManager_model: delete - in function');
 
-
+            // check if model passed in exists and is not deleted
+            if (record_exists($id, $this->table) && !(record_is_deleted($id, $this->table))) {
+                // if it is, set is_deleted to 1, this is a soft delete
+                if (set_last_modified_by($id, $this->user_id, $this->table)) {
+                    if (set_last_modified_time($id, $this->table)) {
+                        $this->db->set('is_deleted', '1');
+                        $this->db->where('id', $id);
+                        return $this->db->update($this->table);
+                    } else {
+                        log_message('error', 'AssetManager_model: delete - failed to set last modified time. Record id: '.$id.' Table: '.$this->table);
+                        return FALSE; // failed to set last modified time
+                    }
+                } else {
+                    log_message('error', 'AssetManager_model: delete - failed to set last modified by. Record id: '.$id.' User id: '.$id.' Table: '.$this->table);
+                    return FALSE;  // failed to set last modified by
+                }
+            } else {
+                log_message('error', 'AssetManager_model: delete - failed, record '.$id.' doesn\'t exist or is deleted');
+                return FALSE; // failed, record doesn't exist or is deleted
+            }
         }
 
         function get_count_by_asset_type($asset_type) {
