@@ -3,6 +3,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class AssetManager_model extends CI_Model {
 
+    private $table;
+    private $user_id;
+    private $fields;
+
+    function __construct() {
+        parent::__construct();
+        $this->table = "assets";
+        $this->user_id = $this->session->userdata('id');
+        $this->fields = array(
+            'id' => 'id',
+            'name' => 'name',
+            'manufacturer' => 'manufacturer',
+            'model' => 'model',
+            'owner' => 'owner',
+            'serial_number' => 'serial_number',
+            'type' => 'type',
+            'asset_tag' => 'asset_tag',
+            'purchase_price' => 'purchase_price',
+            'purchase_date' => 'purchase_date',
+            'location' => 'location',
+            'team' => 'team',
+            'job_number' => 'job_number',
+            'is_deleted' => 'is_deleted',
+            'last_modified_by' => 'last_modified_by',
+            'last_modified_time' => 'last_modified_time',
+            'created_by' => 'created_by',
+            'created_time' => 'created_time'
+        );
+    }
+
         public function get_active() {
             $this->db->select('
               a.id              as id,
@@ -47,6 +77,40 @@ class AssetManager_model extends CI_Model {
         public function update_asset() {
 
 
+        }
+
+        function get_count_by_asset_type($asset_type) {
+            log_message('debug', 'AssetManager_model: get_count_by_asset_type - in function. asset_type='.$asset_type);
+
+            $this->db->select('assets.id');
+            $this->db->from('assets');
+            $this->db->join('asset_types', 'asset_types.id = assets.type');
+            $this->db->where('asset_types.name', $asset_type);
+            $this->db->where('assets.is_deleted', FALSE);
+
+            $query = $this->db->get();
+
+            $num_rows = $query->num_rows();
+
+            log_message('debug', 'AssetManager_model: get_count_by_asset_type - num_rows='.$num_rows);
+
+            return $num_rows;
+        }
+
+        function get_month_forecast($asset_type) {
+            log_message('debug', 'AssetManager_model: get_month_forecast - in function');
+
+            $this->db->select('assets.id');
+            $this->db->from('assets');
+            $this->db->join('asset_types', 'asset_types.id = assets.type');
+            $this->db->where('asset_types.name', $asset_type);
+            $this->db->where('assets.is_deleted', FALSE);
+
+            $query = $this->db->get();
+
+            $num_rows = $query->num_rows();
+
+            return $num_rows;
         }
 }
 

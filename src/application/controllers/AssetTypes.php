@@ -37,7 +37,7 @@ class AssetTypes extends CI_Controller {
 		if (!$this->input->is_ajax_request()) {
 			redirect('forbidden');
         }
-		
+
 		$this->form_validation->set_rules($this->AssetTypes_model->get_insert_rules());
 		if ($this->form_validation->run() == TRUE) {
 			$asset_type = array(
@@ -174,7 +174,7 @@ class AssetTypes extends CI_Controller {
 		log_message('debug', 'AssetTypes: get_active - in function');
 
 		if (!$this->input->is_ajax_request()) {
-            redirect('forbidden');
+            // redirect('forbidden');
         }
 
 		$active_asset_types = $this->AssetTypes_model->get_active();
