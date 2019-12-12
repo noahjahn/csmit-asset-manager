@@ -203,7 +203,7 @@ class Users extends CI_Controller {
 			);
 
 			if ($check_password_confirmation) {
-				array_push($user, $user['password'] = password_hash($password, PASSWORD_DEFAULT));
+				$user['password'] = password_hash($password, PASSWORD_DEFAULT);
 			}
 
 			if ($this->Users_model->update($user)) {
@@ -320,7 +320,7 @@ class Users extends CI_Controller {
 				'email' => $email,
 				'first_name',
 				'last_name',
-				
+
 			);
 		}
 
