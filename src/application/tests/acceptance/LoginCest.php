@@ -9,11 +9,10 @@ class LoginCest
 
     public function _before(AcceptanceTester $I)
     {
-
         $this->invalid_email = 'email@email.com';
         $this->invalid_password = 'password';
-        $this->valid_email = 'noah.jahn@sparkbusinessworks.com';
-        $this->valid_password = 'Rocky1921!';
+        $this->valid_email = 'administrator@csmgroup.com';
+        $this->valid_password = 'C0ding is fun!';
 
     }
 
