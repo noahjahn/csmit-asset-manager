@@ -10,6 +10,7 @@ class AssetManager extends CI_Controller {
 		$this->load->helper("database");
 		$this->load->helper("general");
 		// check for user authorization
+		$this->user_id = $this->session->userdata('id');
 	}
 
 	public function index() {
@@ -37,11 +38,29 @@ class AssetManager extends CI_Controller {
 		echo $json_assets;
 	}
 
-	public function add_asset() {
-		$this->load->helper('form');
-		$this->load->library('form_validation');
+	public function add() {
+		log_message('debug', 'AssetManager: add - in function');
+		$asset = array(
+			'manufacturer' => $this->input->post('manufacturer'),
+			'model' => $this->input->post('model'),
+			'owner' => $this->input->post('owner'),
+			'serial_number' => $this->input->post('serial_number'),
+			'type' => $this->input->post('type'),
+			'asset_tag' => $this->input->post('asset_tag'),
+			'team' => $this->input->post('team'),
+			//'rate' => $this->input->post('rate'),
+			'purchase_price' => $this->input->post('purchase_price'),
+			'purchase_date' => $this->input->post('purchase_date'),
+			'job_number' => $this->input->post('job_number'),
+			'location' => $this->input->post('location'),
+			'last_modified_by' => $this->user_id,
+			'last_modified_time' => date('Y-m-d H:i:s'),
+			'created_by' => $this->user_id,
+			'created_time' => date('Y-m-d H:i:s')
+		);
 
-		$this->load->view('private/asset_manager/add_asset');
+		$this->AssetManager_model->add($asset);
+		echo json_encode("success");
 	}
 
 	public function edit_asset() {

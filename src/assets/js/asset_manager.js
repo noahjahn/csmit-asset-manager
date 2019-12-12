@@ -3,7 +3,8 @@ $(document).ready( function () {
     $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
 
     //Controller function URLs
-    var deleteAssetUrl = baseUrl + "assetmanager/delete/";
+    var deleteAssetUrl = baseUrl + "assetmanager/delete";
+    var addAssetUrl = baseUrl + "assetmanager/add";
     var getActiveManufacturersUrl = baseUrl + "manufacturers/get_active";
     var getActiveModelsUrl = baseUrl + "models/get_active";
     var getActiveTypesUrl = baseUrl + "assettypes/get_active";
@@ -94,12 +95,15 @@ Build Asset Manager table
                     {
                         text: "Add Asset",
                         action: function() {
-                            $('#add-asset').modal('show');
+                            $('#add-asset-modal').modal('show');
                         },
                         init: function (api, node, config) {
                             $(node).removeClass('btn-secondary');
                         },
-                        className: 'btn-primary'
+                        className: 'btn-primary',
+                        attr: {
+                          id: 'add-asset-btn'
+                        }
                     }
                 ],
         language: {
@@ -557,7 +561,7 @@ Delete Asset
 
     });
 
-    $("#modal-confirm-delete-asset").on("click", function(e) {
+    $('#modal-confirm-delete-asset').on("click", function(e) {
         var id = $("#modal-confirm-delete-asset").data('id');
 
         $.ajax({
@@ -572,6 +576,72 @@ Delete Asset
                 console.log("AJAX error, check server logs near local time: " + time);
             }
         });
+    });
+
+    $('#add-asset-btn').on("click", function () {
+        $('#add-asset-form-manufacturer').dropdown({
+              values: manufacturersDropdown
+        });
+        $('#add-asset-form-model').dropdown({
+              values: modelsDropdown
+        });
+        $('#add-asset-form-team').dropdown({
+              values: teamsDropdown
+        });
+        $('#add-asset-form-type').dropdown({
+              values: typesDropdown
+        });
+    });
+
+
+    $('#add-asset-form').on("submit", function (e) {
+      e.preventDefault();
+
+      var manufacturer = $('.add-asset-field-manufacturer .item.active.selected').data('value');
+      var model = $('.add-asset-field-model .item.active.selected').data('value');
+      var team = $('.add-asset-field-team .item.active.selected').data('value');
+      var type = $('.add-asset-field-type .item.active.selected').data('value');
+
+      $.ajax({
+          type: 'POST',
+          url: addAssetUrl,
+          dataType: 'json',
+          data: $(this).serialize() + "&" + "manufacturer=" + manufacturer + "&" + "model=" + model + "&" + "type=" + type + "&" + "team=" + team, // get data from the form
+          success: function(result) {
+              if (result == "success") {
+                console.log("success");
+                  $("#add-asset-modal").modal('hide'); // if the submission was successful without any validation erros, we can hide the modal
+                  $("#asset-manager").DataTable().ajax.reload(); // also need to reload the datatable since we successfully add an asset type
+              }else {
+                console.log("success");
+              }
+              // else {
+              //     if (! result["name"] == "") {
+              //         if (! result["name"] == addNameError.val()) {
+              //             addNameError.empty(); // empty error messages, if there were any
+              //             addNameError.append(result["name"]); // display the error messages
+              //         }
+              //         if (! addNameField.hasClass('is-invalid')) {
+              //             addNameField.addClass('is-invalid');
+              //         }
+              //     }
+              //     if (! result["rate"] == "") {
+              //         if (! result["rate"] == addRateError.val()) {
+              //             addRateError.empty(); // empty error messages, if there were any
+              //             addRateError.append(result["rate"]); // display the error messages
+              //         }
+              //         if (! addRateField.hasClass('is-invalid')) {
+              //             addRateField.addClass('is-invalid');
+              //         }
+              //     }
+              // }
+          },
+          error: function(result) {
+              var today = new Date();
+              var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+              console.log("AJAX error, check server logs near local time: " + time);
+          }
+      });
     });
 });
 

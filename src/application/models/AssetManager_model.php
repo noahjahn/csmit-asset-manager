@@ -52,10 +52,9 @@ class AssetManager_model extends CI_Model {
             return $query;
         }
 
-        function add_asset() {
-            $this->load->helper('form');
-            $this->load->library('form_validation');
-
+        function add($asset) {
+            log_message('debug', 'AssetManager_model: add - in function');
+            $this->db->insert($this->table, $asset);
 
         }
 
