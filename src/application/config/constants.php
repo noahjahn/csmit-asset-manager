@@ -103,3 +103,10 @@ defined('LOGIN_PHOTOS') OR define('LOGIN_PHOTOS', UPLOADS . "login_photos/");
 defined('W')    OR define('W', 2);
 defined('R')    OR define('R', 4);
 defined('RW')   OR define('RW', 6);
+
+/*
+    JS libraries constants
+*/
+defined('NODE_MODULES') OR define('NODE_MODULES', "node_modules/");
+defined('CHARTJS_JS')   OR define('CHARTJS_JS', NODE_MODULES . "chart.js/dist/Chart.min.js");
+defined('CHARTJS_CSS')  OR define('CHARTJS_CSS', NODE_MODULES . "chart.js/dist/Chart.min.css");
