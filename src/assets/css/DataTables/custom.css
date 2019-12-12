@@ -34,7 +34,7 @@
 }
 
 .dataTables_scrollBody {
-    background-color: #303030 !important;
+    background-color: #3B3B3B !important;
 }
 
 /* .dataTables_filter {
@@ -44,6 +44,7 @@
 .btn-group {
     display: unset !important;
     margin-right: 3px;
+    float: right;
 }
 
 .dataTables_scrollHeadInner {
