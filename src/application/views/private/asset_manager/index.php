@@ -8,6 +8,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   $this->load->view('private/modals/assets/add.php');
   ?>
 <script id="asset-manager-script" data-load-datatable="true" src="<?php echo base_url(); ?>assets/js/asset_manager.js"></script>
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/libraries/semantic/dropdown.css"/>
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/libraries/semantic/transition.css"/>
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/libraries/semantic/custom.css"/>
+<script src="<?php echo base_url(); ?>assets/libraries/semantic/dropdown.js"></script>
+<script src="<?php echo base_url(); ?>assets/libraries/semantic/transition.js"></script>
 <table id="asset-manager" class="table table-hover">
     <thead class="table-header">
         <tr class="table-primary">

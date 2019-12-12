@@ -227,6 +227,7 @@ Build Asset Manager table
 ROW-CLICK EVENT
 
 Decision Path:
+
 -IF Detail Row is Expanded before clicking (row.child.isshown)
     +In Edit mode
         >Save Button clicked              : Save changes and re-display new data
@@ -235,6 +236,7 @@ Decision Path:
         >Edit Button clicked              : Enable editing
         >Delete Button clicked            : Open delete menu
         >Anywhere else on the row clicked : Close detail row
+
 -IF Detail Row is Closed before clicking
         >Edit Button clicked              : Expand detail row and enable editing
         >Delete Button clicked            : Open delete menu
@@ -342,48 +344,60 @@ Decision Path:
             $(this).find('button#edit-asset-button.table-icon').replaceWith('<button id="edit-asset-button" type="button" class="btn btn-primary">Save</button>');
 
             /**If edit was clicked, open input fields and ensure details are expanded.**/
-            //Parent row fields
-            $(this).find('.asset_manager_model').html('');
-              $(this).find('.asset_manager_model').dropdown({
-                      values: modelsDropdown
-              });
-              $(this).find('.asset_manager_model').attr('class','in-row-edit');
-              //$('.asset_manager_model').dropdown('set selected', model_id);
+            ////Parent row fields
 
-            $(this).find('.asset_manager_manufacturer').html('');
-              $(this).find('.asset_manager_manufacturer').dropdown({
-                    values: manufacturersDropdown
-              });
-              $(this).find('.asset_manager_manufacturer').attr('class','in-row-edit');
-              //$('.asset_manager_manufacturer').dropdown('set selected', manufacturer_id);
-
+            //Model
+            $(this).find('.asset_manager_model').html('<select id="model-dropdown" type="text" name="model" class="ui search dropdown in-row-edit-dropdown"></select>');
+            $(this).find('#model-dropdown').dropdown({
+                    values: modelsDropdown
+            });
+            $(this).find('#model-dropdown').dropdown('set selected', model_id);
+            //Manufacturer
+            $(this).find('.asset_manager_manufacturer').html('<select id="manufacturer-dropdown" type="text" name="manufacturer" class="ui search dropdown in-row-edit-dropdown"></select>');
+            $(this).find('#manufacturer-dropdown').dropdown({
+                  values: manufacturersDropdown
+            });
+            $(this).find('#manufacturer-dropdown').dropdown('set selected', manufacturer_id);
+            //Owner
             $(this).find('.asset_manager_owner').html('<input type="text" class="in-row-edit"></input>');
-
-            $(this).find('.asset_manager_type').html('');
-              $(this).find('.asset_manager_type').dropdown({
-                    values: typesDropdown
-              });
-              $(this).find('.asset_manager_type').attr('class','in-row-edit');
-              //$('.asset_manager_type').dropdown('set selected', type_id);
-
+            $(this).find('.asset_manager_owner .in-row-edit').attr('value', owner)
+            //Type
+            $(this).find('.asset_manager_type').html('<select id="type-dropdown" type="text" name="type" class="ui search dropdown in-row-edit-dropdown"></select>');
+            $(this).find('#type-dropdown').dropdown({
+                  values: typesDropdown
+            });
+            $(this).find('#type-dropdown').dropdown('set selected', type_id);
+            //Asset Tag
             $(this).find('.asset_manager_asset_tag').html('<input type="text" class="in-row-edit"></input>');
-
-            $(this).find('.asset_manager_team').html('');
-              $(this).find('.asset_manager_team').dropdown({
-                    values: teamsDropdown
-              });
-              $(this).find('.asset_manager_team').attr('class','in-row-edit');
-              //$('.asset_manager_team').dropdown('set selected', team_id);
-
+            $(this).find('.asset_manager_asset_tag .in-row-edit').attr('value', asset_tag)
+            //Team
+            $(this).find('.asset_manager_team').html('<select id="team-dropdown" type="text" name="team" class="ui search dropdown in-row-edit-dropdown"></select>');
+            $(this).find('#team-dropdown').dropdown({
+                  values: teamsDropdown
+            });
+            $(this).find('#team-dropdown').dropdown('set selected', team_id);
+            //Rate
             $(this).find('.asset_manager_rate').html('<input type="text" class="in-row-edit"></input>');
-            //Child row fields
+            $(this).find('.asset_manager_rate .in-row-edit').attr('value', rate)
+
+            ////Child row fields
+
+            //Serial Number
             row.child().find('.asset_manager_serial_number').html('<input type="text" class="in-row-edit"></input>');
+            //Purchase Price
             row.child().find('.asset_manager_purchase_price').html('<input type="text" class="in-row-edit"></input>');
+            //Job Number
             row.child().find('.asset_manager_job_number').html('<input type="text" class="in-row-edit"></input>');
+            //Location
             row.child().find('.asset_manager_location').html('<input type="text" class="in-row-edit"></input>');
+            //Purchase Date
             row.child().find('.asset_manager_purchase_date').html('<input type="text" class="in-row-edit"></input>');
+            //Notes
             row.child().find('.asset_manager_notes').html('<input type="text" class="in-row-edit" value="notes would go here"></input>');
 
+            //Correct the height of the dropdowns.
+          //  $(this).find('.in-row-edit-dropdown input').css({'padding-top': '0','horizontal-align': 'center'});
+          //  $(this).find('.in-row-edit-dropdown input').css({'padding-bottom': '0','horizontal-align': 'center'});
 
             $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
           }
@@ -443,46 +457,57 @@ Decision Path:
 
           /**If edit was clicked, open input fields and ensure details are expanded.**/
           //Parent row fields
-          $(this).find('.asset_manager_model').html('');
-            $(this).find('.asset_manager_model').dropdown({
-                    values: modelsDropdown
-            });
-            $(this).find('.asset_manager_model').attr('class','in-row-edit');
-            //$('.asset_manager_model').dropdown('set selected', model_id);
 
-          $(this).find('.asset_manager_manufacturer').html('');
-            $(this).find('.asset_manager_manufacturer').dropdown({
-                  values: manufacturersDropdown
-            });
-            $(this).find('.asset_manager_manufacturer').attr('class','in-row-edit');
-            //$('.asset_manager_manufacturer').dropdown('set selected', manufacturer_id);
-
+          //Model
+          $(this).find('.asset_manager_model').html('<select id="model-dropdown" type="text" name="model" class="ui search dropdown in-row-edit-dropdown"></select>');
+          $(this).find('#model-dropdown').dropdown({
+                values: modelsDropdown
+          });
+          $(this).find('#model-dropdown').dropdown('set selected', model_id);
+          //Manufacturer
+          $(this).find('.asset_manager_manufacturer').html('<select id="manufacturer-dropdown" type="text" name="manufacturer" class="ui search dropdown in-row-edit-dropdown"></select>');
+          $(this).find('#manufacturer-dropdown').dropdown({
+                values: manufacturersDropdown
+          });
+          $(this).find('#manufacturer-dropdown').dropdown('set selected', manufacturer_id);
+          //Owner
           $(this).find('.asset_manager_owner').html('<input type="text" class="in-row-edit"></input>');
-
-          $(this).find('.asset_manager_type').html('');
-            $(this).find('.asset_manager_type').dropdown({
-                  values: typesDropdown
-            });
-            $(this).find('.asset_manager_type').attr('class','in-row-edit');
-            //$('.asset_manager_type').dropdown('set selected', type_id);
-
+          $(this).find('.asset_manager_owner .in-row-edit').attr('value', owner)
+          //Type
+          $(this).find('.asset_manager_type').html('<select id="type-dropdown" type="text" name="type" class="ui search dropdown in-row-edit-dropdown"></select>');
+          $(this).find('#type-dropdown').dropdown({
+                values: typesDropdown
+          });
+          $(this).find('#type-dropdown').dropdown('set selected', type_id);
+          //Asset Tag
           $(this).find('.asset_manager_asset_tag').html('<input type="text" class="in-row-edit"></input>');
-
-          $(this).find('.asset_manager_team').html('');
-            $(this).find('.asset_manager_team').dropdown({
-                  values: teamsDropdown
-            });
-            $(this).find('.asset_manager_team').attr('class','in-row-edit');
-            //$('.asset_manager_team').dropdown('set selected', team_id);
-
+          $(this).find('.asset_manager_asset_tag .in-row-edit').attr('value', asset_tag)
+          //Team
+          $(this).find('.asset_manager_team').html('<select id="team-dropdown" type="text" name="team" class="ui search dropdown in-row-edit-dropdown"></select>');
+          $(this).find('#team-dropdown').dropdown({
+                values: teamsDropdown
+          });
+          $(this).find('#team-dropdown').dropdown('set selected', team_id);
+          //Rate
           $(this).find('.asset_manager_rate').html('<input type="text" class="in-row-edit"></input>');
+          $(this).find('.asset_manager_rate .in-row-edit').attr('value', rate)
           //Child row fields
+          //Serial Number
           row.child().find('.asset_manager_serial_number').html('<input type="text" class="in-row-edit"></input>');
+          //Purchase Price
           row.child().find('.asset_manager_purchase_price').html('<input type="text" class="in-row-edit"></input>');
+          //Job Number
           row.child().find('.asset_manager_job_number').html('<input type="text" class="in-row-edit"></input>');
+          //Location
           row.child().find('.asset_manager_location').html('<input type="text" class="in-row-edit"></input>');
+          //Purchase Date
           row.child().find('.asset_manager_purchase_date').html('<input type="text" class="in-row-edit"></input>');
+          //Notes
           row.child().find('.asset_manager_notes').html('<input type="text" class="in-row-edit" value="notes would go here"></input>');
+
+          //Correct the height of the dropdowns.
+        //  $(this).find('.in-row-edit-dropdown input').css({'padding-top':'0','horizontal-align': 'center'});
+        //  $(this).find('.in-row-edit-dropdown input').css({'padding-bottom': '0','horizontal-align': 'center'});
 
           $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
 
