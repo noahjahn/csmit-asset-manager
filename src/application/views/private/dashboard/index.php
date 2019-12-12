@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="<?php echo base_url() . CHARTJS_CSS; ?>"/>
+
 <div class="row mb-4 dashboard-row">
     <div class="col">
         <div class="dasbhoard-box text-center">
@@ -9,43 +11,18 @@
     </div>
     <div class="col">
         <div class="dasbhoard-box text-center">
-            <div class="dashboard-large-text">
-                chart
-            </div>
+            <canvas id="asset-types"></canvas>
         </div>
     </div>
     <div class="col">
         <div class="dasbhoard-box text-center">
-            <div class="dashboard-large-text">
-                $3798
+            <div id="month-forecast" class="dashboard-large-text">
+
             </div>
             forecasted this month
         </div>
     </div>
 </div>
-<div class="row mb-4 dashboard-row">
-    <div class="col">
-        <div class="dasbhoard-box text-center">
-            <div class="dashboard-large-text">
-                239
-            </div>
-            assets are Laptops
-        </div>
-    </div>
-    <div class="col">
-        <div class="dasbhoard-box text-center">
-            <div class="dashboard-large-text">
-                18
-            </div>
-            days remain until the scheduled billback
-        </div>
-    </div>
-    <div class="col">
-        <div class="dasbhoard-box text-center">
-            <div class="dashboard-large-text">
-                13
-            </div>
-            assets have inconsistencies
-        </div>
-    </div>
-</div>
+
+<script src="<?php echo base_url() . CHARTJS_JS; ?>"></script>
+<script src="<?php echo base_url(); ?>/assets/js/dashboard.js"></script>
