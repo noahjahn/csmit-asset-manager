@@ -3,13 +3,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Dashboard extends CI_Controller {
 
+	private $user_id;
+	private $user_role_id;
 	private $page;
 
 	public function __construct() {
 		parent::__construct();
 		$this->load->helper("authorization");
 		$this->user_id = $this->session->userdata('id');
-		$this->user_role_id = $this->session->userdata('id');
+		$this->user_role_id = $this->session->userdata('role');
 		$this->page = 'dashboard';
 		if (! $this->session->userdata('id')) { // if the user is not logged in
             redirect('unauthorized');

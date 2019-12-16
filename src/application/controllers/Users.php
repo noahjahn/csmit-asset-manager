@@ -3,6 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Users extends CI_Controller {
 
+	private $user_id;
+	private $user_role_id;
+
 	public function __construct() {
 		parent::__construct();
 		// check for user authorization
@@ -10,6 +13,7 @@ class Users extends CI_Controller {
 		$this->load->helper("database");
 		$this->load->helper("general");
 		$this->user_id = $this->session->userdata('id');
+		$this->user_role_id = $this->session->userdata('role');
 	}
 
 	public function index() {
@@ -20,7 +24,7 @@ class Users extends CI_Controller {
 		log_message('debug', 'Users: add - in function');
 
 		if (!$this->input->is_ajax_request()) {
-            // echo $this->output_json(['unauthorized']);
+            redirect('forbidden');
             exit;
         }
 		$this->form_validation->set_rules($this->Users_model->get_insert_rules());
@@ -58,9 +62,9 @@ class Users extends CI_Controller {
 		log_message('debug', 'Users: validate_first_name - in function');
 
 		if (!$this->input->is_ajax_request()) {
-			// echo $this->output_json(['unauthorized']);
-			exit;
-		}
+            redirect('forbidden');
+            exit;
+        }
 
 		$this->form_validation->set_rules(array($this->Users_model->get_first_name_rules()));
 		if ($this->form_validation->run() == TRUE) {
@@ -78,9 +82,9 @@ class Users extends CI_Controller {
 		log_message('debug', 'Users: validate_last_name - in function');
 
 		if (!$this->input->is_ajax_request()) {
-			// echo $this->output_json(['unauthorized']);
-			exit;
-		}
+            redirect('forbidden');
+            exit;
+        }
 
 		$this->form_validation->set_rules(array($this->Users_model->get_last_name_rules()));
 		if ($this->form_validation->run() == TRUE) {
@@ -98,9 +102,9 @@ class Users extends CI_Controller {
 		log_message('debug', 'Users: validate_add_email - in function');
 
 		if (!$this->input->is_ajax_request()) {
-			// echo $this->output_json(['unauthorized']);
-			exit;
-		}
+            redirect('forbidden');
+            exit;
+        }
 
 		$this->form_validation->set_rules(array($this->Users_model->get_insert_email_rules()));
 		if ($this->form_validation->run() == TRUE) {
@@ -118,9 +122,9 @@ class Users extends CI_Controller {
 		log_message('debug', 'Users: validate_add_password - in function');
 
 		if (!$this->input->is_ajax_request()) {
-			// echo $this->output_json(['unauthorized']);
-			exit;
-		}
+            redirect('forbidden');
+            exit;
+        }
 
 		log_message('debug', 'Users: validate_add_password - password'.$this->input->post('password'));
 
@@ -140,9 +144,9 @@ class Users extends CI_Controller {
 		log_message('debug', 'Users: validate_password_confirm - in function');
 
 		if (!$this->input->is_ajax_request()) {
-			// echo $this->output_json(['unauthorized']);
-			exit;
-		}
+            redirect('forbidden');
+            exit;
+        }
 
 		$this->form_validation->set_rules(array($this->Users_model->get_insert_password_rules()));
 		$this->form_validation->set_rules(array($this->Users_model->get_password_confirm_rules(TRUE)));
@@ -161,9 +165,9 @@ class Users extends CI_Controller {
 		log_message('debug', 'Users: validate_role - in function');
 
 		if (!$this->input->is_ajax_request()) {
-			// echo $this->output_json(['unauthorized']);
-			exit;
-		}
+            redirect('forbidden');
+            exit;
+        }
 
 		$this->form_validation->set_rules(array($this->Users_model->get_role_rules()));
 		if ($this->form_validation->run() == TRUE) {
@@ -180,7 +184,7 @@ class Users extends CI_Controller {
     public function edit() {
 		log_message('debug', 'Users: edit - in function');
 		if (!$this->input->is_ajax_request()) {
-            // echo $this->output_json(['unauthorized']);
+            redirect('forbidden');
             exit;
         }
 
@@ -232,9 +236,9 @@ class Users extends CI_Controller {
 		log_message('debug', 'Users: validate_edit_email - in function');
 
 		if (!$this->input->is_ajax_request()) {
-			// echo $this->output_json(['unauthorized']);
-			exit;
-		}
+            redirect('forbidden');
+            exit;
+        }
 
 		$this->form_validation->set_rules(array($this->Users_model->get_update_email_rules()));
 		if ($this->form_validation->run() == TRUE) {
@@ -252,9 +256,9 @@ class Users extends CI_Controller {
 		log_message('debug', 'Users: validate_edit_password - in function');
 
 		if (!$this->input->is_ajax_request()) {
-			// echo $this->output_json(['unauthorized']);
-			exit;
-		}
+            redirect('forbidden');
+            exit;
+        }
 
 		log_message('debug', 'Users: validate_edit_password - password'.$this->input->post('password'));
 
@@ -274,9 +278,9 @@ class Users extends CI_Controller {
 		log_message('debug', 'Users: validate_edit_password_confirm - in function');
 
 		if (!$this->input->is_ajax_request()) {
-			// echo $this->output_json(['unauthorized']);
-			exit;
-		}
+            redirect('forbidden');
+            exit;
+        }
 
 		$this->form_validation->set_rules(array($this->Users_model->get_update_password_rules()));
 		$this->form_validation->set_rules(array($this->Users_model->get_password_confirm_rules()));
@@ -293,6 +297,11 @@ class Users extends CI_Controller {
 
     public function delete($id) {
 		log_message('debug', 'Users: delete - in function');
+
+		if (!$this->input->is_ajax_request()) {
+            redirect('forbidden');
+            exit;
+        }
 
         $this->Users_model->delete($id);
     }

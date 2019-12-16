@@ -9,6 +9,24 @@ class Teams extends CI_Controller {
         $this->load->model('Teams_model');
 		$this->load->helper("database");
 		$this->load->helper("general");
+		$this->load->helper("authorization");
+		$this->user_id = $this->session->userdata('id');
+		$this->user_role_id = $this->session->userdata('role');
+		$this->page = 'asset_groups';
+		if ( ! $this->session->userdata('id')) { // if the user is not logged in
+            redirect('unauthorized');
+		}
+		if ( ! is_authorized($this->user_role_id, $this->page)) {
+			redirect('forbidden');
+		}
+
+		if ($this->uri->total_segments() > 1) {
+			if ( ! $this->uri->segment(2) == 'get_active') {
+				if ( ! has_write_access($this->user_role_id, $this->page)) {
+					redirect('forbidden');
+				}
+			}
+		}
 	}
 
 	public function index() {
@@ -19,9 +37,10 @@ class Teams extends CI_Controller {
 		log_message('debug', 'Teams: add - in function');
 
 		if (!$this->input->is_ajax_request()) {
-            // echo $this->output_json(['unauthorized']);
+            redirect('forbidden');
             exit;
         }
+
 		$this->form_validation->set_rules($this->Teams_model->get_insert_rules());
 		if ($this->form_validation->run() == TRUE) {
 			$name = $this->input->post('name');
@@ -42,9 +61,9 @@ class Teams extends CI_Controller {
 		log_message('debug', 'Teams: validate_add_name - in function');
 
 		if (!$this->input->is_ajax_request()) {
-			// echo $this->output_json(['unauthorized']);
-			exit;
-		}
+            redirect('forbidden');
+            exit;
+        }
 
 		$this->form_validation->set_rules(array($this->Teams_model->get_insert_name_rules()));
 		if ($this->form_validation->run() == TRUE) {
@@ -60,8 +79,9 @@ class Teams extends CI_Controller {
 
     public function edit() {
 		log_message('debug', 'Teams: edit - in function');
+
 		if (!$this->input->is_ajax_request()) {
-            // echo $this->output_json(['unauthorized']);
+            redirect('forbidden');
             exit;
         }
 
@@ -87,7 +107,7 @@ class Teams extends CI_Controller {
 		log_message('debug', 'Teams: validate_edit_name - in function');
 
 		if (!$this->input->is_ajax_request()) {
-            // echo $this->output_json(['unauthorized']);
+            redirect('forbidden');
             exit;
         }
 
@@ -105,6 +125,11 @@ class Teams extends CI_Controller {
 
     public function delete($id) {
 		log_message('debug', 'Teams: delete - in function');
+
+		if (!$this->input->is_ajax_request()) {
+            redirect('forbidden');
+            exit;
+        }
 
         $this->Teams_model->delete($id);
     }

@@ -15,7 +15,7 @@ class Manufacturers extends CI_Controller {
 		$this->load->helper("general");
 		$this->load->helper("authorization");
 		$this->user_id = $this->session->userdata('id');
-		$this->user_role_id = $this->session->userdata('id');
+		$this->user_role_id = $this->session->userdata('role');
 		$this->page = 'asset_groups';
 		if ( ! $this->session->userdata('id')) { // if the user is not logged in
             redirect('unauthorized');
@@ -41,7 +41,7 @@ class Manufacturers extends CI_Controller {
 		log_message('debug', 'Manufacturers: add - in function');
 
 		if (!$this->input->is_ajax_request()) {
-            // echo $this->output_json(['unauthorized']);
+            redirect('forbidden');
             exit;
         }
 		$this->form_validation->set_rules($this->Manufacturers_model->get_insert_rules());
@@ -64,7 +64,7 @@ class Manufacturers extends CI_Controller {
 		log_message('debug', 'Manufacturers: validate_add_name - in function');
 
 		if (!$this->input->is_ajax_request()) {
-			// echo $this->output_json(['unauthorized']);
+			redirect('forbidden');
 			exit;
 		}
 
@@ -83,7 +83,7 @@ class Manufacturers extends CI_Controller {
     public function edit() {
 		log_message('debug', 'Manufacturers: edit - in function');
 		if (!$this->input->is_ajax_request()) {
-            // echo $this->output_json(['unauthorized']);
+            redirect('forbidden');
             exit;
         }
 
@@ -112,7 +112,7 @@ class Manufacturers extends CI_Controller {
 		log_message('debug', 'Manufacturers: validate_edit_name - in function');
 
 		if (!$this->input->is_ajax_request()) {
-            // echo $this->output_json(['unauthorized']);
+            redirect('forbidden');
             exit;
         }
 
@@ -130,6 +130,11 @@ class Manufacturers extends CI_Controller {
 
     public function delete($id) {
 		log_message('debug', 'Manufacturers: delete - in function');
+
+		if (!$this->input->is_ajax_request()) {
+            redirect('forbidden');
+            exit;
+        }
 
 		if ($this->has_model($id)) {
 			log_message('debug', 'Manufacturers: delete - can\'t delete this manufacturer='.$id.', it has at least one model tied to it');

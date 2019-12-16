@@ -14,7 +14,7 @@ class Roles extends CI_Controller {
 		$this->load->helper("general");
 		$this->load->helper("authorization");
 		$this->user_id = $this->session->userdata('id');
-		$this->user_role_id = $this->session->userdata('id');
+		$this->user_role_id = $this->session->userdata('role');
 		$this->page = 'roles';
 		if ( ! $this->session->userdata('id')) { // if the user is not logged in
             redirect('unauthorized');

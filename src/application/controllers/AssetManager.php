@@ -8,7 +8,7 @@ class AssetManager extends CI_Controller {
 		$this->load->model('AssetManager_model');
 		$this->load->helper("authorization");
 		$this->user_id = $this->session->userdata('id');
-		$this->user_role_id = $this->session->userdata('id');
+		$this->user_role_id = $this->session->userdata('role');
 		$this->page = 'dashboard';
 		if (! $this->session->userdata('id')) { // if the user is not logged in
             redirect('unauthorized');
@@ -37,6 +37,10 @@ class AssetManager extends CI_Controller {
 
 	public function add() {
 		log_message('debug', 'AssetManager: add - in function');
+		if (!$this->input->is_ajax_request()) {
+            redirect('forbidden');
+            exit;
+        }
 		$asset = array(
 			'manufacturer' => $this->input->post('manufacturer'),
 			'model' => $this->input->post('model'),
@@ -68,9 +72,14 @@ class AssetManager extends CI_Controller {
 	}
 
 	public function delete($id) {
-	log_message('debug', 'AssetManager: delete - in function');
+		log_message('debug', 'AssetManager: delete - in function');
 
-	$this->AssetManager_model->delete($id);
+		if (!$this->input->is_ajax_request()) {
+            redirect('forbidden');
+            exit;
+        }
+
+		$this->AssetManager_model->delete($id);
 	}
 
 }

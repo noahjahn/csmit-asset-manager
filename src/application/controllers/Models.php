@@ -3,6 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Models extends CI_Controller {
 
+	private $user_id;
+	private $user_role_id;
+
 	public function __construct() {
 		parent::__construct();
 		// check for user authorization
@@ -11,7 +14,7 @@ class Models extends CI_Controller {
 		$this->load->helper("database");
 		$this->load->helper("general");
 		$this->user_id = $this->session->userdata('id');
-		
+		$this->user_role_id = $this->session->userdata('role');
 	}
 
 	public function index() {
@@ -22,7 +25,7 @@ class Models extends CI_Controller {
 		log_message('debug', 'Models: add - in function');
 
 		if (!$this->input->is_ajax_request()) {
-            // echo $this->output_json(['unauthorized']);
+            redirect('forbidden');
             exit;
         }
 		$this->form_validation->set_rules($this->Models_model->get_insert_rules());
@@ -52,9 +55,9 @@ class Models extends CI_Controller {
 		log_message('debug', 'Models: validate_add_name - in function');
 
 		if (!$this->input->is_ajax_request()) {
-			// echo $this->output_json(['unauthorized']);
-			exit;
-		}
+            redirect('forbidden');
+            exit;
+        }
 
 		$this->form_validation->set_rules(array($this->Models_model->get_insert_name_rules()));
 		if ($this->form_validation->run() == TRUE) {
@@ -72,9 +75,9 @@ class Models extends CI_Controller {
 		log_message('debug', 'Models: validate_add_manufacturer - in function');
 
 		if (!$this->input->is_ajax_request()) {
-			// echo $this->output_json(['unauthorized']);
-			exit;
-		}
+            redirect('forbidden');
+            exit;
+        }
 
 		$this->form_validation->set_rules(array($this->Models_model->get_insert_manufacturer_rules()));
 		if ($this->form_validation->run() == TRUE) {
@@ -91,7 +94,7 @@ class Models extends CI_Controller {
     public function edit() {
 		log_message('debug', 'Models: edit - in function');
 		if (!$this->input->is_ajax_request()) {
-            // echo $this->output_json(['unauthorized']);
+            redirect('forbidden');
             exit;
         }
 
@@ -122,7 +125,7 @@ class Models extends CI_Controller {
 		log_message('debug', 'Models: validate_edit_name - in function');
 
 		if (!$this->input->is_ajax_request()) {
-            // echo $this->output_json(['unauthorized']);
+            redirect('forbidden');
             exit;
         }
 
@@ -140,6 +143,11 @@ class Models extends CI_Controller {
 
     public function delete($id) {
 		log_message('debug', 'Models: delete - in function');
+
+		if (!$this->input->is_ajax_request()) {
+            redirect('forbidden');
+            exit;
+        }
 
 		$this->Models_model->delete($id);
     }
