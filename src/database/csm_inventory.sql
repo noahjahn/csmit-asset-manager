@@ -92,7 +92,7 @@ CREATE TABLE `asset_types` (
 --
 
 INSERT INTO `asset_types` (`id`, `name`, `rate`, `is_deleted`, `last_modified_by`, `last_modified_time`, `created_by`, `created_time`) VALUES
-(1, 'Computers', '1000.00', 0, '1', '2019-11-10 23:39:22', '1', '2019-08-19 02:12:53'),
+(1, 'Computers', '100.00', 0, '1', '2019-11-10 23:39:22', '1', '2019-08-19 02:12:53'),
 (2, 'Monitors', '10.00', 0, '', '2019-08-19 02:12:53', '', '2019-08-19 02:12:53');
 
 -- --------------------------------------------------------
