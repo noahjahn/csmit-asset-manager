@@ -3,12 +3,12 @@ $(document).ready( function () {
     $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
 
     //Controller function URLs
-    var deleteAssetUrl = baseUrl + "assetmanager/delete";
-    var addAssetUrl = baseUrl + "assetmanager/add";
-    var getActiveManufacturersUrl = baseUrl + "manufacturers/get_active";
-    var getActiveModelsUrl = baseUrl + "models/get_active";
-    var getActiveTypesUrl = baseUrl + "assettypes/get_active";
-    var getActiveTeamsUrl = baseUrl + "teams/get_active";
+    var deleteAssetUrl = baseUrl + "AssetManager/delete";
+    var addAssetUrl = baseUrl + "AssetManager/add";
+    var getActiveManufacturersUrl = baseUrl + "Manufacturers/get_active";
+    var getActiveModelsUrl = baseUrl + "Models/get_active";
+    var getActiveTypesUrl = baseUrl + "AssetTypes/get_active";
+    var getActiveTeamsUrl = baseUrl + "Teams/get_active";
 
     /***Variables for add/edit field dropdown menus****/
     var manufacturersDropdown = [];
@@ -34,7 +34,7 @@ Build Asset Manager table
 *******************************************************************************/
     var table = $('#asset-manager').DataTable( {
         ajax: {
-            url: baseUrl + "assetmanager/get_active",
+            url: baseUrl + "AssetManager/get_active",
             dataSrc: ''
         },
         columnDefs: [
