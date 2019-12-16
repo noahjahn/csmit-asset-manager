@@ -31,7 +31,7 @@ task('deploy:merge_src', function () {
 
 after('deploy:merge_src', 'deploy:npm_install');
 task('deploy:npm_install', function () {
-    run('cd /var/www/html/csmit.noahjahn.dev/current/ && npm install');
+    run('cd /var/www/html/csmit.noahjahn.dev/release/ && npm install');
 });
 
 
