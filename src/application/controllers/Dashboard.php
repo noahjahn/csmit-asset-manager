@@ -14,7 +14,7 @@ class Dashboard extends CI_Controller {
 		$this->user_role_id = $this->session->userdata('role');
 		$this->page = 'dashboard';
 		if (! $this->session->userdata('id')) { // if the user is not logged in
-            redirect('unauthorized');
+            redirect(base_url());
 		}
 		if ( ! is_authorized($this->user_role_id, $this->page)) {
 			redirect('forbidden');
