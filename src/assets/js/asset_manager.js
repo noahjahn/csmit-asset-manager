@@ -84,8 +84,8 @@ Build Asset Manager table
             {"data": "team_id"}
         ],
         "order": [[ 1, "asc" ]],
-        scrollY:        800,
-        paging:         true,
+        scrollY:        $(document).height() - 260,
+        paging:         false,
         fixedHeader:    true,
         info:           false,
         dom:
