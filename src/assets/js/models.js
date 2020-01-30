@@ -261,12 +261,12 @@ $(document).ready(function() {
     /* *** Handle delete model *** */
     $(document).on("click", ".delete-model-button", function () {
         var id = $(this).data('id');
-        $("#modal-submit-delete-model").data('id', id);
+        $("#modal-confirm-delete-model").data('id', id);
 
     });
 
-    $("#modal-submit-delete-model").on("click", function(e) {
-        var id = $("#modal-submit-delete-model").data('id');
+    $("#modal-confirm-delete-model").on("click", function(e) {
+        var id = $("#modal-confirm-delete-model").data('id');
         console.log(id);
         
         $.ajax({
