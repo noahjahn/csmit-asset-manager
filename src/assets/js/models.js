@@ -123,13 +123,13 @@ $(document).ready(function() {
     $("#add-model-form").on("submit", function(e) {
         e.preventDefault(); // prevent modal from closing
 
-        var manufacturer = $('#add-model-form .item.active.selected').data('value');
-
+        var manufacturerId = $('#add-model-form .item.active.selected').data('value');
+                
         $.ajax({
             type: 'POST',
             url: addModelUrl,
             dataType: 'json',
-            data: $(this).serialize() + "&" + "manufacturer=" + manufacturer, // get data from the form
+            data: $(this).serialize() + "&" + "manufacturer_id=" + manufacturerId, // get data from the form
             success: function(result) {
                 if (result == "success") {
                     $("#add-model").modal('hide'); // if the submission was successful without any validation erros, we can hide the modal
@@ -216,13 +216,13 @@ $(document).ready(function() {
         e.preventDefault(); // prevent modal from closing
 
         var id = $("#modal-submit-edit-model").data('id');
-        var manufacturer = $('#edit-model-form .item.active.selected').data('value');
+        var manufacturerId = $('#edit-model-form .item.active.selected').data('value');
 
         $.ajax({
             type: 'POST',
             url: editModelUrl,
             dataType: 'json',
-            data: "id=" + id + "&" + $(this).serialize() + "&manufacturer=" + manufacturer, // get data from the form
+            data: "id=" + id + "&" + $(this).serialize() + "&manufacturer_id=" + manufacturerId, // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
             async: true,
             success: function(result) {
@@ -267,7 +267,8 @@ $(document).ready(function() {
 
     $("#modal-submit-delete-model").on("click", function(e) {
         var id = $("#modal-submit-delete-model").data('id');
-
+        console.log(id);
+        
         $.ajax({
             type: "DELETE",
             url: deleteModelUrl + id,
