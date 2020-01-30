@@ -90,7 +90,7 @@ class Auth extends CI_Controller {
 					if ($user_attributes = $this->Users_model->get_attributes($id)) {
 						$user_data = array(
 							'id' => $id,
-							'role' => $user_attributes['role'],
+							'role' => $user_attributes['role_id'],
 							'email' => $user_attributes['email'],
 							'first_name' => $user_attributes['first_name'],
 							'last_name' => $user_attributes['last_name'],

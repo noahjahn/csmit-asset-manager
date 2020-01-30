@@ -18,7 +18,7 @@ class Users_model extends CI_Model {
             'last_name' => 'last_name',
             'email' => 'email',
             'password' => 'password',
-            'role' => 'role',
+            'role_id' => 'role_id',
             'session_token' => 'session_token',
             'last_login' => 'last_login',
             'is_deleted' => 'is_deleted',
@@ -105,7 +105,7 @@ class Users_model extends CI_Model {
     function get_role_rules() {
         log_message('debug', 'Users_model: get_insert_role_rules - in function');
         $role_rules = array(
-            'field' => $this->fields['role'],
+            'field' => $this->fields['role_id'],
             'label' => 'role',
             'rules' => 'required',
         );
@@ -184,7 +184,7 @@ class Users_model extends CI_Model {
         log_message('debug', 'Users_model: get_attributes - in function');
 
         if ($this->id_exists($id)) {
-            $this->db->select('id, role, email, first_name, last_name');
+            $this->db->select('id, role_id, email, first_name, last_name');
             $this->db->from($this->table);
             $this->db->where('id', $id);
             return $this->db->get()->result_array()[0];
@@ -202,7 +202,7 @@ class Users_model extends CI_Model {
             u1.last_name,
             u1.email,
             roles.name as role,
-            u1.role as roleid,
+            u1.role_id as roleid,
             u1.last_login,
             (
                 SELECT CONCAT_WS
@@ -224,7 +224,7 @@ class Users_model extends CI_Model {
             ) AS 'last_modified_by_name'
         ");
         $this->db->from($this->table.' AS u1');
-        $this->db->join('roles', 'u1.role = roles.id');
+        $this->db->join('roles', 'u1.role_id = roles.id');
         $this->db->where('u1.is_deleted', FALSE);
         return $this->db->get()->result_array();
     }

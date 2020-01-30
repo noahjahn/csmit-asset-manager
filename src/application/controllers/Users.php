@@ -34,7 +34,7 @@ class Users extends CI_Controller {
 				'last_name' => $this->input->post('last_name'),
 				'email' => $this->input->post('email'),
 				'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT), //https://www.php.net/manual/en/function.password-hash.php
-				'role' => $this->input->post('role'),
+				'role_id' => $this->input->post('role_id'),
 				'last_modified_by' => $this->user_id,
 				'last_modified_time' => date('Y-m-d H:i:s'),
 				'created_by' => $this->user_id,
@@ -52,7 +52,7 @@ class Users extends CI_Controller {
 				'email' => form_error('email'),
                 'password' => form_error('password'),
 				'password_confirm' => form_error('password_confirm'),
-				'role' => form_error('role')
+				'role_id' => form_error('role_id')
             );
 			echo json_encode($errors);
 		}
@@ -201,7 +201,7 @@ class Users extends CI_Controller {
 				'first_name' => $this->input->post('first_name'),
 				'last_name' => $this->input->post('last_name'),
 				'email' => $this->input->post('email'),
-				'role' => $this->input->post('role'),
+				'role_id' => $this->input->post('role_id'),
 				'last_modified_by' => $this->user_id,
 				'last_modified_time' => date('Y-m-d H:i:s')
 			);
@@ -222,7 +222,7 @@ class Users extends CI_Controller {
 				'first_name' => form_error('first_name'),
                 'last_name' => form_error('last_name'),
 				'email' => form_error('email'),
-				'role' => form_error('role')
+				'role_id' => form_error('role_id')
             );
 			if ($check_password_confirmation) {
 				array_push($errors, $errors['password'] = form_error('password'));
