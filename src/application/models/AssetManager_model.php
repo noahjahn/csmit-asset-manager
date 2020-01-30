@@ -14,16 +14,16 @@ class AssetManager_model extends CI_Model {
         $this->fields = array(
             'id' => 'id',
             'name' => 'name',
-            'manufacturer' => 'manufacturer',
-            'model' => 'model',
+            'manufacturer_id' => 'manufacturer_id',
+            'model_id' => 'model_id',
             'owner' => 'owner',
             'serial_number' => 'serial_number',
-            'type' => 'type',
+            'type_id' => 'type_id',
             'asset_tag' => 'asset_tag',
             'purchase_price' => 'purchase_price',
             'purchase_date' => 'purchase_date',
             'location' => 'location',
-            'team' => 'team',
+            'team_id' => 'team_id',
             'job_number' => 'job_number',
             'is_deleted' => 'is_deleted',
             'last_modified_by' => 'last_modified_by',
@@ -36,7 +36,7 @@ class AssetManager_model extends CI_Model {
         public function get_active() {
             $this->db->select('
               a.id              as id,
-              a.model           as name,
+              a.model_id        as name,
               ma.name           as manufacturer,
               mo.name           as model,
               a.owner           as owner,
@@ -60,13 +60,13 @@ class AssetManager_model extends CI_Model {
 
             $this->db->from('assets as a');
             $this->db->join('asset_types as at'
-                          , 'a.type = at.id');
+                          , 'a.type_id = at.id');
             $this->db->join('teams as t'
-                          , 'a.team = t.id');
+                          , 'a.team_id = t.id');
             $this->db->join('models as mo'
-                          , 'a.model = mo.id');
+                          , 'a.model_id = mo.id');
             $this->db->join('manufacturers as ma'
-                          , 'mo.manufacturer = ma.id');
+                          , 'mo.manufacturer_id = ma.id');
             $this->db->where('a.is_deleted', FALSE);
             $query = $this->db->get()->result_array();
 
@@ -114,7 +114,7 @@ class AssetManager_model extends CI_Model {
 
             $this->db->select('assets.id');
             $this->db->from('assets');
-            $this->db->join('asset_types', 'asset_types.id = assets.type');
+            $this->db->join('asset_types', 'asset_types.id = assets.type_id');
             $this->db->where('asset_types.name', $asset_type);
             $this->db->where('assets.is_deleted', FALSE);
 

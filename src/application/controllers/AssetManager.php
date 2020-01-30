@@ -42,13 +42,13 @@ class AssetManager extends CI_Controller {
             exit;
         }
 		$asset = array(
-			'manufacturer' => $this->input->post('manufacturer'),
-			'model' => $this->input->post('model'),
+			'manufacturer_id' => $this->input->post('manufacturer'),
+			'model_id' => $this->input->post('model'),
 			'owner' => $this->input->post('owner'),
 			'serial_number' => $this->input->post('serial_number'),
-			'type' => $this->input->post('type'),
+			'type_id' => $this->input->post('type'),
 			'asset_tag' => $this->input->post('asset_tag'),
-			'team' => $this->input->post('team'),
+			'team_id' => $this->input->post('team'),
 			//'rate' => $this->input->post('rate'),
 			'purchase_price' => $this->input->post('purchase_price'),
 			'purchase_date' => $this->input->post('purchase_date'),
