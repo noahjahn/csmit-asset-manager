@@ -306,13 +306,13 @@ $(document).ready(function() {
     $("#add-user-form").on("submit", function(e) {
         e.preventDefault(); // prevent modal from closing
 
-        var role = $('#add-user-form .item.active.selected').data('value');
+        var roleId = $('#add-user-form .item.active.selected').data('value');
 
         $.ajax({
             type: 'POST',
             url: addUserUrl,
             dataType: 'json',
-            data: $(this).serialize() + "&" + "role=" + role, // get data from the form
+            data: $(this).serialize() + "&" + "role_id=" + roleId, // get data from the form
             success: function(result) {
                 if (result == "success") {
                     $("#add-user").modal('hide'); // if the submission was successful without any validation erros, we can hide the modal
@@ -368,11 +368,11 @@ $(document).ready(function() {
                             addPasswordConfirmField.addClass('is-invalid');
                         }
                     }
-                    if (! result["role"] == "") {
+                    if (! result["role_id"] == "") {
                         addRoleField.removeClass('is-valid');
-                        if (! result["role"] == addRoleError.val()) {
+                        if (! result["role_id"] == addRoleError.val()) {
                             addRoleError.empty(); // empty error messages, if there were any
-                            addRoleError.append(result["role"]); // display the error messages
+                            addRoleError.append(result["role_id"]); // display the error messages
                         }
                         if (! addRoleField.hasClass('is-invalid')) {
                             addRoleField.addClass('is-invalid');
@@ -654,13 +654,13 @@ $(document).ready(function() {
         e.preventDefault(); // prevent modal from closing
 
         var id = $("#modal-submit-edit-user").data('id');
-        var role = $('#edit-user-form .item.active.selected').data('value');
+        var roleId = $('#edit-user-form .item.active.selected').data('value');
 
         $.ajax({
             type: 'POST',
             url: editUserUrl,
             dataType: 'json',
-            data: "id=" + id + "&" + $(this).serialize() + "&role=" + role, // get data from the form
+            data: "id=" + id + "&" + $(this).serialize() + "&role_id=" + roleId, // get data from the form
             success: function(result) {
                 if (result == "success") {
                     $("#edit-user").modal('hide'); // if the submission was successful without any validation erros, we can hide the modal
