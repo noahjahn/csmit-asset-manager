@@ -267,7 +267,6 @@ $(document).ready(function() {
 
     $("#modal-confirm-delete-model").on("click", function(e) {
         var id = $("#modal-confirm-delete-model").data('id');
-        console.log(id);
         
         $.ajax({
             type: "DELETE",
