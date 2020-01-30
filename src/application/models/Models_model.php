@@ -14,7 +14,7 @@ class Models_model extends CI_Model {
         $this->fields = array(
             'id' => 'id',
             'name' => 'name',
-            'manufacturer' => 'manufacturer',
+            'manufacturer_id' => 'manufacturer_id',
             'is_deleted' => 'is_deleted',
             'last_modified_by' => 'last_modified_by',
             'last_modified_time' => 'last_modified_time',
@@ -48,15 +48,15 @@ class Models_model extends CI_Model {
 
     function get_insert_manufacturer_rules() {
         log_message('debug', 'Models_model: get_insert_manufacturer_rules - in function');
-        $name_rules = array(
-            'field' => $this->fields['manufacturer'],
-            'label' => $this->fields['manufacturer'],
+        $manufacturer_rules = array(
+            'field' => $this->fields['manufacturer_id'],
+            'label' => $this->fields['manufacturer_id'],
             'rules' => 'required|callback_manufacturer_exists|trim',
             'errors' => array(
                 'manufacturer_exists' => 'The manufacturer with id %s does not exist.'
             )
         );
-        return $name_rules;
+        return $manufacturer_rules;
     }
 
     function get_update_rules() {
@@ -151,7 +151,7 @@ class Models_model extends CI_Model {
 
         $this->db->select($this->fields['id']);
         $this->db->from($this->table);
-        $this->db->where($this->fields['manufacturer'], $manufacturer_id);
+        $this->db->where($this->fields['manufacturer_id'], $manufacturer_id);
 
         $query = $this->db->get();
 
@@ -161,10 +161,10 @@ class Models_model extends CI_Model {
     function get_active() {
         log_message('debug', 'Models_model: get_active - in function');
 
-        $this->db->select('models.id as id, models.name as name, models.manufacturer, '.
+        $this->db->select('models.id as id, models.name as name, models.manufacturer_id, '.
             'manufacturers.id as manufacturersid, manufacturers.name as manufacturer');
         $this->db->from('models');
-        $this->db->join('manufacturers', 'models.manufacturer = manufacturers.id');
+        $this->db->join('manufacturers', 'models.manufacturer_id = manufacturers.id');
         $this->db->where('models.is_deleted', FALSE);
         return $this->db->get()->result_array();
     }

@@ -32,7 +32,7 @@ class Models extends CI_Controller {
 		if ($this->form_validation->run() == TRUE) {
 			$model = array(
 				'name' => $this->input->post('name'),
-				'manufacturer' => $this->input->post('manufacturer'),
+				'manufacturer_id' => $this->input->post('manufacturer_id'),
 				'last_modified_by' => $this->user_id,
 				'last_modified_time' => date('Y-m-d H:i:s'),
 				'created_by' => $this->user_id,
@@ -45,7 +45,7 @@ class Models extends CI_Controller {
 
 		} else {
 			$errors = array(
-                'name' => form_error('name')
+                'name' => form_error('name'),
             );
 			echo json_encode($errors);
 		}
@@ -103,7 +103,7 @@ class Models extends CI_Controller {
 			$model = array(
 				'id' => $this->input->post('id'),
 				'name' => $this->input->post('name'),
-				'manufacturer' => $this->input->post('manufacturer'),
+				'manufacturer_id' => $this->input->post('manufacturer_id'),
 				'last_modified_by' => $this->user_id,
 				'last_modified_time' => date('Y-m-d H:i:s')
 			);
