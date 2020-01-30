@@ -16,7 +16,7 @@ class Migration_Assets extends CI_Migration {
                     'constraint' => 11,
                     'unsigned' => TRUE,
                 ),
-                'mdoel_id' => array(
+                'model_id' => array(
                     'type' => 'INT',
                     'constraint' => 11,
                     'unsigned' => TRUE,
@@ -46,6 +46,11 @@ class Migration_Assets extends CI_Migration {
                 ),
                 'purchase_date' => array(
                     'type' => 'DATE',
+                    'null' => TRUE,
+                ),
+                'location' => array(
+                    'type' => 'VARCHAR',
+                    'constraint' => '128',
                 ),
                 'team_id' => array(
                     'type' => 'INT',
@@ -55,9 +60,11 @@ class Migration_Assets extends CI_Migration {
                 'job_number' => array(
                     'type' => 'VARCHAR',
                     'constraint' => 32,
+                    'null' => TRUE,
                 ),
                 'notes' => array(
                     'type' => 'TEXT',
+                    'null' => TRUE,
                 ),
                 'is_deleted' => array(
                     'type' => 'TINYINT',
