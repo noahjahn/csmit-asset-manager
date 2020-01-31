@@ -36,6 +36,12 @@
  * @filesource
  */
 
+ $root_path = dirname(__FILE__);
+ require_once($root_path.'/application/vendor/autoload.php');
+ $dotenv = Dotenv\Dotenv::create($root_path);
+ $dotenv->load();
+
+
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT

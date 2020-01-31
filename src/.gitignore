@@ -8,7 +8,20 @@ application/logs/*
 
 !application/*/.htaccess
 
+application/composer.lock
+application/vendor
+
+.env
+!.env.example
+!.env.docker
+
 composer.lock
+
+node_modules/
+node_modules/*
+
+uploads/*
+uploads/
 
 user_guide_src/build/*
 user_guide_src/cilexer/build/*

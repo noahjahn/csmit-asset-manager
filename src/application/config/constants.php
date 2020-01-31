@@ -83,3 +83,30 @@ defined('EXIT_USER_INPUT')     OR define('EXIT_USER_INPUT', 7); // invalid user 
 defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+
+/*
+|--------------------------------------------------------------------------
+| Custom System constants
+|--------------------------------------------------------------------------
+|
+*/
+
+/*
+    File system constants
+*/
+defined('UPLOADS')      OR define('UPLOADS', "uploads/");
+defined('LOGIN_PHOTOS') OR define('LOGIN_PHOTOS', UPLOADS . "login_photos/");
+
+/*
+    Roles (access) constants
+*/
+defined('W')    OR define('W', 2);
+defined('R')    OR define('R', 4);
+defined('RW')   OR define('RW', 6);
+
+/*
+    JS libraries constants
+*/
+defined('NODE_MODULES') OR define('NODE_MODULES', "node_modules/");
+defined('CHARTJS_JS')   OR define('CHARTJS_JS', NODE_MODULES . "chart.js/dist/Chart.min.js");
+defined('CHARTJS_CSS')  OR define('CHARTJS_CSS', NODE_MODULES . "chart.js/dist/Chart.min.css");

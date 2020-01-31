@@ -1,0 +1,242 @@
+<html lang="en"><head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- ====== Favicon ====== -->
+    <link rel="icon" type="image/ico" href="http://localhost/uploads/favicons/csm-favicon.ico">
+
+    <!-- ====== Styles ====== -->
+    <!-- Bootstrap Styles -->
+    <link rel="stylesheet" href="http://localhost/assets/css/bootstrap.css">
+
+    <!-- Custom site-wide Styles -->
+    <link rel="stylesheet" href="http://localhost/assets/css/styles.css">
+    <!-- ====== ====== ====== -->
+
+    <!-- ====== Javascript ====== -->
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Custom Javascript -->
+    <script src="http://localhost/assets/js/bootstrap.js"></script>
+    <script src="http://localhost/assets/js/navbar.js"></script>
+    <!-- ====== ========== ====== -->
+
+    <script>
+        var baseUrl = 'http://localhost/';
+    </script>
+
+    <title>CSM Group Inventory</title>
+</head>
+    <body>
+        <div class="d-flex" id="wrapper">
+            <div id="navigation" class="container-fluid bg-light bg-shadow ml-0 mw-15 min-vh-100 pl-0 pr-0 mr-0">
+    <div id="nav-view-handler" class="nav-link pr-1" style="padding-left: 0; text-align: center;">
+        <button id="nav-collapse" class="collapse-icon" style=""></button>
+        <button id="nav-expand" class="expand-icon d-none vert-nav-item" style="background-repeat: no-repeat; background-size: 100% 100%; background-image: url(/assets/img/icons/expand-svgrepo-com.svg); transform: rotate(90deg); width: 32px; height: 32px;"></button>
+    </div>
+    <div id="usr-profile" class="text-center pt-4">
+        <a href="" style="color: white;">
+            <img class="usr-img" src="http://localhost/assets/img/male-circle-512.png">
+            <h6><i>Computer Science</i></h6>
+        </a>
+    </div>
+    <ul class="nav navbar-light">
+        <div class="navbar-nav w-100">
+            <div class="side-color ">
+                <li class="nav-item vert-nav-item">
+                    <a class="nav-link " href="http://localhost/dashboard">
+                        <span>
+                            <img class="icon" src="http://localhost/assets/img/icons/pie-graph-svgrepo-com.svg">
+                        </span>
+                        <span class="nav-title pl-3">Dashboard</span>
+                    </a>
+                </li>
+            </div>
+            <div class="side-color vert-nav-item-active">
+                <li class="nav-item vert-nav-item-active-format">
+                    <a class="nav-link active" href="http://localhost/assetmanager">
+                        <span>
+                            <img class="icon" src="http://localhost/assets/img/icons/computer-svgrepo-com.svg">
+                        </span>
+                        <span class="nav-title pl-3">Asset Manager</span>
+                    </a>
+                </li>
+            </div>
+            <!-- <div class="side-color ">
+                <li class="nav-item ">
+                    <a class="nav-link " href="helpdesk">
+                        <span>
+                            <img class="icon" src="http://localhost/assets/img/icons/help-svgrepo-com.svg">
+                        </span>
+                        <span class="nav-title pl-3">Helpdesk</span>
+                    </a>
+                </li>
+            </div>
+            <div class="side-color ">
+                <li class="nav-item ">
+                    <a class="nav-link " href="inventories">
+                        <span>
+                            <img class="icon" src="http://localhost/assets/img/icons/check-list-svgrepo-com.svg">
+                        </span>
+                        <span class="nav-title pl-3">Inventories</span>
+                    </a>
+                </li>
+            </div> -->
+            <div class="side-color ">
+                <li class="nav-item vert-nav-item">
+                    <a class="nav-link " href="http://localhost/reports">
+                        <span>
+                            <img class="icon" src="http://localhost/assets/img/icons/report-svgrepo-com.svg">
+                        </span>
+                        <span class="nav-title pl-3">Reports</span>
+                    </a>
+                </li>
+            </div>
+            <!-- <div class="side-color ">
+                <li class="nav-item ">
+                    <a class="nav-link " href="passwordmanager">
+                        <span>
+                            <img class="icon" src="http://localhost/assets/img/icons/padlock-svgrepo-com.svg">
+                        </span>
+                        <span class="nav-title pl-3">Password Manager</span>
+                    </a>
+                </li>
+            </div> -->
+            <div class="side-color ">
+                <li class="nav-item vert-nav-item">
+                    <a class="nav-link " href="http://localhost/settings">
+                        <span>
+                            <img class="icon" src="http://localhost/assets/img/icons/gears-svgrepo-com.svg">
+                        </span>
+                        <span class="nav-title pl-3">Settings</span>
+                    </a>
+                </li>
+            </div>
+        </div>
+    </ul>
+    <div class="container-fluid ml-0 mw-15 pl-0 pr-0" style="position: absolute; bottom: 0;">
+        <ul class="w-100 nav navbar-light">
+            <div class="navbar-nav w-100">
+                <div class="side-color">
+                    <li class="nav-item vert-nav-item">
+                        <a class="nav-link" href="http://localhost/logout">
+                            <span>
+                                <img class="icon" src="http://localhost/assets/img/icons/logout-svgrepo-com.svg">
+                            </span>
+                            <span class="nav-title pl-3">Logout</span>
+                        </a>
+                    </li>
+                </div>
+            </div>
+        </ul>
+    </div>
+</div>
+            <div class="container-fluid mt-4 ml-3 mr-3">
+                <div class="row mb-4">
+    <div class="col">
+        <h1>Asset Manager</h1>
+    </div>
+</div>
+
+<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/DataTables/datatables.css">
+<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/DataTables/custom.css">
+<!-- <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/fh-3.1.4/r-2.2.2/sc-2.0.0/datatables.min.js"></script> -->
+<script type="text/javascript" src="http://localhost/assets/js/DataTables/datatables.js"></script>
+<link rel="stylesheet" href="http://localhost/assets/css/custom-modal.css">
+
+<div class="modal" id="delete-asset" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete Asset</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this Asset?</p>
+      </div>
+      <div class="modal-footer">
+        <button id="modal-delete-asset" type="button" class="btn btn-primary">Delete</button>
+        <button id="modal-nevermind" type="button" class="btn btn-secondary" data-dismiss="modal">Nevermind</button>
+      </div>
+    </div>
+  </div>
+</div>
+<link rel="stylesheet" href="http://localhost/assets/css/custom-modal.css">
+
+<div class="modal" id="delete-asset" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Editing Asset {Asset Tag}</h5> <!--Or should it be {manufacturer} {model}?? -->
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Edit Asset Body goes here</p>
+      </div>
+      <div class="modal-footer">
+        <button id="modal-delete-asset" type="button" class="btn btn-primary">Delete</button>
+        <button id="modal-nevermind" type="button" class="btn btn-secondary" data-dismiss="modal">Nevermind</button>
+      </div>
+    </div>
+  </div>
+</div>
+<link rel="stylesheet" href="http://localhost/assets/css/custom-modal.css">
+
+<div class="modal" id="add-asset" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Adding New Asset</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="md-form mb-4">
+          <input type="text" id="input1" class="form-control validate">
+          <label data-success="right" data-error="wrong" for="input1">Input 1</label>
+        </div>
+        <div class="mb-4">
+          <input id="input2" type="text" class="form-control validate">
+          <label data-success="right" data-error="wrong" for="input2">Input 2</label>
+        </div>
+        <div class="mb-4">
+          <input id="input3" type="text" class="form-control validate">
+          <label data-success="right" data-error="wrong" for="input3">Input 3</label>
+        </div>
+        <div class="mb-4">
+          <input id="input4" type="text" class="form-control validate">
+          <label data-success="right" data-error="wrong" for="input4">Input 4</label>
+        </div>
+        <div class="mb-4">
+          <input id="input5" type="text" class="form-control validate">
+          <label data-success="right" data-error="wrong" for="input5">Input 5</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="modal-add-asset" type="button" class="btn btn-primary">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="http://localhost/assets/js/asset_manager.js"></script>
+<div id="asset_manager_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer"><div class="row"><div class="col-sm"></div><div id="asset_manager_filter" class="dataTables_filter"><label><input type="search" class="form-control form-control-sm" placeholder="Search..." aria-controls="asset_manager"></label></div><div class="dt-buttons btn-group"><button class="btn btn-primary" tabindex="0" aria-controls="asset_manager" type="button"><span>Add Asset</span></button> </div></div><div class="row"><div class="col-sm"><div class="dataTables_scroll"><div class="dataTables_scrollHead" style="overflow: hidden; position: relative; border: 0px; width: 100%;"><div class="dataTables_scrollHeadInner" style="box-sizing: content-box; width: 954px; padding-right: 4px;"><table class="table table-hover dataTable no-footer" role="grid" style="margin-left: 0px; width: 954px;"><thead class="table-header">
+        <tr class="table-primary" role="row"><th scope="col" class="sorting_asc" tabindex="0" aria-controls="asset_manager" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Model: activate to sort column descending" style="width: 90px;">Model</th><th scope="col" class="sorting" tabindex="0" aria-controls="asset_manager" rowspan="1" colspan="1" aria-label="Manufacturer: activate to sort column ascending" style="width: 112px;">Manufacturer</th><th scope="col" class="sorting" tabindex="0" aria-controls="asset_manager" rowspan="1" colspan="1" aria-label="Owner: activate to sort column ascending" style="width: 94px;">Owner</th><th scope="col" class="sorting" tabindex="0" aria-controls="asset_manager" rowspan="1" colspan="1" aria-label="Type: activate to sort column ascending" style="width: 67px;">Type</th><th scope="col" class="sorting" tabindex="0" aria-controls="asset_manager" rowspan="1" colspan="1" aria-label="Asset Tag: activate to sort column ascending" style="width: 82px;">Asset Tag</th><th scope="col" class="sorting" tabindex="0" aria-controls="asset_manager" rowspan="1" colspan="1" aria-label="Team: activate to sort column ascending" style="width: 47px;">Team</th><th scope="col" class="sorting" tabindex="0" aria-controls="asset_manager" rowspan="1" colspan="1" aria-label="Rate: activate to sort column ascending" style="width: 48px;">Rate</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 36px;" aria-label=""></th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 36px;" aria-label=""></th></tr>
+    </thead></table></div></div><div class="dataTables_scrollBody" style="position: relative; overflow: auto; height: 70vh; width: 100%;"><table id="asset_manager" class="table table-hover dataTable no-footer dtr-inline" role="grid" style="width: 100%;"><thead class="table-header">
+        <tr class="table-primary" role="row" style="height: 0px;"><th scope="col" class="sorting_asc" aria-controls="asset_manager" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Model: activate to sort column descending" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 90px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Model</div></th><th scope="col" class="sorting" aria-controls="asset_manager" rowspan="1" colspan="1" aria-label="Manufacturer: activate to sort column ascending" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 112px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Manufacturer</div></th><th scope="col" class="sorting" aria-controls="asset_manager" rowspan="1" colspan="1" aria-label="Owner: activate to sort column ascending" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 94px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Owner</div></th><th scope="col" class="sorting" aria-controls="asset_manager" rowspan="1" colspan="1" aria-label="Type: activate to sort column ascending" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 67px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Type</div></th><th scope="col" class="sorting" aria-controls="asset_manager" rowspan="1" colspan="1" aria-label="Asset Tag: activate to sort column ascending" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 82px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Asset Tag</div></th><th scope="col" class="sorting" aria-controls="asset_manager" rowspan="1" colspan="1" aria-label="Team: activate to sort column ascending" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 47px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Team</div></th><th scope="col" class="sorting" aria-controls="asset_manager" rowspan="1" colspan="1" aria-label="Rate: activate to sort column ascending" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 48px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Rate</div></th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 36px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label=""><div class="dataTables_sizing" style="height: 0px; overflow: hidden;"></div></th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 36px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label=""><div class="dataTables_sizing" style="height: 0px; overflow: hidden;"></div></th></tr>
+    </thead>
+    
+    <tbody>
+            <tr role="row" class="odd"><td tabindex="0" class="sorting_1">PXL2451MW</td><td>Planar</td><td>Noah Jahn</td><td>Monitors</td><td>1373</td><td>Zulu</td><td>$10.00</td><td><button class="table-icon" data-toggle="modal" data-target="#edit-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/edit-svgrepo-com-white.svg"></button></td><td><button class="table-icon" data-toggle="modal" data-target="#delete-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td></tr><tr role="row" class="even"><td tabindex="0" class="sorting_1">PXL2451MW</td><td>Planar</td><td>Noah Jahn</td><td>Monitors</td><td>2622</td><td>Zulu</td><td>$10.00</td><td><button class="table-icon" data-toggle="modal" data-target="#edit-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/edit-svgrepo-com-white.svg"></button></td><td><button class="table-icon" data-toggle="modal" data-target="#delete-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td></tr><tr role="row" class="odd"><td tabindex="0" class="sorting_1">PXL2451MW</td><td>Planar</td><td>Noah Jahn</td><td>Monitors</td><td>1373</td><td>Zulu</td><td>$10.00</td><td><button class="table-icon" data-toggle="modal" data-target="#edit-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/edit-svgrepo-com-white.svg"></button></td><td><button class="table-icon" data-toggle="modal" data-target="#delete-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td></tr><tr role="row" class="even"><td tabindex="0" class="sorting_1">PXL2451MW</td><td>Planar</td><td>Noah Jahn</td><td>Monitors</td><td>2622</td><td>Zulu</td><td>$10.00</td><td><button class="table-icon" data-toggle="modal" data-target="#edit-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/edit-svgrepo-com-white.svg"></button></td><td><button class="table-icon" data-toggle="modal" data-target="#delete-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td></tr><tr role="row" class="odd"><td tabindex="0" class="sorting_1">PXL2451MW</td><td>Planar</td><td>Noah Jahn</td><td>Monitors</td><td>1373</td><td>Zulu</td><td>$10.00</td><td><button class="table-icon" data-toggle="modal" data-target="#edit-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/edit-svgrepo-com-white.svg"></button></td><td><button class="table-icon" data-toggle="modal" data-target="#delete-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td></tr><tr role="row" class="even"><td tabindex="0" class="sorting_1">PXL2451MW</td><td>Planar</td><td>Noah Jahn</td><td>Monitors</td><td>2622</td><td>Zulu</td><td>$10.00</td><td><button class="table-icon" data-toggle="modal" data-target="#edit-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/edit-svgrepo-com-white.svg"></button></td><td><button class="table-icon" data-toggle="modal" data-target="#delete-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td></tr><tr role="row" class="odd"><td tabindex="0" class="sorting_1">PXL2470MW</td><td>Planar</td><td>Noah Jahn</td><td>Monitors</td><td>2977</td><td>SPARK</td><td>$10.00</td><td><button class="table-icon" data-toggle="modal" data-target="#edit-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/edit-svgrepo-com-white.svg"></button></td><td><button class="table-icon" data-toggle="modal" data-target="#delete-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td></tr><tr role="row" class="even"><td tabindex="0" class="sorting_1">PXL2470MW</td><td>Planar</td><td>Noah Jahn</td><td>Monitors</td><td>2935</td><td>SPARK</td><td>$10.00</td><td><button class="table-icon" data-toggle="modal" data-target="#edit-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/edit-svgrepo-com-white.svg"></button></td><td><button class="table-icon" data-toggle="modal" data-target="#delete-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td></tr><tr role="row" class="odd"><td tabindex="0" class="sorting_1">PXL2470MW</td><td>Planar</td><td>Noah Jahn</td><td>Monitors</td><td>2977</td><td>SPARK</td><td>$10.00</td><td><button class="table-icon" data-toggle="modal" data-target="#edit-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/edit-svgrepo-com-white.svg"></button></td><td><button class="table-icon" data-toggle="modal" data-target="#delete-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td></tr><tr role="row" class="even"><td tabindex="0" class="sorting_1">PXL2470MW</td><td>Planar</td><td>Noah Jahn</td><td>Monitors</td><td>2935</td><td>SPARK</td><td>$10.00</td><td><button class="table-icon" data-toggle="modal" data-target="#edit-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/edit-svgrepo-com-white.svg"></button></td><td><button class="table-icon" data-toggle="modal" data-target="#delete-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td></tr><tr role="row" class="odd"><td tabindex="0" class="sorting_1">PXL2470MW</td><td>Planar</td><td>Noah Jahn</td><td>Monitors</td><td>2977</td><td>SPARK</td><td>$10.00</td><td><button class="table-icon" data-toggle="modal" data-target="#edit-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/edit-svgrepo-com-white.svg"></button></td><td><button class="table-icon" data-toggle="modal" data-target="#delete-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td></tr><tr role="row" class="even"><td tabindex="0" class="sorting_1">PXL2470MW</td><td>Planar</td><td>Noah Jahn</td><td>Monitors</td><td>2935</td><td>SPARK</td><td>$10.00</td><td><button class="table-icon" data-toggle="modal" data-target="#edit-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/edit-svgrepo-com-white.svg"></button></td><td><button class="table-icon" data-toggle="modal" data-target="#delete-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td></tr><tr role="row" class="odd"><td tabindex="0" class="sorting_1">Strix-I Gaming</td><td>ASUS</td><td>Noah Jahn</td><td>Computers</td><td>3100</td><td>Zulu</td><td>$100.00</td><td><button class="table-icon" data-toggle="modal" data-target="#edit-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/edit-svgrepo-com-white.svg"></button></td><td><button class="table-icon" data-toggle="modal" data-target="#delete-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td></tr><tr role="row" class="even"><td tabindex="0" class="sorting_1">Strix-I Gaming</td><td>ASUS</td><td>Noah Jahn</td><td>Computers</td><td>3100</td><td>Zulu</td><td>$100.00</td><td><button class="table-icon" data-toggle="modal" data-target="#edit-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/edit-svgrepo-com-white.svg"></button></td><td><button class="table-icon" data-toggle="modal" data-target="#delete-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td></tr><tr role="row" class="odd"><td tabindex="0" class="sorting_1">Strix-I Gaming</td><td>ASUS</td><td>Noah Jahn</td><td>Computers</td><td>3100</td><td>Zulu</td><td>$100.00</td><td><button class="table-icon" data-toggle="modal" data-target="#edit-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/edit-svgrepo-com-white.svg"></button></td><td><button class="table-icon" data-toggle="modal" data-target="#delete-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td></tr><tr role="row" class="even"><td tabindex="0" class="sorting_1">XPS 15</td><td>Dell</td><td>IT Department</td><td>Computers</td><td>3349</td><td>Zulu</td><td>$100.00</td><td><button class="table-icon" data-toggle="modal" data-target="#edit-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/edit-svgrepo-com-white.svg"></button></td><td><button class="table-icon" data-toggle="modal" data-target="#delete-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td></tr><tr role="row" class="odd"><td tabindex="0" class="sorting_1">XPS 15</td><td>Dell</td><td>IT Department</td><td>Computers</td><td>3349</td><td>Zulu</td><td>$100.00</td><td><button class="table-icon" data-toggle="modal" data-target="#edit-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/edit-svgrepo-com-white.svg"></button></td><td><button class="table-icon" data-toggle="modal" data-target="#delete-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td></tr><tr role="row" class="even"><td tabindex="0" class="sorting_1">XPS 15</td><td>Dell</td><td>IT Department</td><td>Computers</td><td>3349</td><td>Zulu</td><td>$100.00</td><td><button class="table-icon" data-toggle="modal" data-target="#edit-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/edit-svgrepo-com-white.svg"></button></td><td><button class="table-icon" data-toggle="modal" data-target="#delete-asset"><img class="mini-icon" src="http://localhost/assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button></td></tr></tbody>
+</table></div></div></div></div></div>
+            </div>
+        </div>
+    
+
+</body></html>
