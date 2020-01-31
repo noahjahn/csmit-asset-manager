@@ -146,12 +146,13 @@ class Models_model extends CI_Model {
         }
     }
 
-    public function get_manufacturer_count($manufacturer_id) {
+    public function get_active_manufacturer_count($manufacturer_id) {
         log_message('debug', 'Models_model: get_manufacturer_count - in function');
 
         $this->db->select($this->fields['id']);
         $this->db->from($this->table);
         $this->db->where($this->fields['manufacturer_id'], $manufacturer_id);
+        $this->db->where($this->fields['is_deleted'], '0');
 
         $query = $this->db->get();
 
