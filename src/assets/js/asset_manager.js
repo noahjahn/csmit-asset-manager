@@ -7,6 +7,7 @@ $(document).ready( function () {
     var addAssetUrl = baseUrl + "AssetManager/add";
     var getActiveManufacturersUrl = baseUrl + "Manufacturers/get_active";
     var getActiveModelsUrl = baseUrl + "Models/get_active";
+    var getActiveModelsByManufacturerIdUrl = baseUrl + "Models/get_active_by_manufacturer_id";
     var getActiveTypesUrl = baseUrl + "AssetTypes/get_active";
     var getActiveTeamsUrl = baseUrl + "Teams/get_active";
 
@@ -95,7 +96,7 @@ Build Asset Manager table
                     {
                         text: "Add Asset",
                         action: function() {
-                            $('#add-asset-modal').modal('show');
+                            $('#add-asset').modal('show');
                         },
                         init: function (api, node, config) {
                             $(node).removeClass('btn-secondary');
@@ -138,26 +139,32 @@ Build Asset Manager table
             console.log("AJAX error, check server logs near local time: " + time);
         }
     });
-    $.ajax({//Models
-        type: 'GET',
-        url: getActiveModelsUrl,
-        dataType: 'json',
-        success: function(result) {
-            Object.keys(result).forEach(function(i){
-                modelsDropdown.push(
-                    {
-                        name: result[i].name,
-                        value: result[i].id
-                    }
-                );
-            });
-        },
-        error: function(result) {
-            var today = new Date();
-            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-            console.log("AJAX error, check server logs near local time: " + time);
-        }
-    });
+    
+    loadModels(manufacturer);
+    
+    function loadModels(manufacturer) {
+        $.ajax({ //Models
+            type: 'GET',
+            url: getActiveModelsUrl,
+            dataType: 'json',
+            success: function(result) {
+                Object.keys(result).forEach(function(i){
+                    modelsDropdown.push(
+                        {
+                            name: result[i].name,
+                            value: result[i].id
+                        }
+                    );
+                });
+            },
+            error: function(result) {
+                var today = new Date();
+                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                console.log("AJAX error, check server logs near local time: " + time);
+            }
+        });
+    }
+    
     $.ajax({//Types
         type: 'GET',
         url: getActiveTypesUrl,
@@ -178,6 +185,7 @@ Build Asset Manager table
             console.log("AJAX error, check server logs near local time: " + time);
         }
     });
+    
     $.ajax({//Teams
         type: 'GET',
         url: getActiveTeamsUrl,
@@ -206,18 +214,21 @@ Build Asset Manager table
         })
       isManufacturersSorted = true;
     }
+    
     if (! isModelsSorted) {
         modelsDropdown.sort(function(a, b) {
             return compareStrings(a.name, b.name);
         })
         isModelsSorted = true;
     }
+    
     if (! isTypesSorted) {
         typesDropdown.sort(function(a, b) {
             return compareStrings(a.name, b.name);
         })
         isTypesSorted = true;
     }
+    
     if (! isTeamsSorted) {
         teamsDropdown.sort(function(a, b) {
             return compareStrings(a.name, b.name);
@@ -579,18 +590,25 @@ Delete Asset
     });
 
     $('#add-asset-btn').on("click", function () {
-        $('#add-asset-form-manufacturer').dropdown({
-              values: manufacturersDropdown
+        $('#add-asset-manufacturer').dropdown({
+              values: manufacturersDropdown,
+              onChange: function() {
+                  
+              }
         });
-        $('#add-asset-form-model').dropdown({
+        $('#add-asset-model').dropdown({
               values: modelsDropdown
         });
-        $('#add-asset-form-team').dropdown({
+        $('#add-asset-team').dropdown({
               values: teamsDropdown
         });
-        $('#add-asset-form-type').dropdown({
+        $('#add-asset-type').dropdown({
               values: typesDropdown
         });
+    });
+    
+    $('#add-asset-manufacturer').blur(function() {
+        console.log('manufacturer unfocused');
     });
 
 
@@ -610,7 +628,7 @@ Delete Asset
           success: function(result) {
               if (result == "success") {
                 console.log("success");
-                  $("#add-asset-modal").modal('hide'); // if the submission was successful without any validation erros, we can hide the modal
+                  $("#add-asset").modal('hide'); // if the submission was successful without any validation erros, we can hide the modal
                   $("#asset-manager").DataTable().ajax.reload(); // also need to reload the datatable since we successfully add an asset type
               }else {
                 console.log("success");
