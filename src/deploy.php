@@ -26,12 +26,12 @@ after('deploy:failed', 'deploy:unlock');
 after('deploy:update_code', 'deploy:merge_src');
 
 task('deploy:merge_src', function () {
-    run('rsync -abviuzP /var/www/html/csmit.noahjahn.dev/release/src/ /var/www/html/csmit.noahjahn.dev/release/');
+    run('rsync -abviuzP {{deploy_path}}/release/src/ {{deploy_path}}/release/');
 });
 
 after('deploy:merge_src', 'deploy:npm_install');
 task('deploy:npm_install', function () {
-    run('cd /var/www/html/csmit.noahjahn.dev/release/ && npm install');
+    run('cd {{deploy_path}}/release/ && npm install');
 });
 
 
