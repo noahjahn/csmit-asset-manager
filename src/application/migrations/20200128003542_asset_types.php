@@ -2,8 +2,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Migration_Asset_Types extends CI_Migration {
-    
-    public function up() { 
+
+    public function up() {
         $this->dbforge->add_field(array(
                 'id' => array(
                     'type' => 'INT',
@@ -23,6 +23,7 @@ class Migration_Asset_Types extends CI_Migration {
                     'type' => 'BIGINT',
                     'constraint' => 20,
                     'unsigned' => TRUE,
+                    'null' => TRUE,
                 ),
                 'is_deleted' => array(
                     'type' => 'TINYINT',
@@ -42,7 +43,7 @@ class Migration_Asset_Types extends CI_Migration {
         $this->dbforge->create_table('asset_types');
     }
 
-    public function down() { 
+    public function down() {
         $this->dbforge->drop_table('asset_types');
     }
 }
