@@ -11,6 +11,9 @@ application/logs/*
 application/composer.lock
 application/vendor
 
+database-data/
+database-data/*
+
 .env
 !.env.example
 !.env.docker

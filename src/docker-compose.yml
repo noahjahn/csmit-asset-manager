@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.3"
 services:
     composer:
         restart: 'no'
@@ -13,14 +13,11 @@ services:
         build:
             context: .
             dockerfile: php/Dockerfile
-        #image: 'php:7.2-apache-stretch'
         ports:
             - '80:80'
         volumes:
             - $PWD:/var/www/html
             - $PWD/php/php.ini:/usr/local/etc/php/php.ini
-            # - $PWD/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
-            # - $PWD/httpd/httpd.conf:/etc/apache2/sites-available/httpd.conf
         depends_on:
             - db
 
@@ -32,11 +29,11 @@ services:
             - db
 
     db:
-        image: 'mysql:5.7'
+        image: 'mysql:5.7.16'
         ports:
             - '3306:3306'
         volumes:
-            - $PWD/database:/docker-entrypoint-initdb.d
+            - $PWD/database-data:/var/lib/mysql
         environment:
             - MYSQL_ROOT_PASSWORD=Codingisfun!
             - MYSQL_DATABASE=csm_inventory
