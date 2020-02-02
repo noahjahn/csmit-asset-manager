@@ -51,13 +51,11 @@ Build Asset Manager table
         ],
         columns: [
             { "data": "id" },
-            // { "data": "name" },
             { "data": "model" },
             { "data": "manufacturer" },
             { "data": "owner" },
             { "data": "type" },
             { "data": "asset_tag" },
-            // { "data": "purchase_date" },
             { "data": "team" },
             { "data": "rate" },
             { "render": function ( data, type, row ) {
@@ -76,10 +74,10 @@ Build Asset Manager table
             { "data": "purchase_date" },
             { "data": "notes" },
             { "data": "last_modified_time" },
-            {"data": "manufacturer_id"},
-            {"data": "model_id"},
-            {"data": "type_id"},
-            {"data": "team_id"}
+            { "data": "manufacturer_id" },
+            { "data": "model_id" },
+            { "data": "type_id" },
+            { "data": "team_id" }
         ],
         "order": [[ 1, "asc" ]],
         scrollY:        $(document).height() - 260,
@@ -87,29 +85,37 @@ Build Asset Manager table
         fixedHeader:    true,
         info:           false,
         dom:
-          "<'row'<'col-sm'>fB>" +
-          "<'row'<'col-sm'tr>>",
+            "<'row'<'col-sm'>fB>" +
+            "<'row'<'col-sm'tr>>",
         buttons: [
-                    {
-                        text: "Add Asset",
-                        action: function() {
-                            $('#add-asset').modal('show');
-                        },
-                        init: function (api, node, config) {
-                            $(node).removeClass('btn-secondary');
-                        },
-                        className: 'btn-primary',
-                        attr: {
-                          id: 'add-asset-btn'
-                        }
-                    }
-                ],
+            {
+                text: "Add Asset",
+                action: function() {
+                    $('#add-asset').modal('show');
+                },
+                init: function (api, node, config) {
+                    $(node).removeClass('btn-secondary');
+                },
+                className: 'btn-primary',
+                attr: {
+                    id: 'add-asset-btn'
+                }
+                }
+            ],
         language: {
             search: "",
             searchPlaceholder: "Search..."
         },
         createdRow: function (row, data, index) {
-          $(row).addClass('parent-row'); //Add class used for dropdown
+            $(row).addClass('parent-row'); //Add class used for dropdown
+        },
+        initComplete: function(settings, json) {
+            $('#asset-manager_filter input').unbind();
+            $('#asset-manager_filter input').bind('keyup', function(e) {
+                if (e.keyCode == 13) {
+                    table.search( this.value ).draw();
+                }
+            }); 
         }
     });
 /****************************End Build Table **********************************/
