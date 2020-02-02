@@ -1,32 +1,29 @@
+//Controller function URLs
+var deleteAssetUrl = baseUrl + "AssetManager/delete";
+var addAssetUrl = baseUrl + "AssetManager/add";
+var getActiveManufacturersUrl = baseUrl + "Manufacturers/get_active";
+var getActiveModelsUrl = baseUrl + "Models/get_active";
+var getActiveModelsByManufacturerIdUrl = baseUrl + "Models/get_active_by_manufacturer_id";
+var getActiveTypesUrl = baseUrl + "AssetTypes/get_active";
+var getActiveTeamsUrl = baseUrl + "Teams/get_active";
+
+var manufacturersDropdown = [];
+var modelsDropdown = [];
+var typesDropdown = [];
+var teamsDropdown = [];
+
+//Sort function for dropdowns
+function compareStrings(str1, str2) {
+    str1 = str1.toLowerCase();
+    str2 = str2.toLowerCase();
+    return (str1 < str2) ? -1 : (str1 > str2) ? 1 : 0;
+}
+
 $(document).ready( function () {
     //Fit table to screen size when page loads
     $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
 
-    //Controller function URLs
-    var deleteAssetUrl = baseUrl + "AssetManager/delete";
-    var addAssetUrl = baseUrl + "AssetManager/add";
-    var getActiveManufacturersUrl = baseUrl + "Manufacturers/get_active";
-    var getActiveModelsUrl = baseUrl + "Models/get_active";
-    var getActiveModelsByManufacturerIdUrl = baseUrl + "Models/get_active_by_manufacturer_id";
-    var getActiveTypesUrl = baseUrl + "AssetTypes/get_active";
-    var getActiveTeamsUrl = baseUrl + "Teams/get_active";
-
     /***Variables for add/edit field dropdown menus****/
-    var manufacturersDropdown = [];
-    var modelsDropdown = [];
-    var typesDropdown = [];
-    var teamsDropdown = [];
-
-    var addManufacturerDropdown;
-    var addModelDropdown;
-    var addTypeDropdown;
-    var addTeamDropdown;
-
-    var isManufacturersSorted = false;
-    var isModelsSorted = false;
-    var isTypesSorted = false;
-    var isTeamsSorted = false;
-
     /****End dropdown fields*************************/
 
 
@@ -119,123 +116,46 @@ Build Asset Manager table
 
 /********* Manufacturer Dropdown **********/
     //Prepare data
-    $.ajax({//Manufacturers
-        type: 'GET',
-        url: getActiveManufacturersUrl,
-        dataType: 'json',
-        success: function(result) {
-            Object.keys(result).forEach(function(i){
-                manufacturersDropdown.push(
-                    {
-                        name: result[i].name,
-                        value: result[i].id
-                    }
-                );
-            });
-        },
-        error: function(result) {
-            var today = new Date();
-            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-            console.log("AJAX error, check server logs near local time: " + time);
-        }
-    });
-    
-    loadModels(manufacturer);
-    
-    function loadModels(manufacturer) {
-        $.ajax({ //Models
-            type: 'GET',
-            url: getActiveModelsUrl,
-            dataType: 'json',
-            success: function(result) {
-                Object.keys(result).forEach(function(i){
-                    modelsDropdown.push(
-                        {
-                            name: result[i].name,
-                            value: result[i].id
-                        }
-                    );
-                });
-            },
-            error: function(result) {
-                var today = new Date();
-                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-                console.log("AJAX error, check server logs near local time: " + time);
+    loadManufacturers();
+    loadModels();
+    loadTypes();
+    loadTeams();
+/********* End Manufacturer Dropdown **********/
+
+    manufacturersIsInitialized = false;
+
+    $('#add-asset-btn').on("click", function () {
+        $('#add-asset-manufacturer').dropdown({
+            values: manufacturersDropdown
+        });
+
+        $('#add-asset-model').dropdown({
+              values: modelsDropdown
+        });
+
+        $('#add-asset-manufacturer').dropdown('setting', 'onChange', function(value) {
+            var filteredModels = filterModelsByManufacturer(value);
+            $('#add-asset-model').dropdown('change values', filteredModels);
+        });
+
+        $('#add-asset-model').dropdown('setting', 'onChange', function(value) {
+            var manufacturerId = getModelManufacturer(value);
+            if (manufacturerId) {
+                $('#add-asset-manufacturer').dropdown('set selected', manufacturerId);
             }
         });
-    }
-    
-    $.ajax({//Types
-        type: 'GET',
-        url: getActiveTypesUrl,
-        dataType: 'json',
-        success: function(result) {
-            Object.keys(result).forEach(function(i){
-                typesDropdown.push(
-                    {
-                        name: result[i].name,
-                        value: result[i].id
-                    }
-                );
-            });
-        },
-        error: function(result) {
-            var today = new Date();
-            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-            console.log("AJAX error, check server logs near local time: " + time);
-        }
-    });
-    
-    $.ajax({//Teams
-        type: 'GET',
-        url: getActiveTeamsUrl,
-        dataType: 'json',
-        success: function(result) {
-            Object.keys(result).forEach(function(i){
-                teamsDropdown.push(
-                    {
-                        name: result[i].name,
-                        value: result[i].id
-                    }
-                );
-            });
-        },
-        error: function(result) {
-            var today = new Date();
-            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-            console.log("AJAX error, check server logs near local time: " + time);
-        }
-    });
 
-    //Sort dropdowns
-    if (! isManufacturersSorted) {
-        manufacturersDropdown.sort(function(a, b) {
-            return compareStrings(a.name, b.name);
-        })
-      isManufacturersSorted = true;
-    }
-    
-    if (! isModelsSorted) {
-        modelsDropdown.sort(function(a, b) {
-            return compareStrings(a.name, b.name);
-        })
-        isModelsSorted = true;
-    }
-    
-    if (! isTypesSorted) {
-        typesDropdown.sort(function(a, b) {
-            return compareStrings(a.name, b.name);
-        })
-        isTypesSorted = true;
-    }
-    
-    if (! isTeamsSorted) {
-        teamsDropdown.sort(function(a, b) {
-            return compareStrings(a.name, b.name);
-        })
-        isTeamsSorted = true;
-    }
-/********* End Manufacturer Dropdown **********/
+        $('#add-asset-team').dropdown({
+              values: teamsDropdown
+        });
+        $('#add-asset-type').dropdown({
+              values: typesDropdown,
+              onChange: function (value) {
+                  var rate = getRate(value);
+                  setRate(rate);
+              }
+        });
+    });
 
 /*******************************************************************************
 ********************************************************************************
@@ -589,70 +509,177 @@ Delete Asset
         });
     });
 
-    $('#add-asset-btn').on("click", function () {
-        $('#add-asset-manufacturer').dropdown({
-              values: manufacturersDropdown,
-              onChange: function() {
-                  
-              }
-        });
-        $('#add-asset-model').dropdown({
-              values: modelsDropdown
-        });
-        $('#add-asset-team').dropdown({
-              values: teamsDropdown
-        });
-        $('#add-asset-type').dropdown({
-              values: typesDropdown
-        });
-    });
-    
-    $('#add-asset-manufacturer').blur(function() {
-        console.log('manufacturer unfocused');
-    });
+    addManufacturerIdField = $("#add-asset-form #add-asset-manufacturer");
+    addManufacturerIdError = $("#add-asset-form #add-asset-manufacturer-error");
 
+    addModelIdField = $("#add-asset-form #add-asset-model");
+    addModelIdError = $("#add-asset-form #add-asset-model-error");
+
+    addOwnerField = $("#add-asset-form #add-asset-owner");
+    addOwnerError = $("#add-asset-form #add-asset-owner-error");
+
+    addSerialNumberField = $("#add-asset-form #add-asset-serial-number");
+    addSerialNumberError = $("#add-asset-form #add-asset-serial-number-error");
+
+    addTypeIdField = $("#add-asset-form #add-asset-type");
+    addTypeIdError = $("#add-asset-form #add-asset-type-error");
+
+    addAssetTagField = $("#add-asset-form #add-asset-asset-tag");
+    addAssetTagError = $("#add-asset-form #add-asset-asset-tag-error");
+
+    addTeamIdField = $("#add-asset-form #add-asset-team");
+    addTeamIdError = $("#add-asset-form #add-asset-team-error");
+
+    addPurchasePriceField = $("#add-asset-form #add-asset-purchase-price");
+    addPurchasePriceError = $("#add-asset-form #add-asset-purchase-price-error");
+
+    addPurchaseDateField = $("#add-asset-form #add-asset-purchase-date");
+    addPurchaseDateError = $("#add-asset-form #add-asset-purchase-date-error");
+
+    addJobNumberField = $("#add-asset-form #add-asset-job-number");
+    addJobNumberError = $("#add-asset-form #add-asset-job-number-error");
+
+    addLocationField = $("#add-asset-form #add-asset-location");
+    addLocationError = $("#add-asset-form #add-asset-location-error");
 
     $('#add-asset-form').on("submit", function (e) {
       e.preventDefault();
 
-      var manufacturer = $('.add-asset-field-manufacturer .item.active.selected').data('value');
-      var model = $('.add-asset-field-model .item.active.selected').data('value');
-      var team = $('.add-asset-field-team .item.active.selected').data('value');
-      var type = $('.add-asset-field-type .item.active.selected').data('value');
+      var manufacturer = $('#add-asset-manufacturer').siblings('.menu').children('.item.active.selected').data('value');
+      var model = $('#add-asset-model').siblings('.menu').children('.item.active.selected').data('value');
+      var type = $('#add-asset-type').siblings('.menu').children('.item.active.selected').data('value');
+      var team = $('#add-asset-team').siblings('.menu').children('.item.active.selected').data('value');
+      if (!manufacturer) { var manufacturer = ""; }
+      if (!model) { var model = ""; }
+      if (!type) { var type = ""; }
+      if (!team) { var team = ""; }
 
       $.ajax({
           type: 'POST',
           url: addAssetUrl,
           dataType: 'json',
-          data: $(this).serialize() + "&" + "manufacturer=" + manufacturer + "&" + "model=" + model + "&" + "type=" + type + "&" + "team=" + team, // get data from the form
+          data: $(this).serialize() + "&manufacturer_id=" + manufacturer + "&model_id=" + model + "&type_id=" + type + "&team_id=" + team, // get data from the form
           success: function(result) {
               if (result == "success") {
-                console.log("success");
                   $("#add-asset").modal('hide'); // if the submission was successful without any validation erros, we can hide the modal
                   $("#asset-manager").DataTable().ajax.reload(); // also need to reload the datatable since we successfully add an asset type
-              }else {
-                console.log("success");
+              } else {
+                  console.log(result);
+                  if (! result["manufacturer_id"] == "") {
+                      if (! result["manufacturer_id"] == addManufacturerIdError.val()) {
+                          addManufacturerIdError.empty(); // empty error messages, if there were any
+                          addManufacturerIdError.append(result["manufacturer_id"]); // display the error messages
+                      }
+                      if (! addManufacturerIdField.parent().hasClass('is-invalid-dropdown')) {
+                          addManufacturerIdField.parent().addClass('is-invalid-dropdown');
+                          addManufacturerIdField.siblings('.dropdown.icon').css('margin-right', '0.5em');
+                          addManufacturerIdField.parent().parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                      }
+                  }
+                  if (! result["model_id"] == "") {
+                      if (! result["model_id"] == addModelIdError.val()) {
+                          addModelIdError.empty(); // empty error messages, if there were any
+                          addModelIdError.append(result["model_id"]); // display the error messages
+                      }
+                      if (! addModelIdField.parent().hasClass('is-invalid-dropdown')) {
+                          addModelIdField.parent().addClass('is-invalid-dropdown');
+                          addModelIdField.siblings('.dropdown.icon').css('margin-right', '0.5em');
+                          addModelIdField.parent().parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                      }
+                  }
+                  if (! result["owner"] == "") {
+                      if (! result["owner"] == addOwnerError.val()) {
+                          addOwnerError.empty(); // empty error messages, if there were any
+                          addOwnerError.append(result["owner"]); // display the error messages
+                      }
+                      if (! addOwnerField.hasClass('is-invalid')) {
+                          addOwnerField.addClass('is-invalid');
+                          addOwnerField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                      }
+                  }
+                  if (! result["serial_number"] == "") {
+                      if (! result["serial_number"] == addSerialNumberError.val()) {
+                          addSerialNumberError.empty(); // empty error messages, if there were any
+                          addSerialNumberError.append(result["serial_number"]); // display the error messages
+                      }
+                      if (! addSerialNumberField.hasClass('is-invalid')) {
+                          addSerialNumberField.addClass('is-invalid');
+                          addSerialNumberField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                      }
+                  }
+                  if (! result["type_id"] == "") {
+                      if (! result["type_id"] == addTypeIdError.val()) {
+                          addTypeIdError.empty(); // empty error messages, if there were any
+                          addTypeIdError.append(result["type_id"]); // display the error messages
+                      }
+                      if (! addTypeIdField.parent().hasClass('is-invalid-dropdown')) {
+                          addTypeIdField.parent().addClass('is-invalid-dropdown');
+                          addTypeIdField.siblings('.dropdown.icon').css('margin-right', '0.5em');
+                          addTypeIdField.parent().parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                      }
+                  }
+                  if (! result["asset_tag"] == "") {
+                      if (! result["asset_tag"] == addAssetTagError.val()) {
+                          addAssetTagError.empty(); // empty error messages, if there were any
+                          addAssetTagError.append(result["asset_tag"]); // display the error messages
+                      }
+                      if (! addAssetTagField.hasClass('is-invalid')) {
+                          addAssetTagField.addClass('is-invalid');
+                          addAssetTagField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                      }
+                  }
+                  if (! result["team_id"] == "") {
+                      if (! result["team_id"] == addTeamIdError.val()) {
+                          addTeamIdError.empty(); // empty error messages, if there were any
+                          addTeamIdError.append(result["team_id"]); // display the error messages
+                      }
+                      if (! addTeamIdField.parent().hasClass('is-invalid-dropdown')) {
+                          addTeamIdField.parent().addClass('is-invalid-dropdown');
+                          addTeamIdField.siblings('.dropdown.icon').css('margin-right', '0.5em');
+                          addTeamIdField.parent().parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                      }
+                  }
+                  if (! result["purchase_price"] == "") {
+                      if (! result["purchase_price"] == addPurchasePriceError.val()) {
+                          addPurchasePriceError.empty(); // empty error messages, if there were any
+                          addPurchasePriceError.append(result["purchase_price"]); // display the error messages
+                      }
+                      if (! addPurchasePriceField.hasClass('is-invalid')) {
+                          addPurchasePriceField.addClass('is-invalid');
+                          addPurchasePriceField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                      }
+                  }
+                  if (! result["purchase_date"] == "") {
+                      if (! result["purchase_date"] == addPurchaseDateError.val()) {
+                          addPurchaseDateError.empty(); // empty error messages, if there were any
+                          addPurchaseDateError.append(result["purchase_date"]); // display the error messages
+                      }
+                      if (! addPurchaseDateField.hasClass('is-invalid')) {
+                          addPurchaseDateField.addClass('is-invalid');
+                          addPurchaseDateField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                      }
+                  }
+                  if (! result["job_number"] == "") {
+                      if (! result["job_number"] == addJobNumberError.val()) {
+                          addJobNumberError.empty(); // empty error messages, if there were any
+                          addJobNumberError.append(result["job_number"]); // display the error messages
+                      }
+                      if (! addJobNumberField.hasClass('is-invalid')) {
+                          addJobNumberField.addClass('is-invalid');
+                          addJobNumberField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                      }
+                  }
+                  if (! result["location"] == "") {
+                      if (! result["location"] == addLocationError.val()) {
+                          addLocationError.empty(); // empty error messages, if there were any
+                          addLocationError.append(result["location"]); // display the error messages
+                      }
+                      if (! addLocationField.hasClass('is-invalid')) {
+                          addLocationField.addClass('is-invalid');
+                          addLocationField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                      }
+                  }
               }
-              // else {
-              //     if (! result["name"] == "") {
-              //         if (! result["name"] == addNameError.val()) {
-              //             addNameError.empty(); // empty error messages, if there were any
-              //             addNameError.append(result["name"]); // display the error messages
-              //         }
-              //         if (! addNameField.hasClass('is-invalid')) {
-              //             addNameField.addClass('is-invalid');
-              //         }
-              //     }
-              //     if (! result["rate"] == "") {
-              //         if (! result["rate"] == addRateError.val()) {
-              //             addRateError.empty(); // empty error messages, if there were any
-              //             addRateError.append(result["rate"]); // display the error messages
-              //         }
-              //         if (! addRateField.hasClass('is-invalid')) {
-              //             addRateField.addClass('is-invalid');
-              //         }
-              //     }
-              // }
           },
           error: function(result) {
               var today = new Date();
@@ -700,13 +727,6 @@ function formatRow() { //Put child row data here.
     '</td>' +
   '</tr></table>' +
   '</div>';
-}
-
-//Sort function for dropdowns
-function compareStrings(str1, str2) {
-    str1 = str1.toLowerCase();
-    str2 = str2.toLowerCase();
-    return (str1 < str2) ? -1 : (str1 > str2) ? 1 : 0;
 }
 
 //Resize table as screen changes size
@@ -779,3 +799,163 @@ $(window).resize(function () {
 /* *** **************** *** */
 
 /* *** Prepare Add Manufacturer Dropdown *** */
+
+function getModelManufacturer(modelId) {
+    if (modelId !== "" || modelId !== "undefined" || modelId !== null) {
+        Object.keys(modelsDropdown).forEach(function(i) {
+            if (modelsDropdown[i].value == modelId) {
+                return modelsDropdown[i].manufacturerId;
+            }
+        });
+    } else {
+        return false;
+    }
+}
+
+function filterModelsByManufacturer(manufacturerId) {
+    var filteredModels = [];
+
+    if (manufacturerId !== "") {
+        Object.keys(modelsDropdown).forEach(function(i) {
+            if (modelsDropdown[i].manufacturerId == manufacturerId) {
+                filteredModels.push(
+                    {
+                        value: modelsDropdown[i].value,
+                        name: modelsDropdown[i].name
+                    }
+                );
+            }
+        });
+    } else {
+        filteredModels = modelsDropdown;
+    }
+
+    return filteredModels;
+}
+
+function getRate(typeId) {
+    var returnValue;
+    if (typeId !== "" || typeId !== "undefined" || typeId !== null) {
+        Object.keys(typesDropdown).forEach(function(i) {
+            if (typesDropdown[i].value == typeId) {
+                returnValue = typesDropdown[i].rate;
+            }
+        });
+    } else {
+        returnValue = false;
+    }
+
+    return returnValue;
+}
+
+function setRate(rate) {
+    if (rate) {
+        $('#add-asset-rate').attr("placeholder", '$' + rate.toFixed(2));
+    }
+}
+
+function loadManufacturers() {
+    $.ajax({//Manufacturers
+        type: 'GET',
+        url: getActiveManufacturersUrl,
+        dataType: 'json',
+        success: function(result) {
+            Object.keys(result).forEach(function(i){
+                manufacturersDropdown.push(
+                    {
+                        name: result[i].name,
+                        value: parseInt(result[i].id)
+                    }
+                );
+            });
+            manufacturersDropdown.sort(function(a, b) {
+                return compareStrings(a.name, b.name);
+            });
+        },
+        error: function(result) {
+            var today = new Date();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            console.log("AJAX error, check server logs near local time: " + time);
+        }
+    });
+}
+
+function loadModels() {
+    $.ajax({ //Models
+        type: 'GET',
+        url: getActiveModelsUrl,
+        dataType: 'json',
+        success: function(result) {
+            Object.keys(result).forEach(function(i){
+                modelsDropdown.push(
+                    {
+                        name: result[i].name,
+                        value: parseInt(result[i].id),
+                        manufacturerId: parseInt(result[i].manufacturer_id)
+                    }
+                );
+            });
+            modelsDropdown.sort(function(a, b) {
+                return compareStrings(a.name, b.name);
+            });
+        },
+        error: function(result) {
+            var today = new Date();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            console.log("AJAX error, check server logs near local time: " + time);
+        }
+    });
+}
+
+function loadTypes() {
+    $.ajax({//Types
+        type: 'GET',
+        url: getActiveTypesUrl,
+        dataType: 'json',
+        success: function(result) {
+            Object.keys(result).forEach(function(i){
+                typesDropdown.push(
+                    {
+                        name: result[i].name,
+                        value: parseInt(result[i].id),
+                        rate: parseFloat(result[i].rate)
+                    }
+                );
+            });
+            typesDropdown.sort(function(a, b) {
+                return compareStrings(a.name, b.name);
+            });
+        },
+        error: function(result) {
+            var today = new Date();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            console.log("AJAX error, check server logs near local time: " + time);
+        }
+    });
+}
+
+function loadTeams() {
+    $.ajax({//Teams
+        type: 'GET',
+        url: getActiveTeamsUrl,
+        dataType: 'json',
+        success: function(result) {
+            Object.keys(result).forEach(function(i){
+                teamsDropdown.push(
+                    {
+                        name: result[i].name,
+                        value: parseInt(result[i].id)
+                    }
+                );
+            });
+            teamsDropdown.sort(function(a, b) {
+                return compareStrings(a.name, b.name);
+            });
+        },
+        error: function(result) {
+            var today = new Date();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            console.log("AJAX error, check server logs near local time: " + time);
+        }
+    });
+}
