@@ -102,7 +102,25 @@ class Auth extends CI_Controller {
 						if ($this->Users_model->set_session_token($user_data['id'], $encrypted_token)) { // set the token in the database
 							if ($this->Users_model->set_last_login($user_data['id'])) { // set the last user login in the database
 								$this->session->set_userdata($user_data);
-								redirect('assetmanager'); // maybe implement user's default page?? it could just be stored as a user attribute
+								$this->load->helper('authorization_helper');
+								log_message('debug', print_r(get_all_page_access($user_data['role']), TRUE));
+								$this->session->set_userdata(get_all_page_access($user_data['role']));
+								if (is_authorized($user_data['role'], 'dashboard')) {
+									log_message('debug', 'redirecting to dashboard');
+									redirect('dashboard');
+								} else if (is_authorized($user_data['role'], 'asset_manager')) {
+									log_message('debug', 'redirecting to asset_manager');
+									redirect('assetmanager');
+								} else if (is_authorized($user_data['role'], 'reports')) {
+									log_message('debug', 'redirecting to reports');
+									redirect('reports');
+								} else if (is_authorized($user_data['role'], 'settings')) {
+									log_message('debug', 'redirecting to settings');
+									redirect('settings');
+								} else {
+									log_message('debug', 'redirecting to forbidden');
+									redirect('forbidden');
+								}
 							} else {
 								$this->session->set_flashdata('error', 'Failed to set last login');
 								$this->session->sess_destroy();
