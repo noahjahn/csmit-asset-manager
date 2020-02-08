@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <?php $this->load->view('require/head'); ?>
     <body>
         <div class="d-flex" id="wrapper">
-            <?php $this->load->view('require/navbar'); ?>
+            <?php $this->load->view('private/navbar/navbar'); ?>
             <div class="container-fluid mt-4 ml-3 mr-3">
                 <?php
                 $page['title'] = $title; $this->load->view('private/reusable/page-header', $page);
