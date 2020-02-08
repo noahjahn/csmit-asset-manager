@@ -9,7 +9,7 @@ class AssetManager extends CI_Controller {
 		$this->load->helper("authorization");
 		$this->user_id = $this->session->userdata('id');
 		$this->user_role_id = $this->session->userdata('role');
-		$this->page = 'dashboard';
+		$this->page = 'asset_manager';
 		if (! $this->session->userdata('id')) { // if the user is not logged in
             redirect(base_url());
 		}
