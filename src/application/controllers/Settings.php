@@ -59,7 +59,7 @@ class Settings extends CI_Controller {
 				$this->load->view('private/reusable/page-template', $view_data);
 				break;
 			default:
-				$this->load->view('errors/custom/unauthorized');
+				redirect('forbidden');
 		}
 	}
 
