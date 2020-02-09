@@ -16,6 +16,7 @@ $(document).ready(function() {
                 { "data": "id" },
                 { "data": "name" },
                 { "data": "manufacturer" },
+                { "data": "type" },
             ],
             responsive:     true,
             scrollY:        212,
