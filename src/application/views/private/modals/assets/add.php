@@ -19,20 +19,22 @@
                 <?php echo form_open(current_url(), array('id' => 'add-asset-form', 'name' => 'add-asset-form')); ?>
                     <div class="row">
                         <div class="col-md form-group">
-                            <label>Manufacturer<span class="required"> *</span></label>
-                            <select id="add-asset-manufacturer" name="manufacturer_id" class="form-control ui search dropdown" value="<?php set_value('manufacturer_id'); ?>"></select>
-                            <div id="add-asset-manufacturer-error" class="invalid-feedback"></div>
-                        </div>
-                        <div class="col-md form-group">
                             <label>Model<span class="required"> *</span></label>
                             <select id="add-asset-model" name="model_id" class="form-control ui search dropdown" value="<?php set_value('model_id'); ?>"></select>
                             <div id="add-asset-model-error" class="invalid-feedback"></div>
+                        </div>
+                        <div class="col-md form-group">
+                            <label>Manufacturer<span class="required"> *</span></label>
+                            <input type="text" id="add-asset-manufacturer" name="manufacturer_id" class="form-control" placeholder="Select model first..." disabled>
+                            <!-- <select id="add-asset-manufacturer" name="manufacturer_id" class="form-control ui search dropdown" value="<?php set_value('manufacturer_id'); ?>" disabled></select> -->
+                            <div id="add-asset-manufacturer-error" class="invalid-feedback"></div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md form-group">
                             <label>Type<span class="required"> *</span></label>
-                            <select type="text" id="add-asset-type" name="type_id" class="form-control ui search dropdown" value="<?php set_value('type_id'); ?>"></select>
+                            <input type="text" id="add-asset-type" name="type_id" class="form-control" placeholder="Select model first..." disabled>
+                            <!-- <select type="text" id="add-asset-type" name="type_id" class="form-control ui search dropdown" value="<?php set_value('type_id'); ?>"></select> -->
                             <div id="add-asset-type-error" class="invalid-feedback"></div>
                         </div>
                         <div class="col-md form-group">
