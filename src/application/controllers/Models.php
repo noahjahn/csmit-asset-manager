@@ -33,6 +33,7 @@ class Models extends CI_Controller {
 			$model = array(
 				'name' => $this->input->post('name'),
 				'manufacturer_id' => $this->input->post('manufacturer_id'),
+				'type_id' => $this->input->post('type_id'),
 				'last_modified_by' => $this->user_id,
 				'last_modified_time' => date('Y-m-d H:i:s'),
 				'created_by' => $this->user_id,
@@ -91,6 +92,26 @@ class Models extends CI_Controller {
 		}
 	}
 
+	public function validate_add_type() {
+		log_message('debug', 'Models: validate_add_type - in function');
+
+		if (!$this->input->is_ajax_request()) {
+            redirect('forbidden');
+            exit;
+        }
+
+		$this->form_validation->set_rules(array($this->Models_model->get_insert_type_rules()));
+		if ($this->form_validation->run() == TRUE) {
+			echo json_encode("success");
+		} else {
+			log_message('debug', 'Models: validate_add_type - failed to validate type');
+			$errors = array(
+				'type' => form_error('type'),
+			);
+			echo json_encode($errors);
+		}
+	}
+
     public function edit() {
 		log_message('debug', 'Models: edit - in function');
 		if (!$this->input->is_ajax_request()) {
@@ -104,6 +125,7 @@ class Models extends CI_Controller {
 				'id' => $this->input->post('id'),
 				'name' => $this->input->post('name'),
 				'manufacturer_id' => $this->input->post('manufacturer_id'),
+				'type_id' => $this->input->post('type_id'),
 				'last_modified_by' => $this->user_id,
 				'last_modified_time' => date('Y-m-d H:i:s')
 			);
@@ -183,6 +205,16 @@ class Models extends CI_Controller {
 		log_message('debug', 'Models: manufacturer_exists - in function');
 
 		if ($this->Manufacturers_model->id_exists($id)) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	function type_exists($id) {
+		log_message('debug', 'Models:type_exists - in function');
+		$this->load->model('AssetTypes_model');
+		if ($this->AssetTypes_model->id_exists($id)) {
 			return TRUE;
 		} else {
 			return FALSE;
