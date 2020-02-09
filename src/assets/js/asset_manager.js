@@ -350,9 +350,9 @@ Decision Path:
           /**********If Anywhere else on the row is clicked**********/
           else {
             //Remove light-grey focus styled when detail row is closed
-            $(tr).css({"background-color":"#303030", "box-shadow":"none"});
+            $(tr).css({"box-shadow":"none"});
             //  $(tr).children().css();
-            row.child().find('div').css({"background-color":"#303030", "box-shadow":"none"});
+            row.child().find('div').css({"box-shadow":"none"});
             //Close detail row
             $('div.slider', row.child()).slideUp( 300,function () {
                 row.child.hide();
