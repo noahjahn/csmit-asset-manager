@@ -11,13 +11,19 @@ $(document).ready(function() {
     var deleteModelUrl = baseUrl + "Models/delete/";
     var getActiveModelsUrl = baseUrl + "Models/get_active";
     var getActiveManufacturersUrl = baseUrl + "Manufacturers/get_active";
+    var getActiveAssetTypesUrl = baseUrl + "AssetTypes/get_active";
+
     /* *** **************** *** */
 
     /* *** Cached Variables *** */
     var manufacturers = [];
+    var assetTypes = [];
     var addManufacturerDropdown;
+    var addAssetTypesDropdown;
     var isAddManufacturerFilled = false;
     var isEditManufacturerFilled = false;
+    var isAddAssetTypesFilled = false;
+    var isEditAssetTypesFilled = false;
     /* *** **************** *** */
 
     /* *** Prepare Add Manufacturer Dropdown *** */
@@ -34,6 +40,29 @@ $(document).ready(function() {
                     }
                 );
             });
+        },
+        error: function(result) {
+            var today = new Date();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            console.log("AJAX error, check server logs near local time: " + time);
+        }
+    });
+
+    /* *** Prepare Add Type Dropdown *** */
+    $.ajax({
+        type: 'GET',
+        url: getActiveAssetTypesUrl,
+        dataType: 'json',
+        success: function(result) {
+            Object.keys(result).forEach(function(i){
+                assetTypes.push(
+                    {
+                        name: result[i].name,
+                        value: result[i].id
+                    }
+                );
+            });
+            console.log(assetTypes);
         },
         error: function(result) {
             var today = new Date();
@@ -59,6 +88,18 @@ $(document).ready(function() {
                 values: manufacturers
             });
         }
+
+        if (! isAddAssetTypesFilled) {
+            assetTypes.sort(function(a, b) {
+                return compareStrings(a.name, b.name);
+            })
+
+            isAddAssetTypesFilled = true;
+            $('#add-model-type').dropdown({
+                values: assetTypes
+            });
+            console.log(assetTypes);
+        }
     });
 
     $(document).on("click", "#edit-model-button", function () {
@@ -71,10 +112,22 @@ $(document).ready(function() {
             $('#edit-model-manufacturer').dropdown({
                 values: manufacturers
             });
-
         }
         var manufacturerId = $(this).data('manufacturer-id');
         $('#edit-model-manufacturer').dropdown('set selected', manufacturerId);
+
+        if (! isEditAssetTypesFilled) {
+            assetTypes.sort(function(a, b) {
+                return compareStrings(a.name, b.name);
+            })
+
+            isEditAssetTypesFilled = true;
+            $('#edit-model-type').dropdown({
+                values: assetTypes
+            });
+        }
+        var assetTypeId = $(this).data('type-id');
+        $('#edit-model-type').dropdown('set selected', assetTypeId);
 
         $('#edit-model').modal('show');
     });
@@ -123,13 +176,14 @@ $(document).ready(function() {
     $("#add-model-form").on("submit", function(e) {
         e.preventDefault(); // prevent modal from closing
 
-        var manufacturerId = $('#add-model-form .item.active.selected').data('value');
-                
+        var manufacturerId = $('#add-model-manufacturer').siblings('.menu').children('.item.active.selected').data('value');
+        var assetTypeId = $('#add-model-type').siblings('.menu').children('.item.active.selected').data('value');
+
         $.ajax({
             type: 'POST',
             url: addModelUrl,
             dataType: 'json',
-            data: $(this).serialize() + "&" + "manufacturer_id=" + manufacturerId, // get data from the form
+            data: $(this).serialize() + "&manufacturer_id=" + manufacturerId + "&type_id=" + assetTypeId, // get data from the form
             success: function(result) {
                 if (result == "success") {
                     $("#add-model").modal('hide'); // if the submission was successful without any validation erros, we can hide the modal
@@ -216,13 +270,14 @@ $(document).ready(function() {
         e.preventDefault(); // prevent modal from closing
 
         var id = $("#modal-submit-edit-model").data('id');
-        var manufacturerId = $('#edit-model-form .item.active.selected').data('value');
+        var manufacturerId = $('#edit-model-manufacturer').siblings('.menu').children('.item.active.selected').data('value');
+        var assetTypeId = $('#edit-model-type').siblings('.menu').children('.item.active.selected').data('value');
 
         $.ajax({
             type: 'POST',
             url: editModelUrl,
             dataType: 'json',
-            data: "id=" + id + "&" + $(this).serialize() + "&manufacturer_id=" + manufacturerId, // get data from the form
+            data: "id=" + id + "&" + $(this).serialize() + "&manufacturer_id=" + manufacturerId + "&type_id=" + assetTypeId, // get data from the form
             headers: {"X-HTTP-Method-Override": "PUT"},
             async: true,
             success: function(result) {
@@ -230,6 +285,7 @@ $(document).ready(function() {
                     $("#edit-model").modal('hide'); // if the submission was successful without any validation erros, we can hide the modal
                     $("#models").DataTable().ajax.reload(); // also need to reload the datatable since we successfully add an model
                 } else {
+                    console.log(result);
                     if (! result["name"] == "") {
                         if (! result["name"] == editNameError.val()) {
                             editNameError.empty(); // empty error messages, if there were any
@@ -255,6 +311,7 @@ $(document).ready(function() {
         editNameField.val(""); // set the value to of the forms to have nothing in them, just in case the user left some data there without submitting
         editNameField.removeClass('is-invalid');
         editNameField.removeClass('is-valid');
+
     });
     /* *** ********************* *** */
 
@@ -267,7 +324,7 @@ $(document).ready(function() {
 
     $("#modal-confirm-delete-model").on("click", function(e) {
         var id = $("#modal-confirm-delete-model").data('id');
-        
+
         $.ajax({
             type: "DELETE",
             url: deleteModelUrl + id,
@@ -294,9 +351,9 @@ $(document).ready(function() {
                 { "data": "id" },
                 { "data": "name" },
                 { "data": "manufacturer" },
+                { "data": "type" },
                 { "render": function ( data, type, row ) {
-                    // if ()
-                        return '<button id="edit-model-button" class="table-icon edit-model-button" data-toggle="modal" data-id="' + row.id + '" data-name="' + row.name + '" data-manufacturer-id="' + row.manufacturersid + '" data-target="#edit-model"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
+                        return '<button id="edit-model-button" class="table-icon edit-model-button" data-toggle="modal" data-id="' + row.id + '" data-name="' + row.name + '" data-manufacturer-id="' + row.manufacturer_id + '" data-type-id="' + row.type_id + '" data-target="#edit-model"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
                     }
                 },
                 { "render": function ( data, type, row ) {
@@ -311,10 +368,11 @@ $(document).ready(function() {
             info:           false,
             autoWidth:      false,
             columnDefs: [
-                { responsivePriority: -1, targets: [3,4] },
-                { width: "20px", targets: [3,4] },
-                { orderable: false, targets: [3,4] },
-                { visible: false, targets: 0 }
+                { responsivePriority: -1, targets: [4,5] },
+                { width: "20px", targets: [4,5] },
+                { orderable: false, targets: [4,5] },
+                { visible: false, targets: 0 },
+                // { width: "20%", targets: [1,2,3]}
             ],
             dom:
                 "<'row'<'col-md-3'<'table-title-models'>><'col-md-9 pr-0 pt-0 pb-0'Bf>>" +
@@ -341,5 +399,6 @@ $(document).ready(function() {
         $("div.table-title-models").html('<h5 class="pt-3">Models</h5>');
         $("#models_wrapper").addClass("mb-4", "pt-2");
     }
+    modelsTable.columns.adjust();
     /* *** **** *** ** ** * */
 });

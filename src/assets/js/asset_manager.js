@@ -100,8 +100,8 @@ Build Asset Manager table
                 attr: {
                     id: 'add-asset-btn'
                 }
-                }
-            ],
+            }
+        ],
         language: {
             search: "",
             searchPlaceholder: "Search..."
@@ -115,7 +115,7 @@ Build Asset Manager table
                 if (e.keyCode == 13) {
                     table.search( this.value ).draw();
                 }
-            }); 
+            });
         }
     });
 /****************************End Build Table **********************************/
@@ -131,36 +131,37 @@ Build Asset Manager table
     manufacturersIsInitialized = false;
 
     $('#add-asset-btn').on("click", function () {
-        $('#add-asset-manufacturer').dropdown({
-            values: manufacturersDropdown
-        });
+        // $('#add-asset-manufacturer').dropdown({
+        //     values: manufacturersDropdown
+        // });
 
         $('#add-asset-model').dropdown({
               values: modelsDropdown
         });
 
-        $('#add-asset-manufacturer').dropdown('setting', 'onChange', function(value) {
-            var filteredModels = filterModelsByManufacturer(value);
-            $('#add-asset-model').dropdown('change values', filteredModels);
-        });
+        // $('#add-asset-manufacturer').dropdown('setting', 'onChange', function(value) {
+        //     var filteredModels = filterModelsByManufacturer(value);
+        //     $('#add-asset-model').dropdown('change values', filteredModels);
+        // });
 
         $('#add-asset-model').dropdown('setting', 'onChange', function(value) {
             var manufacturerId = getModelManufacturer(value);
-            if (manufacturerId) {
-                $('#add-asset-manufacturer').dropdown('set selected', manufacturerId);
-            }
+            setManufacturer(getManufacturerName(manufacturerId), manufacturerId);
+            var assetTypeId = getModelAssetType(value);
+            setAssetType(getAssetTypeName(assetTypeId), assetTypeId);
+            setRate(getRate(assetTypeId));
         });
 
         $('#add-asset-team').dropdown({
               values: teamsDropdown
         });
-        $('#add-asset-type').dropdown({
-              values: typesDropdown,
-              onChange: function (value) {
-                  var rate = getRate(value);
-                  setRate(rate);
-              }
-        });
+        // $('#add-asset-type').dropdown({
+        //       values: typesDropdown,
+        //       onChange: function (value) {
+        //           var rate = getRate(value);
+        //           setRate(rate);
+        //       }
+        // });
     });
 
 /*******************************************************************************
@@ -551,20 +552,20 @@ Delete Asset
     $('#add-asset-form').on("submit", function (e) {
       e.preventDefault();
 
-      var manufacturer = $('#add-asset-manufacturer').siblings('.menu').children('.item.active.selected').data('value');
-      var model = $('#add-asset-model').siblings('.menu').children('.item.active.selected').data('value');
-      var type = $('#add-asset-type').siblings('.menu').children('.item.active.selected').data('value');
-      var team = $('#add-asset-team').siblings('.menu').children('.item.active.selected').data('value');
-      if (!manufacturer) { var manufacturer = ""; }
-      if (!model) { var model = ""; }
-      if (!type) { var type = ""; }
-      if (!team) { var team = ""; }
+      var modelId = $('#add-asset-model').siblings('.menu').children('.item.active.selected').data('value');
+      var manufacturerId = $('#add-asset-manufacturer').data('manufacturer_id');
+      var typeId = $('#add-asset-type').data('type_id');
+      var teamId = $('#add-asset-team').siblings('.menu').children('.item.active.selected').data('value');
+      if (!manufacturerId) { var manufacturerId = ""; }
+      if (!modelId) { var model = ""; }
+      if (!typeId) { var type = ""; }
+      if (!teamId) { var team = ""; }
 
       $.ajax({
           type: 'POST',
           url: addAssetUrl,
           dataType: 'json',
-          data: $(this).serialize() + "&manufacturer_id=" + manufacturer + "&model_id=" + model + "&type_id=" + type + "&team_id=" + team, // get data from the form
+          data: $(this).serialize() + "&manufacturer_id=" + manufacturerId + "&model_id=" + modelId + "&type_id=" + typeId + "&team_id=" + teamId, // get data from the form
           success: function(result) {
               if (result == "success") {
                   $("#add-asset").modal('hide'); // if the submission was successful without any validation erros, we can hide the modal
@@ -807,15 +808,32 @@ $(window).resize(function () {
 /* *** Prepare Add Manufacturer Dropdown *** */
 
 function getModelManufacturer(modelId) {
+    var returnValue;
     if (modelId !== "" || modelId !== "undefined" || modelId !== null) {
         Object.keys(modelsDropdown).forEach(function(i) {
             if (modelsDropdown[i].value == modelId) {
-                return modelsDropdown[i].manufacturerId;
+                returnValue = modelsDropdown[i].manufacturerId;
             }
         });
     } else {
-        return false;
+        returnValue = false;
     }
+    return returnValue;
+}
+
+function getModelAssetType(modelId) {
+    var returnValue;
+    if (modelId !== "" || modelId !== "undefined" || modelId !== null) {
+        Object.keys(modelsDropdown).forEach(function(i) {
+            if (modelsDropdown[i].value == modelId) {
+                returnValue = modelsDropdown[i].assetTypeId;
+            }
+        });
+    } else {
+        returnValue = false;
+    }
+    console.log(returnValue);
+    return returnValue;
 }
 
 function filterModelsByManufacturer(manufacturerId) {
@@ -860,6 +878,49 @@ function setRate(rate) {
     }
 }
 
+function getManufacturerName(manufacturerId) {
+    var returnValue;
+    if (manufacturerId !== "" || manufacturerId !== "undefined" || manufacturerId !== null) {
+        Object.keys(manufacturersDropdown).forEach(function(i) {
+            if (manufacturersDropdown[i].value == manufacturerId) {
+                returnValue = manufacturersDropdown[i].name;
+            }
+        });
+    } else {
+        returnValue = false;
+    }
+    return returnValue;
+}
+
+function setManufacturer(manufacturer, manufacturerId) {
+    if (manufacturer && manufacturerId) {
+        $('#add-asset-manufacturer').attr("placeholder", manufacturer);
+        $('#add-asset-manufacturer').attr('data-manufacturer_id', manufacturerId);
+    }
+}
+
+function getAssetTypeName(assetTypeId) {
+    var returnValue;
+    if (assetTypeId !== "" || assetTypeId !== "undefined" || assetTypeId !== null) {
+        Object.keys(typesDropdown).forEach(function(i) {
+            if (typesDropdown[i].value == assetTypeId) {
+                returnValue = typesDropdown[i].name;
+            }
+        });
+    } else {
+        returnValue = false;
+    }
+    return returnValue;
+}
+
+function setAssetType(assetType, assetTypeId) {
+    console.log(assetType + ' ' + assetTypeId);
+    if (assetType && assetTypeId) {
+        $('#add-asset-type').attr("placeholder", assetType);
+        $('#add-asset-type').attr('data-type_id', assetTypeId);
+    }
+}
+
 function loadManufacturers() {
     $.ajax({//Manufacturers
         type: 'GET',
@@ -897,7 +958,8 @@ function loadModels() {
                     {
                         name: result[i].name,
                         value: parseInt(result[i].id),
-                        manufacturerId: parseInt(result[i].manufacturer_id)
+                        manufacturerId: parseInt(result[i].manufacturer_id),
+                        assetTypeId: parseInt(result[i].type_id)
                     }
                 );
             });
