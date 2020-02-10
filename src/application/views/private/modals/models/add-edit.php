@@ -26,6 +26,11 @@
                         <select id="add-model-manufacturer" type="text" name="manufacturer" class="form-control ui search dropdown" value="<?php set_value('manufacturer'); ?>"></select>
                         <div id="add-model-manufacturer-error" class="invalid-feedback"></div>
                     </div>
+                    <div class="form-group">
+                        <label>Type<span class="required"> *</span></label>
+                        <select id="add-model-type" type="text" name="type" class="form-control ui search dropdown" value="<?php set_value('type'); ?>"></select>
+                        <div id="add-model-type-error" class="invalid-feedback"></div>
+                    </div>
                     <div>
                         <div class="modal-body-footer">
                             <button id="modal-cancel-add-model" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
@@ -58,6 +63,11 @@
                         <label>Manufacturer<span class="required"> *</span></label>
                         <select id="edit-model-manufacturer" type="text" name="manufacturer" class="form-control ui search dropdown" value="<?php set_value('manufacturer'); ?>"></select>
                         <div id="edit-model-manufacturer-error" class="invalid-feedback"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Type<span class="required"> *</span></label>
+                        <select id="edit-model-type" type="text" name="type" class="form-control ui search dropdown" value="<?php set_value('type'); ?>"></select>
+                        <div id="edit-model-type-error" class="invalid-feedback"></div>
                     </div>
                     <div>
                         <div class="modal-body-footer">

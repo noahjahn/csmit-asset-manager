@@ -15,6 +15,7 @@ class Models_model extends CI_Model {
             'id' => 'id',
             'name' => 'name',
             'manufacturer_id' => 'manufacturer_id',
+            'type_id' => 'type_id',
             'is_deleted' => 'is_deleted',
             'last_modified_by' => 'last_modified_by',
             'last_modified_time' => 'last_modified_time',
@@ -28,7 +29,8 @@ class Models_model extends CI_Model {
 
         $form_rules = array(
             $this->get_insert_name_rules(),
-            $this->get_insert_manufacturer_rules()
+            $this->get_insert_manufacturer_rules(),
+            $this->get_insert_type_rules(),
         );
         return $form_rules;
     }
@@ -57,6 +59,19 @@ class Models_model extends CI_Model {
             )
         );
         return $manufacturer_rules;
+    }
+
+    function get_insert_type_rules() {
+        log_message('debug', 'Models_model: get_insert_type_rules - in function');
+        $type_rules = array(
+            'field' => $this->fields['type_id'],
+            'label' => $this->fields['type_id'],
+            'rules' => 'required|callback_type_exists|trim',
+            'errors' => array(
+                'type_exists' => 'The type with id %s does not exist.'
+            )
+        );
+        return $type_rules;
     }
 
     function get_update_rules() {
@@ -163,9 +178,10 @@ class Models_model extends CI_Model {
         log_message('debug', 'Models_model: get_active - in function');
 
         $this->db->select('models.id as id, models.name as name, models.manufacturer_id, '.
-            'manufacturers.id as manufacturersid, manufacturers.name as manufacturer');
+            'manufacturers.name as manufacturer, models.type_id, asset_types.name as type');
         $this->db->from('models');
         $this->db->join('manufacturers', 'models.manufacturer_id = manufacturers.id');
+        $this->db->join('asset_types', 'models.type_id = asset_types.id', 'left'); // to remove left join after all models have been updated
         $this->db->where('models.is_deleted', FALSE);
         return $this->db->get()->result_array();
     }
@@ -257,7 +273,7 @@ class Models_model extends CI_Model {
             if ($query->result_array()[0]['id'] == $id) {
                 return TRUE;
             } else {
-                log_message('error', 'Models_model: is_name_unique_not_different_from_current - the name '.$name.' entered already exists');
+                log_message('error', 'Models_model: is_name_unique_not_different_from_current - the name '.$name.' entered already exists. query_id='.$query->result_array()[0]['id'].' id='.$id);
                 return FALSE;
             }
         } else if ($query->num_rows() == 0) {

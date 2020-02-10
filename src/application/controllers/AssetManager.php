@@ -9,7 +9,7 @@ class AssetManager extends CI_Controller {
 		$this->load->helper("authorization");
 		$this->user_id = $this->session->userdata('id');
 		$this->user_role_id = $this->session->userdata('role');
-		$this->page = 'dashboard';
+		$this->page = 'asset_manager';
 		if (! $this->session->userdata('id')) { // if the user is not logged in
             redirect(base_url());
 		}
@@ -42,8 +42,6 @@ class AssetManager extends CI_Controller {
             redirect('forbidden');
             exit;
         }
-
-		log_message('debug', $this->input->post('manufacturer_id'));
 
 		$this->form_validation->set_rules($this->AssetManager_model->get_insert_rules());
 		if ($this->form_validation->run() == TRUE) {
@@ -89,11 +87,55 @@ class AssetManager extends CI_Controller {
 		}
 	}
 
-	public function edit_asset() {
-		$this->load->helper('form');
-		$this->load->library('form_validation');
+	public function edit() {
+		log_message('debug', 'AssetManager: edit - in function');
 
-		$this->load->view('private/asset_manager/edit_asset');
+		if (!$this->input->is_ajax_request()) {
+            redirect('forbidden');
+            exit;
+        }
+
+		$this->form_validation->set_rules($this->AssetManager_model->get_update_rules());
+		if ($this->form_validation->run() == TRUE) {
+			$asset = array(
+				'id' => $this->input->post('id'),
+				'manufacturer_id' => $this->input->post('manufacturer_id'),
+				'model_id' => $this->input->post('model_id'),
+				'owner' => $this->input->post('owner'),
+				'serial_number' => $this->input->post('serial_number'),
+				'type_id' => $this->input->post('type_id'),
+				'asset_tag' => $this->input->post('asset_tag'),
+				'team_id' => $this->input->post('team_id'),
+				'purchase_price' => $this->input->post('purchase_price'),
+				'purchase_date' => $this->input->post('purchase_date'),
+				'job_number' => $this->input->post('job_number'),
+				'location' => $this->input->post('location'),
+				'notes' => $this->input->post('notes'),
+				'last_modified_by' => $this->user_id,
+				'last_modified_time' => date('Y-m-d H:i:s'),
+			);
+
+			log_message('debug', print_r($asset, TRUE));
+
+			$this->AssetManager_model->update($asset);
+			echo json_encode("success");
+			log_message('debug', 'AssetManager: edit - successfully updated asset');
+		} else {
+			$errors = array(
+                'manufacturer_id' => form_error('manufacturer_id'),
+                'model_id' => form_error('model_id'),
+				'owner' => form_error('owner'),
+                'serial_number' => form_error('serial_number'),
+				'type_id' => form_error('type_id'),
+                'asset_tag' => form_error('asset_tag'),
+				'team_id' => form_error('team_id'),
+                'purchase_price' => form_error('purchase_price'),
+				'purchase_date' => form_error('purchase_date'),
+				'job_number' => form_error('job_number'),
+                'location' => form_error('location')
+            );
+			echo json_encode($errors);
+		}
 	}
 
 	public function delete($id) {
@@ -111,6 +153,20 @@ class AssetManager extends CI_Controller {
 		log_message('debug', 'AssetManager: is_asset_tag_unique - in function');
 
 		return $this->AssetManager_model->is_asset_tag_unique($asset_tag);
+	}
+
+	public function is_serial_number_unique_not_different_from_current($serial_number) {
+		log_message('debug', 'AssetManager: is_serial_number_unique_not_different_from_current - in function');
+
+		$id = $this->input->post('id');
+		return $this->AssetManager_model->is_serial_number_unique_not_different_from_current($serial_number, $id);
+	}
+
+	public function is_asset_tag_unique_not_different_from_current($asset_tag) {
+		log_message('debug', 'AssetManager: is_asset_tag_unique_not_different_from_current - in function');
+
+		$id = $this->input->post('id');
+		return $this->AssetManager_model->is_asset_tag_unique_not_different_from_current($asset_tag, $id);
 	}
 
 }

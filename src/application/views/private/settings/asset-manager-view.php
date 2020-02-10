@@ -50,8 +50,9 @@
         </div>
         <div class="col-lg">
             <table id="models" class="table table-hover" style="table-layout: auto;">
-                <col width="45%">
-                <col width="45%">
+                <col width="30%">
+                <col width="30%">
+                <col width="30%">
                 <col width="5%">
                 <col width="5%">
                 <thead>
@@ -59,6 +60,7 @@
                         <th>ID</th>
                         <th>Name</th>
                         <th>Manufacturer</th>
+                        <th>Type</th>
                     </tr>
                 </thead>
             </table>
