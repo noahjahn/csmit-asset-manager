@@ -1,6 +1,7 @@
 //Controller function URLs
 var deleteAssetUrl = baseUrl + "AssetManager/delete";
 var addAssetUrl = baseUrl + "AssetManager/add";
+var editAssetUrl = baseUrl + "AssetManager/edit";
 var getActiveManufacturersUrl = baseUrl + "Manufacturers/get_active";
 var getActiveModelsUrl = baseUrl + "Models/get_active";
 var getActiveModelsByManufacturerIdUrl = baseUrl + "Models/get_active_by_manufacturer_id";
@@ -145,11 +146,12 @@ Build Asset Manager table
         // });
 
         $('#add-asset-model').dropdown('setting', 'onChange', function(value) {
+            var action = 'add';
             var manufacturerId = getModelManufacturer(value);
-            setManufacturer(getManufacturerName(manufacturerId), manufacturerId);
+            setManufacturer(getManufacturerName(manufacturerId), manufacturerId, action);
             var assetTypeId = getModelAssetType(value);
-            setAssetType(getAssetTypeName(assetTypeId), assetTypeId);
-            setRate(getRate(assetTypeId));
+            setAssetType(getAssetTypeName(assetTypeId), assetTypeId, action);
+            setRate(getRate(assetTypeId), action);
         });
 
         $('#add-asset-team').dropdown({
@@ -185,89 +187,326 @@ Decision Path:
         >Anywhere else on the row clicked : Expand details row
 ********************************************************************************
 *******************************************************************************/
-    $('#asset-manager').on('click', '.parent-row', function(e) {
+$('#asset-manager').on('click', '.parent-row', function(e) {
+    // Get row we're on
+    var tr = $(this);
+    var row = table.row(this);
 
-      //Get row we're on
-      var tr = $(this);
-      var row = table.row(this);
+    // Get current values in row.
+    // Replace inputs with these after editing if nothing was changed.
+    //--STILL NEED-- Update field if the value changed.
+    var id = table.cell(row,0).data();
+    var model = table.cell(row,1).data();
+    var manufacturer = table.cell(row,2).data();
+    var owner = table.cell(row,3).data();
+    var type = table.cell(row,4).data();
+    var asset_tag = table.cell(row,5).data();
+    var team = table.cell(row,6).data();
+    var rate = table.cell(row,7).data();
+    var serial_number = table.cell(row,10).data();
+    var purchase_price = table.cell(row,11).data();
+    var job_number = table.cell(row,12).data();
+    var location = table.cell(row,13).data();
+    var purchase_date = table.cell(row,14).data();
+    var notes = table.cell(row,15).data();
+    var last_modified_time = table.cell(row,16).data();
 
-      //Sanity check to ensure we're clicking the "edit button". Delete later
-      if(e.target.id == 'edit-asset-button') {
-        console.log("edit click");
-      }
-
-      //Get current values in row.
-      //Replace inputs with these after editing if nothing was changed.
-      //--STILL NEED-- Update field if the value changed.
-      var model = table.cell(row,1).data();
-      var manufacturer = table.cell(row,2).data();
-      var owner = table.cell(row,3).data();
-      var type = table.cell(row,4).data();
-      var asset_tag = table.cell(row,5).data();
-      var team = table.cell(row,6).data();
-      var rate = table.cell(row,7).data();
-      var serial_number = table.cell(row,10).data();
-      var purchase_price = table.cell(row,11).data();
-      var job_number = table.cell(row,12).data();
-      var location = table.cell(row,13).data();
-      var purchase_date = table.cell(row,14).data();
-      var notes = table.cell(row,15).data();
-      var last_modified_time = table.cell(row,16).data();
-
-
-
-
-/****************IF Detail Row is EXPANDED before clicking*********************/
-      if (row.child.isShown() ) {
-
+    /****************IF Detail Row is EXPANDED before clicking*********************/
+    if (row.child.isShown() ) {
         /**********************If row is in edit mode************************/
-        if($(this).hasClass('edit-mode')) {
-          /**********If the save button is clicked**********/
-          if(e.target.id == 'edit-asset-button') {
+        if ($(this).hasClass('edit-mode')) {
+            /**********If the save button is clicked**********/
+            if (e.target.id == 'edit-asset-button') {
+                var modelId = $('#edit-asset-model').siblings('.menu').children('.item.active.selected').data('value');
+                var manufacturerId = $(this).find('.asset_manager_manufacturer input').data('manufacturer_id');
+                var typeId = $(this).find('.asset_manager_type input').data('type_id');
+                var teamId = $('#edit-asset-team').siblings('.menu').children('.item.active.selected').data('value');
 
-            //leave edit mode
-            $(this).removeClass('edit-mode');
+                var serializedData = "id=" + id + "&model_id=" +  modelId + "&manufacturer_id=" + manufacturerId + "&type_id=" + typeId + "&team_id=" + teamId + "&";
+                serializedData = serializedData + $(this).find('.asset_manager_owner :input').serialize() + "&";
+                serializedData = serializedData + $(this).find('.asset_manager_asset_tag :input').serialize() + "&";
+                serializedData = serializedData + row.child().find('.asset_manager_serial_number :input').serialize()  + "&";
+                serializedData = serializedData + row.child().find('.asset_manager_purchase_price :input').serialize() + "&";
+                serializedData = serializedData + row.child().find('.asset_manager_purchase_date :input').serialize() + "&";
+                serializedData = serializedData + row.child().find('.asset_manager_job_number :input').serialize() + "&";
+                serializedData = serializedData + row.child().find('.asset_manager_location :input').serialize() + "&";
+                serializedData = serializedData + row.child().find('.asset_manager_notes :input').serialize() + "&";
 
-            //Make delete trash-icon visible and usable.
-            $(this).find('#delete-asset-button').attr('data-target','#delete-asset');
-            $(this).find('#delete-asset-button').css('display','block');
+                // Push changes to Database
+                $.ajax({
+                    type: 'POST',
+                    url: editAssetUrl,
+                    dataType: 'json',
+                    data: serializedData,
+                    success: function(result) {
+                        if (result == "success") {
+                            // leave edit mode
+                            $(this).removeClass('edit-mode');
 
-            //Remove Save button, and replace with Edit Button
-            $(this).find('#edit-asset-button').replaceWith('<button class="table-icon" id="edit-asset-button" data-toggle="modal" data-target="#edit-asset" data-type="POST" data-tableid="asset-manager" data-id = "' + row.id + '" data-url="AssetManager/edit/' + row.id + '"><img class="mini-icon" id="edit-asset-button" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button>');
+                            // Make delete trash-icon visible and usable.
+                            $(this).find('#delete-asset-button').attr('data-target','#delete-asset');
+                            $(this).find('#delete-asset-button').css('display','block');
 
-            //Push changes to Database
+                            // Remove Save button, and replace with Edit Button
+                            $(this).find('#edit-asset-button').replaceWith('<button class="table-icon" id="edit-asset-button" data-toggle="modal" data-target="#edit-asset" data-type="POST" data-tableid="asset-manager" data-id = "' + row.id + '" data-url="AssetManager/edit/' + row.id + '"><img class="mini-icon" id="edit-asset-button" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button>');
 
+                            $("#asset-manager").DataTable().ajax.reload(); // also need to reload the datatable since we successfully add an asset type
+                        } else {
+                            console.log(result);
+                            // if (! result["manufacturer_id"] == "") {
+                            //     if (! result["manufacturer_id"] == addManufacturerIdError.val()) {
+                            //         addManufacturerIdError.empty(); // empty error messages, if there were any
+                            //         addManufacturerIdError.append(result["manufacturer_id"]); // display the error messages
+                            //     }
+                            //     if (! addManufacturerIdField.parent().hasClass('is-invalid-dropdown')) {
+                            //         addManufacturerIdField.parent().addClass('is-invalid-dropdown');
+                            //         addManufacturerIdField.siblings('.dropdown.icon').css('margin-right', '0.5em');
+                            //         addManufacturerIdField.parent().parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                            //     }
+                            // }
+                            // if (! result["model_id"] == "") {
+                            //     if (! result["model_id"] == addModelIdError.val()) {
+                            //         addModelIdError.empty(); // empty error messages, if there were any
+                            //         addModelIdError.append(result["model_id"]); // display the error messages
+                            //     }
+                            //     if (! addModelIdField.parent().hasClass('is-invalid-dropdown')) {
+                            //         addModelIdField.parent().addClass('is-invalid-dropdown');
+                            //         addModelIdField.siblings('.dropdown.icon').css('margin-right', '0.5em');
+                            //         addModelIdField.parent().parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                            //     }
+                            // }
+                            // if (! result["owner"] == "") {
+                            //     if (! result["owner"] == addOwnerError.val()) {
+                            //         addOwnerError.empty(); // empty error messages, if there were any
+                            //         addOwnerError.append(result["owner"]); // display the error messages
+                            //     }
+                            //     if (! addOwnerField.hasClass('is-invalid')) {
+                            //         addOwnerField.addClass('is-invalid');
+                            //         addOwnerField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                            //     }
+                            // }
+                            // if (! result["serial_number"] == "") {
+                            //     if (! result["serial_number"] == addSerialNumberError.val()) {
+                            //         addSerialNumberError.empty(); // empty error messages, if there were any
+                            //         addSerialNumberError.append(result["serial_number"]); // display the error messages
+                            //     }
+                            //     if (! addSerialNumberField.hasClass('is-invalid')) {
+                            //         addSerialNumberField.addClass('is-invalid');
+                            //         addSerialNumberField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                            //     }
+                            // }
+                            // if (! result["type_id"] == "") {
+                            //     if (! result["type_id"] == addTypeIdError.val()) {
+                            //         addTypeIdError.empty(); // empty error messages, if there were any
+                            //         addTypeIdError.append(result["type_id"]); // display the error messages
+                            //     }
+                            //     if (! addTypeIdField.parent().hasClass('is-invalid-dropdown')) {
+                            //         addTypeIdField.parent().addClass('is-invalid-dropdown');
+                            //         addTypeIdField.siblings('.dropdown.icon').css('margin-right', '0.5em');
+                            //         addTypeIdField.parent().parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                            //     }
+                            // }
+                            // if (! result["asset_tag"] == "") {
+                            //     if (! result["asset_tag"] == addAssetTagError.val()) {
+                            //         addAssetTagError.empty(); // empty error messages, if there were any
+                            //         addAssetTagError.append(result["asset_tag"]); // display the error messages
+                            //     }
+                            //     if (! addAssetTagField.hasClass('is-invalid')) {
+                            //         addAssetTagField.addClass('is-invalid');
+                            //         addAssetTagField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                            //     }
+                            // }
+                            // if (! result["team_id"] == "") {
+                            //     if (! result["team_id"] == addTeamIdError.val()) {
+                            //         addTeamIdError.empty(); // empty error messages, if there were any
+                            //         addTeamIdError.append(result["team_id"]); // display the error messages
+                            //     }
+                            //     if (! addTeamIdField.parent().hasClass('is-invalid-dropdown')) {
+                            //         addTeamIdField.parent().addClass('is-invalid-dropdown');
+                            //         addTeamIdField.siblings('.dropdown.icon').css('margin-right', '0.5em');
+                            //         addTeamIdField.parent().parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                            //     }
+                            // }
+                            // if (! result["purchase_price"] == "") {
+                            //     if (! result["purchase_price"] == addPurchasePriceError.val()) {
+                            //         addPurchasePriceError.empty(); // empty error messages, if there were any
+                            //         addPurchasePriceError.append(result["purchase_price"]); // display the error messages
+                            //     }
+                            //     if (! addPurchasePriceField.hasClass('is-invalid')) {
+                            //         addPurchasePriceField.addClass('is-invalid');
+                            //         addPurchasePriceField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                            //     }
+                            // }
+                            // if (! result["purchase_date"] == "") {
+                            //     if (! result["purchase_date"] == addPurchaseDateError.val()) {
+                            //         addPurchaseDateError.empty(); // empty error messages, if there were any
+                            //         addPurchaseDateError.append(result["purchase_date"]); // display the error messages
+                            //     }
+                            //     if (! addPurchaseDateField.hasClass('is-invalid')) {
+                            //         addPurchaseDateField.addClass('is-invalid');
+                            //         addPurchaseDateField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                            //     }
+                            // }
+                            // if (! result["job_number"] == "") {
+                            //     if (! result["job_number"] == addJobNumberError.val()) {
+                            //         addJobNumberError.empty(); // empty error messages, if there were any
+                            //         addJobNumberError.append(result["job_number"]); // display the error messages
+                            //     }
+                            //     if (! addJobNumberField.hasClass('is-invalid')) {
+                            //         addJobNumberField.addClass('is-invalid');
+                            //         addJobNumberField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                            //     }
+                            // }
+                            // if (! result["location"] == "") {
+                            //     if (! result["location"] == addLocationError.val()) {
+                            //         addLocationError.empty(); // empty error messages, if there were any
+                            //         addLocationError.append(result["location"]); // display the error messages
+                            //     }
+                            //     if (! addLocationField.hasClass('is-invalid')) {
+                            //         addLocationField.addClass('is-invalid');
+                            //         addLocationField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                            //     }
+                            // }
+                        }
+                    },
+                    error: function(result) {
+                        var today = new Date();
+                        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                        console.log("AJAX error, check server logs near local time: " + time);
+                    }
+                });
 
-              /**If edit was clicked, save changes**/
-            //  var serial_number = table.cell(row,10).data();
-              //var serial_number = table.cell(row,10).data();
-            //  var serial_number = table.cell(row,10).data();
+                /**If edit was clicked, save changes**/
+                //  var serial_number = table.cell(row,10).data();
+                //var serial_number = table.cell(row,10).data();
+                //  var serial_number = table.cell(row,10).data();
 
-            $(this).find('.asset_manager_model').html(model);
-            $(this).find('.asset_manager_manufacturer').html(manufacturer);
-            $(this).find('.asset_manager_owner').html(owner);
-            $(this).find('.asset_manager_type').html(type);
-            $(this).find('.asset_manager_asset_tag').html(asset_tag);
-            $(this).find('.asset_manager_team').html(team);
-            $(this).find('.asset_manager_rate').html(rate);
-            row.child().find("p.asset_manager_serial_number").html(serial_number);
-            row.child().find("p.asset_manager_purchase_price").html(purchase_price);
-            row.child().find("p.asset_manager_job_number").html(job_number);
-            row.child().find("p.asset_manager_location").html(location);
-            row.child().find("p.asset_manager_purchase_date").html(purchase_date);
-            row.child().find("p.asset_manager_notes").html(notes);
-            row.child().find("p.asset_manager_last_modified_time").html(last_modified_time);
+                // $(this).find('.asset_manager_model').html(model);
+                // $(this).find('.asset_manager_manufacturer').html(manufacturer);
+                // $(this).find('.asset_manager_owner').html(owner);
+                // $(this).find('.asset_manager_type').html(type);
+                // $(this).find('.asset_manager_asset_tag').html(asset_tag);
+                // $(this).find('.asset_manager_team').html(team);
+                // $(this).find('.asset_manager_rate').html(rate);
+                // row.child().find("p.asset_manager_serial_number").html(serial_number);
+                // row.child().find("p.asset_manager_purchase_price").html(purchase_price);
+                // row.child().find("p.asset_manager_job_number").html(job_number);
+                // row.child().find("p.asset_manager_location").html(location);
+                // row.child().find("p.asset_manager_purchase_date").html(purchase_date);
+                // row.child().find("p.asset_manager_notes").html(notes);
+                // row.child().find("p.asset_manager_last_modified_time").html(last_modified_time);
 
-          }
-          /**********If the save button is not clicked**********/
-          else {
-              ;//do nothing.
-          }
+            } else {     /**********If the save button is not clicked**********/
+            // do nothing.
+            }
+        } else { /**********************If row is NOT in edit mode**********************/
+            if (e.target.id == 'edit-asset-button') { /**********If the edit button is clicked**********/
+                // Enter edit mode
+                $(this).addClass('edit-mode');
+
+                // dropdown Variables
+                var manufacturer_id = table.cell(row,17).data();
+                var model_id = table.cell(row,18).data();
+                var type_id = table.cell(row,19).data();
+                var team_id = table.cell(row,20).data();
+
+                // Hide delete Trash-icon
+                $(this).find('#delete-asset-button').attr('data-target','');
+                $(this).find('#delete-asset-button').css('display','none');
+
+                // Replace edit button with save button
+                $(this).find('img#edit-asset-button.mini-icon').remove();
+                $(this).find('button#edit-asset-button.table-icon').replaceWith('<button id="edit-asset-button" type="button" class="btn btn-primary">Save</button>');
+
+                /**If edit was clicked, open input fields and ensure details are expanded.**/
+                // Parent row fields
+                // Model
+                var record = $(this);
+                $(this).find('.asset_manager_model').html('<select id="edit-asset-model" name="model_id" class="form-control ui search dropdown in-row-edit-dropdown" value="<?php set_value(\'model_id\'); ?>"></select>');
+                $(this).find('#edit-asset-model').dropdown({
+                    values: modelsDropdown,
+                    onChange: function (value) {
+                        var action = 'edit';
+                        var manufacturerId = getModelManufacturer(value);
+                        setManufacturer(getManufacturerName(manufacturerId), manufacturerId, action, record);
+                        var assetTypeId = getModelAssetType(value);
+                        setAssetType(getAssetTypeName(assetTypeId), assetTypeId, action, record);
+                        setRate(getRate(assetTypeId), action, record);
+                    }
+                });
+                $(this).find('#edit-asset-model').dropdown('set selected', model_id);
+
+                // Manufacturer
+                $(this).find('.asset_manager_manufacturer').html('<input type="text" name="manufacturer_id" class="in-row-edit form-control" placeholder="" disabled></input>');
+                $(this).find('.asset_manager_manufacturer .in-row-edit').attr("placeholder", manufacturer);
+                $(this).find('.asset_manager_manufacturer .in-row-edit').attr('data-manufacturer_id', manufacturer_id);
+
+                // Owner
+                $(this).find('.asset_manager_owner').html('<input type="text" name="owner" class="in-row-edit form-control"></input>');
+                $(this).find('.asset_manager_owner .in-row-edit').attr('value', owner);
+
+                // Type
+                $(this).find('.asset_manager_type').html('<input type="text" name="type_id" class="in-row-edit form-control" placeholder="" disabled></input>');
+                $(this).find('.asset_manager_type .in-row-edit').attr("placeholder", type);
+                $(this).find('.asset_manager_type .in-row-edit').attr('data-type_id', type_id);
+
+                // Asset Tag
+                $(this).find('.asset_manager_asset_tag').html('<input type="text" name="asset_tag" class="in-row-edit form-control" name="asset_tag"></input>');
+                $(this).find('.asset_manager_asset_tag .in-row-edit').attr('value', asset_tag)
+
+                // Team
+                $(this).find('.asset_manager_team').html('<select id="edit-asset-team" type="text" name="team_id" class="form-control ui search dropdown in-row-edit-dropdown"></select>');
+                $(this).find('#edit-asset-team').dropdown({
+                    values: teamsDropdown
+                });
+                $(this).find('#edit-asset-team').dropdown('set selected', team_id);
+
+                // Rate
+                // $(this).find('.asset_manager_rate .in-row-edit').attr('value', rate)
+                $(this).find('.asset_manager_rate').html('<input type="text" name="rate" class="in-row-edit form-control" placeholder="" disabled></input>');
+                $(this).find('.asset_manager_rate .in-row-edit').attr("placeholder", '$' + rate);
+
+                // Child row fields
+                // Serial Number
+                row.child().find('.asset_manager_serial_number').html('<input type="text" name="serial_number" class="in-row-edit form-control" value="' + serial_number + '"></input>');
+
+                // Purchase Price
+                row.child().find('.asset_manager_purchase_price').html('<input type="text" name="purchase_price" class="in-row-edit form-control" value="' + purchase_price + '"></input>');
+
+                // Job Number
+                row.child().find('.asset_manager_job_number').html('<input type="text" name="job_number" class="in-row-edit form-control" value="' + job_number + '"></input>');
+
+                // Location
+                row.child().find('.asset_manager_location').html('<input type="text" name="location" class="in-row-edit form-control" value="' + location + '"></input>');
+
+                // Purchase Date
+                row.child().find('.asset_manager_purchase_date').html('<input type="text" name="purchase_date" class="in-row-edit form-control" value="' + purchase_date + '"></input>');
+
+                // Notes
+                row.child().find('.asset_manager_notes').html('<input type="text" name="notes" class="in-row-edit form-control" value="' + notes + '"></input>');
+                // Correct the height of the dropdowns.
+                //  $(this).find('.in-row-edit-dropdown input').css({'padding-top': '0','horizontal-align': 'center'});
+                //  $(this).find('.in-row-edit-dropdown input').css({'padding-bottom': '0','horizontal-align': 'center'});
+
+                $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
+            } else if (e.target.id == 'delete-asset-button') { /**********If the delete button is clicked**********/
+                // do nothing
+            } else { /**********If Anywhere else on the row is clicked**********/
+                // Remove light-grey focus styled when detail row is closed
+                $(tr).css({"box-shadow":"none"});
+                row.child().find('div').css({"box-shadow":"none"});
+                // Close detail row
+                $('div.slider', row.child()).slideUp( 300,function () {
+                    row.child.hide();
+                    tr.removeClass('shown');
+                });
+            }
         }
-        /**********************If row is NOT in edit mode**********************/
-        else {
-          /**********If the edit button is clicked**********/
-          if(e.target.id == 'edit-asset-button') {
+    /*********END EXPANDED ROW IF***********/
+    } else { /****************IF Detail Row is CLOSED before clicking*********************/
+        // If child row is NOT shown
+        /**********If the edit button is  clicked**********/
+        if(e.target.id == 'edit-asset-button') {
             //Enter edit mode
             $(this).addClass('edit-mode');
 
@@ -285,202 +524,110 @@ Decision Path:
             $(this).find('img#edit-asset-button.mini-icon').remove();
             $(this).find('button#edit-asset-button.table-icon').replaceWith('<button id="edit-asset-button" type="button" class="btn btn-primary">Save</button>');
 
+            //Get child row structure
+            row.child( formatRow(row.data()), 'slider' ).show();
+            //Fill child row fields
+            //Slide detail row down
+            tr.addClass('shown');
+            $('div.slider', row.child()).slideDown(300);
+            // Add light-grey focus styling when detail row is opening
+            // $('div.slider').css({"background-color":"#3B3B3B", "box-shadow":"inset 0px -1px 2px black"});
+            // $(tr).css("background-color","#3B3B3B");
+            // $(tr).css("box-shadow","inset 0px 2px 2px black");
+
             /**If edit was clicked, open input fields and ensure details are expanded.**/
-            ////Parent row fields
+            // Parent row fields
+            // Model
+            var record = $(this);
+            $(this).find('.asset_manager_model').html('<select id="edit-asset-model" name="model_id" class="form-control ui search dropdown in-row-edit-dropdown" value="<?php set_value(\'model_id\'); ?>"></select>');
+            $(this).find('#edit-asset-model').dropdown({
+                values: modelsDropdown,
+                onChange: function (value) {
+                    var action = 'edit';
+                    var manufacturerId = getModelManufacturer(value);
+                    setManufacturer(getManufacturerName(manufacturerId), manufacturerId, action, record);
+                    var assetTypeId = getModelAssetType(value);
+                    setAssetType(getAssetTypeName(assetTypeId), assetTypeId, action, record);
+                    setRate(getRate(assetTypeId), action, record);
+                }
+            });
+            $(this).find('#edit-asset-model').dropdown('set selected', model_id);
 
-            //Model
-            $(this).find('.asset_manager_model').html('<select id="model-dropdown" type="text" name="model" class="ui search dropdown in-row-edit-dropdown"></select>');
-            $(this).find('#model-dropdown').dropdown({
-                    values: modelsDropdown
-            });
-            $(this).find('#model-dropdown').dropdown('set selected', model_id);
-            //Manufacturer
-            $(this).find('.asset_manager_manufacturer').html('<select id="manufacturer-dropdown" type="text" name="manufacturer" class="ui search dropdown in-row-edit-dropdown"></select>');
-            $(this).find('#manufacturer-dropdown').dropdown({
-                  values: manufacturersDropdown
-            });
-            $(this).find('#manufacturer-dropdown').dropdown('set selected', manufacturer_id);
-            //Owner
-            $(this).find('.asset_manager_owner').html('<input type="text" class="in-row-edit"></input>');
-            $(this).find('.asset_manager_owner .in-row-edit').attr('value', owner)
-            //Type
-            $(this).find('.asset_manager_type').html('<select id="type-dropdown" type="text" name="type" class="ui search dropdown in-row-edit-dropdown"></select>');
-            $(this).find('#type-dropdown').dropdown({
-                  values: typesDropdown
-            });
-            $(this).find('#type-dropdown').dropdown('set selected', type_id);
-            //Asset Tag
-            $(this).find('.asset_manager_asset_tag').html('<input type="text" class="in-row-edit"></input>');
+            // Manufacturer
+            $(this).find('.asset_manager_manufacturer').html('<input type="text" name="manufacturer_id" class="in-row-edit form-control" placeholder="" disabled></input>');
+            $(this).find('.asset_manager_manufacturer .in-row-edit').attr("placeholder", manufacturer);
+            $(this).find('.asset_manager_manufacturer .in-row-edit').attr('data-manufacturer_id', manufacturer_id);
+
+            // Owner
+            $(this).find('.asset_manager_owner').html('<input type="text" name="owner" class="in-row-edit form-control"></input>');
+            $(this).find('.asset_manager_owner .in-row-edit').attr('value', owner);
+
+            // Type
+            $(this).find('.asset_manager_type').html('<input type="text" name="type_id" class="in-row-edit form-control" placeholder="" disabled></input>');
+            $(this).find('.asset_manager_type .in-row-edit').attr("placeholder", type);
+            $(this).find('.asset_manager_type .in-row-edit').attr('data-type_id', type_id);
+
+            // Asset Tag
+            $(this).find('.asset_manager_asset_tag').html('<input type="text" name="asset_tag" class="in-row-edit form-control"></input>');
             $(this).find('.asset_manager_asset_tag .in-row-edit').attr('value', asset_tag)
-            //Team
-            $(this).find('.asset_manager_team').html('<select id="team-dropdown" type="text" name="team" class="ui search dropdown in-row-edit-dropdown"></select>');
-            $(this).find('#team-dropdown').dropdown({
-                  values: teamsDropdown
+
+            // Team
+            $(this).find('.asset_manager_team').html('<select id="edit-asset-team" type="text" name="team_id" class="form-control ui search dropdown in-row-edit-dropdown"></select>');
+            $(this).find('#edit-asset-team').dropdown({
+                values: teamsDropdown
             });
-            $(this).find('#team-dropdown').dropdown('set selected', team_id);
-            //Rate
-            $(this).find('.asset_manager_rate').html('<input type="text" class="in-row-edit"></input>');
-            $(this).find('.asset_manager_rate .in-row-edit').attr('value', rate)
+            $(this).find('#edit-asset-team').dropdown('set selected', team_id);
 
-            ////Child row fields
+            // Rate
+            // $(this).find('.asset_manager_rate .in-row-edit').attr('value', rate)
+            $(this).find('.asset_manager_rate').html('<input type="text" name="rate" class="in-row-edit form-control" placeholder="" disabled></input>');
+            $(this).find('.asset_manager_rate .in-row-edit').attr("placeholder", '$' + rate);
 
-            //Serial Number
-            row.child().find('.asset_manager_serial_number').html('<input type="text" class="in-row-edit"></input>');
-            //Purchase Price
-            row.child().find('.asset_manager_purchase_price').html('<input type="text" class="in-row-edit"></input>');
-            //Job Number
-            row.child().find('.asset_manager_job_number').html('<input type="text" class="in-row-edit"></input>');
-            //Location
-            row.child().find('.asset_manager_location').html('<input type="text" class="in-row-edit"></input>');
-            //Purchase Date
-            row.child().find('.asset_manager_purchase_date').html('<input type="text" class="in-row-edit"></input>');
-            //Notes
-            row.child().find('.asset_manager_notes').html('<input type="text" class="in-row-edit" value="notes would go here"></input>');
+            // Child row fields
+            // Serial Number
+            row.child().find('.asset_manager_serial_number').html('<input type="text" name="serial_number" class="in-row-edit form-control" value="' + serial_number + '"></input>');
 
-            //Correct the height of the dropdowns.
-          //  $(this).find('.in-row-edit-dropdown input').css({'padding-top': '0','horizontal-align': 'center'});
-          //  $(this).find('.in-row-edit-dropdown input').css({'padding-bottom': '0','horizontal-align': 'center'});
+            // Purchase Price
+            row.child().find('.asset_manager_purchase_price').html('<input type="text" name="purchase_price" class="in-row-edit form-control" value="' + purchase_price + '"></input>');
+
+            // Job Number
+            row.child().find('.asset_manager_job_number').html('<input type="text" name="job_number" class="in-row-edit form-control" value="' + job_number + '"></input>');
+
+            // Location
+            row.child().find('.asset_manager_location').html('<input type="text" name="location" class="in-row-edit form-control" value="' + location + '"></input>');
+
+            // Purchase Date
+            row.child().find('.asset_manager_purchase_date').html('<input type="text" name="purchase_date" class="in-row-edit form-control" value="' + purchase_date + '"></input>');
+
+            // Notes
+            row.child().find('.asset_manager_notes').html('<input type="text" name="notes" class="in-row-edit form-control" value="' + notes + '"></input>');
 
             $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
-          }
-          /**********If the delete button is clicked**********/
-          else if (e.target.id == 'delete-asset-button') {
-            ;//Do Nothing *here*. Modal will catch event.
-          }
-          /**********If Anywhere else on the row is clicked**********/
-          else {
-            //Remove light-grey focus styled when detail row is closed
-            $(tr).css({"box-shadow":"none"});
-            //  $(tr).children().css();
-            row.child().find('div').css({"box-shadow":"none"});
-            //Close detail row
-            $('div.slider', row.child()).slideUp( 300,function () {
-                row.child.hide();
-                tr.removeClass('shown');
-            } );
-          }
+
+        } else if (e.target.id == 'delete-asset-button') {//If delete button is clicked
+            //Do Nothing *here*. Modal will catch event.
+        } else {
+            /**********If Anywhere else on the row is clicked**********/
+            //Highlight icons
+            //Slide detail row down
+            tr.addClass('shown');
+            //Get child row structure
+            row.child( formatRow(row.data()), 'slider' ).show();
+            //Fill child row fields
+            row.child().find("p.asset_manager_serial_number").html(serial_number);
+            row.child().find("p.asset_manager_purchase_price").html(purchase_price);
+            row.child().find("p.asset_manager_job_number").html(job_number);
+            row.child().find("p.asset_manager_location").html(location);
+            row.child().find("p.asset_manager_purchase_date").html(purchase_date);
+            row.child().find("p.asset_manager_notes").html(notes);
+            row.child().find("p.asset_manager_last_modified_time").html(last_modified_time);
+            $('div.slider', row.child()).slideDown(300);
+            //Add light-grey focus styling when detail row is opening
+            $('div.slider').css({"background-color":"#3B3B3B", "box-shadow":"inset 0px -1px 2px black"});
+            $(tr).css("background-color","#3B3B3B");
+            $(tr).css("box-shadow","inset 0px 2px 2px black");
         }
-      }
-/*********END EXPANDED ROW IF***********/
-
-/****************IF Detail Row is CLOSED before clicking*********************/
-      else { //If child row is NOT shown
-
-        /**********If the edit button is  clicked**********/
-        if(e.target.id == 'edit-asset-button') {
-
-          //Enter edit mode
-          $(this).addClass('edit-mode');
-
-          //dropdown Variables
-          var manufacturer_id = table.cell(row,17).data();
-          var model_id = table.cell(row,18).data();
-          var type_id = table.cell(row,19).data();
-          var team_id = table.cell(row,20).data();
-
-          //Hide delete Trash-icon
-          $(this).find('#delete-asset-button').attr('data-target','');
-          $(this).find('#delete-asset-button').css('display','none');
-
-          //Replace edit button with save button
-          $(this).find('img#edit-asset-button.mini-icon').remove();
-          $(this).find('button#edit-asset-button.table-icon').replaceWith('<button id="edit-asset-button" type="button" class="btn btn-primary">Save</button>');
-
-          //Get child row structure
-          row.child( formatRow(row.data()), 'slider' ).show();
-          //Fill child row fields
-          //Slide detail row down
-          tr.addClass('shown');
-          $('div.slider', row.child()).slideDown(300);
-          //Add light-grey focus styling when detail row is opening
-          $('div.slider').css({"background-color":"#3B3B3B", "box-shadow":"inset 0px -1px 2px black"});
-          $(tr).css("background-color","#3B3B3B");
-          $(tr).css("box-shadow","inset 0px 2px 2px black");
-
-          /**If edit was clicked, open input fields and ensure details are expanded.**/
-          //Parent row fields
-
-          //Model
-          $(this).find('.asset_manager_model').html('<select id="model-dropdown" type="text" name="model" class="ui search dropdown in-row-edit-dropdown"></select>');
-          $(this).find('#model-dropdown').dropdown({
-                values: modelsDropdown
-          });
-          $(this).find('#model-dropdown').dropdown('set selected', model_id);
-          //Manufacturer
-          $(this).find('.asset_manager_manufacturer').html('<select id="manufacturer-dropdown" type="text" name="manufacturer" class="ui search dropdown in-row-edit-dropdown"></select>');
-          $(this).find('#manufacturer-dropdown').dropdown({
-                values: manufacturersDropdown
-          });
-          $(this).find('#manufacturer-dropdown').dropdown('set selected', manufacturer_id);
-          //Owner
-          $(this).find('.asset_manager_owner').html('<input type="text" class="in-row-edit"></input>');
-          $(this).find('.asset_manager_owner .in-row-edit').attr('value', owner)
-          //Type
-          $(this).find('.asset_manager_type').html('<select id="type-dropdown" type="text" name="type" class="ui search dropdown in-row-edit-dropdown"></select>');
-          $(this).find('#type-dropdown').dropdown({
-                values: typesDropdown
-          });
-          $(this).find('#type-dropdown').dropdown('set selected', type_id);
-          //Asset Tag
-          $(this).find('.asset_manager_asset_tag').html('<input type="text" class="in-row-edit"></input>');
-          $(this).find('.asset_manager_asset_tag .in-row-edit').attr('value', asset_tag)
-          //Team
-          $(this).find('.asset_manager_team').html('<select id="team-dropdown" type="text" name="team" class="ui search dropdown in-row-edit-dropdown"></select>');
-          $(this).find('#team-dropdown').dropdown({
-                values: teamsDropdown
-          });
-          $(this).find('#team-dropdown').dropdown('set selected', team_id);
-          //Rate
-          $(this).find('.asset_manager_rate').html('<input type="text" class="in-row-edit"></input>');
-          $(this).find('.asset_manager_rate .in-row-edit').attr('value', rate)
-          //Child row fields
-          //Serial Number
-          row.child().find('.asset_manager_serial_number').html('<input type="text" class="in-row-edit"></input>');
-          //Purchase Price
-          row.child().find('.asset_manager_purchase_price').html('<input type="text" class="in-row-edit"></input>');
-          //Job Number
-          row.child().find('.asset_manager_job_number').html('<input type="text" class="in-row-edit"></input>');
-          //Location
-          row.child().find('.asset_manager_location').html('<input type="text" class="in-row-edit"></input>');
-          //Purchase Date
-          row.child().find('.asset_manager_purchase_date').html('<input type="text" class="in-row-edit"></input>');
-          //Notes
-          row.child().find('.asset_manager_notes').html('<input type="text" class="in-row-edit" value="notes would go here"></input>');
-
-          //Correct the height of the dropdowns.
-        //  $(this).find('.in-row-edit-dropdown input').css({'padding-top':'0','horizontal-align': 'center'});
-        //  $(this).find('.in-row-edit-dropdown input').css({'padding-bottom': '0','horizontal-align': 'center'});
-
-          $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
-
-        }
-        /**********If the delete button is  clicked**********/
-        else if (e.target.id == 'delete-asset-button') {//If delete button is clicked
-          ;//Do Nothing *here*. Modal will catch event.
-        }
-        /**********If Anywhere else on the row is clicked**********/
-        else {
-          //Highlight icons
-          //Slide detail row down
-          tr.addClass('shown');
-          //Get child row structure
-          row.child( formatRow(row.data()), 'slider' ).show();
-          //Fill child row fields
-          row.child().find("p.asset_manager_serial_number").html(serial_number);
-          row.child().find("p.asset_manager_purchase_price").html(purchase_price);
-          row.child().find("p.asset_manager_job_number").html(job_number);
-          row.child().find("p.asset_manager_location").html(location);
-          row.child().find("p.asset_manager_purchase_date").html(purchase_date);
-          row.child().find("p.asset_manager_notes").html(notes);
-          row.child().find("p.asset_manager_last_modified_time").html(last_modified_time);
-          $('div.slider', row.child()).slideDown(300);
-          //Add light-grey focus styling when detail row is opening
-          $('div.slider').css({"background-color":"#3B3B3B", "box-shadow":"inset 0px -1px 2px black"});
-          $(tr).css("background-color","#3B3B3B");
-          $(tr).css("box-shadow","inset 0px 2px 2px black");
-        }
-      }
-/***************END CLOSED ROW IF***************/
+    } /***************END CLOSED ROW IF***************/
 });
 /*******************************************************************************
 ********************************************************************************
@@ -560,6 +707,8 @@ Delete Asset
       if (!modelId) { var model = ""; }
       if (!typeId) { var type = ""; }
       if (!teamId) { var team = ""; }
+
+      console.log($(this).serialize());
 
       $.ajax({
           type: 'POST',
@@ -740,69 +889,6 @@ function formatRow() { //Put child row data here.
 $(window).resize(function () {
   $($.fn.dataTable.tables(true)).DataTable().responsive.recalc().columns.adjust();
 });
-
-
-
-
-
-
-
-
-
-//
-// '<div class="slider">' +
-// '<table class="edit-table row">' +
-// '<tr class="edit-row">' +
-// '<td class="edit-col">' +
-//     '<div>  <label>Serial Number</label> </div>' +
-//     '<div>  <input id="asset-manager-edit-serial-number" class="asset-manager-edit-field form-control"></input> </div>' +
-//   '</td>' +
-// '<td class="edit-col">' +
-//     '<div>  <label>Purchase Price</label> </div>' +
-//     '<div>  <input id="asset-manager-edit-purchase-price" class="asset-manager-edit-field form-control"></input> </div>' +
-//   '</td>' +
-// '<td class="edit-col">' +
-//     '<div>  <label>Job Number</label> </div>' +
-//     '<div>  <input id="asset-manager-edit-job-number" class="asset-manager-edit-field form-control"></input> </div>' +
-//   '</td>' +
-// '<td class="edit-col" rowspan="2">' +
-//     '<div>  <label>Notes</label> </div>' +
-//     '<div>  <textarea rows="6" class="asset-manager-edit-notes asset-manager-edit-field"></textarea> </div>' +
-//   '</td>' +
-// '</tr><tr class="edit-row">' +
-// '<td class="edit-col">' +
-//     '<div>  <label>Location</label> </div>'+
-//     '<div>  <input id="asset-manager-edit-location" class="asset-manager-edit-field form-control"></input> </div>' +
-//   '</td>' +
-// '<td class="edit-col">' +
-//     '<div>  <label>Purchase Date</label> </div>' +
-//     '<div>  <input id="asset-manager-edit-purchase-date" class="asset-manager-edit-field form-control"></input> </div>' +
-//   '</td>' +
-// '<td class="edit-col">' +
-//     '<div>  <label>Last Updated</label> </div>' +
-//     '<div>  <input id="asset-manager-edit-last-updated" class="asset-manager-edit-field form-control"></input> </div>' +
-//   '</td>' +
-// '</tr></table>' +
-// '</div>';
-
-
-// $(tr).find('.asset_manager_model').html('<input class="in-row-edit form-control"></input>');
-// $(tr).find('.asset_manager_manufacturer').html('<input class="in-row-edit form-control"></input>');
-// $(tr).find('.asset_manager_owner').html('<input class="in-row-edit form-control"></input>');
-// $(tr).find('.asset_manager_type').html('<input class="in-row-edit form-control"></input>');
-// $(tr).find('.asset_manager_asset_tag').html('<input class="in-row-edit form-control"></input>');
-// $(tr).find('.asset_manager_team').html('<input class="in-row-edit form-control"></input>');
-// $(tr).find('.asset_manager_rate').html('<input class="in-row-edit form-control"></input>');
-
-
-// $(tr).find('.asset_manager_model').html('');
-// $(tr).find('.asset_manager_manufacturer').html('');
-// $(tr).find('.asset_manager_owner').html('');
-// $(tr).find('.asset_manager_type').html('');
-// $(tr).find('.asset_manager_asset_tag').html('');
-// $(tr).find('.asset_manager_team').html('');
-// $(tr).find('.asset_manager_rate').html('');
-
 /* *** **************** *** */
 
 /* *** Prepare Add Manufacturer Dropdown *** */
@@ -832,7 +918,6 @@ function getModelAssetType(modelId) {
     } else {
         returnValue = false;
     }
-    console.log(returnValue);
     return returnValue;
 }
 
@@ -872,9 +957,13 @@ function getRate(typeId) {
     return returnValue;
 }
 
-function setRate(rate) {
+function setRate(rate, action, record = null) {
     if (rate) {
-        $('#add-asset-rate').attr("placeholder", '$' + rate.toFixed(2));
+        if (action == 'add') {
+            $('#add-asset-rate').attr("placeholder", '$' + rate.toFixed(2));
+        } else if (action == 'edit') {
+            record.find('.asset_manager_rate').children('input').attr("placeholder", '$' + rate.toFixed(2));
+        }
     }
 }
 
@@ -892,10 +981,15 @@ function getManufacturerName(manufacturerId) {
     return returnValue;
 }
 
-function setManufacturer(manufacturer, manufacturerId) {
+function setManufacturer(manufacturer, manufacturerId, action, record = null) {
     if (manufacturer && manufacturerId) {
-        $('#add-asset-manufacturer').attr("placeholder", manufacturer);
-        $('#add-asset-manufacturer').attr('data-manufacturer_id', manufacturerId);
+        if (action == 'add') {
+            $('#add-asset-manufacturer').attr("placeholder", manufacturer);
+            $('#add-asset-manufacturer').attr('data-manufacturer_id', manufacturerId);
+        } else if (action == 'edit') {
+            record.find('.asset_manager_manufacturer').children('input').attr("placeholder", manufacturer);
+            record.find('.asset_manager_manufacturer').children('input').attr('data-manufacturer_id', manufacturerId);
+        }
     }
 }
 
@@ -913,11 +1007,15 @@ function getAssetTypeName(assetTypeId) {
     return returnValue;
 }
 
-function setAssetType(assetType, assetTypeId) {
-    console.log(assetType + ' ' + assetTypeId);
+function setAssetType(assetType, assetTypeId, action, record = null) {
     if (assetType && assetTypeId) {
-        $('#add-asset-type').attr("placeholder", assetType);
-        $('#add-asset-type').attr('data-type_id', assetTypeId);
+        if (action == 'add') {
+            $('#add-asset-type').attr("placeholder", assetType);
+            $('#add-asset-type').attr('data-type_id', assetTypeId);
+        } else if (action == 'edit') {
+            record.find('.asset_manager_type').children('input').attr("placeholder", assetType);
+            record.find('.asset_manager_type').children('input').attr('data-type_id', assetTypeId);
+        }
     }
 }
 
