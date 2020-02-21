@@ -1,5 +1,5 @@
 //Controller function URLs
-var deleteAssetUrl = baseUrl + "AssetManager/delete";
+var deleteAssetUrl = baseUrl + "AssetManager/delete/";
 var addAssetUrl = baseUrl + "AssetManager/add";
 var editAssetUrl = baseUrl + "AssetManager/edit";
 var getActiveManufacturersUrl = baseUrl + "Manufacturers/get_active";
