@@ -349,6 +349,10 @@ class AssetManager_model extends CI_Model {
 
     public function is_asset_tag_unique($asset_tag) {
         log_message('debug', 'AssetManager_model: is_asset_tag_unique - in function');
+        
+        if (!isset($asset_tag) || $asset_tag == NULL) {
+            return TRUE;
+        }
 
         $this->db->select($this->fields['asset_tag']);
         $this->db->from($this->table);
