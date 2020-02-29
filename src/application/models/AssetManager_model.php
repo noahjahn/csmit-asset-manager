@@ -106,7 +106,7 @@ class AssetManager_model extends CI_Model {
         $asset_tag_rules = array(
             'field' => $this->fields['asset_tag'],
             'label' => 'asset tag',
-            'rules' => 'required|callback_is_asset_tag_unique|trim',
+            'rules' => 'callback_is_asset_tag_unique|trim',
             'errors' => array (
                 'is_asset_tag_unique' => 'The %s field must contain a unique value.'
             )
@@ -211,7 +211,7 @@ class AssetManager_model extends CI_Model {
         $asset_tag_rules = array(
             'field' => $this->fields['asset_tag'],
             'label' => 'asset tag',
-            'rules' => 'required|callback_is_asset_tag_unique_not_different_from_current|trim',
+            'rules' => 'callback_is_asset_tag_unique_not_different_from_current|trim',
             'errors' => array (
                 'is_asset_tag_unique_not_different_from_current' => 'The %s field must contain a unique value.'
             )
