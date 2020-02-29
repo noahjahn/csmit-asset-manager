@@ -45,7 +45,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md form-group">
-                            <label>Asset Tag<span class="required"> *</span></label>
+                            <label>Asset Tag</label>
                             <input type="text" id="add-asset-asset-tag" name="asset_tag" class="form-control" value="<?php set_value('asset_tag'); ?>">
                             <div id="add-asset-asset-tag-error" class="invalid-feedback"></div>
                         </div>
