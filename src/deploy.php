@@ -35,7 +35,7 @@ task('deploy:npm_install', function () {
 });
 
 
-after('deploy:merge_src', 'update_database');
+after('deploy:symlink', 'update_database');
 task('update_database', function () {
-
+    run('php {{deploy_path}}/current/index.php migrate current');
 });
