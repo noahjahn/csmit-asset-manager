@@ -13,11 +13,9 @@ class AssetManager_model extends CI_Model {
         $this->user_id = $this->session->userdata('id');
         $this->fields = array(
             'id' => 'id',
-            'manufacturer_id' => 'manufacturer_id',
             'model_id' => 'model_id',
             'owner' => 'owner',
             'serial_number' => 'serial_number',
-            'type_id' => 'type_id',
             'asset_tag' => 'asset_tag',
             'purchase_price' => 'purchase_price',
             'purchase_date' => 'purchase_date',
@@ -36,11 +34,9 @@ class AssetManager_model extends CI_Model {
         log_message('debug', 'AssetManager_model: get_insert_rules - in function');
 
         $form_rules = array(
-            $this->get_insert_manufacturer_id_rules(),
             $this->get_insert_model_id_rules(),
             $this->get_insert_owner_rules(),
             $this->get_insert_serial_number_rules(),
-            $this->get_insert_type_id_rules(),
             $this->get_insert_asset_tag_rules(),
             $this->get_insert_team_id_rules(),
             $this->get_insert_purchase_price_rules(),
@@ -49,16 +45,6 @@ class AssetManager_model extends CI_Model {
             $this->get_insert_location_rules(),
         );
         return $form_rules;
-    }
-
-    function get_insert_manufacturer_id_rules() {
-        log_message('debug', 'AssetManagers_model: get_insert_manufacturer_id_rules - in function');
-        $manufacturer_id_rules = array(
-            'field' => $this->fields['manufacturer_id'],
-            'label' => 'manufacturer',
-            'rules' => 'required|trim',
-        );
-        return $manufacturer_id_rules;
     }
 
     function get_insert_model_id_rules() {
@@ -89,16 +75,6 @@ class AssetManager_model extends CI_Model {
             'rules' => 'trim',
         );
         return $serial_number_rules;
-    }
-
-    function get_insert_type_id_rules() {
-        log_message('debug', 'AssetManagers_model: get_insert_type_id_rules - in function');
-        $type_id_rules = array(
-            'field' => $this->fields['type_id'],
-            'label' => 'type',
-            'rules' => 'required|trim',
-        );
-        return $type_id_rules;
     }
 
     function get_insert_asset_tag_rules() {
@@ -178,11 +154,9 @@ class AssetManager_model extends CI_Model {
         log_message('debug', 'AssetManager_model: get_update_rules - in function');
 
         $form_rules = array(
-            $this->get_insert_manufacturer_id_rules(),
             $this->get_insert_model_id_rules(),
             $this->get_insert_owner_rules(),
             $this->get_update_serial_number_rules(),
-            $this->get_insert_type_id_rules(),
             $this->get_update_asset_tag_rules(),
             $this->get_insert_team_id_rules(),
             $this->get_insert_purchase_price_rules(),
