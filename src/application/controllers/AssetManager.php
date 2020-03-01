@@ -46,11 +46,9 @@ class AssetManager extends CI_Controller {
 		$this->form_validation->set_rules($this->AssetManager_model->get_insert_rules());
 		if ($this->form_validation->run() == TRUE) {
 			$asset = array(
-				'manufacturer_id' => $this->input->post('manufacturer_id'),
 				'model_id' => $this->input->post('model_id'),
 				'owner' => $this->input->post('owner'),
 				'serial_number' => $this->input->post('serial_number'),
-				'type_id' => $this->input->post('type_id'),
 				'asset_tag' => $this->input->post('asset_tag'),
 				'team_id' => $this->input->post('team_id'),
 				'purchase_price' => $this->input->post('purchase_price'),
@@ -71,11 +69,9 @@ class AssetManager extends CI_Controller {
 			log_message('debug', 'AssetManager: add - successfully added asset');
 		} else {
 			$errors = array(
-                'manufacturer_id' => form_error('manufacturer_id'),
                 'model_id' => form_error('model_id'),
 				'owner' => form_error('owner'),
                 'serial_number' => form_error('serial_number'),
-				'type_id' => form_error('type_id'),
                 'asset_tag' => form_error('asset_tag'),
 				'team_id' => form_error('team_id'),
                 'purchase_price' => form_error('purchase_price'),
@@ -99,11 +95,9 @@ class AssetManager extends CI_Controller {
 		if ($this->form_validation->run() == TRUE) {
 			$asset = array(
 				'id' => $this->input->post('id'),
-				'manufacturer_id' => $this->input->post('manufacturer_id'),
 				'model_id' => $this->input->post('model_id'),
 				'owner' => $this->input->post('owner'),
 				'serial_number' => $this->input->post('serial_number'),
-				'type_id' => $this->input->post('type_id'),
 				'asset_tag' => $this->input->post('asset_tag'),
 				'team_id' => $this->input->post('team_id'),
 				'purchase_price' => $this->input->post('purchase_price'),
@@ -114,8 +108,6 @@ class AssetManager extends CI_Controller {
 				'last_modified_by' => $this->user_id,
 				'last_modified_time' => date('Y-m-d H:i:s'),
 			);
-
-			log_message('debug', print_r($asset, TRUE));
 
 			$this->AssetManager_model->update($asset);
 			echo json_encode("success");

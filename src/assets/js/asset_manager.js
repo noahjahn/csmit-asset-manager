@@ -700,12 +700,8 @@ Delete Asset
       e.preventDefault();
 
       var modelId = $('#add-asset-model').siblings('.menu').children('.item.active.selected').data('value');
-      var manufacturerId = $('#add-asset-manufacturer').data('manufacturer_id');
-      var typeId = $('#add-asset-type').data('type_id');
       var teamId = $('#add-asset-team').siblings('.menu').children('.item.active.selected').data('value');
-      if (!manufacturerId) { var manufacturerId = ""; }
       if (!modelId) { var model = ""; }
-      if (!typeId) { var type = ""; }
       if (!teamId) { var team = ""; }
 
       console.log($(this).serialize());
@@ -714,24 +710,12 @@ Delete Asset
           type: 'POST',
           url: addAssetUrl,
           dataType: 'json',
-          data: $(this).serialize() + "&manufacturer_id=" + manufacturerId + "&model_id=" + modelId + "&type_id=" + typeId + "&team_id=" + teamId, // get data from the form
+          data: $(this).serialize() + "&model_id=" + modelId + "&team_id=" + teamId, // get data from the form
           success: function(result) {
               if (result == "success") {
                   $("#add-asset").modal('hide'); // if the submission was successful without any validation erros, we can hide the modal
                   $("#asset-manager").DataTable().ajax.reload(); // also need to reload the datatable since we successfully add an asset type
               } else {
-                  console.log(result);
-                  if (! result["manufacturer_id"] == "") {
-                      if (! result["manufacturer_id"] == addManufacturerIdError.val()) {
-                          addManufacturerIdError.empty(); // empty error messages, if there were any
-                          addManufacturerIdError.append(result["manufacturer_id"]); // display the error messages
-                      }
-                      if (! addManufacturerIdField.parent().hasClass('is-invalid-dropdown')) {
-                          addManufacturerIdField.parent().addClass('is-invalid-dropdown');
-                          addManufacturerIdField.siblings('.dropdown.icon').css('margin-right', '0.5em');
-                          addManufacturerIdField.parent().parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                      }
-                  }
                   if (! result["model_id"] == "") {
                       if (! result["model_id"] == addModelIdError.val()) {
                           addModelIdError.empty(); // empty error messages, if there were any
@@ -761,17 +745,6 @@ Delete Asset
                       if (! addSerialNumberField.hasClass('is-invalid')) {
                           addSerialNumberField.addClass('is-invalid');
                           addSerialNumberField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                      }
-                  }
-                  if (! result["type_id"] == "") {
-                      if (! result["type_id"] == addTypeIdError.val()) {
-                          addTypeIdError.empty(); // empty error messages, if there were any
-                          addTypeIdError.append(result["type_id"]); // display the error messages
-                      }
-                      if (! addTypeIdField.parent().hasClass('is-invalid-dropdown')) {
-                          addTypeIdField.parent().addClass('is-invalid-dropdown');
-                          addTypeIdField.siblings('.dropdown.icon').css('margin-right', '0.5em');
-                          addTypeIdField.parent().parent('.form-group').attr('style', 'margin-bottom: 0px !important');
                       }
                   }
                   if (! result["asset_tag"] == "") {
