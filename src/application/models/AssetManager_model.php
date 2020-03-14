@@ -286,7 +286,8 @@ class AssetManager_model extends CI_Model {
 
         $this->db->select('assets.id');
         $this->db->from('assets');
-        $this->db->join('asset_types', 'asset_types.id = assets.type_id');
+        $this->db->join('models', 'models.id = assets.model_id');
+        $this->db->join('asset_types', 'asset_types.id = models.type_id');
         $this->db->where('asset_types.name', $asset_type);
         $this->db->where('assets.is_deleted', FALSE);
 
