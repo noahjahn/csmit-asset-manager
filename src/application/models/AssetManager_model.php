@@ -19,7 +19,6 @@ class AssetManager_model extends CI_Model {
             'asset_tag' => 'asset_tag',
             'purchase_price' => 'purchase_price',
             'purchase_date' => 'purchase_date',
-            'location' => 'location',
             'team_id' => 'team_id',
             'job_number' => 'job_number',
             'is_deleted' => 'is_deleted',
@@ -42,7 +41,6 @@ class AssetManager_model extends CI_Model {
             $this->get_insert_purchase_price_rules(),
             $this->get_insert_purchase_date_rules(),
             $this->get_insert_job_number_rules(),
-            $this->get_insert_location_rules(),
         );
         return $form_rules;
     }
@@ -130,16 +128,6 @@ class AssetManager_model extends CI_Model {
         return $job_number_rules;
     }
 
-    function get_insert_location_rules() {
-        log_message('debug', 'AssetManagers_model: get_insert_location_rules - in function');
-        $location_rules = array(
-            'field' => $this->fields['location'],
-            'label' => $this->fields['location'],
-            'rules' => 'trim',
-        );
-        return $location_rules;
-    }
-
     function get_insert_notes_rules() {
         log_message('debug', 'AssetManagers_model: get_insert_notes_rules - in function');
         $notes_rules = array(
@@ -162,7 +150,6 @@ class AssetManager_model extends CI_Model {
             $this->get_insert_purchase_price_rules(),
             $this->get_insert_purchase_date_rules(),
             $this->get_insert_job_number_rules(),
-            $this->get_insert_location_rules(),
         );
         return $form_rules;
     }
@@ -201,7 +188,6 @@ class AssetManager_model extends CI_Model {
             assets.asset_tag,
             assets.purchase_price,
             assets.purchase_date,
-            assets.location,
             assets.job_number,
             assets.notes,
             assets.last_modified_time,
@@ -286,7 +272,8 @@ class AssetManager_model extends CI_Model {
 
         $this->db->select('assets.id');
         $this->db->from('assets');
-        $this->db->join('asset_types', 'asset_types.id = assets.type_id');
+        $this->db->join('models', 'models.id = assets.model_id');
+        $this->db->join('asset_types', 'asset_types.id = models.type_id');
         $this->db->where('asset_types.name', $asset_type);
         $this->db->where('assets.is_deleted', FALSE);
 
