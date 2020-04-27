@@ -47,8 +47,8 @@ Build Asset Manager table
             { "className": "asset_manager_rate", "targets": 7 },
             { "responsivePriority": -1, "targets": [8,9] },
             { "width": "10px", "targets": [8,9] },
-            { "orderable": false, "targets": [8,9,10,11,12,13,14,15,16,17,18,19,20] },
-            { "visible": false, "targets": [0,10,11,12,13,14,15,16,17,18,19,20] }
+            { "orderable": false, "targets": [8,9,10,11,12,13,14,15,16,17,18,19] },
+            { "visible": false, "targets": [0,10,11,12,13,14,15,16,17,18,19] }
         ],
         columns: [
             { "data": "id" },
@@ -71,7 +71,6 @@ Build Asset Manager table
             { "data": "serial_number" },
             { "data": "purchase_price" },
             { "data": "job_number" },
-            { "data": "location" },
             { "data": "purchase_date" },
             { "data": "notes" },
             { "data": "last_modified_time" },
@@ -206,10 +205,9 @@ $('#asset-manager').on('click', '.parent-row', function(e) {
     var serial_number = table.cell(row,10).data();
     var purchase_price = table.cell(row,11).data();
     var job_number = table.cell(row,12).data();
-    var location = table.cell(row,13).data();
-    var purchase_date = table.cell(row,14).data();
-    var notes = table.cell(row,15).data();
-    var last_modified_time = table.cell(row,16).data();
+    var purchase_date = table.cell(row,13).data();
+    var notes = table.cell(row,14).data();
+    var last_modified_time = table.cell(row,15).data();
 
     /****************IF Detail Row is EXPANDED before clicking*********************/
     if (row.child.isShown() ) {
@@ -229,7 +227,6 @@ $('#asset-manager').on('click', '.parent-row', function(e) {
                 serializedData = serializedData + row.child().find('.asset_manager_purchase_price :input').serialize() + "&";
                 serializedData = serializedData + row.child().find('.asset_manager_purchase_date :input').serialize() + "&";
                 serializedData = serializedData + row.child().find('.asset_manager_job_number :input').serialize() + "&";
-                serializedData = serializedData + row.child().find('.asset_manager_location :input').serialize() + "&";
                 serializedData = serializedData + row.child().find('.asset_manager_notes :input').serialize() + "&";
 
                 // Push changes to Database
@@ -357,16 +354,6 @@ $('#asset-manager').on('click', '.parent-row', function(e) {
                             //         addJobNumberField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
                             //     }
                             // }
-                            // if (! result["location"] == "") {
-                            //     if (! result["location"] == addLocationError.val()) {
-                            //         addLocationError.empty(); // empty error messages, if there were any
-                            //         addLocationError.append(result["location"]); // display the error messages
-                            //     }
-                            //     if (! addLocationField.hasClass('is-invalid')) {
-                            //         addLocationField.addClass('is-invalid');
-                            //         addLocationField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                            //     }
-                            // }
                         }
                     },
                     error: function(result) {
@@ -391,7 +378,6 @@ $('#asset-manager').on('click', '.parent-row', function(e) {
                 // row.child().find("p.asset_manager_serial_number").html(serial_number);
                 // row.child().find("p.asset_manager_purchase_price").html(purchase_price);
                 // row.child().find("p.asset_manager_job_number").html(job_number);
-                // row.child().find("p.asset_manager_location").html(location);
                 // row.child().find("p.asset_manager_purchase_date").html(purchase_date);
                 // row.child().find("p.asset_manager_notes").html(notes);
                 // row.child().find("p.asset_manager_last_modified_time").html(last_modified_time);
@@ -405,10 +391,10 @@ $('#asset-manager').on('click', '.parent-row', function(e) {
                 $(this).addClass('edit-mode');
 
                 // dropdown Variables
-                var manufacturer_id = table.cell(row,17).data();
-                var model_id = table.cell(row,18).data();
-                var type_id = table.cell(row,19).data();
-                var team_id = table.cell(row,20).data();
+                var manufacturer_id = table.cell(row,16).data();
+                var model_id = table.cell(row,17).data();
+                var type_id = table.cell(row,18).data();
+                var team_id = table.cell(row,19).data();
 
                 // Hide delete Trash-icon
                 $(this).find('#delete-asset-button').attr('data-target','');
@@ -476,9 +462,6 @@ $('#asset-manager').on('click', '.parent-row', function(e) {
                 // Job Number
                 row.child().find('.asset_manager_job_number').html('<input type="text" name="job_number" class="in-row-edit form-control" value="' + job_number + '"></input>');
 
-                // Location
-                row.child().find('.asset_manager_location').html('<input type="text" name="location" class="in-row-edit form-control" value="' + location + '"></input>');
-
                 // Purchase Date
                 row.child().find('.asset_manager_purchase_date').html('<input type="text" name="purchase_date" class="in-row-edit form-control" value="' + purchase_date + '"></input>');
 
@@ -511,10 +494,10 @@ $('#asset-manager').on('click', '.parent-row', function(e) {
             $(this).addClass('edit-mode');
 
             //dropdown Variables
-            var manufacturer_id = table.cell(row,17).data();
-            var model_id = table.cell(row,18).data();
-            var type_id = table.cell(row,19).data();
-            var team_id = table.cell(row,20).data();
+            var manufacturer_id = table.cell(row,16).data();
+            var model_id = table.cell(row,17).data();
+            var type_id = table.cell(row,18).data();
+            var team_id = table.cell(row,19).data();
 
             //Hide delete Trash-icon
             $(this).find('#delete-asset-button').attr('data-target','');
@@ -593,9 +576,6 @@ $('#asset-manager').on('click', '.parent-row', function(e) {
             // Job Number
             row.child().find('.asset_manager_job_number').html('<input type="text" name="job_number" class="in-row-edit form-control" value="' + job_number + '"></input>');
 
-            // Location
-            row.child().find('.asset_manager_location').html('<input type="text" name="location" class="in-row-edit form-control" value="' + location + '"></input>');
-
             // Purchase Date
             row.child().find('.asset_manager_purchase_date').html('<input type="text" name="purchase_date" class="in-row-edit form-control" value="' + purchase_date + '"></input>');
 
@@ -617,7 +597,6 @@ $('#asset-manager').on('click', '.parent-row', function(e) {
             row.child().find("p.asset_manager_serial_number").html(serial_number);
             row.child().find("p.asset_manager_purchase_price").html(purchase_price);
             row.child().find("p.asset_manager_job_number").html(job_number);
-            row.child().find("p.asset_manager_location").html(location);
             row.child().find("p.asset_manager_purchase_date").html(purchase_date);
             row.child().find("p.asset_manager_notes").html(notes);
             row.child().find("p.asset_manager_last_modified_time").html(last_modified_time);
@@ -692,9 +671,6 @@ Delete Asset
 
     addJobNumberField = $("#add-asset-form #add-asset-job-number");
     addJobNumberError = $("#add-asset-form #add-asset-job-number-error");
-
-    addLocationField = $("#add-asset-form #add-asset-location");
-    addLocationError = $("#add-asset-form #add-asset-location-error");
 
     $('#add-asset-form').on("submit", function (e) {
       e.preventDefault();
@@ -798,16 +774,6 @@ Delete Asset
                           addJobNumberField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
                       }
                   }
-                  if (! result["location"] == "") {
-                      if (! result["location"] == addLocationError.val()) {
-                          addLocationError.empty(); // empty error messages, if there were any
-                          addLocationError.append(result["location"]); // display the error messages
-                      }
-                      if (! addLocationField.hasClass('is-invalid')) {
-                          addLocationField.addClass('is-invalid');
-                          addLocationField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                      }
-                  }
               }
           },
           error: function(result) {
@@ -842,10 +808,6 @@ function formatRow() { //Put child row data here.
       '<div>  <p class="asset_manager_notes">*error*</p></div>' +
     '</td>' +
   '</tr><tr class="edit-row">' +
-  '<td class="edit-col">' +
-      '<div>  <label>Location</label> </div>'+
-      '<div>  <p class="asset_manager_location">*error*</p></div>' +
-    '</td>' +
   '<td class="edit-col">' +
       '<div>  <label>Purchase Date</label> </div>' +
       '<div>  <p class="asset_manager_purchase_date">*error*</p></div>' +
