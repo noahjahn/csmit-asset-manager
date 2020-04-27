@@ -4,7 +4,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php
   $this->load->view('private/reusable/datatables-include.php');
   $this->load->view('private/modals/assets/delete.php');
-  $this->load->view('private/modals/assets/edit.php');
   $this->load->view('private/modals/assets/add.php');
   ?>
 <script id="asset-manager-script" data-load-datatable="true" src="<?php echo base_url(); ?>assets/js/asset_manager.js"></script>

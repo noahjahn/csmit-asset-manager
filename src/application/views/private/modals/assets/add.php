@@ -69,18 +69,6 @@
                     </div>
                     <div class="row">
                         <div class="col-md form-group">
-                            <label>Location</label>
-                            <input type="text" id="add-asset-location" name="location" class="form-control" value="<?php set_value('location'); ?>">
-                            <div id="add-asset-location-error" class="invalid-feedback"></div>
-                        </div>
-                        <div class="col-md form-group">
-                            <label>Job Number</label>
-                            <input type="text" id="add-asset-job-number" name="job_number" class="form-control" value="<?php set_value('job_number'); ?>">
-                            <div id="add-asset-job-number-error" class="invalid-feedback"></div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md form-group">
                             <label>Purchase Date</label>
                             <input type="date" id="add-asset-purchase-date" name="purchase_date" class="form-control" value="<?php set_value('purchase_date'); ?>">
                             <div id="add-asset-purchase-date-error" class="invalid-feedback"></div>
@@ -89,6 +77,15 @@
                             <label for="add-asset-purchase-price">Purchase Price</label>
                             <input type="text" id="add-asset-purchase-price" name="purchase_price" class="form-control" value="<?php set_value('purchase_price'); ?>">
                             <div id="add-asset-purchase-price-error" class="invalid-feedback"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md form-group">
+                            <label>Job Number</label>
+                            <input type="text" id="add-asset-job-number" name="job_number" class="form-control" value="<?php set_value('job_number'); ?>">
+                            <div id="add-asset-job-number-error" class="invalid-feedback"></div>
+                        </div>
+                        <div class="col-md form-group">
                         </div>
                     </div>
                     <div class="row">

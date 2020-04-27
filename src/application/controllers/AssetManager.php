@@ -54,7 +54,6 @@ class AssetManager extends CI_Controller {
 				'purchase_price' => $this->input->post('purchase_price'),
 				'purchase_date' => $this->input->post('purchase_date'),
 				'job_number' => $this->input->post('job_number'),
-				'location' => $this->input->post('location'),
 				'notes' => $this->input->post('notes'),
 				'last_modified_by' => $this->user_id,
 				'last_modified_time' => date('Y-m-d H:i:s'),
@@ -76,8 +75,7 @@ class AssetManager extends CI_Controller {
 				'team_id' => form_error('team_id'),
                 'purchase_price' => form_error('purchase_price'),
 				'purchase_date' => form_error('purchase_date'),
-				'job_number' => form_error('job_number'),
-                'location' => form_error('location')
+				'job_number' => form_error('job_number')
             );
 			echo json_encode($errors);
 		}
@@ -103,7 +101,6 @@ class AssetManager extends CI_Controller {
 				'purchase_price' => $this->input->post('purchase_price'),
 				'purchase_date' => $this->input->post('purchase_date'),
 				'job_number' => $this->input->post('job_number'),
-				'location' => $this->input->post('location'),
 				'notes' => $this->input->post('notes'),
 				'last_modified_by' => $this->user_id,
 				'last_modified_time' => date('Y-m-d H:i:s'),
@@ -123,8 +120,7 @@ class AssetManager extends CI_Controller {
 				'team_id' => form_error('team_id'),
                 'purchase_price' => form_error('purchase_price'),
 				'purchase_date' => form_error('purchase_date'),
-				'job_number' => form_error('job_number'),
-                'location' => form_error('location')
+				'job_number' => form_error('job_number')
             );
 			echo json_encode($errors);
 		}
