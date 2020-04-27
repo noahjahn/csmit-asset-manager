@@ -9,6 +9,7 @@ class Models_model extends CI_Model {
 
     function __construct() {
         parent::__construct();
+        $this->load->helper('database_helper');
         $this->table = "models";
         $this->user_id = $this->session->userdata('id');
         $this->fields = array(
@@ -183,6 +184,30 @@ class Models_model extends CI_Model {
         $this->db->join('manufacturers', 'models.manufacturer_id = manufacturers.id');
         $this->db->join('asset_types', 'models.type_id = asset_types.id', 'left'); // to remove left join after all models have been updated
         $this->db->where('models.is_deleted', FALSE);
+        return $this->db->get()->result_array();
+    }
+
+    function get() {
+        log_message('debug', 'Models_model: get - in function');
+
+        $this->db->select('
+                        model.id as model_id, 
+                        model.name as model_name,
+                        model.manufacturer_id as model_manufacturer_id,
+                        manufacturer.name as manufacturer_name,
+                        model.type_id as model_type_id,
+                        asset_type.name as asset_type_name,
+                        asset_type.rate as asset_type_rate,
+                        asset_type.lifespan as asset_type_lifespan,
+                        model.rate as model_rate,
+                        model.is_deleted as model_is_deleted,
+                        model.last_modified_by as model_last_modified_by,
+                        model.last_modified_time as model_last_modified_time,
+                        model.created_by as model_created_by,
+                        model.created_time as model_created_time');
+        $this->db->from('models as model');
+        $this->db->join('manufacturers as manufacturer', 'model.manufacturer_id = manufacturer.id');
+        $this->db->join('asset_types as asset_type', 'model.type_id = asset_type.id');
         return $this->db->get()->result_array();
     }
 
