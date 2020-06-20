@@ -209,11 +209,11 @@ class AssetManager_model extends CI_Model {
             teams.name as team,
             models.id as model_id,
             models.name as model,
+            models.rate as rate,
             manufacturers.id as manufacturer_id,
             manufacturers.name as manufacturer,
             asset_types.id as type_id,
-            asset_types.name as type,
-            asset_types.rate as rate
+            asset_types.name as type
         ');
 
         $this->db->from('assets');

@@ -178,7 +178,7 @@ class Models_model extends CI_Model {
     function get_active() {
         log_message('debug', 'Models_model: get_active - in function');
 
-        $this->db->select('models.id as id, models.name as name, models.manufacturer_id, '.
+        $this->db->select('models.id as id, models.name as name, models.rate as rate, models.manufacturer_id, '.
             'manufacturers.name as manufacturer, models.type_id, asset_types.name as type');
         $this->db->from('models');
         $this->db->join('manufacturers', 'models.manufacturer_id = manufacturers.id');
@@ -197,7 +197,6 @@ class Models_model extends CI_Model {
                         manufacturer.name as manufacturer_name,
                         model.type_id as model_type_id,
                         asset_type.name as asset_type_name,
-                        asset_type.rate as asset_type_rate,
                         asset_type.lifespan as asset_type_lifespan,
                         model.rate as model_rate,
                         model.is_deleted as model_is_deleted,

@@ -32,15 +32,15 @@
                     </div>
                     <div class="row">
                         <div class="col-md form-group">
+                            <label>Rate<span class="required"> *</span></label>
+                            <input type="text" id="add-asset-rate" name="rate" class="form-control" placeholder="$0.00" disabled>
+                            <div id="add-asset-rate-error" class="invalid-feedback"></div>
+                        </div>
+                        <div class="col-md form-group">
                             <label>Type<span class="required"> *</span></label>
                             <input type="text" id="add-asset-type" name="type_id" class="form-control" placeholder="Select model first..." disabled>
                             <!-- <select type="text" id="add-asset-type" name="type_id" class="form-control ui search dropdown" value="<?php set_value('type_id'); ?>"></select> -->
                             <div id="add-asset-type-error" class="invalid-feedback"></div>
-                        </div>
-                        <div class="col-md form-group">
-                            <label>Rate<span class="required"> *</span></label>
-                            <input type="text" id="add-asset-rate" name="rate" class="form-control" placeholder="$0.00" disabled>
-                            <div id="add-asset-rate-error" class="invalid-feedback"></div>
                         </div>
                     </div>
                     <div class="row">

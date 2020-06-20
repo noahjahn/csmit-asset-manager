@@ -14,7 +14,6 @@ class AssetTypes_model extends CI_Model {
         $this->fields = array(
             'id' => 'id',
             'name' => 'name',
-            'rate' => 'rate',
             'is_deleted' => 'is_deleted',
             'last_modified_by' => 'last_modified_by',
             'last_modified_time' => 'last_modified_time',
@@ -28,7 +27,6 @@ class AssetTypes_model extends CI_Model {
 
         $form_rules = array(
             $this->get_insert_name_rules(),
-            $this->get_insert_rate_rules()
         );
         return $form_rules;
     }
@@ -46,23 +44,11 @@ class AssetTypes_model extends CI_Model {
         return $name_rules;
     }
 
-    function get_insert_rate_rules() {
-        log_message('debug', 'AssetTypes_model: get_insert_rate_rules - in function');
-        $rate_rules = array(
-            'field' => $this->fields['rate'],
-            'label' => $this->fields['rate'],
-            'rules' => 'required|numeric|trim'
-        );
-        return $rate_rules;
-    }
-
-
     function get_update_rules() {
         log_message('debug', 'AssetTypes_model: get_update_rules - in function');
         $form_rules = array (
             $this->get_update_id_rules(),
             $this->get_update_name_rules(),
-            $this->get_update_rate_rules()
         );
         return $form_rules;
     }
@@ -91,16 +77,6 @@ class AssetTypes_model extends CI_Model {
             )
         );
         return $name_rules;
-    }
-
-    function get_update_rate_rules() {
-        log_message('debug', 'AssetTypes_model: get_update_rate_rules - in function');
-        $rate_rules = array(
-            'field' => $this->fields['rate'],
-            'label' => $this->fields['rate'],
-            'rules' => 'required|numeric|trim'
-        );
-        return $rate_rules;
     }
 
     function get_table_columns() {
@@ -158,7 +134,7 @@ class AssetTypes_model extends CI_Model {
     function get_active() {
         log_message('debug', 'AssetTypes_model: get_active - in function');
 
-        $this->db->select('id, name, rate');
+        $this->db->select('id, name');
         $this->db->from($this->table);
         $this->db->where('is_deleted', FALSE);
         return $this->db->get()->result_array();
@@ -167,7 +143,7 @@ class AssetTypes_model extends CI_Model {
     function get() {
         log_message('debug', 'AssetTypes_model: get - in function');
 
-        $this->db->select('id, name, rate');
+        $this->db->select('id, name');
         $this->db->from($this->table);
         return $this->db->get()->result_array();
     }

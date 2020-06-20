@@ -7,15 +7,13 @@
     <div class="row">
         <div class="col-lg">
             <table id="asset_types" class="table table-hover">
-                <col width="65%">
-                <col width="25%">
+                <col width="90%">
                 <col width="5%">
                 <col width="5%">
                 <thead class="table-header">
                     <tr class="table-primary">
                         <th>ID</th>
                         <th>Name</th>
-                        <th>Rate</th>
                         <th></th>
                         <th></th>
                     </tr>
