@@ -164,6 +164,23 @@ class AssetTypes_model extends CI_Model {
         return $this->db->get()->result_array();
     }
 
+    function get() {
+        log_message('debug', 'AssetTypes_model: get - in function');
+
+        $this->db->select('id, name, rate');
+        $this->db->from($this->table);
+        return $this->db->get()->result_array();
+    }
+
+    function get_by_id($id) {
+        log_message('debug', 'AssetTypes_model: get_by_id - in function');
+
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->where('id', $id);
+        return $this->db->get()->row_array();
+    }
+
     function insert($asset_type) {
         log_message('debug', 'AssetTypes_model: insert - in function');
 

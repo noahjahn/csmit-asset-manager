@@ -182,6 +182,18 @@ class AssetTypes extends CI_Controller {
 		echo $json_asset_types;
 	}
 
+	public function get() {
+		log_message('debug', 'AssetTypes: get - in function');
+
+		if (!$this->input->is_ajax_request()) {
+            // redirect('forbidden');
+        }
+
+		$active_asset_types = $this->AssetTypes_model->get();
+		$json_asset_types = json_encode($active_asset_types);
+		echo $json_asset_types;
+	}
+
 	public function is_name_unique($name) {
 		log_message('debug', 'AssetTypes: is_name_unique - in function');
 

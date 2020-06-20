@@ -315,6 +315,12 @@ class Models_model extends CI_Model {
         return record_exists($id, $this->table);
     }
 
+    function get_asset_type_rates() {
+        $this->db->select('models.type_id, rate');
+        $this->db->distinct();
+        $this->db->from('models');
+        return $this->db->get()->result_array();
+    }
 }
 
 ?>
