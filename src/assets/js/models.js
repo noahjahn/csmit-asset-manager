@@ -352,6 +352,10 @@ $(document).ready(function() {
                 { "data": "name" },
                 { "data": "manufacturer" },
                 { "data": "type" },
+                { "data": "rate", "render": function (data, type, row) {
+                        return "$" + row.rate;
+                    }
+                },
                 { "render": function ( data, type, row ) {
                         return '<button id="edit-model-button" class="table-icon edit-model-button" data-toggle="modal" data-id="' + row.id + '" data-name="' + row.name + '" data-manufacturer-id="' + row.manufacturer_id + '" data-type-id="' + row.type_id + '" data-target="#edit-model"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
                     }

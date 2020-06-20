@@ -5,7 +5,7 @@
 
 <div class="container-fluid container-style">
     <div class="row">
-        <div class="col-lg">
+        <div class="col-lg-5">
             <table id="asset_types" class="table table-hover">
                 <col width="90%">
                 <col width="5%">
@@ -18,7 +18,7 @@
                 </thead>
             </table>
         </div>
-        <div class="col-lg">
+        <div class="col-lg-7">
             <table id="teams" class="table table-hover" style="table-layout: auto;">
                 <col width="90%">
                 <col width="5%">
@@ -33,7 +33,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg">
+        <div class="col-lg-5">
             <table id="manufacturers" class="table table-hover" style="table-layout: auto;">
                 <col width="90%">
                 <col width="5%">
@@ -46,11 +46,12 @@
                 </thead>
             </table>
         </div>
-        <div class="col-lg">
+        <div class="col-lg-7">
             <table id="models" class="table table-hover" style="table-layout: auto;">
                 <col width="30%">
-                <col width="30%">
-                <col width="30%">
+                <col width="25%">
+                <col width="25%">
+                <col width="10%">
                 <col width="5%">
                 <col width="5%">
                 <thead>
@@ -59,6 +60,7 @@
                         <th>Name</th>
                         <th>Manufacturer</th>
                         <th>Type</th>
+                        <th>Rate</th>
                     </tr>
                 </thead>
             </table>
