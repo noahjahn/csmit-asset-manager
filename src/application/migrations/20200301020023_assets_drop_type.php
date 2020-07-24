@@ -8,7 +8,7 @@ class Migration_Assets_drop_type extends CI_Migration {
     }
     
     public function down() { 
-        $this->dbforge->add_field(array(
+        $this->dbforge->add_column('assets', array(
                 'type_id' => array(
                     'type' => 'INT',
                     'constraint' => 11,
