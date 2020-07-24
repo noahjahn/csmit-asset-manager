@@ -9,6 +9,13 @@ services:
         depends_on:
             - phpfpm-apache
 
+    node12:
+        container_name: node12-deploy
+        image: 'node:12.14.1-alpine'
+        volumes:
+            - ./:/home/node/app
+        command: /bin/sh -c "cd /home/node/app && npm install"
+
     phpfpm-apache:
         build:
             context: .
