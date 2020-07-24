@@ -16,11 +16,6 @@
                         <input id="add-asset-type-name" name="name" class="form-control" value="<?php set_value('name'); ?>">
                         <div id="add-asset-type-name-error" class="invalid-feedback"></div>
                     </div>
-                    <div class="form-group">
-                        <label for="rate">Rate<span class="required"> *</span></label>
-                        <input id="add-asset-type-rate" name="rate" type="number" step=".01" class="form-control" value="<?php set_value('rate'); ?>">
-                        <div id="add-asset-type-rate-error" class="invalid-feedback"></div>
-                    </div>
                     <div>
                         <div class="modal-body-footer">
                             <button id="modal-cancel-add-asset-type" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
@@ -48,11 +43,6 @@
                         <label>Name<span class="required"> *</span></label>
                         <input id="edit-asset-type-name" name="name" class="form-control" value="<?php set_value('name'); ?>">
                         <div id="edit-asset-type-name-error" class="invalid-feedback"></div>
-                    </div>
-                    <div class="form-group">
-                        <label for="rate">Rate<span class="required"> *</span></label>
-                        <input id="edit-asset-type-rate" name="rate" type="number" step=".01" class="form-control" value="<?php set_value('rate'); ?>">
-                        <div id="edit-asset-type-rate-error" class="invalid-feedback"></div>
                     </div>
                     <div>
                         <div class="modal-body-footer">

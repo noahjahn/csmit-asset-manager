@@ -70,7 +70,10 @@ class AssetManager_model extends CI_Model {
         $serial_number_rules = array(
             'field' => $this->fields['serial_number'],
             'label' => $this->fields['serial_number'],
-            'rules' => 'trim',
+            'rules' => 'callback_is_serial_number_unique|trim',
+            'errors' => array (
+                'is_serial_number_unique' => 'The %s field must contain a unique value.'
+            )
         );
         return $serial_number_rules;
     }
@@ -195,11 +198,11 @@ class AssetManager_model extends CI_Model {
             teams.name as team,
             models.id as model_id,
             models.name as model,
+            models.rate as rate,
             manufacturers.id as manufacturer_id,
             manufacturers.name as manufacturer,
             asset_types.id as type_id,
-            asset_types.name as type,
-            asset_types.rate as rate
+            asset_types.name as type
         ');
 
         $this->db->from('assets');
@@ -272,8 +275,8 @@ class AssetManager_model extends CI_Model {
 
         $this->db->select('assets.id');
         $this->db->from('assets');
-        $this->db->join('models', 'models.id = assets.model_id');
-        $this->db->join('asset_types', 'asset_types.id = models.type_id');
+        $this->db->join('models', 'assets.model_id = models.id');
+        $this->db->join('asset_types', 'models.type_id = asset_types.id');
         $this->db->where('asset_types.name', $asset_type);
         $this->db->where('assets.is_deleted', FALSE);
 
@@ -286,20 +289,43 @@ class AssetManager_model extends CI_Model {
         return $num_rows;
     }
 
-    function get_month_forecast($asset_type) {
-        log_message('debug', 'AssetManager_model: get_month_forecast - in function');
-
+    function get_count_by_model($model) {
+        log_message('debug', 'AssetManager_model: get_count_by_model - in function. model='.$model['name']);
         $this->db->select('assets.id');
         $this->db->from('assets');
-        $this->db->join('asset_types', 'asset_types.id = assets.type');
-        $this->db->where('asset_types.name', $asset_type);
+        $this->db->join('models', 'assets.model_id = models.id');
+        $this->db->where('models.name', $model['name']);
         $this->db->where('assets.is_deleted', FALSE);
 
         $query = $this->db->get();
 
         $num_rows = $query->num_rows();
 
+        log_message('debug', 'AssetManager_model: get_count_by_model - num_rows='.$num_rows);
+
         return $num_rows;
+    }
+
+    public function is_serial_number_unique($serial_number) {
+        log_message('debug', 'AssetManager_model: is_serial_number_unique - in function');
+        
+        if (!isset($serial_number) || $serial_number == NULL) {
+            return TRUE;
+        }
+
+        $this->db->select($this->fields['serial_number']);
+        $this->db->from($this->table);
+        $this->db->where('serial_number', $serial_number);
+        $this->db->where('is_deleted', 0);
+
+        $query = $this->db->get();
+
+        if ($query->num_rows() == 0) {
+            return TRUE;
+        } else {
+            log_message('debug', 'AssetManager_model: is_serial_number_unique - found more than one record with the same serial number '.$serial_number);
+            return FALSE;
+        }
     }
 
     public function is_asset_tag_unique($asset_tag) {
@@ -356,6 +382,10 @@ class AssetManager_model extends CI_Model {
 
     function is_asset_tag_unique_not_different_from_current($asset_tag, $id) {
         log_message('debug', 'AssetManager_model: is_asset_tag_unique_not_different_from_current - in function');
+
+        if (!isset($asset_tag) || $asset_tag == NULL) {
+            return TRUE;
+        }
 
         $this->db->select('*');
         $this->db->from($this->table);

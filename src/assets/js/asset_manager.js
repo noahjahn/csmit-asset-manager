@@ -144,25 +144,18 @@ Build Asset Manager table
         //     $('#add-asset-model').dropdown('change values', filteredModels);
         // });
 
-        $('#add-asset-model').dropdown('setting', 'onChange', function(value) {
+        $('#add-asset-model').dropdown('setting', 'onChange', function(modelId) {
             var action = 'add';
-            var manufacturerId = getModelManufacturer(value);
+            var manufacturerId = getModelManufacturer(modelId);
             setManufacturer(getManufacturerName(manufacturerId), manufacturerId, action);
-            var assetTypeId = getModelAssetType(value);
+            var assetTypeId = getModelAssetType(modelId);
             setAssetType(getAssetTypeName(assetTypeId), assetTypeId, action);
-            setRate(getRate(assetTypeId), action);
+            setRate(getRate(modelId), action);
         });
 
         $('#add-asset-team').dropdown({
               values: teamsDropdown
         });
-        // $('#add-asset-type').dropdown({
-        //       values: typesDropdown,
-        //       onChange: function (value) {
-        //           var rate = getRate(value);
-        //           setRate(rate);
-        //       }
-        // });
     });
 
 /*******************************************************************************
@@ -411,13 +404,13 @@ $('#asset-manager').on('click', '.parent-row', function(e) {
                 $(this).find('.asset_manager_model').html('<select id="edit-asset-model" name="model_id" class="form-control ui search dropdown in-row-edit-dropdown" value="<?php set_value(\'model_id\'); ?>"></select>');
                 $(this).find('#edit-asset-model').dropdown({
                     values: modelsDropdown,
-                    onChange: function (value) {
+                    onChange: function (modelId) {
                         var action = 'edit';
-                        var manufacturerId = getModelManufacturer(value);
+                        var manufacturerId = getModelManufacturer(modelId);
                         setManufacturer(getManufacturerName(manufacturerId), manufacturerId, action, record);
-                        var assetTypeId = getModelAssetType(value);
+                        var assetTypeId = getModelAssetType(modelId);
                         setAssetType(getAssetTypeName(assetTypeId), assetTypeId, action, record);
-                        setRate(getRate(assetTypeId), action, record);
+                        setRate(getRate(modelId), action, record);
                     }
                 });
                 $(this).find('#edit-asset-model').dropdown('set selected', model_id);
@@ -525,13 +518,13 @@ $('#asset-manager').on('click', '.parent-row', function(e) {
             $(this).find('.asset_manager_model').html('<select id="edit-asset-model" name="model_id" class="form-control ui search dropdown in-row-edit-dropdown" value="<?php set_value(\'model_id\'); ?>"></select>');
             $(this).find('#edit-asset-model').dropdown({
                 values: modelsDropdown,
-                onChange: function (value) {
+                onChange: function (modelId) {
                     var action = 'edit';
-                    var manufacturerId = getModelManufacturer(value);
+                    var manufacturerId = getModelManufacturer(modelId);
                     setManufacturer(getManufacturerName(manufacturerId), manufacturerId, action, record);
-                    var assetTypeId = getModelAssetType(value);
+                    var assetTypeId = getModelAssetType(modelId);
                     setAssetType(getAssetTypeName(assetTypeId), assetTypeId, action, record);
-                    setRate(getRate(assetTypeId), action, record);
+                    setRate(getRate(modelId), action, record);
                 }
             });
             $(this).find('#edit-asset-model').dropdown('set selected', model_id);
@@ -877,12 +870,12 @@ function filterModelsByManufacturer(manufacturerId) {
     return filteredModels;
 }
 
-function getRate(typeId) {
+function getRate(modelId) {
     var returnValue;
-    if (typeId !== "" || typeId !== "undefined" || typeId !== null) {
-        Object.keys(typesDropdown).forEach(function(i) {
-            if (typesDropdown[i].value == typeId) {
-                returnValue = typesDropdown[i].rate;
+    if (modelId !== "" || modelId !== "undefined" || modelId !== null) {
+        Object.keys(modelsDropdown).forEach(function(i) {
+            if (modelsDropdown[i].value == modelId) {
+                returnValue = modelsDropdown[i].rate;
             }
         });
     } else {
@@ -992,7 +985,8 @@ function loadModels() {
                         name: result[i].name,
                         value: parseInt(result[i].id),
                         manufacturerId: parseInt(result[i].manufacturer_id),
-                        assetTypeId: parseInt(result[i].type_id)
+                        assetTypeId: parseInt(result[i].type_id),
+                        rate: parseFloat(result[i].rate)
                     }
                 );
             });
@@ -1019,7 +1013,6 @@ function loadTypes() {
                     {
                         name: result[i].name,
                         value: parseInt(result[i].id),
-                        rate: parseFloat(result[i].rate)
                     }
                 );
             });

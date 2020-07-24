@@ -24,6 +24,14 @@ class Migrations_model extends CI_Model {
 
         return $this->db->get()->result_array()[0]['version'];
     }
+
+    function get_rate_from_asset_type_id($asset_type_id) {
+        $this->db->select('rate');
+        $this->db->from('asset_types');
+        $this->db->where('asset_types.id', $asset_type_id);
+        $this->db->limit(1);
+        return $this->db->get()->result_array()[0]['rate'];
+    }
     
 }
 

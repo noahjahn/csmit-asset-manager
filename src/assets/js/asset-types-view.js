@@ -15,10 +15,6 @@ $(document).ready(function() {
             columns: [
                 { "data": "id" },
                 { "data": "name" },
-                { "data": "rate", "render": function (data, type, row) {
-                        return "$" + row.rate;
-                    }
-                }
             ],
             responsive:     true,
             scrollY:        212,

@@ -14,6 +14,9 @@ application/vendor
 database-data/
 database-data/*
 
+database-backups/
+database-backups/*
+
 .env
 !.env.example
 !.env.docker

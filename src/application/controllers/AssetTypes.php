@@ -42,7 +42,6 @@ class AssetTypes extends CI_Controller {
 		if ($this->form_validation->run() == TRUE) {
 			$asset_type = array(
 				'name' => $this->input->post('name'),
-				'rate' => $this->input->post('rate'),
 				'last_modified_by' => $this->user_id,
 				'last_modified_time' => date('Y-m-d H:i:s'),
 				'created_by' => $this->user_id,
@@ -56,7 +55,6 @@ class AssetTypes extends CI_Controller {
 		} else {
 			$errors = array(
                 'name' => form_error('name'),
-                'rate' => form_error('rate')
             );
 			echo json_encode($errors);
 		}
@@ -81,25 +79,6 @@ class AssetTypes extends CI_Controller {
 		}
 	}
 
-	public function validate_add_rate() {
-		log_message('debug', 'AssetTypes: validate_add_rate - in function');
-
-		if (!$this->input->is_ajax_request()) {
-			redirect('forbidden');
-		}
-
-		$this->form_validation->set_rules(array($this->AssetTypes_model->get_insert_rate_rules()));
-		if ($this->form_validation->run() == TRUE) {
-			echo json_encode("success");
-		} else {
-			log_message('debug', 'AssetTypes: validate_add_rate - failed to validate rate');
-			$errors = array(
-				'rate' => form_error('rate'),
-			);
-			echo json_encode($errors);
-		}
-	}
-
     public function edit() {
 		log_message('debug', 'AssetTypes: edit - in function');
 
@@ -112,7 +91,6 @@ class AssetTypes extends CI_Controller {
 			$asset_type = array(
 				'id' => $this->input->post('id'),
 				'name' => $this->input->post('name'),
-				'rate' => $this->input->post('rate'),
 				'last_modified_by' => $this->user_id,
 				'last_modified_time' => date('Y-m-d H:i:s'),
 			);
@@ -125,7 +103,6 @@ class AssetTypes extends CI_Controller {
 			$errors = array(
 				'id' => form_error('id'),
                 'name' => form_error('name'),
-                'rate' => form_error('rate')
             );
 			echo json_encode($errors);
 		}
@@ -150,16 +127,6 @@ class AssetTypes extends CI_Controller {
 		}
 	}
 
-	public function validate_edit_rate() {
-		log_message('debug', 'AssetTypes: validate_edit_rate - in function');
-
-		if (!$this->input->is_ajax_request()) {
-            redirect('forbidden');
-        }
-
-		$this->validate_add_rate();
-	}
-
     public function delete($id) {
 		log_message('debug', 'AssetTypes: delete - in function');
 
@@ -178,6 +145,18 @@ class AssetTypes extends CI_Controller {
         }
 
 		$active_asset_types = $this->AssetTypes_model->get_active();
+		$json_asset_types = json_encode($active_asset_types);
+		echo $json_asset_types;
+	}
+
+	public function get() {
+		log_message('debug', 'AssetTypes: get - in function');
+
+		if (!$this->input->is_ajax_request()) {
+            // redirect('forbidden');
+        }
+
+		$active_asset_types = $this->AssetTypes_model->get();
 		$json_asset_types = json_encode($active_asset_types);
 		echo $json_asset_types;
 	}

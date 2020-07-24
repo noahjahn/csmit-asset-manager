@@ -9,6 +9,7 @@ class Models_model extends CI_Model {
 
     function __construct() {
         parent::__construct();
+        $this->load->helper('database_helper');
         $this->table = "models";
         $this->user_id = $this->session->userdata('id');
         $this->fields = array(
@@ -16,6 +17,7 @@ class Models_model extends CI_Model {
             'name' => 'name',
             'manufacturer_id' => 'manufacturer_id',
             'type_id' => 'type_id',
+            'rate' => 'rate',
             'is_deleted' => 'is_deleted',
             'last_modified_by' => 'last_modified_by',
             'last_modified_time' => 'last_modified_time',
@@ -31,6 +33,7 @@ class Models_model extends CI_Model {
             $this->get_insert_name_rules(),
             $this->get_insert_manufacturer_rules(),
             $this->get_insert_type_rules(),
+            $this->get_insert_rate_rules()
         );
         return $form_rules;
     }
@@ -74,11 +77,22 @@ class Models_model extends CI_Model {
         return $type_rules;
     }
 
+    function get_insert_rate_rules() {
+        log_message('debug', 'Models_model: get_insert_rate_rules - in function');
+        $rate_rules = array(
+            'field' => $this->fields['rate'],
+            'label' => $this->fields['rate'],
+            'rules' => 'required|numeric|trim'
+        );
+        return $rate_rules;
+    }
+
     function get_update_rules() {
         log_message('debug', 'Models_model: get_update_rules - in function');
         $form_rules = array (
             $this->get_update_id_rules(),
-            $this->get_update_name_rules()
+            $this->get_update_name_rules(),
+            $this->get_update_rate_rules()
         );
         return $form_rules;
     }
@@ -107,6 +121,16 @@ class Models_model extends CI_Model {
             )
         );
         return $name_rules;
+    }
+
+    function get_update_rate_rules() {
+        log_message('debug', 'Models_model: get_update_rate_rules - in function');
+        $rate_rules = array(
+            'field' => $this->fields['rate'],
+            'label' => $this->fields['rate'],
+            'rules' => 'required|numeric|trim'
+        );
+        return $rate_rules;
     }
 
     function get_table_columns() {
@@ -177,12 +201,35 @@ class Models_model extends CI_Model {
     function get_active() {
         log_message('debug', 'Models_model: get_active - in function');
 
-        $this->db->select('models.id as id, models.name as name, models.manufacturer_id, '.
+        $this->db->select('models.id as id, models.name as name, models.rate as rate, models.manufacturer_id, '.
             'manufacturers.name as manufacturer, models.type_id, asset_types.name as type');
         $this->db->from('models');
         $this->db->join('manufacturers', 'models.manufacturer_id = manufacturers.id');
         $this->db->join('asset_types', 'models.type_id = asset_types.id', 'left'); // to remove left join after all models have been updated
         $this->db->where('models.is_deleted', FALSE);
+        return $this->db->get()->result_array();
+    }
+
+    function get() {
+        log_message('debug', 'Models_model: get - in function');
+
+        $this->db->select('
+                        model.id as model_id, 
+                        model.name as model_name,
+                        model.manufacturer_id as model_manufacturer_id,
+                        manufacturer.name as manufacturer_name,
+                        model.type_id as model_type_id,
+                        asset_type.name as asset_type_name,
+                        asset_type.lifespan as asset_type_lifespan,
+                        model.rate as model_rate,
+                        model.is_deleted as model_is_deleted,
+                        model.last_modified_by as model_last_modified_by,
+                        model.last_modified_time as model_last_modified_time,
+                        model.created_by as model_created_by,
+                        model.created_time as model_created_time');
+        $this->db->from('models as model');
+        $this->db->join('manufacturers as manufacturer', 'model.manufacturer_id = manufacturer.id');
+        $this->db->join('asset_types as asset_type', 'model.type_id = asset_type.id');
         return $this->db->get()->result_array();
     }
 
@@ -290,6 +337,12 @@ class Models_model extends CI_Model {
         return record_exists($id, $this->table);
     }
 
+    function get_asset_type_rates() {
+        $this->db->select('models.type_id, rate');
+        $this->db->distinct();
+        $this->db->from('models');
+        return $this->db->get()->result_array();
+    }
 }
 
 ?>

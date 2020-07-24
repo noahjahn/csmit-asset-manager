@@ -34,6 +34,7 @@ class Models extends CI_Controller {
 				'name' => $this->input->post('name'),
 				'manufacturer_id' => $this->input->post('manufacturer_id'),
 				'type_id' => $this->input->post('type_id'),
+				'rate' => $this->input->post('rate'),
 				'last_modified_by' => $this->user_id,
 				'last_modified_time' => date('Y-m-d H:i:s'),
 				'created_by' => $this->user_id,
@@ -46,7 +47,8 @@ class Models extends CI_Controller {
 
 		} else {
 			$errors = array(
-                'name' => form_error('name'),
+				'name' => form_error('name'),
+				'rate' => form_error('rate'),
             );
 			echo json_encode($errors);
 		}
@@ -112,6 +114,25 @@ class Models extends CI_Controller {
 		}
 	}
 
+	public function validate_add_rate() {
+		log_message('debug', 'Models: validate_add_rate - in function');
+
+		if (!$this->input->is_ajax_request()) {
+			redirect('forbidden');
+		}
+
+		$this->form_validation->set_rules(array($this->Models_model->get_insert_rate_rules()));
+		if ($this->form_validation->run() == TRUE) {
+			echo json_encode("success");
+		} else {
+			log_message('debug', 'Models: validate_add_rate - failed to validate rate');
+			$errors = array(
+				'rate' => form_error('rate'),
+			);
+			echo json_encode($errors);
+		}
+	}
+
     public function edit() {
 		log_message('debug', 'Models: edit - in function');
 		if (!$this->input->is_ajax_request()) {
@@ -126,6 +147,7 @@ class Models extends CI_Controller {
 				'name' => $this->input->post('name'),
 				'manufacturer_id' => $this->input->post('manufacturer_id'),
 				'type_id' => $this->input->post('type_id'),
+				'rate' => $this->input->post('rate'),
 				'last_modified_by' => $this->user_id,
 				'last_modified_time' => date('Y-m-d H:i:s')
 			);
@@ -161,6 +183,16 @@ class Models extends CI_Controller {
             );
 			echo json_encode($errors);
 		}
+	}
+
+	public function validate_edit_rate() {
+		log_message('debug', 'AssetTypes: validate_edit_rate - in function');
+
+		if (!$this->input->is_ajax_request()) {
+            redirect('forbidden');
+        }
+
+		$this->validate_add_rate();
 	}
 
     public function delete($id) {

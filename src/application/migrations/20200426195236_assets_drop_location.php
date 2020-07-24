@@ -8,7 +8,7 @@ class Migration_Assets_drop_location extends CI_Migration {
     }
     
     public function down() { 
-        $this->dbforge->add_field(array(
+        $this->dbforge->add_column('assets', array(
                 'location' => array(
                     'type' => 'VARCHAR',
                     'constraint' => '128',
