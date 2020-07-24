@@ -165,8 +165,10 @@ class Migrate extends CI_Controller {
         $latest_migration_version = (int)explode('_',scandir(Self::MIGRATIONS_PATH, SCANDIR_SORT_DESCENDING)[0])[0];
         
         if ($current_version < $latest_migration_version) {
-            echo 'Running all migrations...'.PHP_EOL;
-            $this->version($latest_migration_version);
+            if ($this->backup()) {
+                echo 'Running all migrations...'.PHP_EOL;
+                $this->version($latest_migration_version);
+            }
         } else {
             echo 'Database already up to date'.PHP_EOL;
         }

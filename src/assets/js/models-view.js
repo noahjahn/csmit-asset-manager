@@ -17,6 +17,10 @@ $(document).ready(function() {
                 { "data": "name" },
                 { "data": "manufacturer" },
                 { "data": "type" },
+                { "data": "rate", "render": function (data, type, row) {
+                        return "$" + row.rate;
+                    }
+                },
             ],
             responsive:     true,
             scrollY:        212,
