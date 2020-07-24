@@ -5,9 +5,11 @@ $(document).ready(function() {
     var addModelUrl = baseUrl + "Models/add";
     var validateAddNameUrl = baseUrl + "Models/validate_add_name";
     var validateAddManufacturerUrl = baseUrl + "Models/validate_add_manufacturer";
+    var validateAddRateUrl = baseUrl + "Models/validate_add_rate";
     var editModelUrl = baseUrl + "Models/edit";
     var validateEditNameUrl = baseUrl + "Models/validate_edit_name";
     var validateEditManufacturerUrl = baseUrl + "Models/validate_edit_manufacturer";
+    var validateEditRateUrl = baseUrl + "Models/validate_edit_rate";
     var deleteModelUrl = baseUrl + "Models/delete/";
     var getActiveModelsUrl = baseUrl + "Models/get_active";
     var getActiveManufacturersUrl = baseUrl + "Manufacturers/get_active";
@@ -62,7 +64,6 @@ $(document).ready(function() {
                     }
                 );
             });
-            console.log(assetTypes);
         },
         error: function(result) {
             var today = new Date();
@@ -98,7 +99,6 @@ $(document).ready(function() {
             $('#add-model-type').dropdown({
                 values: assetTypes
             });
-            console.log(assetTypes);
         }
     });
 
@@ -197,6 +197,51 @@ $(document).ready(function() {
                         if (! addNameField.hasClass('is-invalid')) {
                             addNameField.addClass('is-invalid');
                         }
+                        if (! result["rate"] == "") {
+                            if (! result["rate"] == addRateError.val()) {
+                                addRateError.empty(); // empty error messages, if there were any
+                                addRateError.append(result["rate"]); // display the error messages
+                            }
+                            if (! addRateField.hasClass('is-invalid')) {
+                                addRateField.addClass('is-invalid');
+                            }
+                        }
+                    }
+                }
+            },
+            error: function(result) {
+                var today = new Date();
+                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                console.log("AJAX error, check server logs near local time: " + time);
+            }
+        });
+    });
+
+    var addRateField = $("#add-model-form #add-model-rate");
+    var addRateError = $("#add-model-form #add-model-rate-error");
+    addRateField.blur(function() {
+        $.ajax({
+            type: 'POST',
+            url: validateAddRateUrl,
+            dataType: 'json',
+            data: $(this).serialize(), // get data from the form
+            headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
+            success: function(result) {
+                if (result == "success") {
+                    addRateError.empty();
+                    addRateField.removeClass('is-invalid');
+                    addRateField.addClass('is-valid');
+                } else {
+                    addRateField.removeClass('is-valid');
+                    if (! result["rate"] == "") {
+                        if (! result["rate"] == addRateError.val()) {
+                            addRateError.empty(); // empty error messages, if there were any
+                            addRateError.append(result["rate"]); // display the error messages
+                        }
+                        if (! addRateField.hasClass('is-invalid')) {
+                            addRateField.addClass('is-invalid');
+                        }
                     }
                 }
             },
@@ -210,24 +255,30 @@ $(document).ready(function() {
 
     $('#add-model').on('hidden.bs.modal', function () {
         addNameError.empty(); // empty the errors when hiding the modal
-        // $("#add-model-form #manufacturer-error").empty();
+        addRateError.empty();
         addNameField.val(""); // set the value to of the forms to have nothing in them, just in case the user left some data there without submitting
-        // $("#add-model .ui.dropdown .text").empty("");
-        // $("#add-model .ui.dropdown .menu .active").removeClass('active');
-        // $("#add-model .ui.dropdown .menu .selected").removeClass('selected');
+        addRateField.val("");
         addNameField.removeClass('is-invalid');
         addNameField.removeClass('is-valid');
+        addRateField.removeClass('is-invalid');
+        addRateField.removeClass('is-valid');
     });
     /* *** ********************* *** */
 
     /* *** Handle edit model *** */
     var editNameField = $("#edit-model-name");
     var editNameError = $("#edit-model-name-error");
+    var editRateField = $("#edit-model-rate");
+    var editRateError = $("#edit-model-rate-error");
+
     $(document).on("click", ".edit-model-button", function () {
         var id = $(this).data('id');
         var name = $(this).data('name');
+        var rate = $(this).data('rate');
+        console.log(rate)
 
         editNameField.val(name); // set values for what is currently set
+        editRateField.val(rate);
         $("#edit-model-form #modal-submit-edit-model").data('id', id);
     });
 
@@ -254,6 +305,40 @@ $(document).ready(function() {
                         }
                         if (! editNameField.hasClass('is-invalid')) {
                             editNameField.addClass('is-invalid');
+                        }
+                    }
+                }
+            },
+            error: function(result) {
+                var today = new Date();
+                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                console.log("AJAX error, check server logs near local time: " + time);
+            }
+        });
+    });
+
+    editRateField.blur(function() {
+        $.ajax({
+            type: 'POST',
+            url: validateEditRateUrl,
+            dataType: 'json',
+            data: $(this).serialize(), // get data from the form
+            headers: {"X-HTTP-Method-Override": "PUT"},
+            async: true,
+            success: function(result) {
+                if (result == "success") {
+                    editRateField.empty();
+                    editRateField.removeClass('is-invalid');
+                    editRateField.addClass('is-valid');
+                } else {
+                    editRateField.removeClass('is-valid');
+                    if (! result["rate"] == "") {
+                        if (! result["rate"] == editRateField.val()) {
+                            editRateField.empty(); // empty error messages, if there were any
+                            editRateField.append(result["rate"]); // display the error messages
+                        }
+                        if (! editRateField.hasClass('is-invalid')) {
+                            editRateField.addClass('is-invalid');
                         }
                     }
                 }
@@ -295,6 +380,15 @@ $(document).ready(function() {
                             editNameField.addClass('is-invalid');
                         }
                     }
+                    if (! result["rate"] == "") {
+                        if (! result["rate"] == editRateError.val()) {
+                            editRateError.empty(); // empty error messages, if there were any
+                            editRateError.append(result["rate"]); // display the error messages
+                        }
+                        if (! editRateField.hasClass('is-invalid')) {
+                            editRateField.addClass('is-invalid');
+                        }
+                    }
                 }
             },
             error: function(result) {
@@ -308,10 +402,13 @@ $(document).ready(function() {
     $('#edit-model').on('hidden.bs.modal', function () {
         $('.ui.search.dropdown#edit-model-manufacturer').dropdown('remove selected');
         editNameError.empty(); // empty the errors when hiding the modal
+        editRateError.empty();
         editNameField.val(""); // set the value to of the forms to have nothing in them, just in case the user left some data there without submitting
+        editRateError.val("");
         editNameField.removeClass('is-invalid');
         editNameField.removeClass('is-valid');
-
+        editRateField.removeClass('is-invalid');
+        editRateField.removeClass('is-valid');
     });
     /* *** ********************* *** */
 
@@ -357,7 +454,7 @@ $(document).ready(function() {
                     }
                 },
                 { "render": function ( data, type, row ) {
-                        return '<button id="edit-model-button" class="table-icon edit-model-button" data-toggle="modal" data-id="' + row.id + '" data-name="' + row.name + '" data-manufacturer-id="' + row.manufacturer_id + '" data-type-id="' + row.type_id + '" data-target="#edit-model"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
+                        return '<button id="edit-model-button" class="table-icon edit-model-button" data-toggle="modal" data-id="' + row.id + '" data-name="' + row.name + '" data-manufacturer-id="' + row.manufacturer_id + '" data-type-id="' + row.type_id + '" data-rate="' + row.rate + '" data-target="#edit-model"><img class="mini-icon" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button></td>';
                     }
                 },
                 { "render": function ( data, type, row ) {

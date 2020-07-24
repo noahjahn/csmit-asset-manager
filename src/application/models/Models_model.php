@@ -17,6 +17,7 @@ class Models_model extends CI_Model {
             'name' => 'name',
             'manufacturer_id' => 'manufacturer_id',
             'type_id' => 'type_id',
+            'rate' => 'rate',
             'is_deleted' => 'is_deleted',
             'last_modified_by' => 'last_modified_by',
             'last_modified_time' => 'last_modified_time',
@@ -32,6 +33,7 @@ class Models_model extends CI_Model {
             $this->get_insert_name_rules(),
             $this->get_insert_manufacturer_rules(),
             $this->get_insert_type_rules(),
+            $this->get_insert_rate_rules()
         );
         return $form_rules;
     }
@@ -75,11 +77,22 @@ class Models_model extends CI_Model {
         return $type_rules;
     }
 
+    function get_insert_rate_rules() {
+        log_message('debug', 'Models_model: get_insert_rate_rules - in function');
+        $rate_rules = array(
+            'field' => $this->fields['rate'],
+            'label' => $this->fields['rate'],
+            'rules' => 'required|numeric|trim'
+        );
+        return $rate_rules;
+    }
+
     function get_update_rules() {
         log_message('debug', 'Models_model: get_update_rules - in function');
         $form_rules = array (
             $this->get_update_id_rules(),
-            $this->get_update_name_rules()
+            $this->get_update_name_rules(),
+            $this->get_update_rate_rules()
         );
         return $form_rules;
     }
@@ -108,6 +121,16 @@ class Models_model extends CI_Model {
             )
         );
         return $name_rules;
+    }
+
+    function get_update_rate_rules() {
+        log_message('debug', 'Models_model: get_update_rate_rules - in function');
+        $rate_rules = array(
+            'field' => $this->fields['rate'],
+            'label' => $this->fields['rate'],
+            'rules' => 'required|numeric|trim'
+        );
+        return $rate_rules;
     }
 
     function get_table_columns() {

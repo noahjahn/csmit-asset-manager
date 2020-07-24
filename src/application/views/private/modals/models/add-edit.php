@@ -33,8 +33,8 @@
                     </div>
                     <div class="form-group">
                         <label for="rate">Rate<span class="required"> *</span></label>
-                        <input id="add-asset-type-rate" name="rate" type="number" step=".01" class="form-control" value="<?php set_value('rate'); ?>">
-                        <div id="add-asset-type-rate-error" class="invalid-feedback"></div>
+                        <input id="add-model-rate" name="rate" type="number" step=".01" class="form-control" value="<?php set_value('rate'); ?>">
+                        <div id="add-model-rate-error" class="invalid-feedback"></div>
                     </div>
                     <div>
                         <div class="modal-body-footer">
@@ -76,8 +76,8 @@
                     </div>
                     <div class="form-group">
                         <label for="rate">Rate<span class="required"> *</span></label>
-                        <input id="edit-asset-type-rate" name="rate" type="number" step=".01" class="form-control" value="<?php set_value('rate'); ?>">
-                        <div id="edit-asset-type-rate-error" class="invalid-feedback"></div>
+                        <input id="edit-model-rate" name="rate" type="number" step=".01" class="form-control" value="<?php set_value('rate'); ?>">
+                        <div id="edit-model-rate-error" class="invalid-feedback"></div>
                     </div>
                     <div>
                         <div class="modal-body-footer">

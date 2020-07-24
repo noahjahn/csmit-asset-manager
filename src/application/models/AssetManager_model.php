@@ -286,7 +286,8 @@ class AssetManager_model extends CI_Model {
 
         $this->db->select('assets.id');
         $this->db->from('assets');
-        $this->db->join('asset_types', 'asset_types.id = assets.type_id');
+        $this->db->join('models', 'assets.model_id = models.id');
+        $this->db->join('asset_types', 'models.type_id = asset_types.id');
         $this->db->where('asset_types.name', $asset_type);
         $this->db->where('assets.is_deleted', FALSE);
 
@@ -299,18 +300,19 @@ class AssetManager_model extends CI_Model {
         return $num_rows;
     }
 
-    function get_month_forecast($asset_type) {
-        log_message('debug', 'AssetManager_model: get_month_forecast - in function');
-
+    function get_count_by_model($model) {
+        log_message('debug', 'AssetManager_model: get_count_by_model - in function. model='.$model['name']);
         $this->db->select('assets.id');
         $this->db->from('assets');
-        $this->db->join('asset_types', 'asset_types.id = assets.type');
-        $this->db->where('asset_types.name', $asset_type);
+        $this->db->join('models', 'assets.model_id = models.id');
+        $this->db->where('models.name', $model['name']);
         $this->db->where('assets.is_deleted', FALSE);
 
         $query = $this->db->get();
 
         $num_rows = $query->num_rows();
+
+        log_message('debug', 'AssetManager_model: get_count_by_model - num_rows='.$num_rows);
 
         return $num_rows;
     }
