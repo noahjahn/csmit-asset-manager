@@ -137,6 +137,12 @@ class AssetManager extends CI_Controller {
 		$this->AssetManager_model->delete($id);
 	}
 
+	public function is_serial_number_unique($serial_number) {
+		log_message('debug', 'AssetManager: is_serial_number_unique - in function');
+
+		return $this->AssetManager_model->is_serial_number_unique($serial_number);
+	}
+
 	public function is_asset_tag_unique($asset_tag) {
 		log_message('debug', 'AssetManager: is_asset_tag_unique - in function');
 

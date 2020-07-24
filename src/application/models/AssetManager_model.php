@@ -70,7 +70,10 @@ class AssetManager_model extends CI_Model {
         $serial_number_rules = array(
             'field' => $this->fields['serial_number'],
             'label' => $this->fields['serial_number'],
-            'rules' => 'trim',
+            'rules' => 'callback_is_serial_number_unique|trim',
+            'errors' => array (
+                'is_serial_number_unique' => 'The %s field must contain a unique value.'
+            )
         );
         return $serial_number_rules;
     }
@@ -301,6 +304,28 @@ class AssetManager_model extends CI_Model {
         log_message('debug', 'AssetManager_model: get_count_by_model - num_rows='.$num_rows);
 
         return $num_rows;
+    }
+
+    public function is_serial_number_unique($serial_number) {
+        log_message('debug', 'AssetManager_model: is_serial_number_unique - in function');
+        
+        if (!isset($serial_number) || $serial_number == NULL) {
+            return TRUE;
+        }
+
+        $this->db->select($this->fields['serial_number']);
+        $this->db->from($this->table);
+        $this->db->where('serial_number', $serial_number);
+        $this->db->where('is_deleted', 0);
+
+        $query = $this->db->get();
+
+        if ($query->num_rows() == 0) {
+            return TRUE;
+        } else {
+            log_message('debug', 'AssetManager_model: is_serial_number_unique - found more than one record with the same serial number '.$serial_number);
+            return FALSE;
+        }
     }
 
     public function is_asset_tag_unique($asset_tag) {
