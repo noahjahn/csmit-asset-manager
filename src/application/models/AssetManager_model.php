@@ -358,6 +358,10 @@ class AssetManager_model extends CI_Model {
     function is_asset_tag_unique_not_different_from_current($asset_tag, $id) {
         log_message('debug', 'AssetManager_model: is_asset_tag_unique_not_different_from_current - in function');
 
+        if (!isset($asset_tag) || $asset_tag == NULL) {
+            return TRUE;
+        }
+
         $this->db->select('*');
         $this->db->from($this->table);
         $this->db->where('asset_tag', $asset_tag);
