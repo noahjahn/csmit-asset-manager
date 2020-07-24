@@ -107,19 +107,19 @@ class Auth extends CI_Controller {
 								$this->session->set_userdata(get_all_page_access($user_data['role']));
 								if (is_authorized($user_data['role'], 'dashboard')) {
 									log_message('debug', 'redirecting to dashboard');
-									redirect('dashboard');
+									return redirect('dashboard');
 								} else if (is_authorized($user_data['role'], 'asset_manager')) {
 									log_message('debug', 'redirecting to asset_manager');
-									redirect('assetmanager');
+									return redirect('assetmanager');
 								} else if (is_authorized($user_data['role'], 'reports')) {
 									log_message('debug', 'redirecting to reports');
-									redirect('reports');
+									return redirect('reports');
 								} else if (is_authorized($user_data['role'], 'settings')) {
 									log_message('debug', 'redirecting to settings');
-									redirect('settings');
+									return redirect('settings');
 								} else {
 									log_message('debug', 'redirecting to forbidden');
-									redirect('forbidden');
+									return redirect('forbidden');
 								}
 							} else {
 								$this->session->set_flashdata('error', 'Failed to set last login');
