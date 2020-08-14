@@ -47,8 +47,8 @@ Build Asset Manager table
             { "className": "asset_manager_rate", "targets": 7 },
             { "responsivePriority": -1, "targets": [8,9] },
             { "width": "10px", "targets": [8,9] },
-            { "orderable": false, "targets": [8,9,10,11,12,13,14,15,16,17,18,19] },
-            { "visible": false, "targets": [0,10,11,12,13,14,15,16,17,18,19] }
+            { "orderable": false, "targets": [8,9,10,11,12,13,14,15,16,17,18,19,20,21] },
+            { "visible": false, "targets": [0,10,11,12,13,14,15,16,17,18,19,20,21] }
         ],
         columns: [
             { "data": "id" },
@@ -77,7 +77,9 @@ Build Asset Manager table
             { "data": "manufacturer_id" },
             { "data": "model_id" },
             { "data": "type_id" },
-            { "data": "team_id" }
+            { "data": "team_id" },
+            { "data": "phone_number" },
+            { "data": "imei" }
         ],
         "order": [[ 1, "asc" ]],
         scrollY:        $(document).height() - 260,
@@ -201,6 +203,9 @@ $('#asset-manager').on('click', '.parent-row', function(e) {
     var purchase_date = table.cell(row,13).data();
     var notes = table.cell(row,14).data();
     var last_modified_time = table.cell(row,15).data();
+    var phone_number = table.cell(row,20).data();
+    var imei = table.cell(row,21).data();
+
 
     /****************IF Detail Row is EXPANDED before clicking*********************/
     if (row.child.isShown() ) {
@@ -221,6 +226,8 @@ $('#asset-manager').on('click', '.parent-row', function(e) {
                 serializedData = serializedData + row.child().find('.asset_manager_purchase_date :input').serialize() + "&";
                 serializedData = serializedData + row.child().find('.asset_manager_job_number :input').serialize() + "&";
                 serializedData = serializedData + row.child().find('.asset_manager_notes :input').serialize() + "&";
+                serializedData = serializedData + row.child().find('.asset_manager_phone_number :input').serialize() + "&";
+                serializedData = serializedData + row.child().find('.asset_manager_imei :input').serialize() + "&";
 
                 // Push changes to Database
                 $.ajax({
@@ -449,6 +456,12 @@ $('#asset-manager').on('click', '.parent-row', function(e) {
                 // Serial Number
                 row.child().find('.asset_manager_serial_number').html('<input type="text" name="serial_number" class="in-row-edit form-control" value="' + serial_number + '"></input>');
 
+                // PHone Number
+                row.child().find('.asset_manager_phone_number').html('<input type="text" name="phone_number" class="in-row-edit form-control" value="' + phone_number + '"></input>');
+
+                // IMEI
+                row.child().find('.asset_manager_imei').html('<input type="text" name="imei" class="in-row-edit form-control" value="' + imei + '"></input>');
+
                 // Purchase Price
                 row.child().find('.asset_manager_purchase_price').html('<input type="text" name="purchase_price" class="in-row-edit form-control" value="' + purchase_price + '"></input>');
 
@@ -456,7 +469,7 @@ $('#asset-manager').on('click', '.parent-row', function(e) {
                 row.child().find('.asset_manager_job_number').html('<input type="text" name="job_number" class="in-row-edit form-control" value="' + job_number + '"></input>');
 
                 // Purchase Date
-                row.child().find('.asset_manager_purchase_date').html('<input type="text" name="purchase_date" class="in-row-edit form-control" value="' + purchase_date + '"></input>');
+                row.child().find('.asset_manager_purchase_date').html('<input type="date" name="purchase_date" class="in-row-edit form-control" value="' + purchase_date + '"></input>');
 
                 // Notes
                 row.child().find('.asset_manager_notes').html('<input type="text" name="notes" class="in-row-edit form-control" value="' + notes + '"></input>');
@@ -563,6 +576,12 @@ $('#asset-manager').on('click', '.parent-row', function(e) {
             // Serial Number
             row.child().find('.asset_manager_serial_number').html('<input type="text" name="serial_number" class="in-row-edit form-control" value="' + serial_number + '"></input>');
 
+            // Phone Number
+            row.child().find('.asset_manager_phone_number').html('<input type="text" name="phone_number" class="in-row-edit form-control" value="' + phone_number + '"></input>');
+
+            // IMEI
+            row.child().find('.asset_manager_imei').html('<input type="text" name="imei" class="in-row-edit form-control" value="' + imei + '"></input>');
+
             // Purchase Price
             row.child().find('.asset_manager_purchase_price').html('<input type="text" name="purchase_price" class="in-row-edit form-control" value="' + purchase_price + '"></input>');
 
@@ -570,7 +589,7 @@ $('#asset-manager').on('click', '.parent-row', function(e) {
             row.child().find('.asset_manager_job_number').html('<input type="text" name="job_number" class="in-row-edit form-control" value="' + job_number + '"></input>');
 
             // Purchase Date
-            row.child().find('.asset_manager_purchase_date').html('<input type="text" name="purchase_date" class="in-row-edit form-control" value="' + purchase_date + '"></input>');
+            row.child().find('.asset_manager_purchase_date').html('<input type="date" name="purchase_date" class="in-row-edit form-control" value="' + purchase_date + '"></input>');
 
             // Notes
             row.child().find('.asset_manager_notes').html('<input type="text" name="notes" class="in-row-edit form-control" value="' + notes + '"></input>');
@@ -588,6 +607,8 @@ $('#asset-manager').on('click', '.parent-row', function(e) {
             row.child( formatRow(row.data()), 'slider' ).show();
             //Fill child row fields
             row.child().find("p.asset_manager_serial_number").html(serial_number);
+            row.child().find("p.asset_manager_phone_number").html(phone_number);
+            row.child().find("p.asset_manager_imei").html(imei);
             row.child().find("p.asset_manager_purchase_price").html(purchase_price);
             row.child().find("p.asset_manager_job_number").html(job_number);
             row.child().find("p.asset_manager_purchase_date").html(purchase_date);
@@ -656,6 +677,12 @@ Delete Asset
     addTeamIdField = $("#add-asset-form #add-asset-team");
     addTeamIdError = $("#add-asset-form #add-asset-team-error");
 
+    addPhoneNumberField = $("#add-asset-form #add-asset-phone-number");
+    addPhoneNumberError = $("#add-asset-form #add-asset-phone-number-error");
+
+    addImeiField = $("#add-asset-form #add-asset-imei");
+    addImeiError = $("#add-asset-form #add-asset-imei-error");
+
     addPurchasePriceField = $("#add-asset-form #add-asset-purchase-price");
     addPurchasePriceError = $("#add-asset-form #add-asset-purchase-price-error");
 
@@ -672,8 +699,6 @@ Delete Asset
       var teamId = $('#add-asset-team').siblings('.menu').children('.item.active.selected').data('value');
       if (!modelId) { var model = ""; }
       if (!teamId) { var team = ""; }
-
-      console.log($(this).serialize());
 
       $.ajax({
           type: 'POST',
@@ -737,6 +762,26 @@ Delete Asset
                           addTeamIdField.parent().parent('.form-group').attr('style', 'margin-bottom: 0px !important');
                       }
                   }
+                  if (! result["phone_number"] == "") {
+                    if (! result["phone_number"] == addPhoneNumberError.val()) {
+                        addPhoneNumberError.empty(); // empty error messages, if there were any
+                        addPhoneNumberError.append(result["phone_number"]); // display the error messages
+                    }
+                    if (! addPhoneNumberField.hasClass('is-invalid')) {
+                        addPhoneNumberField.addClass('is-invalid');
+                        addPhoneNumberField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                    }
+                  }
+                  if (! result["imei"] == "") {
+                    if (! result["imei"] == addImeiError.val()) {
+                        addImeiError.empty(); // empty error messages, if there were any
+                        addImeiError.append(result["imei"]); // display the error messages
+                    }
+                    if (! addImeiField.hasClass('is-invalid')) {
+                        addImeiField.addClass('is-invalid');
+                        addImeiField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                    }
+                  }
                   if (! result["purchase_price"] == "") {
                       if (! result["purchase_price"] == addPurchasePriceError.val()) {
                           addPurchasePriceError.empty(); // empty error messages, if there were any
@@ -789,21 +834,29 @@ function formatRow() { //Put child row data here.
       '<div>  <p class="asset_manager_serial_number">*error*</p></div>' +
     '</td>' +
   '<td class="edit-col">' +
-      '<div>  <label>Purchase Price</label> </div>' +
-      '<div>  <p class="asset_manager_purchase_price">*error*</p></div>' +
+      '<div>  <label>Phone Number</label> </div>' +
+      '<div>  <p class="asset_manager_phone_number">*error*</p></div>' +
     '</td>' +
   '<td class="edit-col">' +
-      '<div>  <label>Job Number</label> </div>' +
-      '<div>  <p class="asset_manager_job_number">*error*</p></div>' +
+      '<div>  <label>IMEI</label> </div>' +
+      '<div>  <p class="asset_manager_imei">*error*</p></div>' +
     '</td>' +
-  '<td class="edit-col" rowspan="2">' +
-      '<div>  <label>Notes</label> </div>' +
-      '<div>  <p class="asset_manager_notes">*error*</p></div>' +
-    '</td>' +
-  '</tr><tr class="edit-row">' +
   '<td class="edit-col">' +
       '<div>  <label>Purchase Date</label> </div>' +
       '<div>  <p class="asset_manager_purchase_date">*error*</p></div>' +
+    '</td>' +
+  '<td class="edit-col">' +
+      '<div>  <label>Purchase Price</label> </div>' +
+      '<div>  <p class="asset_manager_purchase_price">*error*</p></div>' +
+    '</td>' +
+  '</tr><tr class="edit-row">' +
+  '<td class="edit-col">' +
+      '<div>  <label>Job Number</label> </div>' +
+      '<div>  <p class="asset_manager_job_number">*error*</p></div>' +
+  '</td>' +
+  '<td class="edit-col" rowspan="2">' +
+      '<div>  <label>Notes</label> </div>' +
+      '<div>  <p class="asset_manager_notes">*error*</p></div>' +
     '</td>' +
   '<td class="edit-col">' +
       '<div>  <label>Last Updated</label> </div>' +
