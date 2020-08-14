@@ -69,6 +69,18 @@
                     </div>
                     <div class="row">
                         <div class="col-md form-group">
+                            <label>Phone Number</label>
+                            <input type="text" id="add-asset-phone-number" name="phone_number" class="form-control" value="<?php set_value('phone_number'); ?>">
+                            <div id="add-asset-phone-number-error" class="invalid-feedback"></div>
+                        </div>
+                        <div class="col-md form-group">
+                            <label for="add-asset-imei">IMEI</label>
+                            <input type="text" id="add-asset-imei" name="imei" class="form-control" value="<?php set_value('imei'); ?>">
+                            <div id="add-asset-imei-error" class="invalid-feedback"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md form-group">
                             <label>Purchase Date</label>
                             <input type="date" id="add-asset-purchase-date" name="purchase_date" class="form-control" value="<?php set_value('purchase_date'); ?>">
                             <div id="add-asset-purchase-date-error" class="invalid-feedback"></div>
