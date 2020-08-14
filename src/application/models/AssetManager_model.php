@@ -17,6 +17,8 @@ class AssetManager_model extends CI_Model {
             'owner' => 'owner',
             'serial_number' => 'serial_number',
             'asset_tag' => 'asset_tag',
+            'phone_number' => 'phone_number',
+            'imei' => 'imei',
             'purchase_price' => 'purchase_price',
             'purchase_date' => 'purchase_date',
             'team_id' => 'team_id',
@@ -38,6 +40,8 @@ class AssetManager_model extends CI_Model {
             $this->get_insert_serial_number_rules(),
             $this->get_insert_asset_tag_rules(),
             $this->get_insert_team_id_rules(),
+            $this->get_insert_phone_number_rules(),
+            $this->get_insert_imei_rules(),
             $this->get_insert_purchase_price_rules(),
             $this->get_insert_purchase_date_rules(),
             $this->get_insert_job_number_rules(),
@@ -101,6 +105,26 @@ class AssetManager_model extends CI_Model {
         return $team_id_rules;
     }
 
+    function get_insert_phone_number_rules() {
+        log_message('debug', 'AssetManagers_model: get_insert_phone_number_rules - in function');
+        $phone_number_rules = array(
+            'field' => $this->fields['phone_number'],
+            'label' => 'phone number',
+            'rules' => 'trim',
+        );
+        return $phone_number_rules;
+    }
+
+    function get_insert_imei_rules() {
+        log_message('debug', 'AssetManagers_model: get_insert_imei_rules - in function');
+        $imei_rules = array(
+            'field' => $this->fields['imei'],
+            'label' => 'imei',
+            'rules' => 'trim',
+        );
+        return $imei_rules;
+    }
+
     function get_insert_purchase_price_rules() {
         log_message('debug', 'AssetManagers_model: get_insert_purchase_price_rules - in function');
         $purchase_price_rules = array(
@@ -150,6 +174,8 @@ class AssetManager_model extends CI_Model {
             $this->get_update_serial_number_rules(),
             $this->get_update_asset_tag_rules(),
             $this->get_insert_team_id_rules(),
+            $this->get_insert_phone_number_rules(),
+            $this->get_insert_imei_rules(),
             $this->get_insert_purchase_price_rules(),
             $this->get_insert_purchase_date_rules(),
             $this->get_insert_job_number_rules(),
@@ -189,6 +215,8 @@ class AssetManager_model extends CI_Model {
             assets.owner,
             assets.serial_number,
             assets.asset_tag,
+            assets.phone_number,
+            assets.imei,
             assets.purchase_price,
             assets.purchase_date,
             assets.job_number,
