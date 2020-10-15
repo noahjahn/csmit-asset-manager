@@ -54,7 +54,10 @@ class AssetManager_model extends CI_Model {
         $model_id_rules = array(
             'field' => $this->fields['model_id'],
             'label' => 'model',
-            'rules' => 'required|trim',
+            'rules' => 'required|callback_model_exists|trim',
+            'errors' => array (
+                'model_exists' => 'The model selected doesn\'t exist.'
+            )
         );
         return $model_id_rules;
     }
@@ -100,7 +103,11 @@ class AssetManager_model extends CI_Model {
         $team_id_rules = array(
             'field' => $this->fields['team_id'],
             'label' => 'team',
-            'rules' => 'required|trim',
+            'rules' => 'required|callback_team_exists|trim',
+            'errors' => array (
+                'team_exists' => 'The team selected doesn\'t exist.'
+            )
+            
         );
         return $team_id_rules;
     }
