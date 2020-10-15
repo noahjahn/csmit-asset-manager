@@ -6,6 +6,8 @@ class AssetManager extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('AssetManager_model');
+		$this->load->model('Models_model');
+		$this->load->model('Teams_model');
 		$this->load->helper("authorization");
 		$this->user_id = $this->session->userdata('id');
 		$this->user_role_id = $this->session->userdata('role');
@@ -169,6 +171,18 @@ class AssetManager extends CI_Controller {
 
 		$id = $this->input->post('id');
 		return $this->AssetManager_model->is_asset_tag_unique_not_different_from_current($asset_tag, $id);
+	}
+
+	public function model_exists($model_id) {
+		log_message('debug', 'AssetManager: model_exists - in function');
+
+		return $this->Models_model->id_exists($model_id);
+	}
+
+	public function team_exists($team_id) {
+		log_message('debug', 'AssetManager: team_exists - in function');
+
+		return $this->Teams_model->id_exists($team_id);
 	}
 
 }

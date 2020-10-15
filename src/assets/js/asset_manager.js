@@ -213,6 +213,19 @@ $('#asset-manager').on('click', '.parent-row', function(e) {
         if ($(this).hasClass('edit-mode')) {
             /**********If the save button is clicked**********/
             if (e.target.id == 'edit-asset-button') {
+                var editManufacturerIdField = $("#edit-asset-manufacturer");
+                var editModelIdField = $("#edit-asset-model");
+                var editOwnerField = $("#edit-asset-owner");
+                var editSerialNumberField = $("#edit-asset-serial-number");
+                var editTypeIdField = $("#edit-asset-type");
+                var editAssetTagField = $("#edit-asset-asset-tag");
+                var editTeamIdField = $("#edit-asset-team");
+                var editPhoneNumberField = $("#edit-asset-phone-number");
+                var editImeiField = $("#edit-asset-imei");
+                var editPurchasePriceField = $("#edit-asset-purchase-price");
+                var editPurchaseDateField = $("#edit-asset-purchase-date");
+                var editJobNumberField = $("#edit-asset-job-number");
+
                 var modelId = $('#edit-asset-model').siblings('.menu').children('.item.active.selected').data('value');
                 var manufacturerId = $(this).find('.asset_manager_manufacturer input').data('manufacturer_id');
                 var typeId = $(this).find('.asset_manager_type input').data('type_id');
@@ -249,111 +262,82 @@ $('#asset-manager').on('click', '.parent-row', function(e) {
 
                             $("#asset-manager").DataTable().ajax.reload(); // also need to reload the datatable since we successfully add an asset type
                         } else {
-                            console.log(result);
-                            // if (! result["manufacturer_id"] == "") {
-                            //     if (! result["manufacturer_id"] == addManufacturerIdError.val()) {
-                            //         addManufacturerIdError.empty(); // empty error messages, if there were any
-                            //         addManufacturerIdError.append(result["manufacturer_id"]); // display the error messages
-                            //     }
-                            //     if (! addManufacturerIdField.parent().hasClass('is-invalid-dropdown')) {
-                            //         addManufacturerIdField.parent().addClass('is-invalid-dropdown');
-                            //         addManufacturerIdField.siblings('.dropdown.icon').css('margin-right', '0.5em');
-                            //         addManufacturerIdField.parent().parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                            //     }
-                            // }
-                            // if (! result["model_id"] == "") {
-                            //     if (! result["model_id"] == addModelIdError.val()) {
-                            //         addModelIdError.empty(); // empty error messages, if there were any
-                            //         addModelIdError.append(result["model_id"]); // display the error messages
-                            //     }
-                            //     if (! addModelIdField.parent().hasClass('is-invalid-dropdown')) {
-                            //         addModelIdField.parent().addClass('is-invalid-dropdown');
-                            //         addModelIdField.siblings('.dropdown.icon').css('margin-right', '0.5em');
-                            //         addModelIdField.parent().parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                            //     }
-                            // }
-                            // if (! result["owner"] == "") {
-                            //     if (! result["owner"] == addOwnerError.val()) {
-                            //         addOwnerError.empty(); // empty error messages, if there were any
-                            //         addOwnerError.append(result["owner"]); // display the error messages
-                            //     }
-                            //     if (! addOwnerField.hasClass('is-invalid')) {
-                            //         addOwnerField.addClass('is-invalid');
-                            //         addOwnerField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                            //     }
-                            // }
-                            // if (! result["serial_number"] == "") {
-                            //     if (! result["serial_number"] == addSerialNumberError.val()) {
-                            //         addSerialNumberError.empty(); // empty error messages, if there were any
-                            //         addSerialNumberError.append(result["serial_number"]); // display the error messages
-                            //     }
-                            //     if (! addSerialNumberField.hasClass('is-invalid')) {
-                            //         addSerialNumberField.addClass('is-invalid');
-                            //         addSerialNumberField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                            //     }
-                            // }
-                            // if (! result["type_id"] == "") {
-                            //     if (! result["type_id"] == addTypeIdError.val()) {
-                            //         addTypeIdError.empty(); // empty error messages, if there were any
-                            //         addTypeIdError.append(result["type_id"]); // display the error messages
-                            //     }
-                            //     if (! addTypeIdField.parent().hasClass('is-invalid-dropdown')) {
-                            //         addTypeIdField.parent().addClass('is-invalid-dropdown');
-                            //         addTypeIdField.siblings('.dropdown.icon').css('margin-right', '0.5em');
-                            //         addTypeIdField.parent().parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                            //     }
-                            // }
-                            // if (! result["asset_tag"] == "") {
-                            //     if (! result["asset_tag"] == addAssetTagError.val()) {
-                            //         addAssetTagError.empty(); // empty error messages, if there were any
-                            //         addAssetTagError.append(result["asset_tag"]); // display the error messages
-                            //     }
-                            //     if (! addAssetTagField.hasClass('is-invalid')) {
-                            //         addAssetTagField.addClass('is-invalid');
-                            //         addAssetTagField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                            //     }
-                            // }
-                            // if (! result["team_id"] == "") {
-                            //     if (! result["team_id"] == addTeamIdError.val()) {
-                            //         addTeamIdError.empty(); // empty error messages, if there were any
-                            //         addTeamIdError.append(result["team_id"]); // display the error messages
-                            //     }
-                            //     if (! addTeamIdField.parent().hasClass('is-invalid-dropdown')) {
-                            //         addTeamIdField.parent().addClass('is-invalid-dropdown');
-                            //         addTeamIdField.siblings('.dropdown.icon').css('margin-right', '0.5em');
-                            //         addTeamIdField.parent().parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                            //     }
-                            // }
-                            // if (! result["purchase_price"] == "") {
-                            //     if (! result["purchase_price"] == addPurchasePriceError.val()) {
-                            //         addPurchasePriceError.empty(); // empty error messages, if there were any
-                            //         addPurchasePriceError.append(result["purchase_price"]); // display the error messages
-                            //     }
-                            //     if (! addPurchasePriceField.hasClass('is-invalid')) {
-                            //         addPurchasePriceField.addClass('is-invalid');
-                            //         addPurchasePriceField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                            //     }
-                            // }
-                            // if (! result["purchase_date"] == "") {
-                            //     if (! result["purchase_date"] == addPurchaseDateError.val()) {
-                            //         addPurchaseDateError.empty(); // empty error messages, if there were any
-                            //         addPurchaseDateError.append(result["purchase_date"]); // display the error messages
-                            //     }
-                            //     if (! addPurchaseDateField.hasClass('is-invalid')) {
-                            //         addPurchaseDateField.addClass('is-invalid');
-                            //         addPurchaseDateField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                            //     }
-                            // }
-                            // if (! result["job_number"] == "") {
-                            //     if (! result["job_number"] == addJobNumberError.val()) {
-                            //         addJobNumberError.empty(); // empty error messages, if there were any
-                            //         addJobNumberError.append(result["job_number"]); // display the error messages
-                            //     }
-                            //     if (! addJobNumberField.hasClass('is-invalid')) {
-                            //         addJobNumberField.addClass('is-invalid');
-                            //         addJobNumberField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                            //     }
-                            // }
+                            if (! result["manufacturer_id"] == "") {
+                                if (! editManufacturerIdField.parent().hasClass('is-invalid-dropdown')) {
+                                    editManufacturerIdField.parent().addClass('is-invalid-dropdown');
+                                    editManufacturerIdField.siblings('.dropdown.icon').css('margin-right', '0.5em');
+                                    editManufacturerIdField.parent().parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                                }
+                            }
+                            if (! result["model_id"] == "") {
+                                if (! editModelIdField.parent().hasClass('is-invalid-dropdown')) {
+                                    editModelIdField.parent().addClass('is-invalid-dropdown');
+                                    editModelIdField.siblings('.dropdown.icon').css('margin-right', '0.5em');
+                                    editModelIdField.parent().parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                                }
+                            }
+                            if (! result["owner"] == "") {
+                                if (! editOwnerField.hasClass('is-invalid')) {
+                                    editOwnerField.addClass('is-invalid');
+                                    editOwnerField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                                }
+                            }
+                            if (! result["serial_number"] == "") {
+                                if (! editSerialNumberField.hasClass('is-invalid')) {
+                                    editSerialNumberField.addClass('is-invalid');
+                                    editSerialNumberField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                                }
+                            }
+                            if (! result["type_id"] == "") {
+                                if (! editTypeIdField.parent().hasClass('is-invalid-dropdown')) {
+                                    editTypeIdField.parent().addClass('is-invalid-dropdown');
+                                    editTypeIdField.siblings('.dropdown.icon').css('margin-right', '0.5em');
+                                    editTypeIdField.parent().parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                                }
+                            }
+                            if (! result["asset_tag"] == "") {
+                                if (! editAssetTagField.hasClass('is-invalid')) {
+                                    editAssetTagField.addClass('is-invalid');
+                                    editAssetTagField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                                }
+                            }
+                            if (! result["team_id"] == "") {
+                                if (! editTeamIdField.parent().hasClass('is-invalid-dropdown')) {
+                                    editTeamIdField.parent().addClass('is-invalid-dropdown');
+                                    editTeamIdField.siblings('.dropdown.icon').css('margin-right', '0.5em');
+                                    editTeamIdField.parent().parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                                }
+                            }
+                            if (! result["purchase_price"] == "") {
+                                if (! editPurchasePriceField.hasClass('is-invalid')) {
+                                    editPurchasePriceField.addClass('is-invalid');
+                                    editPurchasePriceField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                                }
+                            }
+                            if (! result["purchase_date"] == "") {
+                                if (! editPurchaseDateField.hasClass('is-invalid')) {
+                                    editPurchaseDateField.addClass('is-invalid');
+                                    editPurchaseDateField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                                }
+                            }
+                            if (! result["job_number"] == "") {
+                                if (! editJobNumberField.hasClass('is-invalid')) {
+                                    editJobNumberField.addClass('is-invalid');
+                                    editJobNumberField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                                }
+                            }
+                            if (! result["phone_number"] == "") {
+                                if (! editPhoneNumberField.hasClass('is-invalid')) {
+                                    editPhoneNumberField.addClass('is-invalid');
+                                    editPhoneNumberField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                                }
+                            }
+                            if (! result["imei"] == "") {
+                                if (! editImeiField.hasClass('is-invalid')) {
+                                    editImeiField.addClass('is-invalid');
+                                    editImeiField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                                }
+                            }
                         }
                     },
                     error: function(result) {
