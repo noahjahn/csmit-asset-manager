@@ -36,7 +36,8 @@ class Roles_model extends CI_Model {
             'asset_groups',
             'users',
             'roles',
-            'login_photos'
+            'login_photos',
+            'software_assets'
         );
     }
 
