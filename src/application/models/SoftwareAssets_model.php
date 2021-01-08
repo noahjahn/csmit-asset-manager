@@ -9,6 +9,7 @@ class SoftwareAssets_model extends CI_Model {
 
     function __construct() {
         parent::__construct();
+        $this->load->helper('database_helper');
         $this->table = 'software_assets';
         $this->user_id = $this->session->userdata('id');
         $this->fields = array(
@@ -162,12 +163,56 @@ class SoftwareAssets_model extends CI_Model {
             'field' => $this->fields['owner'],
             'label' => 'owner',
             'rules' => 'trim',
-          );
+        );
     }
+
+    function get_update_rules() {
+        log_message('debug', 'SoftwareAssets_model: get_update_rules - in function');
+
+        return array(
+            $this->get_update_id_rules(),
+            $this->get_insert_name_rules(),
+            $this->get_insert_username_rules(),
+            $this->get_insert_password_rules(),
+            $this->get_insert_login_url_rules(),
+            $this->get_insert_notes_rules(),
+            $this->get_insert_renewal_date_rules(),
+            $this->get_insert_renewal_type_id_rules(),
+            $this->get_insert_cost_rules(),
+            $this->get_insert_representative_contact_rules(),
+            $this->get_insert_license_keys_rules(),
+            $this->get_insert_owner_rules(),
+        );
+    }
+
+    function get_update_id_rules() {
+        log_message('debug', 'SoftwareAssets_model: get_update_id_rules - in function');
+        return array(
+            'field' => $this->fields['id'],
+            'label' => 'id',
+            'rules' => 'trim|is_natural_no_zero|required|callback_id_exists',
+            'errors' => array(
+                'id_exists' => 'The id entered doesn\'t exist',
+            )
+        );
+    }
+
     function insert($software_asset) {
         log_message('debug', 'SoftwareAssets_model: insert - in function');
         $this->db->insert($this->table, $software_asset);
         return  $this->db->insert_id();
+    }
+
+    function update($software_asset){
+        log_message('debug', 'SoftwareAssets_model: update - in function');
+
+        if (record_exists($software_asset['id'], $this->table) && !(record_is_deleted($software_asset['id'], $this->table))) {
+            $this->db->where('id', $software_asset['id']);
+            $this->db->update($this->table, $software_asset);
+        } else {
+            log_message('error', 'SoftwareAssets_model: update - failed, record '.$software_asset['id'].' doesn\'t exist or is deleted');
+            throw new Exception('Record doesn\'t exist or is deleted');
+        }
     }
 }
 ?>
