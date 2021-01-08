@@ -7,11 +7,11 @@ class SoftwareAssets extends CI_Controller {
 		parent::__construct();
 		$this->load->helper("authorization");
 		$this->load->model('SoftwareAssets_model');
-		$this->user_id = $this->session->userdata('id');
+		$this->user_id = $this->session->userdata('id') || 1;
 		$this->user_role_id = $this->session->userdata('role');
 		$this->page = 'software_assets';
 		if (! $this->session->userdata('id')) { // if the user is not logged in
-            redirect(base_url());
+			redirect(base_url());
 		}
 		if ( ! is_authorized($this->user_role_id, $this->page)) {
 			redirect('forbidden');
@@ -27,10 +27,71 @@ class SoftwareAssets extends CI_Controller {
 		$this->load->view('private/reusable/page-template', $data);
 	}
 
-	public function get_active() {
-		log_message('debug', 'SoftwareAssets: get_active - in function');
+	public function create() {
+		log_message('debug', 'SoftwareAssets: create - in function');
 
-		$active_software_assets = $this->SoftwareAssets_model->get_active();
+		if (!$this->input->is_ajax_request()) {
+			redirect('forbidden');
+			exit;
+		}
+
+		$this->output->set_content_type('application/json');
+		$this->form_validation->set_rules($this->SoftwareAssets_model->get_insert_rules());
+		if ($this->form_validation->run() == TRUE) {
+			$software_asset = array(
+				'name' => $this->input->post('name'),
+				'username' => $this->input->post('username'),
+				'password' => $this->input->post('password'),
+				'login_url' => $this->input->post('login_url'),
+				'notes' => $this->input->post('notes'),
+				'renewal_date' => $this->input->post('renewal_date'),
+				'renewal_type_id' => $this->input->post('renewal_type_id'),
+				'cost' => $this->input->post('cost'),
+				'representative_contact' => $this->input->post('representative_contact'),
+				'license_keys' => $this->input->post('license_keys'),
+				'owner' => $this->input->post('owner'),
+				'last_modified_by' => $this->user_id,
+				'last_modified_time' => date('Y-m-d H:i:s'),
+				'created_by' => $this->user_id,
+				'created_time' => date('Y-m-d H:i:s')
+			);
+
+			log_message('debug', print_r($software_asset, TRUE));
+
+			$software_asset['id'] = $this->SoftwareAssets_model->insert($software_asset);
+			$this->output->set_status_header(201);
+			echo json_encode($software_asset);
+			log_message('debug', 'SoftwareAssets: add - successfully added software asset');
+		} else {
+			$errors = array(
+				'name' => form_error('name'),
+				'username' => form_error('usernme'),
+				'password' => form_error('password'),
+				'login_url' => form_error('login_url'),
+				'notes' => form_error('notes'),
+				'renewal_date' => form_error('renewal_date'),
+				'renewal_type_id' => form_error('renewal_type_id'),
+				'cost' => form_error('cost'),
+				'representative_contact' => form_error('representative_contact'),
+				'license_keys' => form_error('license_keys'),
+				'owner' => form_error('owner')
+            );
+			$this->output->set_status_header(422);
+			echo json_encode($errors);
+		}
+	}
+
+	public function read($id = null) {
+		log_message('debug', 'SoftwareAssets: read - in function');
+
+		if ($id) {
+			$active_software_assets = $this->SoftwareAssets_model->get_by_id($id);
+			if (count($active_software_assets) == 0) {
+				$this->output->set_status_header(404);
+			}
+		} else {
+			$active_software_assets = $this->SoftwareAssets_model->get_active();
+		}
 		$json_software_assets = json_encode($active_software_assets);
 		echo $json_software_assets;
 	}

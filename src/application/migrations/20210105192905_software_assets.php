@@ -18,42 +18,52 @@ class Migration_Software_assets extends CI_Migration {
             'username' => array(
                 'type' => 'VARCHAR',
                 'constraint' => '255',
+                'null' => TRUE,
             ),
             'password' => array(
                 'type' => 'VARCHAR',
                 'constraint' => '255',
+                'null' => TRUE,
             ),
             'login_url' => array(
                 'type' => 'VARCHAR',
                 'constraint' => '255',
+                'null' => TRUE,
             ),
             'notes' => array(
                 'type' => 'TEXT',
                 'constraint' => '500',
+                'null' => TRUE,
             ),
             'renewal_date' => array(
                 'type' => 'TIMESTAMP',
+                'null' => TRUE,
             ),
             'renewal_type_id' => array(
                 'type' => 'INT',
                 'constraint' => 11,
                 'unsigned' => TRUE,
+                'null' => TRUE,
             ),
             'cost' => array(
                 'type' => 'DECIMAL',
                 'constraint' => '13,2',
+                'null' => TRUE,
             ),
             'representative_contact' => array(
                 'type' => 'VARCHAR',
                 'constraint' => '255',
+                'null' => TRUE,
             ),
             'license_keys' => array(
                 'type' => 'VARCHAR',
                 'constraint' => '255',
+                'null' => TRUE,
             ),
             'owner' => array(
                 'type' => 'VARCHAR',
                 'constraint' => '255',
+                'null' => TRUE,
             ),
             'is_deleted' => array(
                 'type' => 'TINYINT',
