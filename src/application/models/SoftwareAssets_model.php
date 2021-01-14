@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+require_once APPPATH.'/libraries/exceptions/RecordDoesntExistException.php';
+
 class SoftwareAssets_model extends CI_Model {
 
     private $table;
@@ -165,7 +167,14 @@ class SoftwareAssets_model extends CI_Model {
             'rules' => 'trim',
         );
     }
-
+    function get_delete_rules() {
+      log_message('debug', 'SoftwareAssets_model: get_delete_rules - in function');
+      return array(
+            'field' => $this->fields['is_deleted'],
+            'label' => 'is_deleted',
+            'rules' => 'trim',
+      );
+    }
     function get_update_rules() {
         log_message('debug', 'SoftwareAssets_model: get_update_rules - in function');
 
@@ -182,6 +191,7 @@ class SoftwareAssets_model extends CI_Model {
             $this->get_insert_representative_contact_rules(),
             $this->get_insert_license_keys_rules(),
             $this->get_insert_owner_rules(),
+            $this->get_delete_rules(),
         );
     }
 
@@ -214,5 +224,16 @@ class SoftwareAssets_model extends CI_Model {
             throw new Exception('Record doesn\'t exist or is deleted');
         }
     }
+    function delete($id){
+      log_message('debug', 'SoftwareAssets_model: update - in function');
+      if (record_exists($id, $this->table) && !(record_is_deleted($id, $this->table))) {
+        $this->db->set('is_deleted', '1');
+        $this->db->where('id', $id);
+        return $this->db->update($this->table);
+       } else {
+           log_message('error', 'SoftwareAssets_model: delete - failed, record '.$id.' doesn\'t exist or is deleted');
+           throw new RecordDoesntExistException('id', 'Record doesn\'t exist or is deleted');
+       }
+      }
 }
 ?>

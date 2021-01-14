@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+require_once APPPATH.'/libraries/exceptions/RecordDoesntExistException.php';
+
 class SoftwareAssets extends CI_Controller {
 
 	public function __construct() {
@@ -10,12 +12,12 @@ class SoftwareAssets extends CI_Controller {
 		$this->user_id = $this->session->userdata('id') || 1;
 		$this->user_role_id = $this->session->userdata('role');
 		$this->page = 'software_assets';
-		// if (! $this->session->userdata('id')) { // if the user is not logged in
-		// 	redirect(base_url());
-		// }
-		// if ( ! is_authorized($this->user_role_id, $this->page)) {
-		// 	redirect('forbidden');
-		// }
+		if (! $this->session->userdata('id')) { // if the user is not logged in
+			redirect(base_url());
+		}
+		if ( ! is_authorized($this->user_role_id, $this->page)) {
+			redirect('forbidden');
+		}
 	}
 
 	public function index() {
@@ -53,7 +55,7 @@ class SoftwareAssets extends CI_Controller {
 				'last_modified_by' => $this->user_id,
 				'last_modified_time' => date('Y-m-d H:i:s'),
 				'created_by' => $this->user_id,
-				'created_time' => date('Y-m-d H:i:s')
+				'created_time' => date('Y-m-d H:i:s'),
 			);
 
 			log_message('debug', print_r($software_asset, TRUE));
@@ -98,10 +100,10 @@ class SoftwareAssets extends CI_Controller {
 	public function update() {
 		log_message('debug', 'SoftwareAssets: update - in function');
 
-		// if (!$this->input->is_ajax_request()) {
-		// 	redirect('forbidden');
-		// 	exit;
-		// }
+		if (!$this->input->is_ajax_request()) {
+			redirect('forbidden');
+			exit;
+		}
 
 		$this->output->set_content_type('application/json');
 		$this->form_validation->set_rules($this->SoftwareAssets_model->get_update_rules());
@@ -143,6 +145,7 @@ class SoftwareAssets extends CI_Controller {
 			if ($this->input->post('owner') !== null) {
 				$software_asset['owner'] = $this->input->post('owner');
 			}
+
 			$software_asset['last_modified_by'] = $this->user_id;
 			$software_asset['last_modified_time'] = date('Y-m-d H:i:s');
 
@@ -188,4 +191,30 @@ class SoftwareAssets extends CI_Controller {
 		}
 		return FALSE;
 	}
+	public function delete($id) {
+		log_message('debug', 'SoftwareAssets: delete - in function');
+		if (!$this->input->is_ajax_request()) {
+			redirect('forbidden');
+			exit;
+		}
+		$this->output->set_content_type('application/json');
+
+		try {
+			$software_asset = $this->SoftwareAssets_model->delete($id);
+			$this->output->set_status_header(200);
+			echo json_encode($software_asset);
+			log_message('debug', 'SoftwareAssets: delete - successfully updated software asset');
+		} catch (RecordDoesntExistException $record_doesnt_exist_exception) {
+			$this->output->set_status_header($record_doesnt_exist_exception->getCode());
+			echo json_encode(array(
+				'error' => $record_doesnt_exist_exception->getMessage(),
+			));
+		} catch (Exception $exception) {
+			$this->output->set_status_header(500);
+			echo json_encode(array(
+				'error' => $exception->getMessage(),
+			));
+		}
+	}
+
 }
