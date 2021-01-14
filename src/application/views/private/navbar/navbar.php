@@ -18,6 +18,9 @@
             if ($userdata['asset_manager'] == RW || $userdata['asset_manager'] == R) {
                 $this->load->view('private/navbar/assetmanager');
             }
+            if ($userdata['software_assets'] == RW || $userdata['software_assets'] == R) {
+                $this->load->view('private/navbar/software_assets');
+            }
             if ($userdata['reports'] == RW || $userdata['reports'] == R) {
                 $this->load->view('private/navbar/reports');
             }

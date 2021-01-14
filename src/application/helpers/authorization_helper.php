@@ -54,7 +54,8 @@ if ( ! function_exists('get_pages')) {
             'asset_groups',
             'users',
             'roles',
-            'login_photos'
+            'login_photos',
+            'software_assets'
         );
     }
 }
