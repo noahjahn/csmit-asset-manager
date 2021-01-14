@@ -221,7 +221,7 @@ class SoftwareAssets_model extends CI_Model {
             $this->db->update($this->table, $software_asset);
         } else {
             log_message('error', 'SoftwareAssets_model: update - failed, record '.$software_asset['id'].' doesn\'t exist or is deleted');
-            throw new Exception('Record doesn\'t exist or is deleted');
+            throw new RecordDoesntExistException('id', 'Record doesn\'t exist or is deleted');
         }
     }
     function delete($id){

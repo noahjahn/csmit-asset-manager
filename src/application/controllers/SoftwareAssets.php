@@ -85,17 +85,28 @@ class SoftwareAssets extends CI_Controller {
 
 	public function read($id = null) {
 		log_message('debug', 'SoftwareAssets: read - in function');
-
-		if ($id) {
-			$active_software_assets = $this->SoftwareAssets_model->get_by_id($id);
-			if (count($active_software_assets) == 0) {
-				$this->output->set_status_header(404);
+		try {
+			if ($id) {
+				$active_software_assets = $this->SoftwareAssets_model->get_by_id($id);
+				if (count($active_software_assets) == 0) {
+					throw new RecordDoesntExistException('id', 'Record doesn\'t exist or is deleted');
+				}
+			} else {
+				$active_software_assets = $this->SoftwareAssets_model->get_active();
 			}
-		} else {
-			$active_software_assets = $this->SoftwareAssets_model->get_active();
+			$json_software_assets = json_encode($active_software_assets);
+			echo $json_software_assets;
+		} catch (RecordDoesntExistException $record_doesnt_exist_exception) {
+			$this->output->set_status_header($record_doesnt_exist_exception->getCode());
+			echo json_encode(array(
+				'error' => $record_doesnt_exist_exception->getMessage(),
+			));
+		} catch (Exception $exception) {
+			$this->output->set_status_header(500);
+			echo json_encode(array(
+				'error' => $exception->getMessage(),
+			));
 		}
-		$json_software_assets = json_encode($active_software_assets);
-		echo $json_software_assets;
 	}
 	public function update() {
 		log_message('debug', 'SoftwareAssets: update - in function');
@@ -156,6 +167,11 @@ class SoftwareAssets extends CI_Controller {
 				$this->output->set_status_header(200);
 				echo json_encode($software_asset);
 				log_message('debug', 'SoftwareAssets: update - successfully updated software asset');
+			} catch (RecordDoesntExistException $record_doesnt_exist_exception) {
+				$this->output->set_status_header($record_doesnt_exist_exception->getCode());
+				echo json_encode(array(
+					'error' => $record_doesnt_exist_exception->getMessage(),
+				));
 			} catch (Exception $exception) {
 				$this->output->set_status_header(422);
 				echo json_encode(array(
@@ -181,6 +197,7 @@ class SoftwareAssets extends CI_Controller {
 			echo json_encode($errors);
 		}
 	}
+
 	public function id_exists($id) {
 		if ($id) {
 			$active_software_assets = $this->SoftwareAssets_model->get_by_id($id);
@@ -191,6 +208,7 @@ class SoftwareAssets extends CI_Controller {
 		}
 		return FALSE;
 	}
+
 	public function delete($id) {
 		log_message('debug', 'SoftwareAssets: delete - in function');
 		if (!$this->input->is_ajax_request()) {
@@ -216,5 +234,4 @@ class SoftwareAssets extends CI_Controller {
 			));
 		}
 	}
-
 }
