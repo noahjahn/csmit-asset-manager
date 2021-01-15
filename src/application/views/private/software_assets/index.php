@@ -3,6 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?><!DOCTYPE html>
 <?php
   $this->load->view('private/reusable/datatables-include.php');
+  $this->load->view('private/modals/software_assets/delete.php');
+  $this->load->view('private/modals/software_assets/add.php');
 ?>
 <script id="software-assets-script" data-load-datatable="true" src="<?php echo base_url(); ?>assets/js/software_assets.js"></script>
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/libraries/semantic/dropdown.css"/>

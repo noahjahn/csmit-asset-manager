@@ -73,4 +73,26 @@ $(document).ready(function () {
             });
         }
     });
+    $('#software-assets').on("click", "#delete-software-asset-button", function () {
+        var id = $(this).data('id');
+        $("#modal-confirm-delete-software-asset").data('id', id);
+
+    });
+
+    $('#modal-confirm-delete-software-asset').on("click", function(e) {
+        var id = $("#modal-confirm-delete-software-asset").data('id');
+
+        $.ajax({
+            type: "DELETE",
+            url: deleteSoftwareAssestUrl + id,
+            success: function(result) {
+                $("#software-assets").DataTable().ajax.reload();
+            },
+            error: function(result) {
+                var today = new Date();
+                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                console.log("AJAX error, check server logs near local time: " + time);
+            }
+        });
+    });
 });
