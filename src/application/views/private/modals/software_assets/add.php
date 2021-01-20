@@ -6,105 +6,83 @@
 <script src="<?php echo base_url(); ?>assets/libraries/semantic/dropdown.js"></script>
 <script src="<?php echo base_url(); ?>assets/libraries/semantic/transition.js"></script>
 
-<div class="modal" id="add-asset" tabindex="-1" role="dialog">
+<div class="modal" id="add-software-asset" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 id="modal-title-add-asset" class="modal-title">Add Asset</h5>
+                <h5 id="modal-title-add-asset" class="modal-title">Add Software Asset</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body" id="modal-body-add-asset">
-                <?php echo form_open(current_url(), array('id' => 'add-asset-form', 'name' => 'add-asset-form')); ?>
+                <?php echo form_open(current_url(), array('id' => 'add-software-asset-form', 'name' => 'add-software-asset-form')); ?>
                     <div class="row">
                         <div class="col-md form-group">
-                            <label>Model<span class="required"> *</span></label>
-                            <select id="add-asset-model" name="model_id" class="form-control ui search dropdown" value="<?php set_value('model_id'); ?>"></select>
-                            <div id="add-asset-model-error" class="invalid-feedback"></div>
+                            <label>Name<span class="required"> *</span></label>
+                            <input type="text" id="add-software-asset-name" name="name" class="form-control">
+                            <div id="add-software-asset-name-error" class="invalid-feedback"></div>
                         </div>
                         <div class="col-md form-group">
-                            <label>Manufacturer<span class="required"> *</span></label>
-                            <input type="text" id="add-asset-manufacturer" name="manufacturer_id" class="form-control" placeholder="Select model first..." disabled>
-                            <!-- <select id="add-asset-manufacturer" name="manufacturer_id" class="form-control ui search dropdown" value="<?php set_value('manufacturer_id'); ?>" disabled></select> -->
-                            <div id="add-asset-manufacturer-error" class="invalid-feedback"></div>
+                            <label>Username</label>
+                            <input type="text" id="add-software-asset-username" name="username" class="form-control">
+                            <div id="add-software-asset-username-error" class="invalid-feedback"></div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md form-group">
-                            <label>Rate<span class="required"> *</span></label>
-                            <input type="text" id="add-asset-rate" name="rate" class="form-control" placeholder="$0.00" disabled>
-                            <div id="add-asset-rate-error" class="invalid-feedback"></div>
+                            <label>Password</label>
+                            <input type="password" id="add-software-asset-password" name="password" class="form-control">
+                            <div id="add-software-asset-password-error" class="invalid-feedback"></div>
                         </div>
                         <div class="col-md form-group">
-                            <label>Type<span class="required"> *</span></label>
-                            <input type="text" id="add-asset-type" name="type_id" class="form-control" placeholder="Select model first..." disabled>
-                            <!-- <select type="text" id="add-asset-type" name="type_id" class="form-control ui search dropdown" value="<?php set_value('type_id'); ?>"></select> -->
-                            <div id="add-asset-type-error" class="invalid-feedback"></div>
+                            <label>Login URL</label>
+                            <input type="text" id="add-software-asset-login-url" name="login_url" class="form-control">
+                            <div id="add-software-asset-login-url-error" class="invalid-feedback"></div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md form-group">
-                            <label>Asset Tag</label>
-                            <input type="text" id="add-asset-asset-tag" name="asset_tag" class="form-control" value="<?php set_value('asset_tag'); ?>">
-                            <div id="add-asset-asset-tag-error" class="invalid-feedback"></div>
+                            <label>Owner</label>
+                            <input type="text" id="add-software-asset-owner" name="owner" class="form-control" value="">
+                            <div id="add-software-asset-owner-error" class="invalid-feedback"></div>
                         </div>
                         <div class="col-md form-group">
-                            <label>Serial Number</label>
-                            <input type="text" id="add-asset-serial-number" name="serial_number" class="form-control" value="<?php set_value('serial_number'); ?>">
-                            <div id="add-asset-serial-number-error" class="invalid-feedback"></div>
+                            <label>Renewal Date</label>
+                            <input type="date" id="add-software-asset-renewal-date" name="renewal_date" class="form-control" value="">
+                            <div id="add-software-asset-renewal-date-error" class="invalid-feedback"></div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md form-group">
-                            <label>Team<span class="required"> *</span></label>
-                            <select type="text" id="add-asset-team" name="team_id" class="form-control ui search dropdown" value="<?php set_value('team_id'); ?>"></select>
-                            <div id="add-asset-team-error" class="invalid-feedback"></div>
+                            <label>Renewal Type</label>
+                            <select type="text" id="add-software-asset-renewal-type" name="renewal_type_id" class="form-control ui search dropdown" value=""></select>
+                            <div id="software-asset-renewal-type-error" class="invalid-feedback"></div>
                         </div>
                         <div class="col-md form-group">
-                            <label>Owner<span class="required"> *</span></label>
-                            <input id="add-asset-owner" name="owner" class="form-control" value="<?php set_value('owner'); ?>">
-                            <div id="add-asset-owner-error" class="invalid-feedback"></div>
+                            <label>Cost</label>
+                            <input id="add-sofware-asset-cost" name="cost" class="form-control" value="">
+                            <div id="add-sofware-asset-cost-error" class="invalid-feedback"></div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md form-group">
-                            <label>Phone Number</label>
-                            <input type="text" id="add-asset-phone-number" name="phone_number" class="form-control" value="<?php set_value('phone_number'); ?>">
-                            <div id="add-asset-phone-number-error" class="invalid-feedback"></div>
+                            <!-- TODO: determine if representative contact should be a separate table -->
+                            <label>Representative Contact</label>
+                            <input type="text" id="add-software-asset-representative-contact" name="representative_contact" class="form-control" value="">
+                            <div id="add-software-asset-representative-contact-error" class="invalid-feedback"></div>
                         </div>
                         <div class="col-md form-group">
-                            <label for="add-asset-imei">IMEI</label>
-                            <input type="text" id="add-asset-imei" name="imei" class="form-control" value="<?php set_value('imei'); ?>">
-                            <div id="add-asset-imei-error" class="invalid-feedback"></div>
+                            <label>License key</label>
+                            <input type="text" id="add-software-asset-license-key" name="licence_key" class="form-control" value="">
+                            <div id="add-software-asset-license-key-error" class="invalid-feedback"></div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md form-group">
-                            <label>Purchase Date</label>
-                            <input type="date" id="add-asset-purchase-date" name="purchase_date" class="form-control" value="<?php set_value('purchase_date'); ?>">
-                            <div id="add-asset-purchase-date-error" class="invalid-feedback"></div>
-                        </div>
-                        <div class="col-md form-group">
-                            <label for="add-asset-purchase-price">Purchase Price</label>
-                            <input type="text" id="add-asset-purchase-price" name="purchase_price" class="form-control" value="<?php set_value('purchase_price'); ?>">
-                            <div id="add-asset-purchase-price-error" class="invalid-feedback"></div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md form-group">
-                            <label>Job Number</label>
-                            <input type="text" id="add-asset-job-number" name="job_number" class="form-control" value="<?php set_value('job_number'); ?>">
-                            <div id="add-asset-job-number-error" class="invalid-feedback"></div>
-                        </div>
-                        <div class="col-md form-group">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md form-group no-width">
-                            <label for="add-asset-notes">Notes</label>
-                            <textarea class="form-control textarea" id="add-asset-notes" name="notes" rows="2" value="<?php set_value('notes'); ?>"></textarea>
-                            <div id="add-asset-notes-error" class="invalid-feedback"></div>
+                            <label>Notes</label>
+                            <textarea class="form-control textarea" id="add-software-asset-notes" name="notes" rows="2" value=""></textarea>
+                            <div id="add-software-asset-notes-error" class="invalid-feedback"></div>
                         </div>
                     </div>
                     <div>
