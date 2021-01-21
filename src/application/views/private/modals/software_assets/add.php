@@ -16,7 +16,7 @@
                 </button>
             </div>
             <div class="modal-body" id="modal-body-add-asset">
-                <?php echo form_open(current_url(), array('id' => 'add-software-asset-form', 'name' => 'add-software-asset-form')); ?>
+                <?php echo form_open(current_url(), array('id' => 'add-software-asset-form', 'name' => 'add-software-asset-form', 'autocomplete' => 'off')); ?>
                     <div class="row">
                         <div class="col-md form-group">
                             <label>Name<span class="required"> *</span></label>
@@ -25,14 +25,14 @@
                         </div>
                         <div class="col-md form-group">
                             <label>Username</label>
-                            <input type="text" id="add-software-asset-username" name="username" class="form-control">
+                            <input type="text" id="add-software-asset-username" name="username" class="form-control" autocomplete="off">
                             <div id="add-software-asset-username-error" class="invalid-feedback"></div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md form-group">
                             <label>Password</label>
-                            <input type="password" id="add-software-asset-password" name="password" class="form-control">
+                            <input type="password" id="add-software-asset-password" name="password" class="form-control" autocomplete="new-password">
                             <div id="add-software-asset-password-error" class="invalid-feedback"></div>
                         </div>
                         <div class="col-md form-group">
@@ -56,7 +56,15 @@
                     <div class="row">
                         <div class="col-md form-group">
                             <label>Renewal Type</label>
-                            <select type="text" id="add-software-asset-renewal-type" name="renewal_type_id" class="form-control ui search dropdown" value=""></select>
+                            <select type="text" id="add-software-asset-renewal-type" name="renewal_type_id" class="form-control ui search dropdown" value="">
+                                <?php
+                                    foreach($renewal_types as $renewal_type) {
+                                        $id = $renewal_type['id'];
+                                        $name = $renewal_type['name'];
+                                        echo "<option value='$id'>$name</option>";
+                                    }
+                                ?>
+                            </select>
                             <div id="software-asset-renewal-type-error" class="invalid-feedback"></div>
                         </div>
                         <div class="col-md form-group">

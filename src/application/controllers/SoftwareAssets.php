@@ -21,11 +21,12 @@ class SoftwareAssets extends CI_Controller {
 	}
 
 	public function index() {
+		$this->load->model('RenewalTypes_model');
 		$data['active_page'] = 'softwareassets';
 		$data['title'] = 'Software Assets';
 		$data['main_content'] = 'private/software_assets/index';
 		$data['userdata'] = $this->session->all_userdata();
-
+		$data['data']['data']['renewal_types'] = $this->RenewalTypes_model->get_active();
 		$this->load->view('private/reusable/page-template', $data);
 	}
 
