@@ -23,26 +23,34 @@ class Dashboard extends CI_Controller {
 	}
 
 	public function index() {
-
-		$this->load->model('Common_model');
-
+		
 	    $data['active_page'] = 'dashboard';
 	    $data['title'] = 'Dashboard';
-	    $data['main_content'] = 'private/dashboard/index';
+		$data['main_content'] = 'private/dashboard/index';
+		$data['data']['asset_types'] = json_encode($this->get_active_assets_with_total_count());
+		$data['data']['month_forecast'] = $this->get_month_forecast();
 		$data['userdata'] = $this->session->all_userdata();
 
 	    $this->load->view('private/reusable/page-template', $data);
 	}
 
-	public function get_count_by_asset_type($asset_type) {
-		log_message('debug', 'Dashboard: get_count_by_asset_type - in function. asset_type='.$asset_type);
-		$this->load->model("AssetManager_model");
-
-		$return = $this->AssetManager_model->get_count_by_asset_type($asset_type);
-		echo $return;
+	private function get_active_assets_with_total_count() {
+		$this->load->model('AssetTypes_model');
+		$this->load->model('AssetManager_model');
+		$active_asset_types = $this->AssetTypes_model->get_active();
+		$active_asset_types_with_count = array();
+		foreach ($active_asset_types as $active_asset_type) {
+			$active_asset_type_count = $this->AssetManager_model->get_count_by_asset_type($active_asset_type['name']);
+			array_push($active_asset_types_with_count, array(
+				'id' => $active_asset_type['id'],
+				'name' => $active_asset_type['name'],
+				'count' => $active_asset_type_count,
+			));
+		}
+		return $active_asset_types_with_count;
 	}
 
-	public function get_count_by_models_internal($model) {
+	private function get_count_by_models_internal($model) {
 		log_message('debug', 'Dashboard: get_count_by_asset_type - in function. asset_type='.$model['name']);
 		$this->load->model("AssetManager_model");
 
@@ -50,7 +58,7 @@ class Dashboard extends CI_Controller {
 		return $return;
 	}
 
-	public function get_month_forecast() {
+	private function get_month_forecast() {
 		log_message('debug', 'Dashboard: get_month_forecast - in function');
 		$this->load->model("Models_model");
 		$active_models = $this->Models_model->get_active();
@@ -63,7 +71,7 @@ class Dashboard extends CI_Controller {
 			log_message('debug', 'count='.$count.' name='.$value['name']. ' rate='.$value['rate']);
 		}
 
-		echo $total;
+		return $total;
 
 	}
 
