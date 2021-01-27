@@ -5,6 +5,40 @@ const updateSoftwareAssetsUrl = baseUrl + "SoftwareAssets/update";
 const deleteSoftwareAssestUrl = baseUrl + "SoftwareAssets/delete/";
 const getRenewalTypesUrl = baseUrl + "RenewalTypes/read";
 
+function formatRow() {
+    // password
+    // notes
+    // representative_contact
+    // license_keys
+    // last_modified_time
+    return '<div class="slider">' +
+            '<table class="edit-table row">' +
+                '<tr class="edit-row">' +
+                    '<td class="edit-col">' +
+                        '<div> <label>Password</label> </div>' +
+                        '<div> <p class="software-assets-password"></p> </div>' +
+                    '</td>' +
+                    '<td class = "edit-col">'+
+                        '<div> <label>Representative Contact</label> </div>' +
+                        '<div> <p class="software-assets-representative-contact"></p> </div>' +
+                    '</td>' +
+                    '<td class = "edit-col">'+
+                        '<div> <label>License Key</label> </div>' +
+                        '<div> <p class="software-assets-license-key"></p> </div> '+
+                    '</td>'+
+                    '<td class = "edit-col">'+
+                        '<div> <label>Last Modified Time</label> </div>' +
+                        '<div> <p class="software-assets-last-modified-time"></p> </div> '+
+                    '</td>'+
+                    '<td class = "edit-col">'+
+                        '<div> <label>Notes</label> </div>' +
+                        '<div> <p class="software-assets-notes"></p> </div> '+
+                    '</td>'+
+                '</tr><tr class="edit-row">' +
+                '</tr></table>' +
+          '</div>';
+}
+
 $(document).ready(function () {
     $('#add-software-asset-renewal-type').dropdown();
 
@@ -16,15 +50,17 @@ $(document).ready(function () {
         columnDefs: [
            { "responsivePriority": -1, "targets": [8,9] },
            { "width": "10px", "targets": [8,9] },
-           { "orderable": false, "targets": [] },
-           { "visible": false, "targets": [0] }
+           { "orderable": false, "targets": [8,9,10,11,12,13,14] },
+           { "visible": false, "targets": [0,10,11,12,13,14] }
        ],
        columns: [
            { "data": "id" },
            { "data": "name" },
            { "data": "username" },
            { "data": "login_url" },
-           { "data": "renewal_date" },
+           {
+               "data": "renewal_date",
+           },
            { "data": "renewal_type_name" },
            { "data": "cost" },
            { "data": "owner" },
@@ -35,7 +71,12 @@ $(document).ready(function () {
            { "render": function ( data, type, row ) {
                    return '<button class="table-icon" id="delete-software-asset-button" data-toggle="modal" data-target="#delete-software-asset" data-type="DELETE" data-tableid="software-assets" data-id = "' + row.id + '"data-url="SoftwareAssets/delete/' + row.id + '"><img class="mini-icon" id="delete-software-asset-button" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button>';
                }
-           }
+           },
+           { "data": "password" },
+           { "data": "notes" },
+           { "data": "representative_contact" },
+           { "data": "license_keys" },
+           { "data": "last_modified_time" },
        ],
        "order": [[ 1, "asc" ]],
         scrollY:        $(document).height() - 260,
@@ -65,7 +106,7 @@ $(document).ready(function () {
             searchPlaceholder: "Search..."
         },
         createdRow: function (row, data, index) {
-            $(row).addClass('parent-row'); //Add class used for dropdown
+            $(row).addClass('parent-row');
         },
         initComplete: function(settings, json) {
             $('#software-assets_filter input').unbind();
@@ -76,6 +117,26 @@ $(document).ready(function () {
             });
         }
     });
+
+    $('#software-assets').on('click', '.parent-row', (event) => {
+        const tableRow = $(event.currentTarget);
+        const row = softwareAssetsDataTable.row(event.currentTarget);
+        row.child(formatRow(row.data()), 'slider').show();
+        const id = softwareAssetsDataTable.cell(row, 0).data();
+        const password = softwareAssetsDataTable.cell(row, 10).data();
+        const representative_contact = softwareAssetsDataTable.cell(row, 12).data();
+        const license_key = softwareAssetsDataTable.cell(row, 13).data();
+        const last_modified_time = softwareAssetsDataTable.cell(row, 14).data();
+        const notes = softwareAssetsDataTable.cell(row, 11).data();
+        $('div.slider', row.child()).slideDown(300);
+        $(this).find('.software-assets-password').html(password);
+        $(this).find('.software-assets-representative-contact').html(representative_contact);
+        $(this).find('.software-assets-license-key').html(license_key);
+        $(this).find('.software-assets-last-modified-time').html(last_modified_time);
+        $(this).find('.software-assets-notes').html(notes);
+
+    });
+
     $('#software-assets').on("click", "#delete-software-asset-button", function () {
         var id = $(this).data('id');
         $("#modal-confirm-delete-software-asset").data('id', id);
@@ -141,7 +202,7 @@ $(document).ready(function () {
           $.ajax({
               type: 'POST',
               url: createSoftwareAssetsUrl,
-              data: $(this).serialize() + `&renewal_type_id=${renewalTypeId}`,
+              data: $(this).find(":input[value!='']").serialize() + `&renewal_type_id=${renewalTypeId}`, //replaces empty date values to blank field on front end
               success: function(result) {
                   $("#add-software-asset").modal('hide');
                   $("#software-assets").DataTable().ajax.reload();
