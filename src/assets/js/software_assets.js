@@ -5,18 +5,25 @@ const updateSoftwareAssetsUrl = baseUrl + "SoftwareAssets/update";
 const deleteSoftwareAssestUrl = baseUrl + "SoftwareAssets/delete/";
 const getRenewalTypesUrl = baseUrl + "RenewalTypes/read";
 
+function showOrHidePassword(element) {
+    const $element = $(element);
+    if ($element.hasClass('shown')) {
+        $element.html('<p>*******</p>');
+        $element.removeClass('shown');
+    } else {
+        const password = $element.data('password');
+        $element.html(`<p>${password}</p>`);
+        $element.addClass('shown');
+    }
+}
+
 function formatRow() {
-    // password
-    // notes
-    // representative_contact
-    // license_keys
-    // last_modified_time
     return '<div class="slider">' +
             '<table class="edit-table row">' +
                 '<tr class="edit-row">' +
                     '<td class="edit-col">' +
                         '<div> <label>Password</label> </div>' +
-                        '<div> <p class="software-assets-password"></p> </div>' +
+                        '<div> <a href="#" class="software-assets-password" onclick="showOrHidePassword(this)"></a> </div>' +
                     '</td>' +
                     '<td class = "edit-col">'+
                         '<div> <label>Representative Contact</label> </div>' +
@@ -112,29 +119,36 @@ $(document).ready(function () {
             $('#software-assets_filter input').unbind();
             $('#software-assets_filter input').bind('keyup', function(e) {
                 if (e.keyCode == 13) {
-                    table.search( this.value ).draw();
+                    softwareAssetsDataTable.search(this.value).draw();
                 }
             });
         }
     });
 
     $('#software-assets').on('click', '.parent-row', (event) => {
-        const tableRow = $(event.currentTarget);
         const row = softwareAssetsDataTable.row(event.currentTarget);
-        row.child(formatRow(row.data()), 'slider').show();
-        const id = softwareAssetsDataTable.cell(row, 0).data();
-        const password = softwareAssetsDataTable.cell(row, 10).data();
-        const representative_contact = softwareAssetsDataTable.cell(row, 12).data();
-        const license_key = softwareAssetsDataTable.cell(row, 13).data();
-        const last_modified_time = softwareAssetsDataTable.cell(row, 14).data();
-        const notes = softwareAssetsDataTable.cell(row, 11).data();
-        $('div.slider', row.child()).slideDown(300);
-        $(this).find('.software-assets-password').html(password);
-        $(this).find('.software-assets-representative-contact').html(representative_contact);
-        $(this).find('.software-assets-license-key').html(license_key);
-        $(this).find('.software-assets-last-modified-time').html(last_modified_time);
-        $(this).find('.software-assets-notes').html(notes);
-
+        if (row.child.isShown()) {
+            $('div.slider', row.child()).slideUp(300, function () {
+                row.child.hide();
+            });
+        } else {
+            row.child(formatRow(row.data()), 'slider').show();
+            const id = softwareAssetsDataTable.cell(row, 0).data();
+            const password = softwareAssetsDataTable.cell(row, 10).data();
+            const representative_contact = softwareAssetsDataTable.cell(row, 12).data();
+            const license_key = softwareAssetsDataTable.cell(row, 13).data();
+            const last_modified_time = softwareAssetsDataTable.cell(row, 14).data();
+            const notes = softwareAssetsDataTable.cell(row, 11).data();
+            const sliderOfRow = $('div.slider', row.child());
+            sliderOfRow.slideDown(300);
+            if (password) {
+                sliderOfRow.find('.software-assets-password').data('password', password).html('<p>*******</p>');
+            }
+            sliderOfRow.find('.software-assets-representative-contact').html(representative_contact);
+            sliderOfRow.find('.software-assets-license-key').html(license_key);
+            sliderOfRow.find('.software-assets-last-modified-time').html(last_modified_time);
+            sliderOfRow.find('.software-assets-notes').html(notes);
+        }
     });
 
     $('#software-assets').on("click", "#delete-software-asset-button", function () {
@@ -202,7 +216,7 @@ $(document).ready(function () {
           $.ajax({
               type: 'POST',
               url: createSoftwareAssetsUrl,
-              data: $(this).find(":input[value!='']").serialize() + `&renewal_type_id=${renewalTypeId}`, //replaces empty date values to blank field on front end
+              data: $(this).find(":input[value!='']").serialize() + `&renewal_type_id=${renewalTypeId}`, //replaces empty date/cost values to blank field on front end
               success: function(result) {
                   $("#add-software-asset").modal('hide');
                   $("#software-assets").DataTable().ajax.reload();
