@@ -35,12 +35,15 @@ class SoftwareAssets_model extends CI_Model {
         );
     }
     public function get_active() {
-        $this->db->select('*');
+        $this->db->select('
+            software_assets.*,
+            renewal_types.name as renewal_type_name
+        ');
         $this->db->from('software_assets');
         $this->db->where('software_assets.is_deleted', FALSE);
-        $software_assets = $this->db->get()->result_array();
+        $this->db->join('renewal_types', 'software_assets.renewal_type_id=renewal_types.id', 'left outer');
 
-        return $software_assets;
+        return $this->db->get()->result_array();
     }
 
     public function get_by_id($id){
