@@ -143,13 +143,13 @@ function updateSoftwareAsset(id) {
             //     }
             // }
             if (! errors.cost == '') {
-                if (! errors.cost == $renewalCostError.val()) {
-                    $renewalCostError.empty(); // empty error messages, if there were any
-                    $renewalCostError.append(errors.cost); // display the error messages
+                if (! errors.cost == $costError.val()) {
+                    $costError.empty(); // empty error messages, if there were any
+                    $costError.append(errors.cost); // display the error messages
                 }
-                if (! $renewalCostError.hasClass('is-invalid')) {
-                    $renewalCostError.addClass('is-invalid');
-                    $renewalCostError.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                if (! $costField.hasClass('is-invalid')) {
+                    $costField.addClass('is-invalid');
+                    $costField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
                 }
             }
             if (! errors.notes == '') {
@@ -188,6 +188,26 @@ function updateSoftwareAsset(id) {
             console.log("AJAX error, check server logs near local time: " + time);
         }
     });
+}
+
+function replaceParentRowWithReadOnlyFields($parentRow, softwareAsset) {
+    $parentRow.find('.name').html(`${softwareAsset.name}`);
+    $parentRow.find('.username').html(`${softwareAsset.username}`);
+    $parentRow.find('.login-url').html(`${softwareAsset.login_url}`);
+    $parentRow.find('.renewal-date').html(`${softwareAsset.renewal_date}`);
+    $parentRow.find('.renewal-type-name').html(`${softwareAsset.renewal_type_name}`);
+    $parentRow.find('.cost').html(`$${softwareAsset.cost}`);
+    $parentRow.find('.owner').html(`${softwareAsset.owner}`);
+}
+
+function changeToReadOnly(softwareAsset) {
+    const $slider = $(`#edit-software-asset-${softwareAsset.id}`).parent();
+    console.log($slider);
+    $slider.html(getChildReadOnlyContent(softwareAsset));
+    const $parentRow = $slider.prev();
+    console.log($parentRow);
+    replaceParentRowWithReadOnlyFields($parentRow, softwareAsset);
+    $parentRow.removeClass('edit-mode');
 }
 
 function getChildReadOnlyContent(softwareAsset) {
@@ -296,7 +316,7 @@ function getChildEditableContent(softwareAsset) {
                         </div>
                         <div>
                             <button class="btn btn-primary" onclick="updateSoftwareAsset(${softwareAsset.id})">Save</button>
-                            <button class="btn btn-danger">Cancel</button>
+                            <button class="btn btn-danger" onclick='changeToReadOnly(${JSON.stringify(softwareAsset)})'>Cancel</button>
                         </div>
                     </td
                 </tr>
@@ -435,12 +455,15 @@ $(document).ready(function () {
 
     $('#software-assets').on('click', '.parent-row', (event) => {
         const row = softwareAssetsDataTable.row(event.currentTarget);
+        console.log(row);
         const softwareAsset = row.data();
         const parentRow = $(event.currentTarget);
         if (row.child.isShown()) {
             if (!parentRow.hasClass('edit-mode')) {
                 if (event.target.id === 'edit-software-asset-button') {
+                    console.log(row.child());
                     let slider = $(row.child(), 'td.slider');
+                    console.log(slider);
                     slider.html(getChildEditableContent(softwareAsset));
                     replaceParentRowWithEditableFields(parentRow, softwareAsset);
                     parentRow.addClass('edit-mode');
@@ -454,14 +477,15 @@ $(document).ready(function () {
             let slider;
             if (event.target.id === 'edit-software-asset-button') {
                 row.child(getChildEditableContent(softwareAsset), 'slider').show();
+                console.log(row.child());
                 slider = $('div.slider', row.child());
+                console.log(slider);
                 replaceParentRowWithEditableFields(parentRow, softwareAsset);
                 parentRow.addClass('edit-mode');
                 const clickedEditButton = $(event.target).parent();
                 clickedEditButton.addClass('d-none');
                 const deleteButton = clickedEditButton.parent().siblings().find('#delete-software-asset-button');
                 deleteButton.addClass('d-none');
-                // replace the edit and delete buttons and show save/cancel
             } else {
                 row.child(getChildReadOnlyContent(softwareAsset), 'slider').show();
                 slider = $('div.slider', row.child());
