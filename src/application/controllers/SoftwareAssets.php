@@ -59,8 +59,6 @@ class SoftwareAssets extends CI_Controller {
 				'created_time' => date('Y-m-d H:i:s'),
 			);
 
-			log_message('debug', print_r($software_asset, TRUE));
-
 			$software_asset['id'] = $this->SoftwareAssets_model->insert($software_asset);
 			$this->output->set_status_header(201);
 			echo json_encode($software_asset);
