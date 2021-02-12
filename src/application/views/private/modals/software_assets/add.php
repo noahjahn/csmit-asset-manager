@@ -82,7 +82,7 @@
                         </div>
                         <div class="col-md form-group">
                             <label>License key</label>
-                            <input type="text" id="add-software-asset-license-key" name="licence_key" class="form-control" value="">
+                            <input type="text" id="add-software-asset-license-key" name="license_keys" class="form-control" value="">
                             <div id="add-software-asset-license-key-error" class="invalid-feedback"></div>
                         </div>
                     </div>
