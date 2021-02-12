@@ -33,6 +33,10 @@ class SoftwareAssets extends CI_Controller {
 	public function create() {
 		log_message('debug', 'SoftwareAssets: create - in function');
 
+		$renewal_date = $this->input->post('renewal_date');
+		if (!$renewal_date) {
+			$renewal_date = null;
+		}
 
 		$this->output->set_content_type('application/json');
 		$this->form_validation->set_rules($this->SoftwareAssets_model->get_insert_rules());
@@ -43,7 +47,7 @@ class SoftwareAssets extends CI_Controller {
 				'password' => $this->input->post('password'),
 				'login_url' => $this->input->post('login_url'),
 				'notes' => $this->input->post('notes'),
-				'renewal_date' => $this->input->post('renewal_date'),
+				'renewal_date' => $renewal_date,
 				'renewal_type_id' => $this->input->post('renewal_type_id'),
 				'cost' => $this->input->post('cost'),
 				'representative_contact' => $this->input->post('representative_contact'),
@@ -130,8 +134,12 @@ class SoftwareAssets extends CI_Controller {
 			if ($this->input->post('notes') !== null) {
 				$software_asset['notes'] = $this->input->post('notes');
 			}
-			if ($this->input->post('renewal_date') !== null) {
-				$software_asset['renewal_date'] = $this->input->post('renewal_date');
+			$renewal_date = $this->input->post('renewal_date');
+			if ($renewal_date !== null) {
+				if (!$renewal_date) {
+					$renewal_date = null;
+				}
+				$software_asset['renewal_date'] = $renewal_date;
 			}
 			if ($this->input->post('renewal_type_id') !== null) {
 				$software_asset['renewal_type_id'] = $this->input->post('renewal_type_id');
