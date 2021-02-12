@@ -69,7 +69,7 @@
                         </div>
                         <div class="col-md form-group">
                             <label>Cost</label>
-                            <input id="add-sofware-asset-cost" name="cost" class="form-control" value="">
+                            <input type="number" step="0.01" id="add-sofware-asset-cost" name="cost" class="form-control" value="">
                             <div id="add-sofware-asset-cost-error" class="invalid-feedback"></div>
                         </div>
                     </div>

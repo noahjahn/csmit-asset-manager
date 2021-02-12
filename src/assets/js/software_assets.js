@@ -47,7 +47,7 @@ function updateSoftwareAsset(id) {
         username: $usernameField.val(),
         login_url: $loginUrlField.val(),
         renewal_date: $renewalDateField.val(),
-        cost: $costField.val(),
+        cost: (Math.round($costField.val() * 100) / 100).toFixed(2),
         owner: $ownerField.val(),
         password: $passwordField.val(),
         representative_contact: $representativeContactField.val(),
@@ -344,7 +344,7 @@ function replaceParentRowWithEditableFields($parentRow, softwareAsset) {
 
     `);
     $parentRow.find('.cost').html(`
-        <input type="text" id="edit-software-asset-cost" name="cost" class="form-control in-row-edit" value="${softwareAsset.cost}">
+        <input type="number" step="0.01" id="edit-software-asset-cost" name="cost" class="form-control in-row-edit" value="${softwareAsset.cost}">
         <div id="edit-software-asset-cost-error" class="invalid-feedback"></div>
     `);
     $parentRow.find('.owner').html(`
@@ -550,6 +550,7 @@ $(document).ready(function () {
     $('#add-software-asset-form').on("submit", function (event) {
         event.preventDefault();
         const formData = new FormData(document.getElementById('add-software-asset-form'));
+        formData.set('cost', ((Math.round(formData.get('cost')  * 100) / 100).toFixed(2)));
         fetch(createSoftwareAssetsUrl, {
             method: 'POST',
             body: formData,
