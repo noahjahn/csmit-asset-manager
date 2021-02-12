@@ -38,6 +38,12 @@ class RenewalTypes_model extends CI_Model {
       $this->db->where('renewal_types.is_deleted', FALSE);
       return $this->db->get()->result_array();
     }
+
+    public function insert($renewal_type) {
+        log_message('debug', 'RenewalTypes_model: insert - in function');
+        $this->db->insert($this->table, $renewal_type);
+        return  $this->db->insert_id();
+    }
 }
 
 
