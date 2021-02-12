@@ -33,10 +33,6 @@ class SoftwareAssets extends CI_Controller {
 	public function create() {
 		log_message('debug', 'SoftwareAssets: create - in function');
 
-		if (!$this->input->is_ajax_request()) {
-			redirect('forbidden');
-			exit;
-		}
 
 		$this->output->set_content_type('application/json');
 		$this->form_validation->set_rules($this->SoftwareAssets_model->get_insert_rules());
@@ -112,11 +108,6 @@ class SoftwareAssets extends CI_Controller {
 	public function update() {
 		log_message('debug', 'SoftwareAssets: update - in function');
 
-		if (!$this->input->is_ajax_request()) {
-			redirect('forbidden');
-			exit;
-		}
-
 		$this->output->set_content_type('application/json');
 		$this->form_validation->set_rules($this->SoftwareAssets_model->get_update_rules());
 		if ($this->form_validation->run() == TRUE) {
@@ -160,8 +151,6 @@ class SoftwareAssets extends CI_Controller {
 
 			$software_asset['last_modified_by'] = $this->user_id;
 			$software_asset['last_modified_time'] = date('Y-m-d H:i:s');
-
-			log_message('debug', print_r($software_asset, TRUE));
 
 			try {
 				$this->SoftwareAssets_model->update($software_asset);
@@ -212,10 +201,6 @@ class SoftwareAssets extends CI_Controller {
 
 	public function delete($id) {
 		log_message('debug', 'SoftwareAssets: delete - in function');
-		if (!$this->input->is_ajax_request()) {
-			redirect('forbidden');
-			exit;
-		}
 		$this->output->set_content_type('application/json');
 
 		try {

@@ -55,137 +55,135 @@ function updateSoftwareAsset(id) {
         notes: $notesField.val(),
     }
 
-    const data = new FormData();
+    const formData = new FormData();
     Object.keys(softwareAsset).forEach((key) => {
-        data.append(key, softwareAsset[key]);
+        formData.append(key, softwareAsset[key]);
     });
 
-    $.ajax({
-        type: 'POST',
-        url: updateSoftwareAssetsUrl,
-        data: data,
-        processData: false,
-        contentType: false,
-        success: function(result) {
+    fetch(updateSoftwareAssetsUrl, {
+        method: 'POST',
+        body: formData,
+    }).then((response) => {
+        if (response.status >= 200 && response.status <= 300) {
             $("#software-assets").DataTable().ajax.reload();
-        },
-        error: function(result) {
-            console.log(result);
-            const errors = result.responseJSON;
-            if (! errors.name == '') {
-                if (! errors.name == $nameError.val()) {
-                    $nameError.empty(); // empty error messages, if there were any
-                    $nameError.append(errors.name); // display the error messages
+        } else {
+            response.json().then((errors) => {
+                console.log(errors);
+                if (! errors.name == '') {
+                    if (! errors.name == $nameError.val()) {
+                        $nameError.empty(); // empty error messages, if there were any
+                        $nameError.append(errors.name); // display the error messages
+                    }
+                    if (! $nameField.hasClass('is-invalid')) {
+                        $nameField.addClass('is-invalid');
+                        $nameField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                    }
                 }
-                if (! $nameField.hasClass('is-invalid')) {
-                    $nameField.addClass('is-invalid');
-                    $nameField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                if (! errors.username == '') {
+                    if (! errors.username == $usernameError.val()) {
+                        $usernameError.empty(); // empty error messages, if there were any
+                        $usernameError.append(errors.username); // display the error messages
+                    }
+                    if (! $usernameField.hasClass('is-invalid')) {
+                        $usernameField.addClass('is-invalid');
+                        $usernameField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                    }
                 }
-            }
-            if (! errors.username == '') {
-                if (! errors.username == $usernameError.val()) {
-                    $usernameError.empty(); // empty error messages, if there were any
-                    $usernameError.append(errors.username); // display the error messages
+                if (! errors.password == '') {
+                    if (! errors.password == $passwordError.val()) {
+                        $passwordError.empty(); // empty error messages, if there were any
+                        $passwordError.append(errors.password); // display the error messages
+                    }
+                    if (! $passwordField.hasClass('is-invalid')) {
+                        $passwordField.addClass('is-invalid');
+                        $passwordField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                    }
                 }
-                if (! $usernameField.hasClass('is-invalid')) {
-                    $usernameField.addClass('is-invalid');
-                    $usernameField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                if (! errors.login_url == '') {
+                    if (! errors.login_url == $loginUrlError.val()) {
+                        $loginUrlError.empty(); // empty error messages, if there were any
+                        $loginUrlError.append(errors.login_url); // display the error messages
+                    }
+                    if (! $loginUrlField.hasClass('is-invalid')) {
+                        $loginUrlField.addClass('is-invalid');
+                        $loginUrlField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                    }
                 }
-            }
-            if (! errors.password == '') {
-                if (! errors.password == $passwordError.val()) {
-                    $passwordError.empty(); // empty error messages, if there were any
-                    $passwordError.append(errors.password); // display the error messages
+                if (! errors.owner == '') {
+                    if (! errors.owner == $ownerError.val()) {
+                        $ownerError.empty(); // empty error messages, if there were any
+                        $ownerError.append(errors.owner); // display the error messages
+                    }
+                    if (! $ownerField.hasClass('is-invalid')) {
+                        $ownerField.addClass('is-invalid');
+                        $ownerField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                    }
                 }
-                if (! $passwordField.hasClass('is-invalid')) {
-                    $passwordField.addClass('is-invalid');
-                    $passwordField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                if (! errors.renewal_date == '') {
+                    if (! errors.renewal_date == $renewalDataError.val()) {
+                        $renewalDataError.empty(); // empty error messages, if there were any
+                        $renwalDataError.append(errors.renewal_date); // display the error messages
+                    }
+                    if (! $renewalDataField.hasClass('is-invalid')) {
+                        $renewalDataField.addClass('is-invalid');
+                        $renewalDataField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                    }
                 }
-            }
-            if (! errors.login_url == '') {
-                if (! errors.login_url == $loginUrlError.val()) {
-                    $loginUrlError.empty(); // empty error messages, if there were any
-                    $loginUrlError.append(errors.login_url); // display the error messages
+                // if (! errors.renewal_type_id == '') {
+                //     if (! errors.renewal_type_id == $renewalT.val()) {
+                //         addRenewalTypeError.empty(); // empty error messages, if there were any
+                //         addRenewalTypeError.append(errors.renewal_type_id); // display the error messages
+                //     }
+                //     if (! addRenewalTypeField.hasClass('is-invalid')) {
+                //         addRenewalTypeField.addClass('is-invalid');
+                //         addRenewalTypeField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                //     }
+                // }
+                if (! errors.cost == '') {
+                    if (! errors.cost == $costError.val()) {
+                        $costError.empty(); // empty error messages, if there were any
+                        $costError.append(errors.cost); // display the error messages
+                    }
+                    if (! $costField.hasClass('is-invalid')) {
+                        $costField.addClass('is-invalid');
+                        $costField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                    }
                 }
-                if (! $loginUrlField.hasClass('is-invalid')) {
-                    $loginUrlField.addClass('is-invalid');
-                    $loginUrlField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                if (! errors.notes == '') {
+                    if (! errors.notes == $renewalNotesError.val()) {
+                        $renewalNotesError.empty(); // empty error messages, if there were any
+                        $renewalNotesError.append(errors.notes); // display the error messages
+                    }
+                    if (! $renewalNotesField.hasClass('is-invalid')) {
+                        $renewalNotesField.addClass('is-invalid');
+                        $renewalNotesField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                    }
                 }
-            }
-            if (! errors.owner == '') {
-                if (! errors.owner == $ownerError.val()) {
-                    $ownerError.empty(); // empty error messages, if there were any
-                    $ownerError.append(errors.owner); // display the error messages
+                if (! errors.representative_contact == '') {
+                    if (! errors.representative_contact == $representativeContactError.val()) {
+                        $representativeContactError.empty(); // empty error messages, if there were any
+                        $representativeContactError.append(errors.representative_contact); // display the error messages
+                    }
+                    if (! $representativeContactField.hasClass('is-invalid')) {
+                        $representativeContactField.addClass('is-invalid');
+                        $representativeContactField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                    }
                 }
-                if (! $ownerField.hasClass('is-invalid')) {
-                    $ownerField.addClass('is-invalid');
-                    $ownerField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                if (! errors.license_keys == '') {
+                    if (! errors.license_keys == $licenseKeyError.val()) {
+                        $licenseKeyError.empty(); // empty error messages, if there were any
+                        $licenseKeyError.append(errors.license_keys); // display the error messages
+                    }
+                    if (! $licenseKeyField.hasClass('is-invalid')) {
+                        $licenseKeyField.addClass('is-invalid');
+                        $licenseKeyField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                    }
                 }
-            }
-            if (! errors.renewal_date == '') {
-                if (! errors.renewal_date == $renewalDataError.val()) {
-                    $renewalDataError.empty(); // empty error messages, if there were any
-                    $renwalDataError.append(errors.renewal_date); // display the error messages
-                }
-                if (! $renewalDataField.hasClass('is-invalid')) {
-                    $renewalDataField.addClass('is-invalid');
-                    $renewalDataField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                }
-            }
-            // if (! errors.renewal_type_id == '') {
-            //     if (! errors.renewal_type_id == $renewalT.val()) {
-            //         addRenewalTypeError.empty(); // empty error messages, if there were any
-            //         addRenewalTypeError.append(errors.renewal_type_id); // display the error messages
-            //     }
-            //     if (! addRenewalTypeField.hasClass('is-invalid')) {
-            //         addRenewalTypeField.addClass('is-invalid');
-            //         addRenewalTypeField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-            //     }
-            // }
-            if (! errors.cost == '') {
-                if (! errors.cost == $costError.val()) {
-                    $costError.empty(); // empty error messages, if there were any
-                    $costError.append(errors.cost); // display the error messages
-                }
-                if (! $costField.hasClass('is-invalid')) {
-                    $costField.addClass('is-invalid');
-                    $costField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                }
-            }
-            if (! errors.notes == '') {
-                if (! errors.notes == $renewalNotesError.val()) {
-                    $renewalNotesError.empty(); // empty error messages, if there were any
-                    $renewalNotesError.append(errors.notes); // display the error messages
-                }
-                if (! $renewalNotesField.hasClass('is-invalid')) {
-                    $renewalNotesField.addClass('is-invalid');
-                    $renewalNotesField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                }
-            }
-            if (! errors.representative_contact == '') {
-                if (! errors.representative_contact == $representativeContactError.val()) {
-                    $representativeContactError.empty(); // empty error messages, if there were any
-                    $representativeContactError.append(errors.representative_contact); // display the error messages
-                }
-                if (! $representativeContactField.hasClass('is-invalid')) {
-                    $representativeContactField.addClass('is-invalid');
-                    $representativeContactField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                }
-            }
-            if (! errors.license_keys == '') {
-                if (! errors.license_keys == $licenseKeyError.val()) {
-                    $licenseKeyError.empty(); // empty error messages, if there were any
-                    $licenseKeyError.append(errors.license_keys); // display the error messages
-                }
-                if (! $licenseKeyField.hasClass('is-invalid')) {
-                    $licenseKeyField.addClass('is-invalid');
-                    $licenseKeyField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                }
-            }
-
-            var today = new Date();
-            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-            console.log("AJAX error, check server logs near local time: " + time);
+    
+                var today = new Date();
+                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                console.log("AJAX error, check server logs near local time: " + time);
+            });
         }
     });
 }
@@ -550,135 +548,133 @@ $(document).ready(function () {
     const addNotesError = $("#add-software-asset-form #add-software-asset-notes-error");
 
     $('#add-software-asset-form').on("submit", function (event) {
-          event.preventDefault();
-
-          const renewalTypeId = addRenewalTypeIdField.siblings('.menu').children('.item.active.selected').data('value');
-          if (!renewalTypeId) { var renewalType = ""; }
-
-          $.ajax({
-              type: 'POST',
-              url: createSoftwareAssetsUrl,
-              data: $(this).find(":input[value!='']").serialize() + `&renewal_type_id=${renewalTypeId}`, //replaces empty date/cost values to blank field on front end
-              success: function(result) {
-                  $("#add-software-asset").modal('hide');
-                  $("#software-assets").DataTable().ajax.reload();
-              },
-              error: function(result) {
-                  const errors = result.responseJSON;
-                  if (! errors.name == '') {
-                      if (! errors.name == addNameError.val()) {
-                          addNameError.empty(); // empty error messages, if there were any
-                          addNameError.append(errors.name); // display the error messages
-                      }
-                      if (! addNameField.hasClass('is-invalid')) {
-                          addNameField.addClass('is-invalid');
-                          addNameField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                      }
-                  }
-                  if (! errors.username == '') {
-                      if (! errors.username == addUsernameError.val()) {
-                          addUsernameError.empty(); // empty error messages, if there were any
-                          addUsernameError.append(errors.username); // display the error messages
-                      }
-                      if (! addUsernameField.hasClass('is-invalid')) {
-                          addUsernameField.addClass('is-invalid');
-                          addUsernameField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                      }
-                  }
-                  if (! errors.password == '') {
-                      if (! errors.password == addPasswordError.val()) {
-                          addPasswordError.empty(); // empty error messages, if there were any
-                          addPasswordError.append(errors.password); // display the error messages
-                      }
-                      if (! addPasswordField.hasClass('is-invalid')) {
-                          addPasswordField.addClass('is-invalid');
-                          addPasswordField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                      }
-                  }
-                  if (! errors.login_url == '') {
-                      if (! errors.login_url == addLoginUrlError.val()) {
-                          addLoginUrlError.empty(); // empty error messages, if there were any
-                          addLoginUrlError.append(errors.login_url); // display the error messages
-                      }
-                      if (! addLoginUrlField.hasClass('is-invalid')) {
-                          addLoginUrlField.addClass('is-invalid');
-                          addLoginUrlField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                      }
-                  }
-                  if (! errors.owner == '') {
-                      if (! errors.owner == addOwnerError.val()) {
-                          addOwnerError.empty(); // empty error messages, if there were any
-                          addOwnerError.append(errors.owner); // display the error messages
-                      }
-                      if (! addOwnerField.hasClass('is-invalid')) {
-                          addOwnerField.addClass('is-invalid');
-                          addOwnerField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                      }
-                  }
-                  if (! errors.renewal_date == '') {
-                      if (! errors.renewal_date == addRenewalDateError.val()) {
-                          addRenewalDateError.empty(); // empty error messages, if there were any
-                          addRenewalDateError.append(errors.renewal_date); // display the error messages
-                      }
-                      if (! addRenewalDateField.hasClass('is-invalid')) {
-                          addRenewalDateField.addClass('is-invalid');
-                          addRenewalDateField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                      }
-                  }
-                  if (! errors.renewal_type_id == '') {
-                      if (! errors.renewal_type_id == addRenewalTypeError.val()) {
-                          addRenewalTypeError.empty(); // empty error messages, if there were any
-                          addRenewalTypeError.append(errors.renewal_type_id); // display the error messages
-                      }
-                      if (! addRenewalTypeField.hasClass('is-invalid')) {
-                          addRenewalTypeField.addClass('is-invalid');
-                          addRenewalTypeField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                      }
-                  }
-                  if (! errors.cost == '') {
-                      if (! errors.cost == addCostError.val()) {
-                          addCostError.empty(); // empty error messages, if there were any
-                          addCostError.append(errors.cost); // display the error messages
-                      }
-                      if (! addCostField.hasClass('is-invalid')) {
-                          addCostField.addClass('is-invalid');
-                          addCostField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                      }
-                  }
-                  if (! errors.notes == '') {
-                      if (! errors.notes == addNotesError.val()) {
-                          addNotesError.empty(); // empty error messages, if there were any
-                          addNotesError.append(errors.notes); // display the error messages
-                      }
-                      if (! addNotesField.hasClass('is-invalid')) {
-                          addNotesField.addClass('is-invalid');
-                          addNotesField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                      }
-                  }
-                  if (! errors.representative_contact == '') {
-                      if (! errors.representative_contact == addRepresentativeContactError.val()) {
-                          addRepresentativeContactError.empty(); // empty error messages, if there were any
-                          addRepresentativeContactError.append(errors.representative_contact); // display the error messages
-                      }
-                      if (! addRepresentativeContactField.hasClass('is-invalid')) {
-                          addRepresentativeContactField.addClass('is-invalid');
-                          addRepresentativeContactField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                      }
-                  }
-                  if (! errors.license_keys == '') {
-                      if (! errors.license_keys == addLicenseKeyError.val()) {
-                          addLicenseKeyError.empty(); // empty error messages, if there were any
-                          addLicenseKeyError.append(errors.license_keys); // display the error messages
-                      }
-                      if (! addLicenseKeyField.hasClass('is-invalid')) {
-                          addLicenseKeyField.addClass('is-invalid');
-                          addLicenseKeyField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
-                      }
-                  }
-                  var today = new Date();
-                  var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-                  console.log("AJAX error, check server logs near local time: " + time);
-              }
-          });
+        event.preventDefault();
+        const formData = new FormData(document.getElementById('add-software-asset-form'));
+        fetch(createSoftwareAssetsUrl, {
+            method: 'POST',
+            body: formData,
+        }).then((response) => {
+            if (response.status >= 200 && response.status <= 300) {
+                $("#add-software-asset").modal('hide');
+                $("#software-assets").DataTable().ajax.reload();
+                document.getElementById('add-software-asset-form').reset();
+            } else {
+                response.json().then((errors) => {
+                    if (! errors.name == '') {
+                        if (! errors.name == addNameError.val()) {
+                            addNameError.empty(); // empty error messages, if there were any
+                            addNameError.append(errors.name); // display the error messages
+                        }
+                        if (! addNameField.hasClass('is-invalid')) {
+                            addNameField.addClass('is-invalid');
+                            addNameField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                        }
+                    }
+                    if (! errors.username == '') {
+                        if (! errors.username == addUsernameError.val()) {
+                            addUsernameError.empty(); // empty error messages, if there were any
+                            addUsernameError.append(errors.username); // display the error messages
+                        }
+                        if (! addUsernameField.hasClass('is-invalid')) {
+                            addUsernameField.addClass('is-invalid');
+                            addUsernameField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                        }
+                    }
+                    if (! errors.password == '') {
+                        if (! errors.password == addPasswordError.val()) {
+                            addPasswordError.empty(); // empty error messages, if there were any
+                            addPasswordError.append(errors.password); // display the error messages
+                        }
+                        if (! addPasswordField.hasClass('is-invalid')) {
+                            addPasswordField.addClass('is-invalid');
+                            addPasswordField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                        }
+                    }
+                    if (! errors.login_url == '') {
+                        if (! errors.login_url == addLoginUrlError.val()) {
+                            addLoginUrlError.empty(); // empty error messages, if there were any
+                            addLoginUrlError.append(errors.login_url); // display the error messages
+                        }
+                        if (! addLoginUrlField.hasClass('is-invalid')) {
+                            addLoginUrlField.addClass('is-invalid');
+                            addLoginUrlField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                        }
+                    }
+                    if (! errors.owner == '') {
+                        if (! errors.owner == addOwnerError.val()) {
+                            addOwnerError.empty(); // empty error messages, if there were any
+                            addOwnerError.append(errors.owner); // display the error messages
+                        }
+                        if (! addOwnerField.hasClass('is-invalid')) {
+                            addOwnerField.addClass('is-invalid');
+                            addOwnerField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                        }
+                    }
+                    if (! errors.renewal_date == '') {
+                        if (! errors.renewal_date == addRenewalDateError.val()) {
+                            addRenewalDateError.empty(); // empty error messages, if there were any
+                            addRenewalDateError.append(errors.renewal_date); // display the error messages
+                        }
+                        if (! addRenewalDateField.hasClass('is-invalid')) {
+                            addRenewalDateField.addClass('is-invalid');
+                            addRenewalDateField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                        }
+                    }
+                    if (! errors.renewal_type_id == '') {
+                        if (! errors.renewal_type_id == addRenewalTypeError.val()) {
+                            addRenewalTypeError.empty(); // empty error messages, if there were any
+                            addRenewalTypeError.append(errors.renewal_type_id); // display the error messages
+                        }
+                        if (! addRenewalTypeField.hasClass('is-invalid')) {
+                            addRenewalTypeField.addClass('is-invalid');
+                            addRenewalTypeField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                        }
+                    }
+                    if (! errors.cost == '') {
+                        if (! errors.cost == addCostError.val()) {
+                            addCostError.empty(); // empty error messages, if there were any
+                            addCostError.append(errors.cost); // display the error messages
+                        }
+                        if (! addCostField.hasClass('is-invalid')) {
+                            addCostField.addClass('is-invalid');
+                            addCostField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                        }
+                    }
+                    if (! errors.notes == '') {
+                        if (! errors.notes == addNotesError.val()) {
+                            addNotesError.empty(); // empty error messages, if there were any
+                            addNotesError.append(errors.notes); // display the error messages
+                        }
+                        if (! addNotesField.hasClass('is-invalid')) {
+                            addNotesField.addClass('is-invalid');
+                            addNotesField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                        }
+                    }
+                    if (! errors.representative_contact == '') {
+                        if (! errors.representative_contact == addRepresentativeContactError.val()) {
+                            addRepresentativeContactError.empty(); // empty error messages, if there were any
+                            addRepresentativeContactError.append(errors.representative_contact); // display the error messages
+                        }
+                        if (! addRepresentativeContactField.hasClass('is-invalid')) {
+                            addRepresentativeContactField.addClass('is-invalid');
+                            addRepresentativeContactField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                        }
+                    }
+                    if (! errors.license_keys == '') {
+                        if (! errors.license_keys == addLicenseKeyError.val()) {
+                            addLicenseKeyError.empty(); // empty error messages, if there were any
+                            addLicenseKeyError.append(errors.license_keys); // display the error messages
+                        }
+                        if (! addLicenseKeyField.hasClass('is-invalid')) {
+                            addLicenseKeyField.addClass('is-invalid');
+                            addLicenseKeyField.parent('.form-group').attr('style', 'margin-bottom: 0px !important');
+                        }
+                    }
+                    var today = new Date();
+                    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                    console.log("AJAX error, check server logs near local time: " + time);
+                });
+            }
+        });
     });
 });
