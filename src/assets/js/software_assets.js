@@ -398,11 +398,11 @@ $(document).ready(function () {
                "sClass": "owner",
            },
            { "render": function ( data, type, row ) {
-                   return '<button class="table-icon" data-toggle="modal" data-target="#edit-software-asset" data-type="POST" data-tableid="software-assets" data-id = "' + row.id + '" data-url="SoftwareAssets/update/' + row.id + '"><img class="mini-icon" id="edit-software-asset-button" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button>';
+                   return '<button class="table-icon" data-toggle="modal" data-target="#edit-software-asset" data-type="POST" data-tableid="software-assets" data-id="' + row.id + '" data-url="SoftwareAssets/update/' + row.id + '"><img class="mini-icon" id="edit-software-asset-button" src="' + baseUrl + 'assets/img/icons/edit-svgrepo-com-white.svg"></button>';
                }
            },
            { "render": function ( data, type, row ) {
-                   return '<button class="table-icon" data-toggle="modal" data-target="#delete-software-asset" data-type="DELETE" data-tableid="software-assets" data-id = "' + row.id + '"data-url="SoftwareAssets/delete/' + row.id + '"><img class="mini-icon" id="delete-software-asset-button" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button>';
+                   return '<button class="table-icon" data-toggle="modal" data-target="#delete-software-asset" data-type="DELETE" data-tableid="software-assets" data-url="SoftwareAssets/delete/' + row.id + '"><img class="mini-icon" id="delete-software-asset-button" data-id="' + row.id + '" src="' + baseUrl + 'assets/img/icons/trash-can-with-cover-svgrepo-com-white.svg"></button>';
                }
            },
            { "data": "password" },
