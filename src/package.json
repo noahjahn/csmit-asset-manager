@@ -3,7 +3,7 @@
   "version": "0.0.7",
   "description": "CSM Group - IT Asset Manager",
   "dependencies": {
-    "chart.js": "^2.9.3"
+    "chart.js": "^2.9.4"
   },
   "author": "Noah Jahn, Paul VanderWeele",
   "license": "ISC"
