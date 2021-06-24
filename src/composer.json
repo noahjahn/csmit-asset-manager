@@ -1,6 +1,9 @@
 {
 	"config": {
-        "vendor-dir": "application/vendor"
+        "vendor-dir": "application/vendor",
+				"platform": {
+					"php":"7.4"
+				}
     },
 	"require": {
 		"vlucas/phpdotenv": "^3"

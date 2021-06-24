@@ -107,7 +107,7 @@ class AssetManager_model extends CI_Model {
             'errors' => array (
                 'team_exists' => 'The team selected doesn\'t exist.'
             )
-            
+
         );
         return $team_id_rules;
     }
@@ -251,6 +251,21 @@ class AssetManager_model extends CI_Model {
         return $query;
     }
 
+  public function get_assets_by_team() {
+      $this->db->select('
+    COUNT(assets.model_id),
+    models.name,
+    teams.name
+      ');
+      $this->db->from('assets');
+      $this->db->join('models','assets.model_id = models.id');
+      $this->db->join('teams','assets.team_id = teams.id');
+      $this->db->group_by('assets.model_id, models.name, teams.name');
+      $query = $this->db->get()->results_array();
+
+      return $query;
+    }
+
     function insert($asset) {
         log_message('debug', 'AssetManager_model: insert - in function');
         $this->db->insert($this->table, $asset);
@@ -340,10 +355,32 @@ class AssetManager_model extends CI_Model {
 
         return $num_rows;
     }
+    function get_count_by_model_per_team() {
+        log_message('debug', 'AssetManager_model: get_count_by_model_per_team - in function');
+        $this->db->select('COUNT(*), models.name, teams.name');
+        $this->db->from('assets');
+        $this->db->join('models', 'assets.model_id = models.id');
+        $this->db->join('teams', 'assets.team_id = teams.id');
+        //$this->db->where('models.name', $model['name']);
+        //$this->db->where('teams.name', $team['name']);
+        $this->db->where('assets.is_deleted', FALSE);
+        $this->db->group_by('models.name, teams.name');
+
+        $query = $this->db->get();
+
+        //$num_rows = $query->num_rows();
+
+        //log_message('debug', 'AssetManager_model: get_count_by_model_per_team - num_rows='.$num_rows);
+
+        //return $num_rows;
+
+        return $query;
+    }
+
 
     public function is_serial_number_unique($serial_number) {
         log_message('debug', 'AssetManager_model: is_serial_number_unique - in function');
-        
+
         if (!isset($serial_number) || $serial_number == NULL) {
             return TRUE;
         }
@@ -365,7 +402,7 @@ class AssetManager_model extends CI_Model {
 
     public function is_asset_tag_unique($asset_tag) {
         log_message('debug', 'AssetManager_model: is_asset_tag_unique - in function');
-        
+
         if (!isset($asset_tag) || $asset_tag == NULL) {
             return TRUE;
         }

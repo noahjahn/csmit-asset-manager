@@ -34,6 +34,7 @@ assetTypes.forEach((assetType) => {
     assetTypeLabels.push(assetType.name);
     assetTypeCounts.push(assetType.count);
 });
+
 console.log(assetTypes);
 $(document).ready(function() {
 
@@ -60,5 +61,17 @@ $(document).ready(function() {
 
     $('#month-forecast').text('$<?php echo $month_forecast ?>');
 });
+</script>
+<script>
+const models = JSON.parse('<?php echo $models_per_team ?>');
+const teamLabels = [];
+const modelLabels = [];
+const modelCounts = [];
+models.forEach((model) => {
+  teamLabels.push(model.team_name);
+  modelLabels.push(model.name);
+  modelCounts.push(model.count);
+});
+
 </script>
 <script src="<?php echo base_url(); ?>/assets/js/dashboard.js"></script>
